@@ -104,7 +104,7 @@ export default createRule<RuleOptions, MessageIds>({
       missing: 'Missing trailing comma.',
     },
   },
-  create(context, [option]) {
+  create(context, [options]) {
     function normalizeOptions(options: Option = {}, ecmaVersion: EcmaVersion | 'latest' | undefined): NormalizedOptions {
       const DEFAULT_OPTION_VALUE = 'never'
 
@@ -137,7 +137,7 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     const ecmaVersion = context?.languageOptions?.ecmaVersion ?? context.parserOptions.ecmaVersion as EcmaVersion | undefined
-    const normalizedOptions = normalizeOptions(option, ecmaVersion)
+    const normalizedOptions = normalizeOptions(options, ecmaVersion)
 
     const isTSX = context.parserOptions?.ecmaFeatures?.jsx
       && context.filename?.endsWith('.tsx')

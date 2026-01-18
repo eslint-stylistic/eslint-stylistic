@@ -25,7 +25,6 @@ export default createRule<RuleOptions, MessageIds>({
   },
   create(context, [whenToApplyOption]) {
     const sourceCode = context.sourceCode
-
     const always = whenToApplyOption !== 'never'
     const messageId = always ? 'missing' : 'extra'
     /**

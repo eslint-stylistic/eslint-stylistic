@@ -49,9 +49,9 @@ export default createRule<RuleOptions, MessageIds>({
       expectedParensBlock: 'Expected parentheses around arrow function argument having a body with curly braces.',
     },
   },
-  create(context, [option, config]) {
-    const asNeeded = option === 'as-needed'
-    const requireForBlockBody = asNeeded && config?.requireForBlockBody === true
+  create(context, [style, options]) {
+    const asNeeded = style === 'as-needed'
+    const requireForBlockBody = asNeeded && options?.requireForBlockBody === true
 
     const sourceCode = context.sourceCode
 

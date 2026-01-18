@@ -33,6 +33,7 @@ export default createRule<RuleOptions, MessageIds>({
     messages: {
       expectedBefore: 'Missing space before =>.',
       unexpectedBefore: 'Unexpected space before =>.',
+
       expectedAfter: 'Missing space after =>.',
       unexpectedAfter: 'Unexpected space after =>.',
     },
