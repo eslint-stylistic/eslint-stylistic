@@ -6,6 +6,7 @@ import type { ASTNode, RuleContext, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isSingleLine, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { safeReplaceTextBetween } from '#utils/fix'
 
 function getNormalizedOption(context: Readonly<RuleContext<MessageIds, RuleOptions>>) {
   const rawOption = context.options[0] || 'consistent'
@@ -98,24 +99,17 @@ export default createRule<RuleOptions, MessageIds>({
     function validateCurlys(curlys: { leftCurly: Token, rightCurly: Token }, expression: ASTNode) {
       const leftCurly = curlys.leftCurly
       const rightCurly = curlys.rightCurly
-      const tokenAfterLeftCurly = sourceCode.getTokenAfter(leftCurly)
-      const tokenBeforeRightCurly = sourceCode.getTokenBefore(rightCurly)
-      const hasLeftNewline = !isTokenOnSameLine(leftCurly, tokenAfterLeftCurly!)
-      const hasRightNewline = !isTokenOnSameLine(tokenBeforeRightCurly!, rightCurly)
+      const tokenAfterLeftCurly = sourceCode.getTokenAfter(leftCurly)!
+      const tokenBeforeRightCurly = sourceCode.getTokenBefore(rightCurly)!
+      const hasLeftNewline = !isTokenOnSameLine(leftCurly, tokenAfterLeftCurly)
+      const hasRightNewline = !isTokenOnSameLine(tokenBeforeRightCurly, rightCurly)
       const needsNewlines = shouldHaveNewlines(expression, hasLeftNewline)
 
       if (hasLeftNewline && !needsNewlines) {
         context.report({
           node: leftCurly,
           messageId: 'unexpectedAfter',
-          fix(fixer) {
-            return sourceCode
-              .getText()
-              .slice(leftCurly.range[1], tokenAfterLeftCurly?.range[0])
-              .trim()
-              ? null // If there is a comment between the { and the first element, don't do a fix.
-              : fixer.removeRange([leftCurly.range[1], tokenAfterLeftCurly!.range[0]!])
-          },
+          fix: safeReplaceTextBetween(sourceCode, leftCurly, tokenAfterLeftCurly, ''),
         })
       }
       else if (!hasLeftNewline && needsNewlines) {
@@ -130,17 +124,7 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           node: rightCurly,
           messageId: 'unexpectedBefore',
-          fix(fixer) {
-            return sourceCode
-              .getText()
-              .slice(tokenBeforeRightCurly!.range[1], rightCurly.range[0])
-              .trim()
-              ? null // If there is a comment between the last element and the }, don't do a fix.
-              : fixer.removeRange([
-                  tokenBeforeRightCurly!.range[1],
-                  rightCurly.range[0],
-                ])
-          },
+          fix: safeReplaceTextBetween(sourceCode, tokenBeforeRightCurly, rightCurly, ''),
         })
       }
       else if (!hasRightNewline && needsNewlines) {

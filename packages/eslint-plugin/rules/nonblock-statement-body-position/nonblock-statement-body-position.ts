@@ -7,6 +7,7 @@ import type { JSONSchema, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { safeReplaceTextBetween } from '#utils/fix'
 
 type KeywordName = keyof NonNullable<NonNullable<RuleOptions['1']>['overrides']>
 
@@ -88,12 +89,7 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           node,
           messageId: 'expectNoLinebreak',
-          fix(fixer) {
-            if (sourceCode.getText().slice(tokenBefore.range[1], node.range[0]).trim())
-              return null
-
-            return fixer.replaceTextRange([tokenBefore.range[1], node.range[0]], ' ')
-          },
+          fix: safeReplaceTextBetween(sourceCode, tokenBefore, node, ' '),
         })
       }
     }

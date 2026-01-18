@@ -7,6 +7,7 @@ import {
   LINEBREAK_MATCHER,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { safeReplaceTextBetween } from '#utils/fix'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'function-call-spacing',
@@ -105,25 +106,7 @@ export default createRule<RuleOptions, MessageIds>({
               end: rightToken.loc.start,
             },
             messageId: 'unexpectedWhitespace',
-            fix(fixer) {
-              // Don't remove comments.
-              if (sourceCode.commentsExistBetween(leftToken, rightToken))
-                return null
-
-              if (isOptionalCall) {
-                return fixer.replaceTextRange([
-                  leftToken.range[1],
-                  rightToken.range[0],
-                ], '?.')
-              }
-
-              return fixer.removeRange([
-                leftToken.range[1],
-                rightToken.range[0],
-              ])
-
-              return null
-            },
+            fix: safeReplaceTextBetween(sourceCode, leftToken, rightToken, isOptionalCall ? '?.' : ''),
           })
         }
       }
@@ -150,11 +133,7 @@ export default createRule<RuleOptions, MessageIds>({
               end: rightToken.loc.start,
             },
             messageId,
-            fix(fixer) {
-              // Don't remove comments.
-              if (sourceCode.commentsExistBetween(leftToken, rightToken))
-                return null
-
+            fix: safeReplaceTextBetween(sourceCode, leftToken, rightToken, () => {
               let text = textBetweenTokens
               if (!allowNewlines) {
                 const GLOBAL_LINEBREAK_MATCHER = new RegExp(LINEBREAK_MATCHER.source, 'g')
@@ -165,8 +144,8 @@ export default createRule<RuleOptions, MessageIds>({
               if (!hasCorrectSuffixSpace)
                 text = afterOptionChain ? `${text} ` : text.trimEnd()
 
-              return fixer.replaceTextRange([leftToken.range[1], rightToken.range[0]], text)
-            },
+              return text
+            }),
           })
         }
       }
@@ -192,16 +171,7 @@ export default createRule<RuleOptions, MessageIds>({
               end: rightToken.loc.start,
             },
             messageId: 'unexpectedNewline',
-            fix(fixer) {
-              // Don't remove comments.
-              if (sourceCode.commentsExistBetween(leftToken, rightToken))
-                return null
-
-              return fixer.replaceTextRange(
-                [leftToken.range[1], rightToken.range[0]],
-                ' ',
-              )
-            },
+            fix: safeReplaceTextBetween(sourceCode, leftToken, rightToken, ' '),
           })
         }
       }

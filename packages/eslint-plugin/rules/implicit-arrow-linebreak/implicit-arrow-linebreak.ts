@@ -7,6 +7,7 @@ import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isNotOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { safeReplaceTextBetween } from '#utils/fix'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'implicit-arrow-linebreak',
@@ -55,12 +56,7 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           node: firstTokenOfBody,
           messageId: 'unexpected',
-          fix(fixer) {
-            if (sourceCode.commentsExistBetween(arrowToken, firstTokenOfBody))
-              return null
-
-            return fixer.replaceTextRange([arrowToken.range[1], firstTokenOfBody.range[0]], ' ')
-          },
+          fix: safeReplaceTextBetween(sourceCode, arrowToken, firstTokenOfBody, ' '),
         })
       }
     }
