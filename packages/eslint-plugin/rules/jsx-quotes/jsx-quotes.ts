@@ -1,8 +1,3 @@
-/**
- * @fileoverview A rule to ensure consistent quotes used in jsx syntax.
- * @author Mathias Schreck <https://github.com/lo1tuma>
- */
-
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isStringLiteral, isSurroundedBy } from '#utils/ast'
@@ -35,13 +30,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-quotes',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce the consistent use of either double or single quotes in JSX attributes',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
@@ -52,10 +44,9 @@ export default createRule<RuleOptions, MessageIds>({
       unexpected: 'Unexpected usage of {{description}}.',
     },
   },
-
-  create(context) {
-    const quoteOption = context.options[0] || 'prefer-double'
-    const setting = QUOTE_SETTINGS[quoteOption]
+  defaultOptions: ['prefer-double'],
+  create(context, [quoteOption]) {
+    const setting = QUOTE_SETTINGS[quoteOption!]
 
     /**
      * Checks if the given string literal node uses the expected quotes

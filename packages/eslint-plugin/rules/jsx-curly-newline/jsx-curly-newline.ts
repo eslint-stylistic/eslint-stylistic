@@ -1,53 +1,17 @@
-/**
- * @fileoverview enforce consistent line breaks inside jsx curly
- */
-
-import type { ASTNode, RuleContext, Token } from '#types'
+import type { ASTNode, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isSingleLine, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-
-function getNormalizedOption(context: Readonly<RuleContext<MessageIds, RuleOptions>>) {
-  const rawOption = context.options[0] || 'consistent'
-
-  if (rawOption === 'consistent') {
-    return {
-      multiline: 'consistent',
-      singleline: 'consistent',
-    }
-  }
-
-  if (rawOption === 'never') {
-    return {
-      multiline: 'forbid',
-      singleline: 'forbid',
-    }
-  }
-
-  return {
-    multiline: rawOption.multiline || 'consistent',
-    singleline: rawOption.singleline || 'consistent',
-  }
-}
-
-const messages = {
-  expectedBefore: 'Expected newline before \'}\'.',
-  expectedAfter: 'Expected newline after \'{\'.',
-  unexpectedBefore: 'Unexpected newline before \'}\'.',
-  unexpectedAfter: 'Unexpected newline after \'{\'.',
-}
+import { safeReplaceTextBetween } from '#utils/fix'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-curly-newline',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent linebreaks in curly braces in JSX attributes and expressions',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         anyOf: [
@@ -72,13 +36,24 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
-
-    messages,
+    messages: {
+      expectedBefore: 'Expected newline before \'}\'.',
+      expectedAfter: 'Expected newline after \'{\'.',
+      unexpectedBefore: 'Unexpected newline before \'}\'.',
+      unexpectedAfter: 'Unexpected newline after \'{\'.',
+    },
   },
-
-  create(context) {
+  defaultOptions: ['consistent'],
+  create(context, [options]) {
     const sourceCode = context.sourceCode
-    const option = getNormalizedOption(context)
+    const {
+      multiline = 'consistent',
+      singleline = 'consistent',
+    } = options === 'never'
+      ? { multiline: 'forbid', singleline: 'forbid' }
+      : typeof options === 'string'
+        ? { multiline: options, singleline: options }
+        : options!
 
     /**
      * Determines whether there should be newlines inside curlys
@@ -87,7 +62,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns `true` if there should be newlines inside the function curlys
      */
     function shouldHaveNewlines(expression: ASTNode, hasLeftNewline: boolean) {
-      switch (!isSingleLine(expression) ? option.multiline : option.singleline) {
+      switch (!isSingleLine(expression) ? multiline : singleline) {
         case 'forbid': return false
         case 'require': return true
         case 'consistent':
@@ -103,24 +78,17 @@ export default createRule<RuleOptions, MessageIds>({
     function validateCurlys(curlys: { leftCurly: Token, rightCurly: Token }, expression: ASTNode) {
       const leftCurly = curlys.leftCurly
       const rightCurly = curlys.rightCurly
-      const tokenAfterLeftCurly = sourceCode.getTokenAfter(leftCurly)
-      const tokenBeforeRightCurly = sourceCode.getTokenBefore(rightCurly)
-      const hasLeftNewline = !isTokenOnSameLine(leftCurly, tokenAfterLeftCurly!)
-      const hasRightNewline = !isTokenOnSameLine(tokenBeforeRightCurly!, rightCurly)
+      const tokenAfterLeftCurly = sourceCode.getTokenAfter(leftCurly)!
+      const tokenBeforeRightCurly = sourceCode.getTokenBefore(rightCurly)!
+      const hasLeftNewline = !isTokenOnSameLine(leftCurly, tokenAfterLeftCurly)
+      const hasRightNewline = !isTokenOnSameLine(tokenBeforeRightCurly, rightCurly)
       const needsNewlines = shouldHaveNewlines(expression, hasLeftNewline)
 
       if (hasLeftNewline && !needsNewlines) {
         context.report({
           node: leftCurly,
           messageId: 'unexpectedAfter',
-          fix(fixer) {
-            return sourceCode
-              .getText()
-              .slice(leftCurly.range[1], tokenAfterLeftCurly?.range[0])
-              .trim()
-              ? null // If there is a comment between the { and the first element, don't do a fix.
-              : fixer.removeRange([leftCurly.range[1], tokenAfterLeftCurly!.range[0]!])
-          },
+          fix: safeReplaceTextBetween(sourceCode, leftCurly, tokenAfterLeftCurly, ''),
         })
       }
       else if (!hasLeftNewline && needsNewlines) {
@@ -135,17 +103,7 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           node: rightCurly,
           messageId: 'unexpectedBefore',
-          fix(fixer) {
-            return sourceCode
-              .getText()
-              .slice(tokenBeforeRightCurly!.range[1], rightCurly.range[0])
-              .trim()
-              ? null // If there is a comment between the last element and the }, don't do a fix.
-              : fixer.removeRange([
-                  tokenBeforeRightCurly!.range[1],
-                  rightCurly.range[0],
-                ])
-          },
+          fix: safeReplaceTextBetween(sourceCode, tokenBeforeRightCurly, rightCurly, ''),
         })
       }
       else if (!hasRightNewline && needsNewlines) {

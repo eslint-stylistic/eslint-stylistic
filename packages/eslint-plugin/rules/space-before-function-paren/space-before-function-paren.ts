@@ -51,7 +51,7 @@ export default createRule<RuleOptions, MessageIds>({
     },
     defaultOptions: ['always'],
   },
-  create(context, [options]) {
+  create(context, [firstOption]) {
     const sourceCode = context.sourceCode
     const {
       asyncArrow = 'always',

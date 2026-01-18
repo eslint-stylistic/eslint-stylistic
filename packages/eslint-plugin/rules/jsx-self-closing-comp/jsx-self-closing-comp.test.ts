@@ -1,8 +1,3 @@
-/**
- * @fileoverview Prevent extra closing tags for components without children
- * @author Yannick Croissant
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'

@@ -69,13 +69,13 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    defaultOptions: [],
     messages: {
       unexpectedLinebreakBeforeClosingBrace: 'Unexpected line break before this closing brace.',
       unexpectedLinebreakAfterOpeningBrace: 'Unexpected line break after this opening brace.',
       expectedLinebreakBeforeClosingBrace: 'Expected a line break before this closing brace.',
       expectedLinebreakAfterOpeningBrace: 'Expected a line break after this opening brace.',
     },
-    defaultOptions: [],
   },
   create(context, [options]) {
     const sourceCode = context.sourceCode

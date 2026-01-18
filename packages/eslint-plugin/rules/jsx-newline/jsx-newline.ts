@@ -1,19 +1,7 @@
-/**
- * @fileoverview Require or prevent a new line after jsx elements and expressions.
- * @author Johnny Zabala
- * @author Joseph Stiles
- */
-
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isSingleLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-
-const messages = {
-  require: 'JSX element should start in a new line',
-  prevent: 'JSX element should not start in a new line',
-  allowMultilines: 'Multiline JSX elements should start in a new line',
-}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-newline',
@@ -24,8 +12,6 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Require or prevent a new line after jsx elements and expressions.',
     },
     fixable: 'code',
-
-    messages,
     schema: [
       {
         type: 'object',
@@ -60,8 +46,19 @@ export default createRule<RuleOptions, MessageIds>({
         },
       },
     ],
+    messages: {
+      require: 'JSX element should start in a new line',
+      prevent: 'JSX element should not start in a new line',
+      allowMultilines: 'Multiline JSX elements should start in a new line',
+    },
   },
-  create(context) {
+  defaultOptions: [{ prevent: false, allowMultilines: false }],
+  create(context, [configuration]) {
+    const {
+      prevent,
+      allowMultilines,
+    } = configuration!
+
     const jsxElementParents = new Set<Tree.JSXElement>()
     const sourceCode = context.sourceCode
 
@@ -79,10 +76,6 @@ export default createRule<RuleOptions, MessageIds>({
         jsxElementParents.forEach((parent) => {
           parent.children.forEach((element, index, elements) => {
             if (element.type === 'JSXElement' || element.type === 'JSXExpressionContainer') {
-              const configuration = context.options[0] || {}
-              const prevent = configuration.prevent || false
-              const allowMultilines = configuration.allowMultilines || false
-
               const firstAdjacentSibling = elements[index + 1] as Tree.StringLiteral | Tree.JSXText
               const secondAdjacentSibling = elements[index + 2]
 

@@ -48,6 +48,7 @@
     "change-case": "catalog:dev",
     "escape-string-regexp": "catalog:dev",
     "eslint": "catalog:dev",
+    "eslint-plugin-eslint-plugin": "catalog:dev",
     "eslint-plugin-format": "catalog:dev",
     "eslint-visitor-keys": "catalog:prod",
     "eslint-vitest-rule-tester": "catalog:test",

@@ -1,30 +1,14 @@
-/**
- * @fileoverview Enforce curly braces or disallow unnecessary curly brace in JSX
- * @author Jacky Ho
- * @author Simon Lydell
- */
-
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isWhiteSpaces, LINEBREAK_MATCHER } from '#utils/ast'
 import { isJSX } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
 
-const OPTION_ALWAYS = 'always'
-const OPTION_NEVER = 'never'
-const OPTION_IGNORE = 'ignore'
-
 const OPTION_VALUES = [
-  OPTION_ALWAYS,
-  OPTION_NEVER,
-  OPTION_IGNORE,
+  'always',
+  'never',
+  'ignore',
 ]
-const DEFAULT_CONFIG = { props: OPTION_NEVER, children: OPTION_NEVER, propElementValues: OPTION_IGNORE }
-
-const messages = {
-  unnecessaryCurly: 'Curly braces are unnecessary here.',
-  missingCurly: 'Need to wrap this literal in a JSX expression.',
-}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-curly-brace-presence',
@@ -34,9 +18,6 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes',
     },
     fixable: 'code',
-
-    messages,
-
     schema: [
       {
         anyOf: [
@@ -56,15 +37,27 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    messages: {
+      unnecessaryCurly: 'Curly braces are unnecessary here.',
+      missingCurly: 'Need to wrap this literal in a JSX expression.',
+    },
   },
-
-  create(context) {
+  defaultOptions: [{ props: 'never', children: 'never', propElementValues: 'ignore' }],
+  create(context, [options]) {
     const HTML_ENTITY_REGEX = () => /&[A-Z\d#]+;/gi
-    const ruleOptions = context.options[0]
 
-    const userConfig = typeof ruleOptions === 'string'
-      ? { props: ruleOptions, children: ruleOptions, propElementValues: OPTION_IGNORE }
-      : Object.assign({}, DEFAULT_CONFIG, ruleOptions)
+    const {
+      props,
+      children,
+      propElementValues,
+    } = typeof options === 'string'
+      ? {
+        props: options,
+        children: options,
+        // TODO: set `always` by default in v6
+        propElementValues: 'ignore',
+      } satisfies RuleOptions[0]
+      : options!
 
     function containsLineTerminators(rawStringValue: string) {
       return LINEBREAK_MATCHER.test(rawStringValue)
@@ -279,16 +272,8 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    function areRuleConditionsSatisfied(parent: Tree.StringLiteral | Tree.JSXText | Tree.JSXElement | Tree.JSXAttribute, config: typeof userConfig, ruleCondition: (typeof userConfig)['props']) {
-      return (
-        parent.type === 'JSXAttribute'
-        && typeof config.props === 'string'
-        && config.props === ruleCondition
-      ) || (
-        isJSX(parent)
-        && typeof config.children === 'string'
-        && config.children === ruleCondition
-      )
+    function areRuleConditionsSatisfied(parent: Tree.StringLiteral | Tree.JSXText | Tree.JSXElement | Tree.JSXAttribute, ruleCondition: Extract<RuleOptions[0], string>) {
+      return (parent.type === 'JSXAttribute' && props === ruleCondition) || (isJSX(parent) && children === ruleCondition)
     }
 
     function getAdjacentSiblings(node: Tree.JSXExpressionContainer, children: (Tree.StringLiteral | Tree.JSXText | Tree.JSXExpressionContainer)[]) {
@@ -324,7 +309,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       return adjSiblings.some(x => x.type && ['JSXExpressionContainer', 'JSXElement'].includes(x.type))
     }
-    function shouldCheckForUnnecessaryCurly(node: Tree.JSXExpressionContainer, config: typeof userConfig) {
+    function shouldCheckForUnnecessaryCurly(node: Tree.JSXExpressionContainer) {
       const parent = node.parent as Tree.JSXAttribute | Tree.StringLiteral | Tree.JSXText | Tree.JSXElement
       // Bail out if the parent is a JSXAttribute & its contents aren't
       // StringLiteral or TemplateLiteral since e.g
@@ -357,12 +342,12 @@ export default createRule<RuleOptions, MessageIds>({
         return false
       }
 
-      return areRuleConditionsSatisfied(parent, config, OPTION_NEVER)
+      return areRuleConditionsSatisfied(parent, 'never')
     }
 
-    function shouldCheckForMissingCurly(node: Tree.Literal | Tree.JSXText | Tree.JSXElement, config: typeof userConfig): node is Tree.Literal | Tree.JSXText {
+    function shouldCheckForMissingCurly(node: Tree.Literal | Tree.JSXText | Tree.JSXElement): node is Tree.Literal | Tree.JSXText {
       if (isJSX(node))
-        return config.propElementValues !== OPTION_IGNORE
+        return propElementValues !== 'ignore'
 
       if (
         isLineBreak(node.raw)
@@ -380,22 +365,22 @@ export default createRule<RuleOptions, MessageIds>({
         return false
       }
 
-      return areRuleConditionsSatisfied(parent, config, OPTION_ALWAYS)
+      return areRuleConditionsSatisfied(parent, 'always')
     }
 
     return {
       'JSXAttribute > JSXExpressionContainer > JSXElement': function (node: Tree.JSXElement) {
-        if (userConfig.propElementValues === OPTION_NEVER)
+        if (propElementValues === 'never')
           reportUnnecessaryCurly(node.parent as Tree.JSXExpressionContainer)
       },
 
       JSXExpressionContainer(node) {
-        if (shouldCheckForUnnecessaryCurly(node, userConfig))
+        if (shouldCheckForUnnecessaryCurly(node))
           lintUnnecessaryCurly(node)
       },
 
       'JSXAttribute > JSXElement, Literal, JSXText': function (node: Tree.Literal | Tree.JSXText | Tree.JSXElement) {
-        if (shouldCheckForMissingCurly(node, userConfig))
+        if (shouldCheckForMissingCurly(node))
           reportMissingCurly(node)
       },
     }

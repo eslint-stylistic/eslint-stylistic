@@ -18,26 +18,21 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'function-call-argument-newline',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce line breaks between arguments of a function call',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
         enum: ['always', 'never', 'consistent'],
       },
     ],
-
     messages: {
       unexpectedLineBreak: 'There should be no line break here.',
       missingLineBreak: 'There should be a line break after this argument.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
 

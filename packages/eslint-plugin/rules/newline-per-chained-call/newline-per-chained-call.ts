@@ -13,13 +13,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'newline-per-chained-call',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require a newline after each call in a method chain',
     },
-
     fixable: 'whitespace',
-
     schema: [{
       type: 'object',
       properties: {
@@ -36,7 +33,6 @@ export default createRule<RuleOptions, MessageIds>({
       expected: 'Expected line break before `{{callee}}`.',
     },
   },
-
   create(context) {
     const options = context.options[0] || {}
     const ignoreChainWithDepth = options.ignoreChainWithDepth || 2

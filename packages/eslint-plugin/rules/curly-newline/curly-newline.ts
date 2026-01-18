@@ -143,7 +143,6 @@ export default createRule<RuleOptions, MessageIds>({
       expectedLinebreakAfterOpeningBrace: 'Expected a line break after this opening brace.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
     const normalizedOptions = normalizeOptions(context.options[0])

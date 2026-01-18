@@ -77,11 +77,9 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'no-mixed-operators',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow mixed binary operators',
     },
-
     schema: [
       {
         type: 'object',
@@ -107,12 +105,10 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
     messages: {
       unexpectedMixedOperator: 'Unexpected mix of \'{{leftOperator}}\' and \'{{rightOperator}}\'. Use parentheses to clarify the intended order of operations.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
     const options = normalizeOptions(context.options[0])

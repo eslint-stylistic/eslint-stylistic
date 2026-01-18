@@ -12,13 +12,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'array-bracket-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent spacing inside array brackets',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
@@ -40,7 +37,6 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
     messages: {
       unexpectedSpaceAfter: 'There should be no space after \'{{tokenValue}}\'.',
       unexpectedSpaceBefore: 'There should be no space before \'{{tokenValue}}\'.',

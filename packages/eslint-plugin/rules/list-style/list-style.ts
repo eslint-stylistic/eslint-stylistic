@@ -14,6 +14,7 @@ import {
   isTokenOnSameLine,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { safeReplaceTextBetween } from '#utils/fix'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'list-style',
@@ -262,15 +263,7 @@ export default createRule<RuleOptions, MessageIds>({
               prev: prev.value,
               next: next.value,
             },
-            fix(fixer) {
-              if (sourceCode.commentsExistBetween(prev, next))
-                return null
-
-              const range = [prev.range[1], next.range[0]] as const
-              const delimiter = items.length === 1 ? '' : getDelimiter(node, prev)
-
-              return fixer.replaceTextRange(range, delimiter ?? '')
-            },
+            fix: safeReplaceTextBetween(sourceCode, prev, next, () => items.length === 1 ? '' : getDelimiter(node, prev) ?? ''),
           })
         }
       }

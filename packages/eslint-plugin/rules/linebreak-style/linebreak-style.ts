@@ -28,7 +28,6 @@ export default createRule<RuleOptions, MessageIds>({
     },
     defaultOptions: ['unix'],
   },
-
   create(context, [linebreakStyle]) {
     // Language-agnostic SourceCode access
     const sourceCode = context.sourceCode as unknown as core.SourceCode

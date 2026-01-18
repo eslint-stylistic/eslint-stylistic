@@ -11,13 +11,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'yield-star-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require or disallow spacing around the `*` in `yield*` expressions',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         oneOf: [
@@ -43,7 +40,6 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedAfter: 'Unexpected space after *.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
 

@@ -12,11 +12,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'switch-colon-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce spacing around colons of switch statements',
     },
-
+    fixable: 'whitespace',
     schema: [
       {
         type: 'object',
@@ -27,7 +26,6 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    fixable: 'whitespace',
     messages: {
       expectedBefore: 'Expected space(s) before this colon.',
       expectedAfter: 'Expected space(s) after this colon.',
@@ -35,7 +33,6 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedAfter: 'Unexpected space(s) after this colon.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
     const options = context.options[0] || {}

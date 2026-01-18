@@ -10,6 +10,7 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Enforce placing object properties on separate lines',
     },
+    fixable: 'whitespace',
     schema: [
       {
         type: 'object',
@@ -22,7 +23,6 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    fixable: 'whitespace',
     messages: {
       propertiesOnNewlineAll: 'Object properties must go on a new line if they aren\'t all on the same line.',
       propertiesOnNewline: 'Object properties must go on a new line.',

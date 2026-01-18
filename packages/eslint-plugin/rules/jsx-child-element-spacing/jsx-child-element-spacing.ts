@@ -38,11 +38,6 @@ const INLINE_ELEMENTS = new Set([
   'var',
 ])
 
-const messages = {
-  spacingAfterPrev: 'Ambiguous spacing after previous element {{element}}',
-  spacingBeforeNext: 'Ambiguous spacing before next element {{element}}',
-}
-
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-child-element-spacing',
   meta: {
@@ -50,9 +45,13 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Enforce or disallow spaces inside of curly braces in JSX attributes and expressions',
     },
-    messages,
     schema: [],
+    messages: {
+      spacingAfterPrev: 'Ambiguous spacing after previous element {{element}}',
+      spacingBeforeNext: 'Ambiguous spacing before next element {{element}}',
+    },
   },
+  defaultOptions: [],
   create(context) {
     const TEXT_FOLLOWING_ELEMENT_PATTERN = /^[\t\v\f\r \xA0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]*\n\s*\S/
     const TEXT_PRECEDING_ELEMENT_PATTERN = /\S[\t\v\f\r \xA0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]*\n\s*$/

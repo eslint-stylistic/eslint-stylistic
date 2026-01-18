@@ -1,8 +1,3 @@
-/**
- * @fileoverview Disallow or enforce spaces around equal signs in JSX attributes.
- * @author ryym
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'

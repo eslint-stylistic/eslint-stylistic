@@ -11,11 +11,9 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'new-parens',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce or disallow parentheses when invoking a constructor with no arguments',
     },
-
     fixable: 'code',
     schema: [
       {
@@ -28,7 +26,6 @@ export default createRule<RuleOptions, MessageIds>({
       unnecessary: 'Unnecessary \'()\' invoking a constructor with no arguments.',
     },
   },
-
   create(context) {
     const options = context.options
     const always = options[0] !== 'never' // Default is always

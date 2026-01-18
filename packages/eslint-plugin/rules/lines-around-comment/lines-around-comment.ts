@@ -39,6 +39,7 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Require empty lines around comments',
     },
+    fixable: 'whitespace',
     schema: [
       {
         type: 'object',
@@ -122,7 +123,6 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    fixable: 'whitespace',
     messages: {
       after: 'Expected line after comment.',
       before: 'Expected line before comment.',
