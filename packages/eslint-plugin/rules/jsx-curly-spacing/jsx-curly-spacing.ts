@@ -103,40 +103,41 @@ export default createRule<RuleOptions, MessageIds>({
       spaceNeededBefore: 'A space is required before \'{{token}}\'',
     },
   },
-  defaultOptions: [{}],
-  create(context, [originalConfig]) {
-    function normalizeConfig(configOrTrue: RuleOptions[0] | true, defaults: NormalizedConfig, lastPass: boolean = false): NormalizedConfig {
-      const config = configOrTrue === true ? {} : configOrTrue as NonStringConfig
-      const when = config.when || defaults.when
-      const allowMultiline = 'allowMultiline' in config ? config.allowMultiline : defaults.allowMultiline
-      const spacing = config.spacing || {}
-      let objectLiteralSpaces = spacing.objectLiterals || defaults.objectLiteralSpaces
-      if (lastPass) {
-        // On the final pass assign the values that should be derived from others if they are still undefined
-        objectLiteralSpaces = objectLiteralSpaces || when
-      }
+  defaultOptions: [{ when: 'never', allowMultiline: true }],
+  create(context, [firstOption, secondOption = {}]) {
+    const {
+      when: defaultWhen = 'never',
+      allowMultiline: defaultAllowMultiline = true,
+      spacing: defaultSpacing = {},
+      attributes = true,
+      children = false,
+    } = typeof firstOption === 'string'
+      ? {
+        when: firstOption,
+        ...secondOption,
+      } satisfies BasicConfig
+      : firstOption!
+
+    type NonStringConfig = Exclude<RuleOptions[0], undefined | string>
+
+    function normalizeConfig(configOrTrue: NonStringConfig | true): NormalizedConfig {
+      const {
+        when = defaultWhen,
+        allowMultiline = defaultAllowMultiline,
+        spacing = defaultSpacing,
+      } = configOrTrue === true ? {} : configOrTrue
 
       return {
         when,
         allowMultiline,
-        objectLiteralSpaces,
+        objectLiteralSpaces: spacing.objectLiterals ?? when,
       }
     }
 
-    type NonStringConfig = Exclude<RuleOptions[0], undefined | string>
+    const attributesConfig = attributes ? normalizeConfig(attributes) : null
+    const childrenConfig = children ? normalizeConfig(children) : null
 
-    if (SPACING_VALUES.includes(originalConfig as keyof typeof SPACING))
-      originalConfig = Object.assign({ when: context.options[0] }, context.options[1]) as BasicConfig
-
-    originalConfig = originalConfig as NonStringConfig
-    const defaultConfig = normalizeConfig(originalConfig, {
-      when: 'never',
-      allowMultiline: true,
-    })
-    const attributes = 'attributes' in originalConfig ? originalConfig.attributes : true
-    const attributesConfig = attributes ? normalizeConfig(attributes, defaultConfig, true) : null
-    const children = 'children' in originalConfig ? originalConfig.children : false
-    const childrenConfig = children ? normalizeConfig(children, defaultConfig, true) : null
+    const sourceCode = context.sourceCode
 
     /**
      * Trims text of whitespace between two ranges
@@ -147,7 +148,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param spacing - a spacing value that will optionally add a space to the removed text
      */
     function fixByTrimmingWhitespace(fixer: RuleFixer, fromLoc: number, toLoc: number, mode: string, spacing: string = '') {
-      let replacementText = context.sourceCode.text.slice(fromLoc, toLoc)
+      let replacementText = sourceCode.text.slice(fromLoc, toLoc)
       if (mode === 'start')
         replacementText = replacementText.replace(/^\s+/gm, '')
       else
@@ -177,7 +178,7 @@ export default createRule<RuleOptions, MessageIds>({
           token: token.value,
         },
         fix(fixer) {
-          const nextToken = context.sourceCode.getTokenAfter(token)
+          const nextToken = sourceCode.getTokenAfter(token)
           return fixByTrimmingWhitespace(fixer, token.range[1], nextToken!.range[0], 'start', spacing)
         },
       })
@@ -198,7 +199,7 @@ export default createRule<RuleOptions, MessageIds>({
           token: token.value,
         },
         fix(fixer) {
-          const previousToken = context.sourceCode.getTokenBefore(token)
+          const previousToken = sourceCode.getTokenBefore(token)
           return fixByTrimmingWhitespace(fixer, previousToken!.range[1], token.range[0], 'end', spacing)
         },
       })
@@ -218,7 +219,6 @@ export default createRule<RuleOptions, MessageIds>({
           token: token.value,
         },
         fix(fixer) {
-          const sourceCode = context.sourceCode
           const nextToken = sourceCode.getTokenAfter(token)!
           const nextComment = sourceCode.getCommentsAfter(token)
 
@@ -245,7 +245,6 @@ export default createRule<RuleOptions, MessageIds>({
           token: token.value,
         },
         fix(fixer) {
-          const sourceCode = context.sourceCode
           const previousToken = sourceCode.getTokenBefore(token)!
           const previousComment = sourceCode.getCommentsBefore(token)
 
@@ -319,7 +318,6 @@ export default createRule<RuleOptions, MessageIds>({
       if (config === null)
         return
 
-      const sourceCode = context.sourceCode
       const first = sourceCode.getFirstToken(node)!
       const last = sourceCode.getLastToken(node)!
       let second = sourceCode.getTokenAfter(first, { includeComments: true })!
