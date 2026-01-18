@@ -39,11 +39,11 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    defaultOptions: ['above'],
     messages: {
       above: 'Expected comment to be above code.',
       beside: 'Expected comment to be beside code.',
     },
-    defaultOptions: ['above'],
   },
   create(context, [options]) {
     const sourceCode = context.sourceCode
