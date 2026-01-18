@@ -7,7 +7,7 @@ const SPACING = {
   always: 'always',
   never: 'never',
 } as const
-const SPACING_VALUES = [SPACING.always, SPACING.never]
+const SPACING_VALUES = ['always', 'never']
 
 const BASIC_CONFIG_SCHEMA = {
   type: 'object',
@@ -94,7 +94,6 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       }],
     },
-    defaultOptions: [{}],
     messages: {
       noNewlineAfter: 'There should be no newline after \'{{token}}\'',
       noNewlineBefore: 'There should be no newline before \'{{token}}\'',
@@ -104,6 +103,7 @@ export default createRule<RuleOptions, MessageIds>({
       spaceNeededBefore: 'A space is required before \'{{token}}\'',
     },
   },
+  defaultOptions: [{}],
   create(context, [originalConfig]) {
     function normalizeConfig(configOrTrue: RuleOptions[0] | true, defaults: NormalizedConfig, lastPass: boolean = false): NormalizedConfig {
       const config = configOrTrue === true ? {} : configOrTrue as NonStringConfig
@@ -125,22 +125,17 @@ export default createRule<RuleOptions, MessageIds>({
 
     type NonStringConfig = Exclude<RuleOptions[0], undefined | string>
 
-    const DEFAULT_WHEN = SPACING.never
-    const DEFAULT_ALLOW_MULTILINE = true
-    const DEFAULT_ATTRIBUTES = true
-    const DEFAULT_CHILDREN = false
-
     if (SPACING_VALUES.includes(originalConfig as keyof typeof SPACING))
       originalConfig = Object.assign({ when: context.options[0] }, context.options[1]) as BasicConfig
 
     originalConfig = originalConfig as NonStringConfig
     const defaultConfig = normalizeConfig(originalConfig, {
-      when: DEFAULT_WHEN,
-      allowMultiline: DEFAULT_ALLOW_MULTILINE,
+      when: 'never',
+      allowMultiline: true,
     })
-    const attributes = 'attributes' in originalConfig ? originalConfig.attributes : DEFAULT_ATTRIBUTES
+    const attributes = 'attributes' in originalConfig ? originalConfig.attributes : true
     const attributesConfig = attributes ? normalizeConfig(attributes, defaultConfig, true) : null
-    const children = 'children' in originalConfig ? originalConfig.children : DEFAULT_CHILDREN
+    const children = 'children' in originalConfig ? originalConfig.children : false
     const childrenConfig = children ? normalizeConfig(children, defaultConfig, true) : null
 
     /**
