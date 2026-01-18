@@ -1,15 +1,6 @@
-/**
- * @fileoverview Validate closing bracket location in JSX
- * @author Yannick Croissant
- */
-
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
-
-const messages = {
-  bracketLocation: 'The closing bracket must be {{location}}{{details}}',
-}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-closing-bracket-location',
@@ -67,9 +58,12 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     }],
-    messages,
+    messages: {
+      bracketLocation: 'The closing bracket must be {{location}}{{details}}',
+    },
   },
-  create(context) {
+  defaultOptions: ['tag-aligned'],
+  create(context, [config]) {
     const MESSAGE_LOCATION = {
       'after-props': 'placed after the last prop',
       'after-tag': 'placed after the opening tag',
@@ -77,36 +71,21 @@ export default createRule<RuleOptions, MessageIds>({
       'tag-aligned': 'aligned with the opening tag',
       'line-aligned': 'aligned with the line containing the opening tag',
     } as const
-    const DEFAULT_LOCATION = 'tag-aligned'
 
-    const config = context.options[0]
-    const options: {
-      nonEmpty?: string | false
-      selfClosing?: string | false
-    } = {
-      nonEmpty: DEFAULT_LOCATION,
-      selfClosing: DEFAULT_LOCATION,
-    }
-
-    if (typeof config === 'string') {
-      // simple shorthand [1, 'something']
-      options.nonEmpty = config
-      options.selfClosing = config
-    }
-    else if (typeof config === 'object') {
-      // [1, {location: 'something'}] (back-compat)
-      if ('location' in config) {
-        options.nonEmpty = config.location
-        options.selfClosing = config.location
-      }
-      // [1, {nonEmpty: 'something'}]
-      if ('nonEmpty' in config)
-        options.nonEmpty = config.nonEmpty
-
-      // [1, {selfClosing: 'something'}]
-      if ('selfClosing' in config)
-        options.selfClosing = config.selfClosing
-    }
+    const {
+      nonEmpty = 'tag-aligned',
+      selfClosing = 'tag-aligned',
+    } = typeof config === 'string'
+      ? {
+          nonEmpty: config,
+          selfClosing: config,
+        }
+      : 'location' in config!
+        ? {
+            nonEmpty: config.location,
+            selfClosing: config.location,
+          }
+        : config as Extract<RuleOptions[0], { nonEmpty: string }>
 
     /**
      * Get expected location for the closing bracket
@@ -123,7 +102,7 @@ export default createRule<RuleOptions, MessageIds>({
         location = 'after-props'
       // Else use configuration dependent on selfClosing property
       else
-        location = tokens.selfClosing ? options.selfClosing : options.nonEmpty
+        location = tokens.selfClosing ? selfClosing : nonEmpty
 
       return location
     }

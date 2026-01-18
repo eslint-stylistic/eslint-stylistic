@@ -1,20 +1,7 @@
-/**
- * @fileoverview Validate closing tag location in JSX
- * @author Ross Solomon
- */
-
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isNodeFirstInLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-
-const messages = {
-  onOwnLine: 'Closing tag of a multiline JSX expression must be on its own line.',
-  matchIndent: 'Expected closing tag to match indentation of opening.',
-  alignWithOpening: 'Expected closing tag to be aligned with the line containing the opening tag',
-} as const
-
-const DEFAULT_LOCATION = 'tag-aligned'
 
 const MESSAGE_LOCATION = {
   'tag-aligned': 'matchIndent',
@@ -34,18 +21,18 @@ export default createRule<RuleOptions, MessageIds>({
         {
           type: 'string',
           enum: ['tag-aligned', 'line-aligned'],
-          default: DEFAULT_LOCATION,
+          default: 'tag-aligned',
         },
       ],
     }],
-    messages,
+    messages: {
+      onOwnLine: 'Closing tag of a multiline JSX expression must be on its own line.',
+      matchIndent: 'Expected closing tag to match indentation of opening.',
+      alignWithOpening: 'Expected closing tag to be aligned with the line containing the opening tag',
+    },
   },
-  defaultOptions: [
-    DEFAULT_LOCATION,
-  ],
-  create(context) {
-    const option: 'tag-aligned' | 'line-aligned' = context.options[0] || DEFAULT_LOCATION
-
+  defaultOptions: ['tag-aligned'],
+  create(context, [option]) {
     function getIndentation(
       openingStartOfLine: {
         column: number | undefined

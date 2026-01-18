@@ -1,18 +1,7 @@
-/**
- * @fileoverview Prevent extra closing tags for components without children
- * @author Yannick Croissant
- */
-
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isDOMComponent } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
-
-const optionDefaults = { component: true, html: true }
-
-const messages = {
-  notSelfClosing: 'Empty components are self-closing',
-}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-self-closing-comp',
@@ -27,20 +16,28 @@ export default createRule<RuleOptions, MessageIds>({
         type: 'object',
         properties: {
           component: {
-            default: optionDefaults.component,
+            default: true,
             type: 'boolean',
           },
           html: {
-            default: optionDefaults.html,
+            default: true,
             type: 'boolean',
           },
         },
         additionalProperties: false,
       },
     ],
-    messages,
+    messages: {
+      notSelfClosing: 'Empty components are self-closing',
+    },
   },
-  create(context) {
+  defaultOptions: [{ component: true, html: true }],
+  create(context, [configuration]) {
+    const {
+      component,
+      html,
+    } = configuration!
+
     function isComponent(node: Tree.JSXOpeningElement) {
       return (
         node.name
@@ -65,11 +62,9 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function isShouldBeSelfClosed(node: Tree.JSXOpeningElement): node is Tree.JSXOpeningElement {
-      const configuration = Object.assign({}, optionDefaults, context.options[0])
-      return (
-        (configuration.component && isComponent(node))
-        || (configuration.html && isDOMComponent(node))
-      ) && !node.selfClosing && (childrenIsEmpty(node) || childrenIsMultilineSpaces(node))
+      return ((!!component && isComponent(node)) || (!!html && isDOMComponent(node)))
+        && !node.selfClosing
+        && (childrenIsEmpty(node) || childrenIsMultilineSpaces(node))
     }
 
     return {

@@ -1,42 +1,8 @@
-/**
- * @fileoverview enforce consistent line breaks inside jsx curly
- */
-
-import type { ASTNode, RuleContext, Token } from '#types'
+import type { ASTNode, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isSingleLine, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { safeReplaceTextBetween } from '#utils/fix'
-
-function getNormalizedOption(context: Readonly<RuleContext<MessageIds, RuleOptions>>) {
-  const rawOption = context.options[0] || 'consistent'
-
-  if (rawOption === 'consistent') {
-    return {
-      multiline: 'consistent',
-      singleline: 'consistent',
-    }
-  }
-
-  if (rawOption === 'never') {
-    return {
-      multiline: 'forbid',
-      singleline: 'forbid',
-    }
-  }
-
-  return {
-    multiline: rawOption.multiline || 'consistent',
-    singleline: rawOption.singleline || 'consistent',
-  }
-}
-
-const messages = {
-  expectedBefore: 'Expected newline before \'}\'.',
-  expectedAfter: 'Expected newline after \'{\'.',
-  unexpectedBefore: 'Unexpected newline before \'}\'.',
-  unexpectedAfter: 'Unexpected newline after \'{\'.',
-}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-curly-newline',
@@ -70,11 +36,24 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
-    messages,
+    messages: {
+      expectedBefore: 'Expected newline before \'}\'.',
+      expectedAfter: 'Expected newline after \'{\'.',
+      unexpectedBefore: 'Unexpected newline before \'}\'.',
+      unexpectedAfter: 'Unexpected newline after \'{\'.',
+    },
   },
-  create(context) {
+  defaultOptions: ['consistent'],
+  create(context, [options]) {
     const sourceCode = context.sourceCode
-    const option = getNormalizedOption(context)
+    const {
+      multiline = 'consistent',
+      singleline = 'consistent',
+    } = options === 'never'
+      ? { multiline: 'forbid', singleline: 'forbid' }
+      : typeof options === 'string'
+        ? { multiline: options, singleline: options }
+        : options!
 
     /**
      * Determines whether there should be newlines inside curlys
@@ -83,7 +62,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns `true` if there should be newlines inside the function curlys
      */
     function shouldHaveNewlines(expression: ASTNode, hasLeftNewline: boolean) {
-      switch (!isSingleLine(expression) ? option.multiline : option.singleline) {
+      switch (!isSingleLine(expression) ? multiline : singleline) {
         case 'forbid': return false
         case 'require': return true
         case 'consistent':
