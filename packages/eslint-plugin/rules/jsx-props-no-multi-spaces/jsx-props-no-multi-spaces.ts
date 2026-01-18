@@ -33,6 +33,7 @@ export default createRule<RuleOptions, MessageIds>({
       onlyOneSpace: 'Expected only one space between “{{prop1}}” and “{{prop2}}”',
     },
   },
+  defaultOptions: [],
   create(context) {
     const sourceCode = context.sourceCode
 

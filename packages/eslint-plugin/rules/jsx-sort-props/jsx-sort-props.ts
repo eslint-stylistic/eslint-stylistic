@@ -413,6 +413,7 @@ export default createRule<RuleOptions, MessageIds>({
       sortPropsByAlpha: 'Props should be sorted alphabetically',
     },
   },
+  defaultOptions: [],
   create(context) {
     const configuration = context.options[0] || {}
     const ignoreCase = configuration.ignoreCase || false
