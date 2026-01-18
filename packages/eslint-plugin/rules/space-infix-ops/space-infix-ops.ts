@@ -29,15 +29,15 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    messages: {
-      missingSpace: 'Operator \'{{operator}}\' must be spaced.',
-    },
     defaultOptions: [
       {
         int32Hint: false,
         ignoreTypes: false,
       },
     ],
+    messages: {
+      missingSpace: 'Operator \'{{operator}}\' must be spaced.',
+    },
   },
   create(context, [options]) {
     const { int32Hint, ignoreTypes } = options!

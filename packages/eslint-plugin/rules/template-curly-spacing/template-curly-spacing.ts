@@ -22,6 +22,7 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['always', 'never'],
       },
     ],
+    defaultOptions: [],
     messages: {
       expectedBefore: 'Expected space(s) before \'}\'.',
       expectedAfter: 'Expected space(s) after \'${\'.',

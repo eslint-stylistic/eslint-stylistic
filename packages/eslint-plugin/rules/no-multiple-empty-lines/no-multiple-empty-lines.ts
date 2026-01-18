@@ -36,6 +36,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [],
     messages: {
       blankBeginningOfFile: 'Too many blank lines at the beginning of file. Max of {{max}} allowed.',
       blankEndOfFile: 'Too many blank lines at the end of file. Max of {{max}} allowed.',

@@ -32,6 +32,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [],
     messages: {
       trailingSpace: 'Trailing spaces not allowed.',
     },

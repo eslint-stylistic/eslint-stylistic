@@ -23,11 +23,11 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['beside', 'below'],
       },
     ],
+    defaultOptions: ['beside'],
     messages: {
       expected: 'Expected a linebreak before this expression.',
       unexpected: 'Expected no linebreak before this expression.',
     },
-    defaultOptions: ['beside'],
   },
   create(context, [option]) {
     const sourceCode = context.sourceCode

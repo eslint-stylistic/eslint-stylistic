@@ -24,11 +24,11 @@ export default createRule<RuleOptions, MessageIds>({
       type: 'string',
       enum: ['always', 'multiline'],
     }],
+    defaultOptions: ['multiline'],
     messages: {
       missingLineBreak: 'Missing line break around JSX',
     },
   },
-  defaultOptions: ['multiline'],
   create(context, [option]) {
     function needsOpeningNewLine(node: ASTNode) {
       const previousToken = context.sourceCode.getTokenBefore(node)!

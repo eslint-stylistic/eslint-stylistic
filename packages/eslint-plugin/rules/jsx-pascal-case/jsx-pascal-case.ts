@@ -81,12 +81,12 @@ export default createRule<RuleOptions, MessageIds>({
       },
       additionalProperties: false,
     }],
+    defaultOptions: [{ allowAllCaps: false, allowLeadingUnderscore: false, allowNamespace: false }],
     messages: {
       usePascalCase: 'Imported JSX component {{name}} must be in PascalCase',
       usePascalOrSnakeCase: 'Imported JSX component {{name}} must be in PascalCase or SCREAMING_SNAKE_CASE',
     },
   },
-  defaultOptions: [{ allowAllCaps: false, allowLeadingUnderscore: false, allowNamespace: false }],
   create(context, [configuration]) {
     const {
       allowAllCaps,

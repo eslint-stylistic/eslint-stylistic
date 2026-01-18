@@ -724,9 +724,6 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    messages: {
-      wrongIndentation: 'Expected indentation of {{expected}} but found {{actual}}.',
-    },
     defaultOptions: [
       // typescript docs and playground use 4 space indent
       4,
@@ -738,6 +735,9 @@ export default createRule<RuleOptions, MessageIds>({
         ignoredNodes: [],
       },
     ],
+    messages: {
+      wrongIndentation: 'Expected indentation of {{expected}} but found {{actual}}.',
+    },
   },
   create(context, optionsWithDefaults) {
     const DEFAULT_VARIABLE_INDENT = 1

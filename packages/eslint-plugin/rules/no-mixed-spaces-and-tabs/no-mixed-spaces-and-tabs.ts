@@ -26,6 +26,7 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    defaultOptions: [],
     messages: {
       mixedSpacesAndTabs: 'Mixed spaces and tabs.',
     },

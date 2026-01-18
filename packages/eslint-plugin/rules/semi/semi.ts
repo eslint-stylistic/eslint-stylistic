@@ -63,11 +63,11 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
+    defaultOptions: ['always'],
     messages: {
       missingSemi: 'Missing semicolon.',
       extraSemi: 'Extra semicolon.',
     },
-    defaultOptions: ['always'],
   },
   create(context, [mode, options]) {
     const OPT_OUT_PATTERN = /^[-[(/+`]/u // One of [(/+-`

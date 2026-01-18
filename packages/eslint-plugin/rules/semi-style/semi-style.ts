@@ -81,6 +81,7 @@ export default createRule<RuleOptions, MessageIds>({
     },
     fixable: 'whitespace',
     schema: [{ type: 'string', enum: ['last', 'first'] }],
+    defaultOptions: [],
     messages: {
       expectedSemiColon: 'Expected this semicolon to be at {{pos}}.',
     },

@@ -216,6 +216,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [],
     messages: {
       unexpectedSpaceAfterMarker: 'Unexpected space or tab after marker ({{refChar}}) in comment.',
       expectedExceptionAfter: 'Expected exception block, space or tab after \'{{refChar}}\' in comment.',

@@ -29,13 +29,13 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [{ before: true, after: true }],
     messages: {
       expectedBefore: 'Missing space before =>.',
       unexpectedBefore: 'Unexpected space before =>.',
       expectedAfter: 'Missing space after =>.',
       unexpectedAfter: 'Unexpected space after =>.',
     },
-    defaultOptions: [{ before: true, after: true }],
   },
   create(context, [option]) {
     const sourceCode = context.sourceCode

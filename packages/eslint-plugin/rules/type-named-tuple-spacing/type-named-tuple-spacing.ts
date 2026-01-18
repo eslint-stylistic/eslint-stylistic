@@ -18,7 +18,6 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedSpaceBetween: 'Unexpected space between \'?\' and the \':\'.',
       unexpectedSpaceBefore: 'Unexpected space before the \':\'.',
     },
-    defaultOptions: [],
   },
   create: (context) => {
     const sourceCode = context.sourceCode

@@ -29,6 +29,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       additionalProperties: false,
     }],
+    defaultOptions: [],
     messages: {
       expected: 'Expected line break before `{{callee}}`.',
     },

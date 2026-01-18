@@ -123,15 +123,15 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    messages: {
-      after: 'Expected line after comment.',
-      before: 'Expected line before comment.',
-    },
     defaultOptions: [
       {
         beforeBlockComment: true,
       },
     ],
+    messages: {
+      after: 'Expected line after comment.',
+      before: 'Expected line before comment.',
+    },
   },
   create(context, [options]) {
     const defaultIgnoreRegExp = COMMENTS_IGNORE_PATTERN

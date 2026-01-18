@@ -21,6 +21,7 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['always', 'never'],
       },
     ],
+    defaultOptions: [],
     messages: {
       missing: 'Missing \'()\' invoking a constructor.',
       unnecessary: 'Unnecessary \'()\' invoking a constructor with no arguments.',

@@ -42,6 +42,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [],
     messages: {
       operatorAtBeginning: '\'{{operator}}\' should be placed at the beginning of the line.',
       operatorAtEnd: '\'{{operator}}\' should be placed at the end of the line.',

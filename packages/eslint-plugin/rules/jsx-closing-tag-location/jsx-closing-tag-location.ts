@@ -25,12 +25,12 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     }],
+    defaultOptions: ['tag-aligned'],
     messages: {
       onOwnLine: 'Closing tag of a multiline JSX expression must be on its own line.',
       matchIndent: 'Expected closing tag to match indentation of opening.',
       alignWithOpening: 'Expected closing tag to be aligned with the line containing the opening tag',
     },
-    defaultOptions: ['tag-aligned'],
   },
   create(context, [option]) {
     function getIndentation(

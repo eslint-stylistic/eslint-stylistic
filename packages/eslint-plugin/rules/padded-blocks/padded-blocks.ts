@@ -57,6 +57,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [],
     messages: {
       missingPadBlock: 'Block must be padded by blank lines.',
       extraPadBlock: 'Block must not be padded by blank lines.',

@@ -36,6 +36,7 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    defaultOptions: ['consistent'],
     messages: {
       expectedBefore: 'Expected newline before \'}\'.',
       expectedAfter: 'Expected newline after \'{\'.',
@@ -43,7 +44,6 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedAfter: 'Unexpected newline after \'{\'.',
     },
   },
-  defaultOptions: ['consistent'],
   create(context, [options]) {
     const sourceCode = context.sourceCode
     const {

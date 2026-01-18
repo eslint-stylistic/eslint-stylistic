@@ -34,11 +34,11 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [{ before: false, after: true }],
     messages: {
       unexpected: `There should be no space {{loc}} ','.`,
       missing: `A space is required {{loc}} ','.`,
     },
-    defaultOptions: [{ before: false, after: true }],
   },
   create(context, [option]) {
     const { before: spaceBefore, after: spaceAfter } = option!

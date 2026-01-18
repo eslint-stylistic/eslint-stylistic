@@ -105,6 +105,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [],
     messages: {
       unexpectedMixedOperator: 'Unexpected mix of \'{{leftOperator}}\' and \'{{rightOperator}}\'. Use parentheses to clarify the intended order of operations.',
     },

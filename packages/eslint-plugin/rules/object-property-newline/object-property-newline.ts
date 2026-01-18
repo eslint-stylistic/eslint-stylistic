@@ -23,15 +23,15 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    messages: {
-      propertiesOnNewlineAll: 'Object properties must go on a new line if they aren\'t all on the same line.',
-      propertiesOnNewline: 'Object properties must go on a new line.',
-    },
     defaultOptions: [
       {
         allowAllPropertiesOnSameLine: false,
       },
     ],
+    messages: {
+      propertiesOnNewlineAll: 'Object properties must go on a new line if they aren\'t all on the same line.',
+      propertiesOnNewline: 'Object properties must go on a new line.',
+    },
   },
   create(context, [options]) {
     const allowSameLine = options!.allowAllPropertiesOnSameLine

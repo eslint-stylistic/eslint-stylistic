@@ -37,12 +37,12 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    defaultOptions: [{ props: 'never', children: 'never', propElementValues: 'ignore' }],
     messages: {
       unnecessaryCurly: 'Curly braces are unnecessary here.',
       missingCurly: 'Need to wrap this literal in a JSX expression.',
     },
   },
-  defaultOptions: [{ props: 'never', children: 'never', propElementValues: 'ignore' }],
   create(context, [options]) {
     const HTML_ENTITY_REGEX = () => /&[A-Z\d#]+;/gi
 

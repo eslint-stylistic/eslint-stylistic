@@ -94,6 +94,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       }],
     },
+    defaultOptions: [{ when: 'never', allowMultiline: true }],
     messages: {
       noNewlineAfter: 'There should be no newline after \'{{token}}\'',
       noNewlineBefore: 'There should be no newline before \'{{token}}\'',
@@ -103,7 +104,6 @@ export default createRule<RuleOptions, MessageIds>({
       spaceNeededBefore: 'A space is required before \'{{token}}\'',
     },
   },
-  defaultOptions: [{ when: 'never', allowMultiline: true }],
   create(context, [firstOption, secondOption = {}]) {
     const {
       when: defaultWhen = 'never',

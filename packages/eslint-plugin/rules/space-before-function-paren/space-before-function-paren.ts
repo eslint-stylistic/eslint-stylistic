@@ -45,13 +45,13 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    defaultOptions: ['always'],
     messages: {
       unexpectedSpace: 'Unexpected space before function parentheses.',
       missingSpace: 'Missing space before function parentheses.',
     },
-    defaultOptions: ['always'],
   },
-  create(context, [firstOption]) {
+  create(context, [options]) {
     const sourceCode = context.sourceCode
     const {
       asyncArrow = 'always',

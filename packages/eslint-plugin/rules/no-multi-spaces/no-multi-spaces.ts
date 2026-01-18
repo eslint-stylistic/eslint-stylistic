@@ -41,6 +41,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [],
     messages: {
       multipleSpaces: 'Multiple spaces found before \'{{displayValue}}\'.',
     },

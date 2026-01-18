@@ -44,13 +44,13 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [{ before: true, after: true, overrides: {} }],
     messages: {
       expectedBefore: 'Expected space(s) before "{{value}}".',
       expectedAfter: 'Expected space(s) after "{{value}}".',
       unexpectedBefore: 'Unexpected space(s) before "{{value}}".',
       unexpectedAfter: 'Unexpected space(s) after "{{value}}".',
     },
-    defaultOptions: [{ before: true, after: true, overrides: {} }],
   },
   create(context, [options]) {
     const sourceCode = context.sourceCode

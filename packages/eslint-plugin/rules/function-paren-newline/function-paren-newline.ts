@@ -42,6 +42,7 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    defaultOptions: [],
     messages: {
       expectedBefore: 'Expected newline before \')\'.',
       expectedAfter: 'Expected newline after \'(\'.',

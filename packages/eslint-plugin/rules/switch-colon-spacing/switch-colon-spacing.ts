@@ -26,6 +26,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [],
     messages: {
       expectedBefore: 'Expected space(s) before this colon.',
       expectedAfter: 'Expected space(s) after this colon.',

@@ -22,11 +22,11 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['unix', 'windows'],
       },
     ],
+    defaultOptions: ['unix'],
     messages: {
       expectedLF: 'Expected linebreaks to be \'LF\' but found \'CRLF\'.',
       expectedCRLF: 'Expected linebreaks to be \'CRLF\' but found \'LF\'.',
     },
-    defaultOptions: ['unix'],
   },
   create(context, [linebreakStyle]) {
     // Language-agnostic SourceCode access

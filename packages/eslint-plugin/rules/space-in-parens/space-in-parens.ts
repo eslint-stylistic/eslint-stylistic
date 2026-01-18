@@ -36,6 +36,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [],
     messages: {
       missingOpeningSpace: 'There must be a space after this paren.',
       missingClosingSpace: 'There must be a space before this paren.',

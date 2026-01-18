@@ -39,6 +39,7 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    defaultOptions: [],
     messages: {
       unexpectedOpeningLinebreak: 'There should be no linebreak after \'[\'.',
       unexpectedClosingLinebreak: 'There should be no linebreak before \']\'.',

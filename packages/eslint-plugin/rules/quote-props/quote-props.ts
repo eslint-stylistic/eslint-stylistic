@@ -54,6 +54,7 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
+    defaultOptions: ['always'],
     messages: {
       requireQuotesDueToReservedWord: 'Properties should be quoted as \'{{property}}\' is a reserved word.',
       inconsistentlyQuotedProperty: 'Inconsistently quoted property \'{{key}}\' found.',
@@ -63,7 +64,6 @@ export default createRule<RuleOptions, MessageIds>({
       unquotedPropertyFound: 'Unquoted property \'{{property}}\' found.',
       redundantQuoting: 'Properties shouldn\'t be quoted as all quotes are redundant.',
     },
-    defaultOptions: ['always'],
   },
   create(context, [MODE, options = {}]) {
     const {

@@ -44,6 +44,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [],
     messages: {
       expectNoLinebreak: 'Expected no linebreak before this statement.',
       expectLinebreak: 'Expected a linebreak before this statement.',

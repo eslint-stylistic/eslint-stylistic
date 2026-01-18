@@ -34,6 +34,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       additionalProperties: false,
     }],
+    defaultOptions: [],
     messages: {
       confusing: 'Arrow function used ambiguously with a conditional expression.',
     },

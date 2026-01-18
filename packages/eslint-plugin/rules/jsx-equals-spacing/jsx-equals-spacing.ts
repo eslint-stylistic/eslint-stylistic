@@ -16,6 +16,7 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['always', 'never'],
       },
     ],
+    defaultOptions: ['never'],
     messages: {
       noSpaceBefore: 'There should be no space before \'=\'',
       noSpaceAfter: 'There should be no space after \'=\'',
@@ -23,7 +24,6 @@ export default createRule<RuleOptions, MessageIds>({
       needSpaceAfter: 'A space is required after \'=\'',
     },
   },
-  defaultOptions: ['never'],
   create(context, [config]) {
     return {
       JSXOpeningElement(node) {

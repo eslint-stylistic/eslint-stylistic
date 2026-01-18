@@ -52,6 +52,7 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
+    defaultOptions: [],
     messages: {
       expectedBlock: 'Expected a block comment instead of consecutive line comments.',
       expectedBareBlock: 'Expected a block comment without padding stars.',

@@ -35,7 +35,6 @@ export default createRule<RuleOptions, MessageIds>({
     messages: {
       genericSpacingMismatch: 'Generic spaces mismatch',
     },
-    defaultOptions: [],
   },
   create: (context) => {
     const sourceCode = context.sourceCode

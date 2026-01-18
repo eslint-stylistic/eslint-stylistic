@@ -28,6 +28,7 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['always', 'never', 'consistent'],
       },
     ],
+    defaultOptions: [],
     messages: {
       unexpectedLineBreak: 'There should be no line break here.',
       missingLineBreak: 'There should be a line break after this argument.',

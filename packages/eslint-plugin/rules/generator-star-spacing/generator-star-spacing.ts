@@ -54,13 +54,13 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    defaultOptions: [{ before: true, after: false }],
     messages: {
       missingBefore: 'Missing space before *.',
       missingAfter: 'Missing space after *.',
       unexpectedBefore: 'Unexpected space before *.',
       unexpectedAfter: 'Unexpected space after *.',
     },
-    defaultOptions: [{ before: true, after: false }],
   },
   create(context, [options]) {
     const optionDefinitions = {

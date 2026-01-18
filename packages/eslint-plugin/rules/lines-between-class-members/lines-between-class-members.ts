@@ -74,10 +74,6 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    messages: {
-      never: 'Unexpected blank line between class members.',
-      always: 'Expected blank line between class members.',
-    },
     defaultOptions: [
       'always',
       {
@@ -85,6 +81,10 @@ export default createRule<RuleOptions, MessageIds>({
         exceptAfterSingleLine: false,
       },
     ],
+    messages: {
+      never: 'Unexpected blank line between class members.',
+      always: 'Expected blank line between class members.',
+    },
   },
   create(context, [firstOption, secondOption]) {
     const configureList = typeof firstOption === 'object' ? firstOption.enforce : [{ blankLine: firstOption, prev: '*', next: '*' }]

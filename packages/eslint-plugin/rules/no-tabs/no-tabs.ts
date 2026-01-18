@@ -26,6 +26,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       additionalProperties: false,
     }],
+    defaultOptions: [],
     messages: {
       unexpectedTab: 'Unexpected tab character.',
     },

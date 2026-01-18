@@ -102,13 +102,6 @@ export default createRule<RuleOptions, MessageIds>({
         },
       },
     ],
-    messages: {
-      shouldSpacing: `Should have space between '{{prev}}' and '{{next}}'`,
-      shouldNotSpacing: `Should not have space(s) between '{{prev}}' and '{{next}}'`,
-      shouldWrap: `Should have line break between '{{prev}}' and '{{next}}'`,
-      shouldNotWrap: `Should not have line break(s) between '{{prev}}' and '{{next}}'`,
-    },
-    // #region defaultOptions
     defaultOptions: [{
       singleLine: {
         spacing: 'never',
@@ -121,6 +114,13 @@ export default createRule<RuleOptions, MessageIds>({
         '{}': { singleLine: { spacing: 'always' } },
       },
     }],
+    // #region defaultOptions
+    messages: {
+      shouldSpacing: `Should have space between '{{prev}}' and '{{next}}'`,
+      shouldNotSpacing: `Should not have space(s) between '{{prev}}' and '{{next}}'`,
+      shouldWrap: `Should have line break between '{{prev}}' and '{{next}}'`,
+      shouldNotWrap: `Should not have line break(s) between '{{prev}}' and '{{next}}'`,
+    },
     // #endregion defaultOptions
   },
   create: (context, [options]) => {

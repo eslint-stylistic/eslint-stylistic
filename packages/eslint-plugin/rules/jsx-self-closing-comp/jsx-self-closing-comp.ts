@@ -27,11 +27,11 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [{ component: true, html: true }],
     messages: {
       notSelfClosing: 'Empty components are self-closing',
     },
   },
-  defaultOptions: [{ component: true, html: true }],
   create(context, [configuration]) {
     const {
       component,

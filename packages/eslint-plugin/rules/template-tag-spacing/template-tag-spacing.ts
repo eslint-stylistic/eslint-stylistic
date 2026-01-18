@@ -21,6 +21,7 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['always', 'never'],
       },
     ],
+    defaultOptions: [],
     messages: {
       unexpected: 'Unexpected space between template tag and template literal.',
       missing: 'Missing space between template tag and template literal.',

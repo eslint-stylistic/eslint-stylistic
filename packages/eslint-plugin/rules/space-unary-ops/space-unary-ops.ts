@@ -38,6 +38,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [],
     messages: {
       unexpectedBefore: 'Unexpected space before unary operator \'{{operator}}\'.',
       unexpectedAfter: 'Unexpected space after unary operator \'{{operator}}\'.',

@@ -37,6 +37,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [],
     messages: {
       unexpectedSpaceAfter: 'There should be no space after \'{{tokenValue}}\'.',
       unexpectedSpaceBefore: 'There should be no space before \'{{tokenValue}}\'.',

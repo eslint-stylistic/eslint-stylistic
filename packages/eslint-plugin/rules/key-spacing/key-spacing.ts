@@ -293,13 +293,13 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     }],
+    defaultOptions: [{ }],
     messages: {
       extraKey: 'Extra space after {{computed}}key \'{{key}}\'.',
       extraValue: 'Extra space before value for {{computed}}key \'{{key}}\'.',
       missingKey: 'Missing space after {{computed}}key \'{{key}}\'.',
       missingValue: 'Missing space before value for {{computed}}key \'{{key}}\'.',
     },
-    defaultOptions: [{ }],
   },
   create(context, [_options]) {
     // TODO: need to unify the usage of options

@@ -401,6 +401,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       additionalProperties: false,
     }],
+    defaultOptions: [],
     messages: {
       listIsEmpty: 'A customized reserved first list must not be empty',
       listReservedPropsFirst: 'Reserved props must be listed before all other props',
@@ -413,7 +414,6 @@ export default createRule<RuleOptions, MessageIds>({
       sortPropsByAlpha: 'Props should be sorted alphabetically',
     },
   },
-  defaultOptions: [],
   create(context) {
     const configuration = context.options[0] || {}
     const ignoreCase = configuration.ignoreCase || false

@@ -46,6 +46,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [],
     messages: {
       wrapInvocation: 'Wrap an immediate function invocation in parentheses.',
       wrapExpression: 'Wrap only the function expression in parens.',

@@ -16,7 +16,6 @@ export default createRule<RuleOptions, MessageIds>({
     messages: {
       unexpected: 'Unnecessary semicolon.',
     },
-    defaultOptions: [],
   },
   create(context) {
     const sourceCode = context.sourceCode

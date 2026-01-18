@@ -98,11 +98,11 @@ export default createRule<RuleOptions, MessageIds>({
       ],
       additionalItems: false,
     },
+    defaultOptions: ['never'],
     messages: {
       unexpected: 'Unexpected trailing comma.',
       missing: 'Missing trailing comma.',
     },
-    defaultOptions: ['never'],
   },
   create(context, [option]) {
     function normalizeOptions(options: Option = {}, ecmaVersion: EcmaVersion | 'latest' | undefined): NormalizedOptions {

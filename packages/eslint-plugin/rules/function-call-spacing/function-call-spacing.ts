@@ -64,12 +64,12 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
+    defaultOptions: ['never'],
     messages: {
       unexpectedWhitespace: 'Unexpected whitespace between function name and paren.',
       unexpectedNewline: 'Unexpected newline between function name and paren.',
       missing: 'Missing space between function name and paren.',
     },
-    defaultOptions: ['never'],
   },
   create(context, [option, config]) {
     const sourceCode = context.sourceCode

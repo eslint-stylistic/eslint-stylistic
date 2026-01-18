@@ -293,6 +293,14 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [
+      {
+        closingSlash: 'never',
+        beforeSelfClosing: 'always',
+        afterOpening: 'never',
+        beforeClosing: 'allow',
+      },
+    ],
     messages: {
       selfCloseSlashNoSpace: 'Whitespace is forbidden between `/` and `>`; write `/>`',
       selfCloseSlashNeedSpace: 'Whitespace is required between `/` and `>`; write `/ >`',
@@ -308,14 +316,6 @@ export default createRule<RuleOptions, MessageIds>({
       beforeCloseNeedNewline: 'A newline is required before closing bracket',
     },
   },
-  defaultOptions: [
-    {
-      closingSlash: 'never',
-      beforeSelfClosing: 'always',
-      afterOpening: 'never',
-      beforeClosing: 'allow',
-    },
-  ],
   create(context, [options]) {
     const {
       closingSlash,

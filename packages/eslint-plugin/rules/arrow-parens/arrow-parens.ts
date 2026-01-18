@@ -41,13 +41,13 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: ['always'],
     messages: {
       unexpectedParens: 'Unexpected parentheses around single function argument.',
       expectedParens: 'Expected parentheses around arrow function argument.',
       unexpectedParensInline: 'Unexpected parentheses around single function argument having a body with no curly braces.',
       expectedParensBlock: 'Expected parentheses around arrow function argument having a body with curly braces.',
     },
-    defaultOptions: ['always'],
   },
   create(context, [option, config]) {
     const asNeeded = option === 'as-needed'

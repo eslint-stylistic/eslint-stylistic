@@ -17,11 +17,11 @@ export default createRule<RuleOptions, MessageIds>({
     schema: [
       { type: 'string', enum: ['always', 'never'] },
     ],
+    defaultOptions: ['always'],
     messages: {
       missing: 'Requires a space {{location}} \'{{token}}\'.',
       extra: 'Unexpected space(s) {{location}} \'{{token}}\'.',
     },
-    defaultOptions: ['always'],
   },
   create(context, [whenToApplyOption]) {
     const sourceCode = context.sourceCode

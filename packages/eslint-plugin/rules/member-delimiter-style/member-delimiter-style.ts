@@ -145,12 +145,6 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    messages: {
-      unexpectedComma: 'Unexpected separator (,).',
-      unexpectedSemi: 'Unexpected separator (;).',
-      expectedComma: 'Expected a comma.',
-      expectedSemi: 'Expected a semicolon.',
-    },
     defaultOptions: [
       {
         multiline: {
@@ -164,6 +158,12 @@ export default createRule<RuleOptions, MessageIds>({
         multilineDetection: 'brackets',
       },
     ],
+    messages: {
+      unexpectedComma: 'Unexpected separator (,).',
+      unexpectedSemi: 'Unexpected separator (;).',
+      expectedComma: 'Expected a comma.',
+      expectedSemi: 'Expected a semicolon.',
+    },
   },
   create(context, [options]) {
     const sourceCode = context.sourceCode

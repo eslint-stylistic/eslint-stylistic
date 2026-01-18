@@ -42,12 +42,12 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: ['last', { exceptions: {} }],
     messages: {
       unexpectedLineBeforeAndAfterComma: 'Bad line breaking before and after \',\'.',
       expectedCommaFirst: '\',\' should be placed first.',
       expectedCommaLast: '\',\' should be placed last.',
     },
-    defaultOptions: ['last', { exceptions: {} }],
   },
   create(context, [style, options]) {
     const sourceCode = context.sourceCode

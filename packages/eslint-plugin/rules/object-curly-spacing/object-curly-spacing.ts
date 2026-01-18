@@ -58,6 +58,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: ['never'],
     messages: {
       requireSpaceBefore: 'A space is required before \'{{token}}\'.',
       requireSpaceAfter: 'A space is required after \'{{token}}\'.',
@@ -66,7 +67,6 @@ export default createRule<RuleOptions, MessageIds>({
       requiredSpaceInEmptyObject: 'A space is required in empty \'{{node}}\'.',
       unexpectedSpaceInEmptyObject: 'There should be no space in empty \'{{node}}\'.',
     },
-    defaultOptions: ['never'],
   },
   create(context, [firstOption, secondOption]) {
     const spaced = firstOption === 'always'

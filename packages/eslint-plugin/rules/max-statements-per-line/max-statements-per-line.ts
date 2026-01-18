@@ -61,10 +61,10 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [{ max: 1 }],
     messages: {
       exceed: 'This line has {{numberOfStatementsOnThisLine}} {{statements}}. Maximum allowed is {{maxStatementsPerLine}}.',
     },
-    defaultOptions: [{ max: 1 }],
   },
   create(context, [options]) {
     const {

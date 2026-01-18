@@ -22,6 +22,7 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['always', 'initializations'],
       },
     ],
+    defaultOptions: [],
     messages: {
       expectVarOnNewline: 'Expected variable declaration to be on a new line.',
     },

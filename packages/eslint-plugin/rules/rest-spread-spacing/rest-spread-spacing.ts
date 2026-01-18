@@ -21,6 +21,7 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['always', 'never'],
       },
     ],
+    defaultOptions: [],
     messages: {
       unexpectedWhitespace: 'Unexpected whitespace after {{type}} operator.',
       expectedWhitespace: 'Expected whitespace after {{type}} operator.',

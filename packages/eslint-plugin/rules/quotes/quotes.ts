@@ -113,9 +113,6 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
-    messages: {
-      wrongQuotes: 'Strings must use {{description}}.',
-    },
     defaultOptions: [
       'double',
       {
@@ -124,6 +121,9 @@ export default createRule<RuleOptions, MessageIds>({
         ignoreStringLiterals: false,
       },
     ],
+    messages: {
+      wrongQuotes: 'Strings must use {{description}}.',
+    },
   },
   create(context, [quoteOption, options]) {
     const settings = QUOTE_SETTINGS[quoteOption || 'double']

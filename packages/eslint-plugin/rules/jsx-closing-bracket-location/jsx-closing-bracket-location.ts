@@ -58,11 +58,11 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     }],
+    defaultOptions: ['tag-aligned'],
     messages: {
       bracketLocation: 'The closing bracket must be {{location}}{{details}}',
     },
   },
-  defaultOptions: ['tag-aligned'],
   create(context, [config]) {
     const MESSAGE_LOCATION = {
       'after-props': 'placed after the last prop',

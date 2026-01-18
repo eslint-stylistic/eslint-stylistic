@@ -31,6 +31,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [],
     messages: {
       expectedTestCons: 'Expected newline between test and consequent of ternary expression.',
       expectedConsAlt: 'Expected newline between consequent and alternate of ternary expression.',

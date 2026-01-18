@@ -136,6 +136,7 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    defaultOptions: [],
     messages: {
       unexpectedLinebreakBeforeClosingBrace: 'Unexpected line break before this closing brace.',
       unexpectedLinebreakAfterOpeningBrace: 'Unexpected line break after this opening brace.',

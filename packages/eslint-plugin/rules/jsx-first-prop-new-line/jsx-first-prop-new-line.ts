@@ -16,12 +16,12 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['always', 'never', 'multiline', 'multiline-multiprop', 'multiprop'],
       },
     ],
+    defaultOptions: ['multiline-multiprop'],
     messages: {
       propOnNewLine: 'Property should be placed on a new line',
       propOnSameLine: 'Property should be placed on the same line as the component declaration',
     },
   },
-  defaultOptions: ['multiline-multiprop'],
   create(context, [configuration]) {
     return {
       JSXOpeningElement(node) {
