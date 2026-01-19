@@ -1,13 +1,7 @@
-/**
- * @fileoverview Require or disallow newline at the end of files
- * @author Nodeca Team <https://github.com/nodeca>
- */
-
 import type * as core from '@eslint/core'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 import { hasLinesAndGetLocFromIndex, isTextSourceCode } from '#utils/eslint-core'
-import { warnDeprecation } from '#utils/index'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'eol-last',
@@ -20,7 +14,7 @@ export default createRule<RuleOptions, MessageIds>({
     schema: [
       {
         type: 'string',
-        enum: ['always', 'never', 'unix', 'windows'],
+        enum: ['always', 'never'],
       },
     ],
     messages: {
@@ -48,27 +42,15 @@ export default createRule<RuleOptions, MessageIds>({
     if (!src.length)
       return {}
 
-    let mode = context.options[0] || 'always'
-    let appendCRLF = false
+    const mode = context.options[0] || 'always'
 
-    if (mode === 'unix') {
-      warnDeprecation('option("unix")', '"always" and "@stylistic/eslint-plugin/rules/linebreak-style"', 'eol-last')
-      // `"unix"` should behave exactly as `"always"`
-      mode = 'always'
-    }
-    if (mode === 'windows') {
-      warnDeprecation('option("windows")', '"always" and "@stylistic/eslint-plugin/rules/linebreak-style"', 'eol-last')
-      // `"windows"` should behave exactly as `"always"`, but append CRLF in the fixer for backwards compatibility
-      mode = 'always'
-      appendCRLF = true
-    }
     if (mode === 'always' && !endsWithNewline) {
       // File is not newline-terminated, but should be
       context.report({
         loc: sourceCode.getLocFromIndex(src.length),
         messageId: 'missing',
         fix(fixer) {
-          return fixer.insertTextAfterRange([0, src.length], appendCRLF ? CRLF : LF)
+          return fixer.insertTextAfterRange([0, src.length], LF)
         },
       })
     }
