@@ -23,14 +23,14 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['beside', 'below'],
       },
     ],
+    defaultOptions: ['beside'],
     messages: {
       expected: 'Expected a linebreak before this expression.',
       unexpected: 'Expected no linebreak before this expression.',
     },
   },
-  create(context) {
+  create(context, [option]) {
     const sourceCode = context.sourceCode
-    const option = context.options[0] || 'beside'
 
     /**
      * Validates the location of an arrow function body

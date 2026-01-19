@@ -102,6 +102,20 @@ export default createRule<RuleOptions, MessageIds>({
         },
       },
     ],
+    // #region defaultOptions
+    defaultOptions: [{
+      singleLine: {
+        spacing: 'never',
+        maxItems: Number.POSITIVE_INFINITY,
+      },
+      multiLine: {
+        minItems: 0,
+      },
+      overrides: {
+        '{}': { singleLine: { spacing: 'always' } },
+      },
+    }],
+    // #endregion defaultOptions
     messages: {
       shouldSpacing: `Should have space between '{{prev}}' and '{{next}}'`,
       shouldNotSpacing: `Should not have space(s) between '{{prev}}' and '{{next}}'`,
@@ -109,21 +123,7 @@ export default createRule<RuleOptions, MessageIds>({
       shouldNotWrap: `Should not have line break(s) between '{{prev}}' and '{{next}}'`,
     },
   },
-  // #region defaultOptions
-  defaultOptions: [{
-    singleLine: {
-      spacing: 'never',
-      maxItems: Number.POSITIVE_INFINITY,
-    },
-    multiLine: {
-      minItems: 0,
-    },
-    overrides: {
-      '{}': { singleLine: { spacing: 'always' } },
-    },
-  }],
-  // #endregion defaultOptions
-  create: (context, [options] = [{}]) => {
+  create: (context, [options]) => {
     const { sourceCode } = context
     const {
       singleLine,

@@ -14,8 +14,7 @@ export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
     docs: {
-      description:
-        'Require or disallow spacing between function identifiers and their invocations',
+      description: 'Require or disallow spacing between function identifiers and their invocations',
     },
     fixable: 'whitespace',
     schema: {
@@ -65,18 +64,21 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
+    defaultOptions: ['never'],
     messages: {
-      unexpectedWhitespace:
-        'Unexpected whitespace between function name and paren.',
+      unexpectedWhitespace: 'Unexpected whitespace between function name and paren.',
       unexpectedNewline: 'Unexpected newline between function name and paren.',
       missing: 'Missing space between function name and paren.',
     },
   },
-  defaultOptions: ['never', {}] as unknown as RuleOptions,
   create(context, [option, config]) {
     const sourceCode = context.sourceCode
     const text = sourceCode.getText()
-    const { allowNewlines = false, optionalChain = { before: true, after: true } } = config!
+
+    const {
+      allowNewlines = false,
+      optionalChain = { before: true, after: true },
+    } = config ?? {}
 
     /**
      * Check if open space is present in a function name

@@ -46,13 +46,13 @@ export default createRule<RuleOptions, MessageIds>({
         },
       },
     ],
+    defaultOptions: [{ prevent: false, allowMultilines: false }],
     messages: {
       require: 'JSX element should start in a new line',
       prevent: 'JSX element should not start in a new line',
       allowMultilines: 'Multiline JSX elements should start in a new line',
     },
   },
-  defaultOptions: [{ prevent: false, allowMultilines: false }],
   create(context, [configuration]) {
     const {
       prevent,

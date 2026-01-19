@@ -37,6 +37,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: ['never'],
     messages: {
       unexpectedSpaceAfter: 'There should be no space after \'{{tokenValue}}\'.',
       unexpectedSpaceBefore: 'There should be no space before \'{{tokenValue}}\'.',
@@ -44,8 +45,8 @@ export default createRule<RuleOptions, MessageIds>({
       missingSpaceBefore: 'A space is required before \'{{tokenValue}}\'.',
     },
   },
-  create(context) {
-    const spaced = context.options[0] === 'always'
+  create(context, [style]) {
+    const spaced = style === 'always'
     const sourceCode = context.sourceCode
 
     /**

@@ -21,13 +21,14 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['always', 'never'],
       },
     ],
+    defaultOptions: ['never'],
     messages: {
       unexpected: 'Unexpected space between template tag and template literal.',
       missing: 'Missing space between template tag and template literal.',
     },
   },
-  create(context) {
-    const never = context.options[0] !== 'always'
+  create(context, [style]) {
+    const never = style !== 'always'
     const sourceCode = context.sourceCode
 
     /**

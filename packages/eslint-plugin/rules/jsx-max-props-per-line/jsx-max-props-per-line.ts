@@ -53,11 +53,11 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       }],
     }],
+    defaultOptions: [{ maximum: 1 }],
     messages: {
       newLine: 'Prop `{{prop}}` must be placed on a new line',
     },
   },
-  defaultOptions: [{ maximum: 1 }],
   create(context, [configuration]) {
     const {
       maximum,

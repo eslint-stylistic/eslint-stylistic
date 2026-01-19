@@ -26,11 +26,11 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [{ allow: 'none' }],
     messages: {
       moveToNewLine: '`{{descriptor}}` must be placed on a new line',
     },
   },
-  defaultOptions: [{ allow: 'none' }],
   create(context, [options]) {
     const {
       allow,

@@ -26,6 +26,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [{ before: false, after: true }],
     messages: {
       expectedBefore: 'Expected space(s) before this colon.',
       expectedAfter: 'Expected space(s) after this colon.',
@@ -33,11 +34,10 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedAfter: 'Unexpected space(s) after this colon.',
     },
   },
-  create(context) {
+  create(context, [options]) {
     const sourceCode = context.sourceCode
-    const options = context.options[0] || {}
-    const beforeSpacing = options.before === true // false by default
-    const afterSpacing = options.after !== false // true by default
+    const beforeSpacing = options!.before === true
+    const afterSpacing = options!.after !== false
 
     /**
      * Check whether the spacing between the given 2 tokens is valid or not.

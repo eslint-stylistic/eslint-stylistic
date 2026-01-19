@@ -35,6 +35,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: ['never', { enforceForClassMembers: true }],
     messages: {
       unexpectedSpaceBefore: 'There should be no space before \'{{tokenValue}}\'.',
       unexpectedSpaceAfter: 'There should be no space after \'{{tokenValue}}\'.',
@@ -43,10 +44,12 @@ export default createRule<RuleOptions, MessageIds>({
       missingSpaceAfter: 'A space is required after \'{{tokenValue}}\'.',
     },
   },
-  create(context) {
+  create(context, [style, options]) {
     const sourceCode = context.sourceCode
-    const propertyNameMustBeSpaced = context.options[0] === 'always' // default is "never"
-    const enforceForClassMembers = !context.options[1] || context.options[1].enforceForClassMembers
+    const propertyNameMustBeSpaced = style === 'always'
+    const {
+      enforceForClassMembers,
+    } = options!
 
     /**
      * Reports that there shouldn't be a space after the first token

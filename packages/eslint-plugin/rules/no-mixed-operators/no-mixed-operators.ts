@@ -30,24 +30,8 @@ const DEFAULT_GROUPS = [
   COMPARISON_OPERATORS,
   LOGICAL_OPERATORS,
   RELATIONAL_OPERATORS,
-]
+] as Exclude<RuleOptions[0], undefined>['groups']
 const TARGET_NODE_TYPE = /^(?:Binary|Logical|Conditional)Expression$/u
-
-/**
- * Normalizes options.
- * @param options A options object to normalize.
- * @returns Normalized option object.
- */
-function normalizeOptions(options: RuleOptions[0] = {}) {
-  const hasGroups = options.groups && options.groups.length > 0
-  const groups = hasGroups ? options.groups : DEFAULT_GROUPS
-  const allowSamePrecedence = options.allowSamePrecedence !== false
-
-  return {
-    groups,
-    allowSamePrecedence,
-  }
-}
 
 /**
  * Checks whether any group which includes both given operator exists or not.
@@ -105,13 +89,18 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [{ groups: DEFAULT_GROUPS, allowSamePrecedence: true }],
     messages: {
       unexpectedMixedOperator: 'Unexpected mix of \'{{leftOperator}}\' and \'{{rightOperator}}\'. Use parentheses to clarify the intended order of operations.',
     },
   },
-  create(context) {
+  create(context, [options]) {
     const sourceCode = context.sourceCode
-    const options = normalizeOptions(context.options[0])
+
+    const {
+      groups,
+      allowSamePrecedence,
+    } = options!
 
     /**
      * Checks whether a given node should be ignored by options or not.
@@ -126,12 +115,12 @@ export default createRule<RuleOptions, MessageIds>({
 
       return (
         !includesBothInAGroup(
-          options.groups ?? [],
+          groups!,
           a.operator,
           b.type === 'ConditionalExpression' ? '?:' : b.operator,
         )
         || (
-          options.allowSamePrecedence
+          allowSamePrecedence!
           && getPrecedence(a) === getPrecedence(b)
         )
       )

@@ -23,12 +23,13 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['always', 'never', 'unix', 'windows'],
       },
     ],
+    defaultOptions: ['always'],
     messages: {
       missing: 'Newline required at end of file but not found.',
       unexpected: 'Newline not allowed at end of file.',
     },
   },
-  create(context) {
+  create(context, [mode]) {
     // Language-agnostic SourceCode access
     const sourceCode = context.sourceCode as unknown as core.SourceCode
 
@@ -48,7 +49,6 @@ export default createRule<RuleOptions, MessageIds>({
     if (!src.length)
       return {}
 
-    let mode = context.options[0] || 'always'
     let appendCRLF = false
 
     if (mode === 'unix') {

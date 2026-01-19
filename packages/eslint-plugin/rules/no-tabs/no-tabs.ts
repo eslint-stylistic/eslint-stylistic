@@ -26,13 +26,17 @@ export default createRule<RuleOptions, MessageIds>({
       },
       additionalProperties: false,
     }],
+    defaultOptions: [{ allowIndentationTabs: false }],
     messages: {
       unexpectedTab: 'Unexpected tab character.',
     },
   },
-  create(context) {
+  create(context, [options]) {
     const sourceCode = context.sourceCode
-    const allowIndentationTabs = context.options && context.options[0] && context.options[0].allowIndentationTabs
+
+    const {
+      allowIndentationTabs,
+    } = options!
 
     return {
       Program(node) {

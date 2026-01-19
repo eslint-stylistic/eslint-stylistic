@@ -40,11 +40,11 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['prefer-single', 'prefer-double'],
       },
     ],
+    defaultOptions: ['prefer-double'],
     messages: {
       unexpected: 'Unexpected usage of {{description}}.',
     },
   },
-  defaultOptions: ['prefer-double'],
   create(context, [quoteOption]) {
     const setting = QUOTE_SETTINGS[quoteOption!]
 

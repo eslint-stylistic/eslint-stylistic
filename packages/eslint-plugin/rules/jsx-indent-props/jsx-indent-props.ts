@@ -42,11 +42,11 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     }],
+    defaultOptions: [4],
     messages: {
       wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
     },
   },
-  defaultOptions: [4],
   create(context, [options]) {
     const extraColumnStart = 0
     const line = {

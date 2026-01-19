@@ -38,6 +38,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [{ words: true, nonwords: false }],
     messages: {
       unexpectedBefore: 'Unexpected space before unary operator \'{{operator}}\'.',
       unexpectedAfter: 'Unexpected space after unary operator \'{{operator}}\'.',
@@ -47,8 +48,12 @@ export default createRule<RuleOptions, MessageIds>({
       requireBefore: 'Space is required before unary operator \'{{operator}}\'.',
     },
   },
-  create(context) {
-    const options = context.options[0] || { words: true, nonwords: false }
+  create(context, [options]) {
+    const {
+      words,
+      nonwords,
+      overrides = {},
+    } = options!
 
     const sourceCode = context.sourceCode
 
@@ -59,24 +64,6 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function isFirstBangInBangBangExpression(node: ASTNode) {
       return node && node.type === 'UnaryExpression' && node.argument && node.argument.type === 'UnaryExpression' && node.argument.operator === '!'
-    }
-
-    /**
-     * Checks if an override exists for a given operator.
-     * @param operator Operator
-     * @returns Whether or not an override has been provided for the operator
-     */
-    function overrideExistsForOperator(operator: string) {
-      return options.overrides && Object.hasOwn(options.overrides, operator)
-    }
-
-    /**
-     * Gets the value that the override was set to for this operator
-     * @param operator Operator
-     * @returns Whether or not an override enforces a space with this operator
-     */
-    function overrideEnforcesSpaces(operator: string) {
-      return options.overrides?.[operator]
     }
 
     /**
@@ -133,7 +120,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param word The word to be used for reporting
      */
     function checkUnaryWordOperatorForSpaces(node: ASTNode, firstToken: Token, secondToken: Token, word: string) {
-      const shouldHaveSpace = overrideExistsForOperator(word) ? overrideEnforcesSpaces(word) : options.words
+      const shouldHaveSpace = overrides[word] ?? words
 
       if (shouldHaveSpace) {
         verifyWordHasSpaces(node, firstToken, secondToken, word)
@@ -152,7 +139,7 @@ export default createRule<RuleOptions, MessageIds>({
       const operatorToken = sourceCode.getLastToken(node, token => token.value === operator)!
       const prefixToken = sourceCode.getTokenBefore(operatorToken)!
 
-      const shouldHaveSpace = overrideExistsForOperator(operator) ? overrideEnforcesSpaces(operator) : options.nonwords
+      const shouldHaveSpace = overrides[operator] ?? nonwords
 
       if (shouldHaveSpace) {
         verifyNonWordsHaveSpaces(node, prefixToken, operatorToken)
@@ -305,7 +292,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       const operator = ('prefix' in node && node.prefix) ? tokens[0].value : tokens[1].value
 
-      const shouldHaveSpace = overrideExistsForOperator(operator) ? overrideEnforcesSpaces(operator) : options.nonwords
+      const shouldHaveSpace = overrides[operator] ?? nonwords
 
       if (shouldHaveSpace) {
         verifyNonWordsHaveSpaces(node, firstToken, secondToken)

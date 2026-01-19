@@ -31,6 +31,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: ['always'],
     messages: {
       expectedTestCons: 'Expected newline between test and consequent of ternary expression.',
       expectedConsAlt: 'Expected newline between consequent and alternate of ternary expression.',
@@ -38,11 +39,14 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedConsAlt: 'Unexpected newline between consequent and alternate of ternary expression.',
     },
   },
-  create(context) {
+  create(context, [style, options = {}]) {
+    const multiline = style !== 'never'
+    const allowSingleLine = style === 'always-multiline'
+    const {
+      ignoreJSX,
+    } = options!
+
     const sourceCode = context.sourceCode
-    const multiline = context.options[0] !== 'never'
-    const allowSingleLine = context.options[0] === 'always-multiline'
-    const IGNORE_JSX = context.options[1] && context.options[1].ignoreJSX
 
     return {
       ConditionalExpression(node) {
@@ -60,7 +64,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         const hasComments = !!sourceCode.getCommentsInside(node).length
 
-        if (IGNORE_JSX) {
+        if (ignoreJSX) {
           if (node.parent.type === 'JSXElement'
             || node.parent.type === 'JSXFragment'
             || node.parent.type === 'JSXExpressionContainer') {

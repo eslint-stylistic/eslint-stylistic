@@ -70,6 +70,12 @@ export default createRule<RuleOptions, MessageIds>({
       OPTIONS_OR_INTEGER_SCHEMA,
       OPTIONS_SCHEMA,
     ],
+    defaultOptions: [
+      {
+        code: 80,
+        tabWidth: 4,
+      },
+    ],
     messages: {
       max: 'This line has a length of {{lineLength}}. Maximum allowed is {{maxLength}}.',
       maxComment: 'This line has a comment length of {{lineLength}}. Maximum allowed is {{maxCommentLength}}.',

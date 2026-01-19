@@ -55,7 +55,10 @@ export default createRule<RuleOptions, MessageIds>({
       },
     ],
     defaultOptions: [
-      { before: true, after: false },
+      {
+        before: true,
+        after: false,
+      },
     ],
     messages: {
       missingBefore: 'Missing space before *.',

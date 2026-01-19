@@ -67,6 +67,7 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
+    defaultOptions: [],
     messages: {
       unexpectedLineBreak: 'There should be no linebreak here.',
       missingLineBreak: 'There should be a linebreak after this element.',

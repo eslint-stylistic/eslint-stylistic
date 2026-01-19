@@ -28,6 +28,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: ['1tbs', { allowSingleLine: false }],
     messages: {
       nextLineOpen: 'Opening curly brace does not appear on the same line as controlling statement.',
       sameLineOpen: 'Opening curly brace appears on the same line as controlling statement.',
@@ -37,15 +38,14 @@ export default createRule<RuleOptions, MessageIds>({
       sameLineClose: 'Closing curly brace appears on the same line as the subsequent block.',
     },
   },
-  defaultOptions: ['1tbs', { allowSingleLine: false }],
-  create(context, optionsWithDefaults) {
-    const [
-      style,
-      { allowSingleLine } = { allowSingleLine: false },
-    ] = optionsWithDefaults
+  create(context, [style, options]) {
+    const sourceCode = context.sourceCode
+
+    const {
+      allowSingleLine,
+    } = options!
 
     const isAllmanStyle = style === 'allman'
-    const sourceCode = context.sourceCode
 
     /**
      * Validates a pair of curly brackets based on the user's config

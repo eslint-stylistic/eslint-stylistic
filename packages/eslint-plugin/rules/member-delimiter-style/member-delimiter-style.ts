@@ -145,6 +145,19 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [
+      {
+        multiline: {
+          delimiter: 'semi',
+          requireLast: true,
+        },
+        singleline: {
+          delimiter: 'semi',
+          requireLast: false,
+        },
+        multilineDetection: 'brackets',
+      },
+    ],
     messages: {
       unexpectedComma: 'Unexpected separator (,).',
       unexpectedSemi: 'Unexpected separator (;).',
@@ -152,19 +165,6 @@ export default createRule<RuleOptions, MessageIds>({
       expectedSemi: 'Expected a semicolon.',
     },
   },
-  defaultOptions: [
-    {
-      multiline: {
-        delimiter: 'semi',
-        requireLast: true,
-      },
-      singleline: {
-        delimiter: 'semi',
-        requireLast: false,
-      },
-      multilineDetection: 'brackets',
-    },
-  ],
   create(context, [options]) {
     const sourceCode = context.sourceCode
 

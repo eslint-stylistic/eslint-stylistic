@@ -53,23 +53,23 @@ export default createRule<RuleOptions, MessageIds>({
       },
       additionalProperties: false,
     }],
+    defaultOptions: [
+      {
+        declaration: 'parens',
+        assignment: 'parens',
+        return: 'parens',
+        arrow: 'parens',
+        condition: 'ignore',
+        logical: 'ignore',
+        prop: 'ignore',
+        propertyValue: 'ignore',
+      },
+    ],
     messages: {
       missingParens: 'Missing parentheses around multilines JSX',
       parensOnNewLines: 'Parentheses around JSX should be on separate lines',
     },
   },
-  defaultOptions: [
-    {
-      declaration: 'parens',
-      assignment: 'parens',
-      return: 'parens',
-      arrow: 'parens',
-      condition: 'ignore',
-      logical: 'ignore',
-      prop: 'ignore',
-      propertyValue: 'ignore',
-    },
-  ],
   create(context, [options]) {
     function isEnabled(type: Type) {
       const option = options![type]

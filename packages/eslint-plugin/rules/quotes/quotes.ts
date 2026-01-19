@@ -113,22 +113,20 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    defaultOptions: [
+      'double',
+      {
+        allowTemplateLiterals: 'never',
+        avoidEscape: false,
+        ignoreStringLiterals: false,
+      },
+    ],
     messages: {
       wrongQuotes: 'Strings must use {{description}}.',
     },
   },
-  defaultOptions: [
-    'double',
-    {
-      allowTemplateLiterals: 'never',
-      avoidEscape: false,
-      ignoreStringLiterals: false,
-    },
-  ],
-  create(context) {
-    const quoteOption = context.options[0]
+  create(context, [quoteOption, options]) {
     const settings = QUOTE_SETTINGS[quoteOption || 'double']
-    const options = context.options[1]
     const sourceCode = context.sourceCode
     let avoidEscape = false
     let ignoreStringLiterals = false

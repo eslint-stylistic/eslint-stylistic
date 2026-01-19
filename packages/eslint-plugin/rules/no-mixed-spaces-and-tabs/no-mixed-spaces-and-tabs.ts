@@ -20,29 +20,22 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'string',
             enum: ['smart-tabs'],
           },
+          // TODO: remove it, it's not documented and deprecated
           {
             type: 'boolean',
           },
         ],
       },
     ],
+    defaultOptions: [false],
     messages: {
       mixedSpacesAndTabs: 'Mixed spaces and tabs.',
     },
   },
-  create(context) {
+  create(context, [style]) {
     const sourceCode = context.sourceCode
 
-    let smartTabs: boolean
-
-    switch (context.options[0]) {
-      case true: // Support old syntax, maybe add deprecation warning here
-      case 'smart-tabs':
-        smartTabs = true
-        break
-      default:
-        smartTabs = false
-    }
+    const smartTabs = typeof style === 'boolean' ? style : style === 'smart-tabs'
 
     return {
 
