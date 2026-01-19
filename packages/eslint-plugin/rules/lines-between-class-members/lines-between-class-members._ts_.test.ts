@@ -65,6 +65,52 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
+        class foo {
+        a = 1;
+        b = someFunction(withParams);
+        c = 3;
+        
+        baz2() { }
+        
+        bar(a: string): void;
+        bar(a: string, b:string): void;
+        bar(a: string, b:string) {
+        
+        }
+        
+        qux1() { }
+        
+        qux2() { }
+        };
+      `,
+      options: ['always', { exceptAfterOverload: true, exceptAfterSingleLine: true }],
+    },
+    {
+      code: $`
+        class foo {
+        a = 1;
+        b = someFunction(
+          withParametersFormattedViaPrettier,
+        );
+        c = 3;
+        
+        baz2() { }
+        
+        bar(a: string): void;
+        bar(a: string, b:string): void;
+        bar(a: string, b:string) {
+        
+        }
+        
+        qux1() { }
+        
+        qux2() { }
+        };
+      `,
+      options: ['always', { exceptAfterOverload: true, exceptAfterSingleLine: true }],
+    },
+    {
+      code: $`
         class foo{
         bar(a: string):void;
         
