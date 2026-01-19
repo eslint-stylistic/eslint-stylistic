@@ -1,8 +1,8 @@
-import type { NodeTypes, Token } from '#types'
+import type { NodeTypes, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 
-const PRESERVE_PREFIX_SPACE_BEFORE_GENERIC = new Set<NodeTypes>([
+const IGNORE_BEFORE = new Set<NodeTypes>([
   'TSCallSignatureDeclaration',
   // const foo = <T>(name: T) => name
   //            ^
@@ -23,6 +23,34 @@ const PRESERVE_PREFIX_SPACE_BEFORE_GENERIC = new Set<NodeTypes>([
   'ClassExpression',
 ])
 
+const IGNORE_AFTER = new Set<NodeTypes>([
+  // const foo = class Foo<T> extends Bar<T> {}
+  //                                        ^
+  // const foo = class Foo<T> {}
+  //                         ^
+  // handled by `space-before-blocks`
+  'ClassExpression',
+  // class foo<T> extends bar<T> {}
+  //             ^              ^
+  // handled by `keyword-spacing` and `space-before-blocks`
+  'ClassDeclaration',
+  // type Foo<T> = T
+  //            ^
+  // handled by `space-infix-ops`
+  'TSTypeAliasDeclaration',
+  // interface Foo<T> {}
+  //                 ^
+  // handled by `space-before-blocks`
+  'TSInterfaceDeclaration',
+  'TSTypeReference',
+  // type Foo = import('foo')<T> ['Foo']
+  //                            ^
+  // handled by `no-whitespace-before-property`
+  'TSImportType',
+])
+
+type SupportNodes = Tree.TSTypeParameterDeclaration | Tree.TSTypeParameterInstantiation
+
 export default createRule<RuleOptions, MessageIds>({
   name: 'type-generic-spacing',
   meta: {
@@ -31,14 +59,78 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Enforces consistent spacing inside TypeScript type generics',
     },
     fixable: 'whitespace',
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          before: {
+            type: 'boolean',
+            default: false,
+          },
+          after: {
+            type: 'boolean',
+            default: false,
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
       genericSpacingMismatch: 'Generic spaces mismatch',
     },
   },
-  defaultOptions: [],
+  defaultOptions: [
+    {
+      before: false,
+      after: false,
+    },
+  ],
   create: (context) => {
     const sourceCode = context.sourceCode
+
+    function checkBefore(node: SupportNodes) {
+      if (IGNORE_BEFORE.has(node.parent.type))
+        return
+
+      const preToken = sourceCode.getTokenBefore(node, { includeComments: true })
+      if (!preToken)
+        return
+
+      const preSpace = sourceCode.isSpaceBetween(preToken, node)
+
+      if (preSpace) {
+        context.report({
+          node,
+          messageId: 'genericSpacingMismatch',
+          fix(fixer) {
+            return fixer.replaceTextRange([preToken.range[1], node.range[0]], '')
+          },
+        })
+      }
+    }
+
+    function checkAfter(node: SupportNodes) {
+      if (IGNORE_AFTER.has(node.parent.type))
+        return
+      const nextToken = sourceCode.getTokenAfter(node, { includeComments: true })
+      if (!nextToken)
+        return
+
+      if (sourceCode.isSpaceBetween(node, nextToken)) {
+        context.report({
+          node,
+          messageId: 'genericSpacingMismatch',
+          fix(fixer) {
+            return fixer.replaceTextRange([node.range[1], nextToken.range[0]], '')
+          },
+        })
+      }
+    }
+
+    function checkSpacing(node: SupportNodes) {
+      checkBefore(node)
+      checkAfter(node)
+    }
 
     function removeSpaceBetween(left: Token, right: Token) {
       const textBetween = sourceCode.text.slice(left.range[1], right.range[0])
@@ -78,6 +170,8 @@ export default createRule<RuleOptions, MessageIds>({
 
     return {
       TSTypeParameterInstantiation: (node) => {
+        checkSpacing(node)
+
         const params = node.params
 
         if (params.length === 0)
@@ -90,21 +184,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       TSTypeParameterDeclaration: (node) => {
-        if (!PRESERVE_PREFIX_SPACE_BEFORE_GENERIC.has(node.parent.type)) {
-          const pre = sourceCode.text.slice(0, node.range[0])
-          const preSpace = pre.match(/(\s+)$/)?.[0]
-
-          // strip space before <T>
-          if (preSpace && preSpace.length) {
-            context.report({
-              node,
-              messageId: 'genericSpacingMismatch',
-              * fix(fixer) {
-                yield fixer.replaceTextRange([node.range[0] - preSpace.length, node.range[0]], '')
-              },
-            })
-          }
-        }
+        checkSpacing(node)
 
         const params = node.params
 
