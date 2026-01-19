@@ -1,10 +1,11 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: tu4oLOTfQp3sh6A5GvsAX8-37zHJAnW-0YUiwYZee5A */
+/* @checksum: _yej1_dltKFlLLR4oWVff-POw3Zb7QwZ6MMIBxsQUCM */
 
 export interface NoTrailingSpacesSchema0 {
   skipBlankLines?: boolean
   ignoreComments?: boolean
+  ignoreMarkdownLineBreaks?: 'never' | 'always' | 'comments'
 }
 
 export type NoTrailingSpacesRuleOptions = [
