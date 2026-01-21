@@ -29,8 +29,12 @@ export default createRule<RuleOptions, MessageIds>({
     schema: [{
       type: 'object',
       properties: {
-        allowParens: { type: 'boolean', default: true },
-        onlyOneSimpleParam: { type: 'boolean', default: false },
+        allowParens: {
+          type: 'boolean',
+        },
+        onlyOneSimpleParam: {
+          type: 'boolean',
+        },
       },
       additionalProperties: false,
     }],

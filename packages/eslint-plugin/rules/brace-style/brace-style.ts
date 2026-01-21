@@ -22,7 +22,6 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           allowSingleLine: {
             type: 'boolean',
-            default: false,
           },
         },
         additionalProperties: false,

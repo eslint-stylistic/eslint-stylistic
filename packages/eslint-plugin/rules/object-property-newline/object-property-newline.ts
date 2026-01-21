@@ -17,7 +17,6 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           allowAllPropertiesOnSameLine: {
             type: 'boolean',
-            default: false,
           },
         },
         additionalProperties: false,

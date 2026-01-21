@@ -22,7 +22,6 @@ export default createRule<RuleOptions, MessageIds>({
             enum: ['none', 'literal', 'single-child', 'single-line', 'non-jsx'],
           },
         },
-        default: { allow: 'none' },
         additionalProperties: false,
       },
     ],

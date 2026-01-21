@@ -40,7 +40,6 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           functionPrototypeMethods: {
             type: 'boolean',
-            default: false,
           },
         },
         additionalProperties: false,

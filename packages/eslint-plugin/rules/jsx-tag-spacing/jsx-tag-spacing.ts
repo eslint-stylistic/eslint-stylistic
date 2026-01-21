@@ -284,12 +284,6 @@ export default createRule<RuleOptions, MessageIds>({
             enum: ['always', 'proportional-always', 'never', 'allow'],
           },
         },
-        default: {
-          closingSlash: 'never',
-          beforeSelfClosing: 'always',
-          afterOpening: 'never',
-          beforeClosing: 'allow',
-        },
         additionalProperties: false,
       },
     ],

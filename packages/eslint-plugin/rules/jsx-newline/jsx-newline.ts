@@ -17,11 +17,9 @@ export default createRule<RuleOptions, MessageIds>({
         type: 'object',
         properties: {
           prevent: {
-            default: false,
             type: 'boolean',
           },
           allowMultilines: {
-            default: false,
             type: 'boolean',
           },
         },

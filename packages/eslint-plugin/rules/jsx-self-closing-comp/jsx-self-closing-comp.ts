@@ -16,11 +16,9 @@ export default createRule<RuleOptions, MessageIds>({
         type: 'object',
         properties: {
           component: {
-            default: true,
             type: 'boolean',
           },
           html: {
-            default: true,
             type: 'boolean',
           },
         },

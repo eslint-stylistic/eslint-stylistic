@@ -21,7 +21,6 @@ export default createRule<RuleOptions, MessageIds>({
       properties: {
         allowIndentationTabs: {
           type: 'boolean',
-          default: false,
         },
       },
       additionalProperties: false,

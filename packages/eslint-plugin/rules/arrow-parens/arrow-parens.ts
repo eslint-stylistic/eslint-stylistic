@@ -35,7 +35,6 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           requireForBlockBody: {
             type: 'boolean',
-            default: false,
           },
         },
         additionalProperties: false,

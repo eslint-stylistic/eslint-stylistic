@@ -21,7 +21,6 @@ export default createRule<RuleOptions, MessageIds>({
         {
           type: 'string',
           enum: ['tag-aligned', 'line-aligned'],
-          default: 'tag-aligned',
         },
       ],
     }],

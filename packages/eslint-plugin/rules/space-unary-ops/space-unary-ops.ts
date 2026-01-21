@@ -22,11 +22,9 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           words: {
             type: 'boolean',
-            default: true,
           },
           nonwords: {
             type: 'boolean',
-            default: false,
           },
           overrides: {
             type: 'object',
