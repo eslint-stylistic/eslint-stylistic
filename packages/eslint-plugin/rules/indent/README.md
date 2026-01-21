@@ -1135,8 +1135,6 @@ condition
 
 Due to the new fix introduced changes to some existing codebase, we introduced `offsetTernaryExpressions.CallExpression` option to toggle the behaviors. It's set to `true` by default, where you can set it to `false` to use the previous behavior.
 
-In this option, `CallExpression`, `AwaitExpression`, and `NewExpression` each have their own individual setting for fine‑grained control.
-
 ::: correct
 
 ```js
