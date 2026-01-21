@@ -104,7 +104,9 @@ This rule has an object option:
   - `CallExpression`: Aligns with `offsetTernaryExpressions` by default.
   - `AwaitExpression`: Aligns with `offsetTernaryExpressions` by default.
   - `NewExpression`: Aligns with `offsetTernaryExpressions` by default.
-- `"offsetTernaryExpressionsOffsetCallExpressions": true` (`true` by default), handles an edge case for call expressions nested in ternary. It's only effective when `offsetTernaryExpressions` is set to `true`.
+- ~~`"offsetTernaryExpressionsOffsetCallExpressions": true`~~ (`true` by default) handles an edge case for call expressions nested in ternary. It's only effective when `offsetTernaryExpressions` is set to `true`.
+  > [!WARNING]
+  > This option is **deprecated**, please use `offsetTernaryExpressions.CallExpression` instead.
 - `"assignmentOperator"` (default: 1) enforces indentation level for the assignment operator and value in variable/type declarations and assignment expressions when they are on different lines than the left side of the assignment (e.g. variable name). This can also be set to `"off"` to disable the checking.
 - `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
 - `"tabLength"` (default: 4) when using tabbed indentation, the indentation used to calculate the insertion value of the template string
@@ -1110,10 +1112,6 @@ condition
 
 :::
 
-### offsetTernaryExpressionsOffsetCallExpressions
-
-> This option is only effective when `offsetTernaryExpressions` is set to `true`.
-
 Since v2.12.0, we [introduced a fix](https://github.com/eslint-stylistic/eslint-stylistic/pull/625) to call expressions handling inside ternary. With the new version, the rule now expect the following code to be correct:
 
 ::: correct
@@ -1135,12 +1133,14 @@ condition
 
 :::
 
-Due to the new fix introduced changes to some existing codebase, we introduced this `offsetTernaryExpressionsOffsetCallExpressions` option to toggle the behaviors. It's set to `true` by default, where you can set it to `false` to use the previous behavior.
+Due to the new fix introduced changes to some existing codebase, we introduced `offsetTernaryExpressions.CallExpression` option to toggle the behaviors. It's set to `true` by default, where you can set it to `false` to use the previous behavior.
+
+In this option, `CallExpression`, `AwaitExpression`, and `NewExpression` each have their own individual setting for fine‑grained control.
 
 ::: correct
 
 ```js
-/* eslint @stylistic/indent: ["error", 2, { "offsetTernaryExpressions": true, "offsetTernaryExpressionsOffsetCallExpressions": false }] */
+/* eslint @stylistic/indent: ["error", 2, { "offsetTernaryExpressions": { "CallExpression": false }}] */
 
 condition
   ? gerUser({
