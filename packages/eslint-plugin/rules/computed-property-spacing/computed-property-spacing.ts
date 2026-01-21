@@ -29,7 +29,6 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           enforceForClassMembers: {
             type: 'boolean',
-            default: true,
           },
         },
         additionalProperties: false,

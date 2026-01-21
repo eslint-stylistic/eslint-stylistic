@@ -207,7 +207,6 @@ export default createRule<RuleOptions, MessageIds>({
               },
               balanced: {
                 type: 'boolean',
-                default: false,
               },
             },
             additionalProperties: false,

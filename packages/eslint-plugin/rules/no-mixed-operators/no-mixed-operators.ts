@@ -83,7 +83,6 @@ export default createRule<RuleOptions, MessageIds>({
           },
           allowSamePrecedence: {
             type: 'boolean',
-            default: true,
           },
         },
         additionalProperties: false,

@@ -24,7 +24,6 @@ export default createRule<RuleOptions, MessageIds>({
           type: 'integer',
           minimum: 1,
           maximum: 10,
-          default: 2,
         },
       },
       additionalProperties: false,

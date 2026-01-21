@@ -23,8 +23,12 @@ export default createRule<RuleOptions, MessageIds>({
       {
         type: 'object',
         properties: {
-          before: { type: 'boolean', default: true },
-          after: { type: 'boolean', default: true },
+          before: {
+            type: 'boolean',
+          },
+          after: {
+            type: 'boolean',
+          },
           overrides: {
             type: 'object',
             properties: KEYWORDS.reduce<Record<string, JSONSchema.JSONSchema4>>((retv, key) => {

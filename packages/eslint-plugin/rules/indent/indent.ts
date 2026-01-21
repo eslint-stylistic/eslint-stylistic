@@ -569,7 +569,6 @@ export default createRule<RuleOptions, MessageIds>({
           SwitchCase: {
             type: 'integer',
             minimum: 0,
-            default: 0,
           },
           VariableDeclarator: {
             oneOf: [
@@ -674,7 +673,6 @@ export default createRule<RuleOptions, MessageIds>({
           ImportDeclaration: ELEMENT_LIST_SCHEMA,
           flatTernaryExpressions: {
             type: 'boolean',
-            default: false,
           },
           offsetTernaryExpressions: {
             oneOf: [
@@ -697,7 +695,6 @@ export default createRule<RuleOptions, MessageIds>({
                 additionalProperties: false,
               },
             ],
-            default: false,
           },
           offsetTernaryExpressionsOffsetCallExpressions: {
             type: 'boolean',
@@ -714,11 +711,9 @@ export default createRule<RuleOptions, MessageIds>({
           },
           ignoreComments: {
             type: 'boolean',
-            default: false,
           },
           tabLength: {
             type: 'number',
-            default: 4,
           },
         },
         additionalProperties: false,

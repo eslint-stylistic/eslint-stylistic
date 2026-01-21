@@ -64,11 +64,9 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           exceptAfterSingleLine: {
             type: 'boolean',
-            default: false,
           },
           exceptAfterOverload: {
             type: 'boolean',
-            default: true,
           },
         },
         additionalProperties: false,

@@ -24,11 +24,9 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           before: {
             type: 'boolean',
-            default: false,
           },
           after: {
             type: 'boolean',
-            default: true,
           },
         },
         additionalProperties: false,

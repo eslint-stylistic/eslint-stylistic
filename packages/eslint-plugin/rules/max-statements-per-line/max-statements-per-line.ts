@@ -48,7 +48,6 @@ export default createRule<RuleOptions, MessageIds>({
           max: {
             type: 'integer',
             minimum: 1,
-            default: 1,
           },
           ignoredNodes: {
             type: 'array',

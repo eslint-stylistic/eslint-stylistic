@@ -85,7 +85,6 @@ export default antfu(
     files: ['packages/eslint-plugin/rules/**/*.ts'],
     rules: {
       'eslint-plugin/meta-property-ordering': 'error',
-      'eslint-plugin/no-meta-schema-default': 'off',
       'eslint-plugin/require-meta-schema-description': 'off',
       'perfectionist/sort-objects': [
         'error',

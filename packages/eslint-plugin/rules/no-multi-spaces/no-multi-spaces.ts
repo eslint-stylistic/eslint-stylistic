@@ -31,11 +31,9 @@ export default createRule<RuleOptions, MessageIds>({
           },
           ignoreEOLComments: {
             type: 'boolean',
-            default: false,
           },
           includeTabs: {
             type: 'boolean',
-            default: true,
           },
         },
         additionalProperties: false,

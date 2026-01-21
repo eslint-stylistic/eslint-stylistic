@@ -22,11 +22,9 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           skipBlankLines: {
             type: 'boolean',
-            default: false,
           },
           ignoreComments: {
             type: 'boolean',
-            default: false,
           },
         },
         additionalProperties: false,

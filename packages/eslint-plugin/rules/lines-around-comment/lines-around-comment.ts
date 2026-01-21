@@ -46,27 +46,21 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           beforeBlockComment: {
             type: 'boolean',
-            default: true,
           },
           afterBlockComment: {
             type: 'boolean',
-            default: false,
           },
           beforeLineComment: {
             type: 'boolean',
-            default: false,
           },
           afterLineComment: {
             type: 'boolean',
-            default: false,
           },
           allowBlockStart: {
             type: 'boolean',
-            default: false,
           },
           allowBlockEnd: {
             type: 'boolean',
-            default: false,
           },
           allowClassStart: {
             type: 'boolean',

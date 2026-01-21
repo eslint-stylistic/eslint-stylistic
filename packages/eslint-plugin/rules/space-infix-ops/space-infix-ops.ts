@@ -19,11 +19,9 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           int32Hint: {
             type: 'boolean',
-            default: false,
           },
           ignoreTypes: {
             type: 'boolean',
-            default: false,
           },
         },
         additionalProperties: false,
