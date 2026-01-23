@@ -10,16 +10,7 @@ export interface RuleDocs {
 export function createRule<
   TOptions extends readonly unknown[],
   TMessageIds extends string,
->(
-  {
-    name,
-    create,
-    meta,
-  }: Omit<
-    Readonly<RuleWithMetaAndName<TOptions, TMessageIds, RuleDocs>>,
-    'defaultOptions'
-  >,
-): Rule.RuleModule {
+>({ name, create, meta }: Readonly<RuleWithMetaAndName<TOptions, TMessageIds, RuleDocs>>): Rule.RuleModule {
   return {
     create: ((
       context: Readonly<RuleContext<TMessageIds, TOptions>>,

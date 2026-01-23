@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: dopZK4eiTZQ5hrwskp4T4Iz8Nlbxo4sqFW8I_8GyvTY */
+/* @checksum: 8uvLAvPcygKjpruZlZHjv-Mea0r_zKFO4C8yJpkfWhs */
 
 export type LinesBetweenClassMembersSchema0
   = | {
