@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: xT24H9Fyeq-J8bNrcQKfSycutt6yiEtagTVpNUP1tw8 */
+/* @checksum: -QGVDh6hjVCh_7EO2FpVgtE2twJ-YPyQ_hPu51h342k */
 
 export interface MaxStatementsPerLineSchema0 {
   max?: number

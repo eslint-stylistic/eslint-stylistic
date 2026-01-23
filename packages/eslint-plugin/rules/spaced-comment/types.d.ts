@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: -Pvtm4lT4o_8FqC-DaMyciYf85wRGE2Wg24cbWANcFU */
+/* @checksum: k7UnCl0ffV0oUNyCpTCpN2FLkJp-ifyEBgs1bacUIXw */
 
 export type SpacedCommentSchema0 = 'always' | 'never'
 
