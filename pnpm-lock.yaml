@@ -160,11 +160,11 @@ catalogs:
       specifier: ^8.52.0
       version: 8.53.0
     eslint-visitor-keys:
-      specifier: ^5.0.0
-      version: 5.0.0
+      specifier: ^4.2.1
+      version: 4.2.1
     espree:
-      specifier: ^11.0.0
-      version: 11.0.0
+      specifier: ^10.4.0
+      version: 10.4.0
     estraverse:
       specifier: ^5.3.0
       version: 5.3.0
@@ -300,13 +300,13 @@ importers:
         version: 1.2.0(eslint@9.39.2(jiti@2.6.1))
       eslint-visitor-keys:
         specifier: catalog:prod
-        version: 5.0.0
+        version: 4.2.1
       eslint-vitest-rule-tester:
         specifier: catalog:test
         version: 3.0.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.16)
       espree:
         specifier: catalog:prod
-        version: 11.0.0
+        version: 10.4.0
       estraverse:
         specifier: catalog:prod
         version: 5.3.0
@@ -439,10 +439,10 @@ importers:
         version: 9.39.2(jiti@2.6.1)
       eslint-visitor-keys:
         specifier: catalog:prod
-        version: 5.0.0
+        version: 4.2.1
       espree:
         specifier: catalog:prod
-        version: 11.0.0
+        version: 10.4.0
       estraverse:
         specifier: catalog:prod
         version: 5.3.0
