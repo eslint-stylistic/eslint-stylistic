@@ -319,11 +319,12 @@ export default createRule<RuleOptions, MessageIds>({
 
     function getLeftParen(node: ASTNode, items: (ASTNode | null)[], type: ParenType) {
       switch (node.type) {
+        // fun?.()
         // fun<T>()
         // new Foo<T>()
         case AST_NODE_TYPES.CallExpression:
         case AST_NODE_TYPES.NewExpression:
-          return sourceCode.getTokenAfter(node.typeArguments ?? node.callee)
+          return sourceCode.getTokenAfter(node.typeArguments ?? node.callee, isOpeningParenToken)
 
         // const foo = [, a]
         // const [, a] = foo
