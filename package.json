@@ -18,6 +18,7 @@
     "prepare": "simple-git-hooks",
     "docs": "pnpm -C docs run docs:dev",
     "docs:build": "pnpm -C docs run docs:build",
+    "release": "bumpp -r",
     "play:lint": "pnpm -C playground run lint"
   },
   "devDependencies": {
@@ -45,6 +46,7 @@
     "@typescript-eslint/utils": "catalog:dev",
     "@vitest/coverage-v8": "catalog:test",
     "@vitest/ui": "catalog:test",
+    "bumpp": "catalog:dev",
     "change-case": "catalog:dev",
     "escape-string-regexp": "catalog:dev",
     "eslint": "catalog:dev",
