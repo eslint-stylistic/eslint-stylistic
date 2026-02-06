@@ -41,6 +41,7 @@ export default createRule<RuleOptions, MessageIds>({
         },
       },
     }],
+    // #region defaultOptions
     defaultOptions: [{
       singleLine: {
         maxItems: Number.POSITIVE_INFINITY,
@@ -49,6 +50,7 @@ export default createRule<RuleOptions, MessageIds>({
         minItems: 0,
       },
     }],
+    // #endregion defaultOptions
     messages: {
       newLine: 'Prop `{{prop}}` must be placed on a new line',
       singleLine: 'Prop `{{prop}}` should not be placed on a new line',
