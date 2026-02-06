@@ -86,8 +86,8 @@ run<RuleOptions, MessageIds>({
       output: '<App\nfoo\nbar />',
       options: [{ singleLine: { maxItems: 1 } }],
       errors: [
-        { messageId: 'newLine', data: { prop: 'foo' } },
-        { messageId: 'newLine', data: { prop: 'bar' } },
+        { messageId: 'newLine', data: { prop: 'foo' }, line: 1, column: 6, endLine: 1, endColumn: 9 },
+        { messageId: 'newLine', data: { prop: 'bar' }, line: 1, column: 10, endLine: 1, endColumn: 13 },
       ],
     },
     {
@@ -96,9 +96,9 @@ run<RuleOptions, MessageIds>({
       output: '<App\nfoo\n{...props}\nbar />',
       options: [{ singleLine: { maxItems: 1 } }],
       errors: [
-        { messageId: 'newLine', data: { prop: 'foo' } },
-        { messageId: 'newLine', data: { prop: 'props' } },
-        { messageId: 'newLine', data: { prop: 'bar' } },
+        { messageId: 'newLine', data: { prop: 'foo' }, line: 1, column: 6, endLine: 1, endColumn: 9 },
+        { messageId: 'newLine', data: { prop: 'props' }, line: 1, column: 10, endLine: 1, endColumn: 20 },
+        { messageId: 'newLine', data: { prop: 'bar' }, line: 1, column: 21, endLine: 1, endColumn: 24 },
       ],
     },
     {
@@ -117,7 +117,7 @@ run<RuleOptions, MessageIds>({
         />
       `,
       errors: [
-        { messageId: 'newLine', data: { prop: 'bar' } },
+        { messageId: 'newLine', data: { prop: 'bar' }, line: 2, column: 7, endLine: 2, endColumn: 10 },
       ],
     },
     {
@@ -131,8 +131,8 @@ run<RuleOptions, MessageIds>({
       output: '<App foo bar\n/>',
       options: [{ multiLine: { minItems: 3 } }],
       errors: [
-        { messageId: 'singleLine', data: { prop: 'foo' } },
-        { messageId: 'singleLine', data: { prop: 'bar' } },
+        { messageId: 'singleLine', data: { prop: 'foo' }, line: 2, column: 3, endLine: 2, endColumn: 6 },
+        { messageId: 'singleLine', data: { prop: 'bar' }, line: 3, column: 3, endLine: 3, endColumn: 6 },
       ],
     },
     {
@@ -141,7 +141,7 @@ run<RuleOptions, MessageIds>({
       output: '<App\nfoo />',
       options: [{ singleLine: { maxItems: 0 } }],
       errors: [
-        { messageId: 'newLine', data: { prop: 'foo' } },
+        { messageId: 'newLine', data: { prop: 'foo' }, line: 1, column: 6, endLine: 1, endColumn: 9 },
       ],
     },
     {
@@ -153,7 +153,7 @@ run<RuleOptions, MessageIds>({
       `,
       output: '<App foo bar\n/>',
       errors: [
-        { messageId: 'singleLine', data: { prop: 'bar' } },
+        { messageId: 'singleLine', data: { prop: 'bar' }, line: 2, column: 3, endLine: 2, endColumn: 6 },
       ],
     },
     {
@@ -170,7 +170,7 @@ run<RuleOptions, MessageIds>({
         />
       `,
       errors: [
-        { messageId: 'newLine', data: { prop: 'bar' } },
+        { messageId: 'newLine', data: { prop: 'bar' }, line: 2, column: 7, endLine: 2, endColumn: 10 },
       ],
     },
   ],
