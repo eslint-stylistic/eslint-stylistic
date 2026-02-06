@@ -1,10 +1,6 @@
 import type { RuleContext, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import {
-  hasCommentsBetween,
-  isSingleLine,
-  isTokenOnSameLine,
-} from '#utils/ast'
+import { isSingleLine, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 function getPropName(context: RuleContext<MessageIds, RuleOptions>, propNode: Tree.JSXAttribute | Tree.JSXSpreadAttribute) {
@@ -23,10 +19,6 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Enforce consistent line break styles for JSX props',
     },
     fixable: 'code',
-    messages: {
-      newLine: 'Prop `{{prop}}` must be placed on a new line',
-      singleLine: 'Prop `{{prop}}` should not be placed on a new line',
-    },
     schema: [{
       type: 'object',
       additionalProperties: false,
@@ -53,15 +45,19 @@ export default createRule<RuleOptions, MessageIds>({
         },
       },
     }],
+    defaultOptions: [{
+      singleLine: {
+        maxItems: Number.POSITIVE_INFINITY,
+      },
+      multiLine: {
+        minItems: 0,
+      },
+    }],
+    messages: {
+      newLine: 'Prop `{{prop}}` must be placed on a new line',
+      singleLine: 'Prop `{{prop}}` should not be placed on a new line',
+    },
   },
-  defaultOptions: [{
-    singleLine: {
-      maxItems: Number.POSITIVE_INFINITY,
-    },
-    multiLine: {
-      minItems: 0,
-    },
-  }],
   create(context, [option]) {
     const { sourceCode } = context
     const {
@@ -105,7 +101,7 @@ export default createRule<RuleOptions, MessageIds>({
                   ? sourceCode.getTokenBefore(current)!
                   : sourceCode.getLastToken(prev)!
 
-                if (hasCommentsBetween(sourceCode, prevToken, sourceCode.getFirstToken(current)!))
+                if (sourceCode.commentsExistBetween(prevToken, sourceCode.getFirstToken(current)!))
                   return null
 
                 return fixer.replaceTextRange([prevToken.range[1], current.range[0]], '\n')
@@ -127,7 +123,7 @@ export default createRule<RuleOptions, MessageIds>({
                   ? sourceCode.getTokenBefore(current)!
                   : sourceCode.getLastToken(prev)!
 
-                if (hasCommentsBetween(sourceCode, prevToken, sourceCode.getFirstToken(current)!))
+                if (sourceCode.commentsExistBetween(prevToken, sourceCode.getFirstToken(current)!))
                   return null
 
                 return fixer.replaceTextRange([prevToken.range[1], current.range[0]], ' ')
