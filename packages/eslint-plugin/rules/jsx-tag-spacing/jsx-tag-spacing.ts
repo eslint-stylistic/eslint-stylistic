@@ -1,8 +1,3 @@
-/**
- * @fileoverview Validates whitespace in and around the JSX opening and closing brackets
- * @author Diogo Franco (Kovensky)
- */
-
 import type { RuleContext, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { getTokenBeforeClosingBracket, isSingleLine, isTokenOnSameLine } from '#utils/ast'
@@ -10,21 +5,6 @@ import { createRule } from '#utils/create-rule'
 
 type Option = Exclude<RuleOptions[0], undefined>
 type Context = RuleContext<MessageIds, RuleOptions>
-
-const messages = {
-  selfCloseSlashNoSpace: 'Whitespace is forbidden between `/` and `>`; write `/>`',
-  selfCloseSlashNeedSpace: 'Whitespace is required between `/` and `>`; write `/ >`',
-  closeSlashNoSpace: 'Whitespace is forbidden between `<` and `/`; write `</`',
-  closeSlashNeedSpace: 'Whitespace is required between `<` and `/`; write `< /`',
-  beforeSelfCloseNoSpace: 'A space is forbidden before closing bracket',
-  beforeSelfCloseNeedSpace: 'A space is required before closing bracket',
-  beforeSelfCloseNeedNewline: 'A newline is required before closing bracket',
-  afterOpenNoSpace: 'A space is forbidden after opening bracket',
-  afterOpenNeedSpace: 'A space is required after opening bracket',
-  beforeCloseNoSpace: 'A space is forbidden before closing bracket',
-  beforeCloseNeedSpace: 'Whitespace is required before closing bracket',
-  beforeCloseNeedNewline: 'A newline is required before closing bracket',
-}
 
 function validateClosingSlash(
   context: Context,
@@ -275,25 +255,14 @@ function validateBeforeClosing(
   }
 }
 
-const optionDefaults: Required<Option> = {
-  closingSlash: 'never',
-  beforeSelfClosing: 'always',
-  afterOpening: 'never',
-  beforeClosing: 'allow',
-}
-
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-tag-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce whitespace in and around the JSX opening and closing brackets',
     },
     fixable: 'whitespace',
-
-    messages,
-
     schema: [
       {
         type: 'object',
@@ -315,37 +284,62 @@ export default createRule<RuleOptions, MessageIds>({
             enum: ['always', 'proportional-always', 'never', 'allow'],
           },
         },
-        default: optionDefaults,
         additionalProperties: false,
       },
     ],
+    defaultOptions: [
+      {
+        closingSlash: 'never',
+        beforeSelfClosing: 'always',
+        afterOpening: 'never',
+        beforeClosing: 'allow',
+      },
+    ],
+    messages: {
+      selfCloseSlashNoSpace: 'Whitespace is forbidden between `/` and `>`; write `/>`',
+      selfCloseSlashNeedSpace: 'Whitespace is required between `/` and `>`; write `/ >`',
+      closeSlashNoSpace: 'Whitespace is forbidden between `<` and `/`; write `</`',
+      closeSlashNeedSpace: 'Whitespace is required between `<` and `/`; write `< /`',
+      beforeSelfCloseNoSpace: 'A space is forbidden before closing bracket',
+      beforeSelfCloseNeedSpace: 'A space is required before closing bracket',
+      beforeSelfCloseNeedNewline: 'A newline is required before closing bracket',
+      afterOpenNoSpace: 'A space is forbidden after opening bracket',
+      afterOpenNeedSpace: 'A space is required after opening bracket',
+      beforeCloseNoSpace: 'A space is forbidden before closing bracket',
+      beforeCloseNeedSpace: 'Whitespace is required before closing bracket',
+      beforeCloseNeedNewline: 'A newline is required before closing bracket',
+    },
   },
-  create(context) {
-    const options = Object.assign({}, optionDefaults, context.options[0])
-
+  create(context, [options]) {
+    const {
+      closingSlash,
+      beforeSelfClosing,
+      afterOpening,
+      beforeClosing,
+    } = options!
     return {
       JSXOpeningElement(node) {
-        if (options.closingSlash !== 'allow' && node.selfClosing)
-          validateClosingSlash(context, node, options.closingSlash)
+        if (closingSlash !== 'allow' && node.selfClosing)
+          validateClosingSlash(context, node, closingSlash)
 
-        if (options.afterOpening !== 'allow')
-          validateAfterOpening(context, node, options.afterOpening)
+        if (afterOpening !== 'allow')
+          validateAfterOpening(context, node, afterOpening)
 
-        if (options.beforeSelfClosing !== 'allow' && node.selfClosing)
-          validateBeforeSelfClosing(context, node, options.beforeSelfClosing)
+        if (beforeSelfClosing !== 'allow' && node.selfClosing)
+          validateBeforeSelfClosing(context, node, beforeSelfClosing)
 
-        if (options.beforeClosing !== 'allow')
-          validateBeforeClosing(context, node, options.beforeClosing)
+        if (beforeClosing !== 'allow')
+          validateBeforeClosing(context, node, beforeClosing)
       },
       JSXClosingElement(node) {
-        if (options.afterOpening !== 'allow')
-          validateAfterOpening(context, node, options.afterOpening)
+        if (afterOpening !== 'allow')
+          validateAfterOpening(context, node, afterOpening)
 
-        if (options.closingSlash !== 'allow')
-          validateClosingSlash(context, node, options.closingSlash)
+        if (closingSlash !== 'allow')
+          validateClosingSlash(context, node, closingSlash)
 
-        if (options.beforeClosing !== 'allow')
-          validateBeforeClosing(context, node, options.beforeClosing)
+        if (beforeClosing !== 'allow')
+          validateBeforeClosing(context, node, beforeClosing)
       },
     }
   },

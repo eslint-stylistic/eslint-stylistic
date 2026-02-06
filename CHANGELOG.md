@@ -1,5 +1,72 @@
 # Changelog
 
+## [5.7.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.7.0...v5.7.1) (2026-01-23)
+
+
+### Bug Fixes
+
+* add `meta` to plugin ([#1102](https://github.com/eslint-stylistic/eslint-stylistic/issues/1102)) ([f9d8a21](https://github.com/eslint-stylistic/eslint-stylistic/commit/f9d8a2143ae854924b58c8bac7c5f5c22a06b5c4))
+* **deps:** revert `eslint-visitor-keys` and `espree` to compatible versions ([#1111](https://github.com/eslint-stylistic/eslint-stylistic/issues/1111)) ([572f1ab](https://github.com/eslint-stylistic/eslint-stylistic/commit/572f1abf6382248e276f0ad2e3107f08a035436f))
+* **disable-legacy:** disable `multiline-comment-style` ([#1103](https://github.com/eslint-stylistic/eslint-stylistic/issues/1103)) ([03fc476](https://github.com/eslint-stylistic/eslint-stylistic/commit/03fc476d716e4aa41390b867f2f0fa0155a9bfec))
+* **no-whitespace-before-property:** detect whitespace in `TSIndexedAccessType` with parens ([#1099](https://github.com/eslint-stylistic/eslint-stylistic/issues/1099)) ([60aafcb](https://github.com/eslint-stylistic/eslint-stylistic/commit/60aafcbf47c086031522c4700ada4b2a313614ce))
+* upgrade deps ([#1112](https://github.com/eslint-stylistic/eslint-stylistic/issues/1112)) ([29a1d0a](https://github.com/eslint-stylistic/eslint-stylistic/commit/29a1d0a5aa0d0f248b515474a1c6583abcd5fe1b))
+
+
+### Documentation
+
+* **indent:** update deprecation tips ([#1109](https://github.com/eslint-stylistic/eslint-stylistic/issues/1109)) ([6a6d30b](https://github.com/eslint-stylistic/eslint-stylistic/commit/6a6d30b125e3bfd031c62ed058358cfcc0356fa5))
+
+
+### Chores
+
+* extract `safeReplaceTextBetween` to reuse common fix logic ([#1104](https://github.com/eslint-stylistic/eslint-stylistic/issues/1104)) ([a49451f](https://github.com/eslint-stylistic/eslint-stylistic/commit/a49451f8246d5efe670116beec741d993c53a682))
+* **jsx-rules:** cleanup `meta`, use `defaultOptions` ([#1108](https://github.com/eslint-stylistic/eslint-stylistic/issues/1108)) ([55bbd1d](https://github.com/eslint-stylistic/eslint-stylistic/commit/55bbd1d52f5d5b300bfd6032a17c4ada66629453))
+* **line-comment-position:** simplify options initialization ([#1106](https://github.com/eslint-stylistic/eslint-stylistic/issues/1106)) ([4d6b10a](https://github.com/eslint-stylistic/eslint-stylistic/commit/4d6b10ad6a29ec4443b66db3634f88e314df4f74))
+* use `defaultOptions` in rules ([#1105](https://github.com/eslint-stylistic/eslint-stylistic/issues/1105)) ([666e8ee](https://github.com/eslint-stylistic/eslint-stylistic/commit/666e8eea27f98ffeb836ede36ce81491a8c580e7))
+
+## [5.7.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.6.1...v5.7.0) (2026-01-09)
+
+
+### Features
+
+* **customize:** allow indent option as full rule options ([#1091](https://github.com/eslint-stylistic/eslint-stylistic/issues/1091)) ([ab50c71](https://github.com/eslint-stylistic/eslint-stylistic/commit/ab50c7170d855d2833c7381a0401ce4f1a7e4259))
+* deprecate `jsx-sort-props` in favor of `eslint-plugin-perfectionist` ([#1071](https://github.com/eslint-stylistic/eslint-stylistic/issues/1071)) ([622b888](https://github.com/eslint-stylistic/eslint-stylistic/commit/622b88885006cd1cd1e5ebfb1d665176505ada61))
+* **dot-location:** support `MetaProperty`, `TSQualifiedName`, `TSImportType`, `JSXMemberExpression` ([#1063](https://github.com/eslint-stylistic/eslint-stylistic/issues/1063)) ([c296e42](https://github.com/eslint-stylistic/eslint-stylistic/commit/c296e42fc8ae8c2b48379aa7f06ee092aa7bc7f3))
+* **eol-last:** improve to make language-agnostic ([#1051](https://github.com/eslint-stylistic/eslint-stylistic/issues/1051)) ([9152494](https://github.com/eslint-stylistic/eslint-stylistic/commit/9152494b67f71e0278231fdf1eeb08445b0d64d2))
+* **linebreak-style:** improve to make language-agnostic ([#1050](https://github.com/eslint-stylistic/eslint-stylistic/issues/1050)) ([132926d](https://github.com/eslint-stylistic/eslint-stylistic/commit/132926d6bb7e5e195d7ae9f7e9d8c2c3a3a543a1))
+* **type-annotation-spacing:** allow ignore check `arrow` ([#1080](https://github.com/eslint-stylistic/eslint-stylistic/issues/1080)) ([1aaf61f](https://github.com/eslint-stylistic/eslint-stylistic/commit/1aaf61f39fc2bb036c75ee3460e73a870f738633))
+* update deps, support @typescript-eslint/parser &gt;=8.48.0  ([#1095](https://github.com/eslint-stylistic/eslint-stylistic/issues/1095)) ([172ef89](https://github.com/eslint-stylistic/eslint-stylistic/commit/172ef89d6b19c0fdf974a041a67d5b9f24f7c827))
+
+
+### Bug Fixes
+
+* **list-style:** replace text range with delimiter directly ([#1062](https://github.com/eslint-stylistic/eslint-stylistic/issues/1062)) ([c2ac348](https://github.com/eslint-stylistic/eslint-stylistic/commit/c2ac3483e9baf10187e71756931f19b2f2b50a51))
+* **object-curly-spacing:** allow space before comment in multi-line objects ([#1076](https://github.com/eslint-stylistic/eslint-stylistic/issues/1076)) ([d73c03e](https://github.com/eslint-stylistic/eslint-stylistic/commit/d73c03e970b50980b02a754596e352fd86cedaaf))
+
+
+### Documentation
+
+* fix command to run docs ([#1058](https://github.com/eslint-stylistic/eslint-stylistic/issues/1058)) ([f597441](https://github.com/eslint-stylistic/eslint-stylistic/commit/f5974417fa5e2f00c661e443f510dbe72cdd4777))
+
+
+### Build Related
+
+* **deps:** bump actions/checkout from 5 to 6 ([#1061](https://github.com/eslint-stylistic/eslint-stylistic/issues/1061)) ([767efe4](https://github.com/eslint-stylistic/eslint-stylistic/commit/767efe49154ac91bce0c8556d735eed266988d57))
+* **deps:** bump actions/download-artifact from 6 to 7 ([#1067](https://github.com/eslint-stylistic/eslint-stylistic/issues/1067)) ([272e75d](https://github.com/eslint-stylistic/eslint-stylistic/commit/272e75d7caf535504cd9e8a0e2c16bb9d17117dc))
+* **deps:** bump actions/upload-artifact from 5 to 6 ([#1068](https://github.com/eslint-stylistic/eslint-stylistic/issues/1068)) ([50239e3](https://github.com/eslint-stylistic/eslint-stylistic/commit/50239e30603d030b6ef4bec3acdd66f2b73bee8d))
+
+
+### Chores
+
+* **docs:** extract local vite plugins from `vite.config.ts` ([#1081](https://github.com/eslint-stylistic/eslint-stylistic/issues/1081)) ([79e6c6b](https://github.com/eslint-stylistic/eslint-stylistic/commit/79e6c6b8289869ecaf4bfa189eefa6879620fa5a))
+* **indent:** simplify handling of `TSConditionalType` ([#1075](https://github.com/eslint-stylistic/eslint-stylistic/issues/1075)) ([233c967](https://github.com/eslint-stylistic/eslint-stylistic/commit/233c9678b312f3e816984a2ddfe34c7e376ec553))
+* **indent:** simplify handling of `TSMappedType` ([#1073](https://github.com/eslint-stylistic/eslint-stylistic/issues/1073)) ([30b6bb3](https://github.com/eslint-stylistic/eslint-stylistic/commit/30b6bb35e54c7db315305a9cc4c30a4722d03ad5))
+* **member-delimiter-style:** use auto-generated types ([#1089](https://github.com/eslint-stylistic/eslint-stylistic/issues/1089)) ([580164b](https://github.com/eslint-stylistic/eslint-stylistic/commit/580164b91190b19ecbe643ffdaca5431e37bec9d))
+* **padding-line-between-statements:** use auto-generated types ([#1090](https://github.com/eslint-stylistic/eslint-stylistic/issues/1090)) ([a80aefb](https://github.com/eslint-stylistic/eslint-stylistic/commit/a80aefb09ff022f8ff2134720c82a3d0d1ff236e))
+* replace `hasCommentsBetween` with `sourceCode.commentsExistBetween` ([#1094](https://github.com/eslint-stylistic/eslint-stylistic/issues/1094)) ([77e1370](https://github.com/eslint-stylistic/eslint-stylistic/commit/77e1370147573afcd5958c5fe921ce2b0ffc21bf))
+* **test-utils:** replace language conditionals with a config object ([#1064](https://github.com/eslint-stylistic/eslint-stylistic/issues/1064)) ([e78a122](https://github.com/eslint-stylistic/eslint-stylistic/commit/e78a122232e6b1a52d8fff550dfbe8793dd8c6c8))
+* **utils:** simplify type guards, cleanup typings & docs ([#1086](https://github.com/eslint-stylistic/eslint-stylistic/issues/1086)) ([843428e](https://github.com/eslint-stylistic/eslint-stylistic/commit/843428ebf94dbe2013d93032271064fb8a5660de))
+
 ## [5.6.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.6.0...v5.6.1) (2025-11-19)
 
 

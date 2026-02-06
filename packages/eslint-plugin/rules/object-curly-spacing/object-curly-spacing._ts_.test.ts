@@ -367,6 +367,10 @@ run<RuleOptions, MessageIds>({
       options: ['never', { emptyObjects: 'always' }],
     },
     {
+      code: 'interface x { /* comment */ \n foo: string \n}',
+      options: ['never', { emptyObjects: 'never' }],
+    },
+    {
       code: 'import {} from "package.json" with {}',
       options: ['never', { emptyObjects: 'never' }],
     },

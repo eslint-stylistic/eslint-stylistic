@@ -102,7 +102,7 @@ export class FixTracker {
    * @param nodeOrToken The node or token to remove.
    * @returns The fix command.
    */
-  remove(nodeOrToken: ASTNode | ESToken | Token | ASTNode) {
+  remove(nodeOrToken: ASTNode | ESToken | Token) {
     return this.replaceTextRange(nodeOrToken.range, '')
   }
 }

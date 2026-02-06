@@ -26,11 +26,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'wrap-iife',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require parentheses around immediate `function` invocations',
     },
-
+    fixable: 'code',
     schema: [
       {
         type: 'string',
@@ -41,24 +40,20 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           functionPrototypeMethods: {
             type: 'boolean',
-            default: false,
           },
         },
         additionalProperties: false,
       },
     ],
-
-    fixable: 'code',
+    defaultOptions: ['outside', { functionPrototypeMethods: false }],
     messages: {
       wrapInvocation: 'Wrap an immediate function invocation in parentheses.',
       wrapExpression: 'Wrap only the function expression in parens.',
       moveInvocation: 'Move the invocation into the parens that contain the function.',
     },
   },
-
-  create(context) {
-    const style = context.options[0] || 'outside'
-    const includeFunctionPrototypeMethods = context.options[1] && context.options[1].functionPrototypeMethods
+  create(context, [style, options]) {
+    const includeFunctionPrototypeMethods = options!.functionPrototypeMethods
 
     const sourceCode = context.sourceCode
 

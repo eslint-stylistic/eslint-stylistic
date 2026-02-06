@@ -2,9 +2,9 @@ import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
   AST_NODE_TYPES,
-  AST_TOKEN_TYPES,
   isClosingBraceToken,
   isClosingBracketToken,
+  isCommentToken,
   isOpeningBraceToken,
   isTokenOnSameLine,
 } from '#utils/ast'
@@ -58,6 +58,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: ['never'],
     messages: {
       requireSpaceBefore: 'A space is required before \'{{token}}\'.',
       requireSpaceAfter: 'A space is required after \'{{token}}\'.',
@@ -67,9 +68,7 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedSpaceInEmptyObject: 'There should be no space in empty \'{{node}}\'.',
     },
   },
-  defaultOptions: ['never'],
-  create(context) {
-    const [firstOption, secondOption] = context.options
+  create(context, [firstOption, secondOption]) {
     const spaced = firstOption === 'always'
     const sourceCode = context.sourceCode
 
@@ -225,7 +224,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (
           !openingCurlyBraceMustBeSpaced
           && firstSpaced
-          && tokenAfterOpening.type !== AST_TOKEN_TYPES.Line
+          && !(isCommentToken(tokenAfterOpening) && !isTokenOnSameLine(openingToken, closingToken))
         ) {
           reportNoBeginningSpace(node, openingToken)
         }

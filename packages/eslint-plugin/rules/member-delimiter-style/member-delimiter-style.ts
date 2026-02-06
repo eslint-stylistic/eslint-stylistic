@@ -1,36 +1,14 @@
 import type { JSONSchema, ReportFixFunction, Token, Tree } from '#types'
+import type { DelimiterConfig, MessageIds, MultiLineOption, RuleOptions, SingleLineOption } from './types'
 import { AST_NODE_TYPES, isSingleLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { deepMerge } from '#utils/merge'
 
-type Delimiter = 'comma' | 'none' | 'semi'
-// need type's implicit index sig for deepMerge
-// eslint-disable-next-line ts/consistent-type-definitions
-type TypeOptions = {
-  delimiter?: Delimiter
-  requireLast?: boolean
-}
-type TypeOptionsWithType = TypeOptions & {
+type Delimiter = MultiLineOption | SingleLineOption
+
+type TypeOptionsWithType = (DelimiterConfig['multiline'] | DelimiterConfig['singleline']) & {
   type: string
 }
-// eslint-disable-next-line ts/consistent-type-definitions
-type BaseOptions = {
-  multiline?: TypeOptions
-  singleline?: TypeOptions
-}
-type Config = BaseOptions & {
-  overrides?: {
-    typeLiteral?: BaseOptions
-    interface?: BaseOptions
-  }
-  multilineDetection?: 'brackets' | 'last-member'
-}
-type Options = [Config]
-type MessageIds
-  = | 'expectedComma'
-    | 'expectedSemi'
-    | 'unexpectedComma'
-    | 'unexpectedSemi'
 
 interface MakeFixFunctionParams {
   optsNone: boolean
@@ -120,7 +98,7 @@ const BASE_SCHEMA: JSONSchema.JSONSchema4 = {
   additionalProperties: false,
 }
 
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'member-delimiter-style',
   meta: {
     type: 'layout',
@@ -129,12 +107,6 @@ export default createRule<Options, MessageIds>({
         'Require a specific member delimiter style for interfaces and type literals',
     },
     fixable: 'whitespace',
-    messages: {
-      unexpectedComma: 'Unexpected separator (,).',
-      unexpectedSemi: 'Unexpected separator (;).',
-      expectedComma: 'Expected a comma.',
-      expectedSemi: 'Expected a semicolon.',
-    },
     schema: [
       {
         $defs: {
@@ -173,31 +145,37 @@ export default createRule<Options, MessageIds>({
         additionalProperties: false,
       },
     ],
-  },
-  defaultOptions: [
-    {
-      multiline: {
-        delimiter: 'semi',
-        requireLast: true,
+    defaultOptions: [
+      {
+        multiline: {
+          delimiter: 'semi',
+          requireLast: true,
+        },
+        singleline: {
+          delimiter: 'semi',
+          requireLast: false,
+        },
+        multilineDetection: 'brackets',
       },
-      singleline: {
-        delimiter: 'semi',
-        requireLast: false,
-      },
-      multilineDetection: 'brackets',
+    ],
+    messages: {
+      unexpectedComma: 'Unexpected separator (,).',
+      unexpectedSemi: 'Unexpected separator (;).',
+      expectedComma: 'Expected a comma.',
+      expectedSemi: 'Expected a semicolon.',
     },
-  ],
+  },
   create(context, [options]) {
     const sourceCode = context.sourceCode
 
     // use the base options as the defaults for the cases
-    const baseOptions = options
+    const baseOptions = options!
     const overrides = baseOptions.overrides ?? {}
-    const interfaceOptions: BaseOptions = deepMerge(
+    const interfaceOptions: DelimiterConfig = deepMerge(
       baseOptions,
       overrides.interface,
     )
-    const typeLiteralOptions: BaseOptions = deepMerge(
+    const typeLiteralOptions: DelimiterConfig = deepMerge(
       baseOptions,
       overrides.typeLiteral,
     )
@@ -312,7 +290,7 @@ export default createRule<Options, MessageIds>({
 
       let _isSingleLine = isSingleLine(node)
       if (
-        options.multilineDetection === 'last-member'
+        options!.multilineDetection === 'last-member'
         && !_isSingleLine
         && members.length > 0
       ) {

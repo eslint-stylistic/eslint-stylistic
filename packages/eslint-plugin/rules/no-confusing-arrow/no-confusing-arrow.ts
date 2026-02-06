@@ -22,31 +22,36 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'no-confusing-arrow',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow arrow functions where they could be confused with comparisons',
     },
-
     fixable: 'code',
-
     schema: [{
       type: 'object',
       properties: {
-        allowParens: { type: 'boolean', default: true },
-        onlyOneSimpleParam: { type: 'boolean', default: false },
+        allowParens: {
+          type: 'boolean',
+        },
+        onlyOneSimpleParam: {
+          type: 'boolean',
+        },
       },
       additionalProperties: false,
     }],
-
+    defaultOptions: [{
+      allowParens: true,
+      onlyOneSimpleParam: false,
+    }],
     messages: {
       confusing: 'Arrow function used ambiguously with a conditional expression.',
     },
   },
+  create(context, [options]) {
+    const {
+      allowParens,
+      onlyOneSimpleParam,
+    } = options!
 
-  create(context) {
-    const config = context.options[0] || {}
-    const allowParens = config.allowParens || (config.allowParens === void 0)
-    const onlyOneSimpleParam = config.onlyOneSimpleParam
     const sourceCode = context.sourceCode
 
     /**

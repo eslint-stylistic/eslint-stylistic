@@ -1,11 +1,6 @@
-/**
- * @fileoverview Validate JSX indentation
- * @author Yannick Croissant
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import { invalids, skipDueToMultiErrorSorting, valids } from '#test/parsers-jsx'
+import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-indent'
 
 run<RuleOptions, MessageIds>({
@@ -2746,7 +2741,7 @@ const Component = () => (
         },
       ],
     },
-    skipDueToMultiErrorSorting ? [] : {
+    {
       code: `
         <div>
           text
@@ -2780,7 +2775,7 @@ const Component = () => (
         },
       ],
     },
-    skipDueToMultiErrorSorting ? [] : {
+    {
       code: `
         <div>
         \t  text
@@ -2814,7 +2809,7 @@ const Component = () => (
         },
       ],
     },
-    skipDueToMultiErrorSorting ? [] : {
+    {
       code: `
         <div>
         \t  text

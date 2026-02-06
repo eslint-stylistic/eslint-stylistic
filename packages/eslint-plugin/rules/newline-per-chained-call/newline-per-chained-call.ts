@@ -13,13 +13,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'newline-per-chained-call',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require a newline after each call in a method chain',
     },
-
     fixable: 'whitespace',
-
     schema: [{
       type: 'object',
       properties: {
@@ -27,19 +24,19 @@ export default createRule<RuleOptions, MessageIds>({
           type: 'integer',
           minimum: 1,
           maximum: 10,
-          default: 2,
         },
       },
       additionalProperties: false,
     }],
+    defaultOptions: [{ ignoreChainWithDepth: 2 }],
     messages: {
       expected: 'Expected line break before `{{callee}}`.',
     },
   },
-
-  create(context) {
-    const options = context.options[0] || {}
-    const ignoreChainWithDepth = options.ignoreChainWithDepth || 2
+  create(context, [options]) {
+    const {
+      ignoreChainWithDepth,
+    } = options!
 
     const sourceCode = context.sourceCode
 
@@ -95,7 +92,7 @@ export default createRule<RuleOptions, MessageIds>({
           parent = skipChainExpression(parentCallee.object)
         }
 
-        if (depth > ignoreChainWithDepth && isTokenOnSameLine(callee.object, callee.property)) {
+        if (depth > ignoreChainWithDepth! && isTokenOnSameLine(callee.object, callee.property)) {
           const firstTokenAfterObject = sourceCode.getTokenAfter(callee.object, isNotClosingParenToken)!
 
           context.report({

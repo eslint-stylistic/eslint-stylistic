@@ -1,4 +1,5 @@
 import type { ASTNode, ESTree, RuleContext, SourceCode, Token } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 import {
   AST_NODE_TYPES,
   isClosingBraceToken,
@@ -39,15 +40,6 @@ type NodeTest = (
 interface NodeTestObject {
   test: NodeTest
 }
-
-interface PaddingOption {
-  blankLine: keyof typeof PaddingTypes
-  prev: string[] | string
-  next: string[] | string
-}
-
-type MessageIds = 'expectedBlankLine' | 'unexpectedBlankLine'
-type Options = PaddingOption[]
 
 const LT = `[${Array.from(LINEBREAKS).join('')}]`
 const PADDING_LINE_SEQUENCE = new RegExp(
@@ -355,7 +347,7 @@ function verifyForAny(): void {
  * @private
  */
 function verifyForNever(
-  context: RuleContext<MessageIds, Options>,
+  context: RuleContext<MessageIds, RuleOptions>,
   _: ASTNode,
   nextNode: ASTNode,
   paddingLines: [Token, Token][],
@@ -400,7 +392,7 @@ function verifyForNever(
  * @private
  */
 function verifyForAlways(
-  context: RuleContext<MessageIds, Options>,
+  context: RuleContext<MessageIds, RuleOptions>,
   prevNode: ASTNode,
   nextNode: ASTNode,
   paddingLines: [Token, Token][],
@@ -579,7 +571,7 @@ const StatementTypes: Record<string, NodeTestObject> = {
   ),
 }
 
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'padding-line-between-statements',
   meta: {
     type: 'layout',
@@ -625,16 +617,16 @@ export default createRule<Options, MessageIds>({
         required: ['blankLine', 'prev', 'next'],
       },
     },
+    defaultOptions: [],
     messages: {
       unexpectedBlankLine: 'Unexpected blank line before this statement.',
       expectedBlankLine: 'Expected blank line before this statement.',
     },
   },
-  defaultOptions: [],
-  create(context) {
+  create(context, options) {
     const sourceCode = context.sourceCode
 
-    const configureList = context.options || []
+    const configureList = options
 
     type Scope = {
       upper: Scope

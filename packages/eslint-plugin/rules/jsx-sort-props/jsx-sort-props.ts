@@ -1,8 +1,3 @@
-/**
- * @fileoverview Enforce props alphabetical sorting
- * @author Ilya Volodin, Yannick Croissant
- */
-
 import type { ASTNode, RuleContext, RuleFixer, Token, Tree } from '#types'
 import type { JsxSortPropsRuleOptions, MessageIds, RuleOptions } from './types'
 import { isSingleLine } from '#utils/ast'
@@ -15,18 +10,6 @@ type JsxCompareOptions = Required<JsxSortPropsRuleOptions[0]> & {
 
 function isCallbackPropName(name: string) {
   return /^on[A-Z]/.test(name)
-}
-
-const messages = {
-  listIsEmpty: 'A customized reserved first list must not be empty',
-  listReservedPropsFirst: 'Reserved props must be listed before all other props',
-  listReservedPropsLast: 'Reserved props must be listed after all other props',
-  listCallbacksLast: 'Callbacks must be listed after all other props',
-  listShorthandFirst: 'Shorthand props must be listed before all other props',
-  listShorthandLast: 'Shorthand props must be listed after all other props',
-  listMultilineFirst: 'Multiline props must be listed before all other props',
-  listMultilineLast: 'Multiline props must be listed after all other props',
-  sortPropsByAlpha: 'Props should be sorted alphabetically',
 }
 
 const RESERVED_PROPS_LIST = [
@@ -345,14 +328,26 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-sort-props',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce props alphabetical sorting',
     },
     fixable: 'code',
-
-    messages,
-
+    deprecated: {
+      message: 'We recommend using the `eslint-plugin-perfectionist` plugin instead.',
+      deprecatedSince: '5.7.0',
+      replacedBy: [
+        {
+          plugin: {
+            name: 'eslint-plugin-perfectionist',
+            url: 'https://perfectionist.dev',
+          },
+          rule: {
+            name: 'sort-jsx-props',
+            url: 'https://perfectionist.dev/rules/sort-jsx-props',
+          },
+        },
+      ],
+    },
     schema: [{
       type: 'object',
       properties: {
@@ -373,7 +368,6 @@ export default createRule<RuleOptions, MessageIds>({
         multiline: {
           type: 'string',
           enum: ['ignore', 'first', 'last'],
-          default: 'ignore',
         },
         ignoreCase: {
           type: 'boolean',
@@ -403,26 +397,47 @@ export default createRule<RuleOptions, MessageIds>({
         },
         locale: {
           type: 'string',
-          default: 'auto',
         },
       },
       additionalProperties: false,
     }],
+    defaultOptions: [{
+      ignoreCase: false,
+      callbacksLast: false,
+      shorthandFirst: false,
+      shorthandLast: false,
+      multiline: 'ignore',
+      noSortAlphabetically: false,
+      reservedFirst: false,
+      reservedLast: [],
+      locale: 'auto',
+    }],
+    messages: {
+      listIsEmpty: 'A customized reserved first list must not be empty',
+      listReservedPropsFirst: 'Reserved props must be listed before all other props',
+      listReservedPropsLast: 'Reserved props must be listed after all other props',
+      listCallbacksLast: 'Callbacks must be listed after all other props',
+      listShorthandFirst: 'Shorthand props must be listed before all other props',
+      listShorthandLast: 'Shorthand props must be listed after all other props',
+      listMultilineFirst: 'Multiline props must be listed before all other props',
+      listMultilineLast: 'Multiline props must be listed after all other props',
+      sortPropsByAlpha: 'Props should be sorted alphabetically',
+    },
   },
-
-  create(context) {
-    const configuration = context.options[0] || {}
-    const ignoreCase = configuration.ignoreCase || false
-    const callbacksLast = configuration.callbacksLast || false
-    const shorthandFirst = configuration.shorthandFirst || false
-    const shorthandLast = configuration.shorthandLast || false
-    const multiline = configuration.multiline || 'ignore'
-    const noSortAlphabetically = configuration.noSortAlphabetically || false
-    const reservedFirst = configuration.reservedFirst || false
-    const reservedFirstError = validateReservedFirstConfig(context, reservedFirst)
+  create(context, [options]) {
+    const {
+      ignoreCase,
+      callbacksLast,
+      shorthandFirst,
+      shorthandLast,
+      multiline,
+      noSortAlphabetically,
+      reservedFirst,
+      reservedLast,
+      locale,
+    } = options!
+    const reservedFirstError = validateReservedFirstConfig(context, reservedFirst!)
     const reservedList = Array.isArray(reservedFirst) ? reservedFirst : RESERVED_PROPS_LIST
-    const reservedLastList = configuration.reservedLast || []
-    const locale = configuration.locale || 'auto'
 
     return {
       Program() {
@@ -482,9 +497,9 @@ export default createRule<RuleOptions, MessageIds>({
             }
           }
 
-          if (reservedLastList.length > 0) {
-            const previousReservedIndex = getReservedPropIndex(previousPropName, reservedLastList)
-            const currentReservedIndex = getReservedPropIndex(currentPropName, reservedLastList)
+          if (reservedLast!.length > 0) {
+            const previousReservedIndex = getReservedPropIndex(previousPropName, reservedLast!)
+            const currentReservedIndex = getReservedPropIndex(currentPropName, reservedLast!)
 
             if (previousReservedIndex === -1 && currentReservedIndex > -1)
               return decl

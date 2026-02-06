@@ -58,6 +58,7 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Require or disallow trailing commas',
     },
+    fixable: 'code',
     schema: {
       $defs: {
         value: {
@@ -97,13 +98,12 @@ export default createRule<RuleOptions, MessageIds>({
       ],
       additionalItems: false,
     },
-    fixable: 'code',
+    defaultOptions: ['never'],
     messages: {
       unexpected: 'Unexpected trailing comma.',
       missing: 'Missing trailing comma.',
     },
   },
-  defaultOptions: ['never'],
   create(context, [options]) {
     function normalizeOptions(options: Option = {}, ecmaVersion: EcmaVersion | 'latest' | undefined): NormalizedOptions {
       const DEFAULT_OPTION_VALUE = 'never'
