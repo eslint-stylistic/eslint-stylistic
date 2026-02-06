@@ -285,7 +285,7 @@ export interface RuleOptions {
    */
   '@stylistic/jsx-props-no-multi-spaces': JsxPropsNoMultiSpacesRuleOptions
   /**
-   * Enforce consistent line break style in JSXOpeningElement
+   * Enforce consistent line break styles for JSX props
    * @see https://eslint.style/rules/jsx-props-style
    */
   '@stylistic/exp-jsx-props-style': JsxPropsStyleRuleOptions
@@ -773,7 +773,7 @@ export interface UnprefixedRuleOptions {
    */
   'jsx-props-no-multi-spaces': JsxPropsNoMultiSpacesRuleOptions
   /**
-   * Enforce consistent line break style in JSXOpeningElement
+   * Enforce consistent line break styles for JSX props
    * @see https://eslint.style/rules/jsx-props-style
    */
   'exp-jsx-props-style': JsxPropsStyleRuleOptions

@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: ZuKtrWzY0rHObwAc3j9Pf1xaEgwdQUi8nShlvKhb4MU */
+/* @checksum: gfpx2zI2cPGrLHVAOmW_AqSJS93giy8rYAJMZqpjQiE */
 
 export interface JsxPropsStyleSchema0 {
   singleLine?: {
@@ -16,4 +16,4 @@ export type JsxPropsStyleRuleOptions = [
 ]
 
 export type RuleOptions = JsxPropsStyleRuleOptions
-export type MessageIds = 'newLine'
+export type MessageIds = 'newLine' | 'singleLine'

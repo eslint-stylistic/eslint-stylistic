@@ -533,7 +533,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce consistent line break style in JSXOpeningElement",
+            "description": "Enforce consistent line break styles for JSX props",
             "experimental": true,
             "recommended": false
           }
