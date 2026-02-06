@@ -52,8 +52,8 @@ export default createRule<RuleOptions, MessageIds>({
     }],
     // #endregion defaultOptions
     messages: {
-      newLine: 'Prop `{{prop}}` must be placed on a new line',
-      singleLine: 'Prop `{{prop}}` should not be placed on a new line',
+      shouldWrap: 'Prop `{{prop}}` must be placed on a new line',
+      shouldNotWrap: 'Prop `{{prop}}` should not be placed on a new line',
     },
   },
   create(context, [option]) {
@@ -85,7 +85,7 @@ export default createRule<RuleOptions, MessageIds>({
 
             context.report({
               node: current,
-              messageId: 'newLine',
+              messageId: 'shouldWrap',
               data: {
                 prop: getPropName(sourceCode, current),
               },
@@ -107,7 +107,7 @@ export default createRule<RuleOptions, MessageIds>({
 
             context.report({
               node: current,
-              messageId: 'singleLine',
+              messageId: 'shouldNotWrap',
               data: {
                 prop: getPropName(sourceCode, current),
               },

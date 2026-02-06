@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: gfpx2zI2cPGrLHVAOmW_AqSJS93giy8rYAJMZqpjQiE */
+/* @checksum: GbuK8_AfOAMlNmATLpCruLrniXcgB9wxe8m3-UoWeKw */
 
 export interface JsxPropsStyleSchema0 {
   singleLine?: {
@@ -16,4 +16,4 @@ export type JsxPropsStyleRuleOptions = [
 ]
 
 export type RuleOptions = JsxPropsStyleRuleOptions
-export type MessageIds = 'newLine' | 'singleLine'
+export type MessageIds = 'shouldWrap' | 'shouldNotWrap'
