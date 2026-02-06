@@ -69,23 +69,18 @@ export default createRule<RuleOptions, MessageIds>({
         if (!attrs.length)
           return
 
-        const isSingleLineTag = isSingleLine(node)
-
-        const needWrap = isSingleLineTag
+        const needWrap = isSingleLine(node)
           ? attrs.length > singleLine!.maxItems!
           : attrs.length >= multiLine!.minItems! && node.loc.start.line !== attrs[0].loc.start.line
 
         for (let i = 0; i < attrs.length; i++) {
           const current = attrs[i]
           const prev = i === 0
-            ? (node.typeArguments || node.name)
+            ? (node.typeArguments ?? node.name)
             : attrs[i - 1]
 
           if (isTokenOnSameLine(prev, current)) {
             if (!needWrap)
-              continue
-
-            if (i === 0 && prev.loc.end.line === current.loc.start.line && !needWrap)
               continue
 
             context.report({

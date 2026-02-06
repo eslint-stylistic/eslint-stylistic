@@ -173,5 +173,36 @@ run<RuleOptions, MessageIds>({
         { messageId: 'newLine', data: { prop: 'bar' }, line: 2, column: 7, endLine: 2, endColumn: 10 },
       ],
     },
+    {
+      description: 'should not fix newLine when comments exist between props',
+      code: '<App foo /* comment */ bar />',
+      output: '<App\nfoo /* comment */ bar />',
+      options: [{ singleLine: { maxItems: 1 } }],
+      errors: [
+        { messageId: 'newLine', data: { prop: 'foo' } },
+        { messageId: 'newLine', data: { prop: 'bar' } },
+      ],
+    },
+    {
+      description: 'should not fix singleLine when comments exist between props',
+      code: $`
+        <App
+          foo
+          /* comment */
+          bar
+        />
+      `,
+      output: $`
+        <App foo
+          /* comment */
+          bar
+        />
+      `,
+      options: [{ multiLine: { minItems: 3 } }],
+      errors: [
+        { messageId: 'singleLine', data: { prop: 'foo' } },
+        { messageId: 'singleLine', data: { prop: 'bar' } },
+      ],
+    },
   ],
 })
