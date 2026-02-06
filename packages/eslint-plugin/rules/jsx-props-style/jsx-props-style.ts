@@ -1,14 +1,10 @@
-import type { RuleContext, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isSingleLine, isTokenOnSameLine } from '#utils/ast'
+import {
+  isSingleLine,
+  isTokenOnSameLine,
+} from '#utils/ast'
+import { getPropName } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
-
-function getPropName(context: RuleContext<MessageIds, RuleOptions>, propNode: Tree.JSXAttribute | Tree.JSXSpreadAttribute) {
-  if (propNode.type === 'JSXSpreadAttribute')
-    return `{...${context.sourceCode.getText(propNode.argument)}}`
-
-  return String(propNode.name.name)
-}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-props-style',
@@ -94,7 +90,7 @@ export default createRule<RuleOptions, MessageIds>({
               node: current,
               messageId: 'newLine',
               data: {
-                prop: getPropName(context, current),
+                prop: getPropName(sourceCode, current),
               },
               fix(fixer) {
                 const prevToken = i === 0
@@ -116,7 +112,7 @@ export default createRule<RuleOptions, MessageIds>({
               node: current,
               messageId: 'singleLine',
               data: {
-                prop: getPropName(context, current),
+                prop: getPropName(sourceCode, current),
               },
               fix(fixer) {
                 const prevToken = i === 0

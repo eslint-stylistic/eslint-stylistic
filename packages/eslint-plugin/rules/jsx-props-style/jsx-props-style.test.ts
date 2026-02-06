@@ -97,7 +97,7 @@ run<RuleOptions, MessageIds>({
       options: [{ singleLine: { maxItems: 1 } }],
       errors: [
         { messageId: 'newLine', data: { prop: 'foo' } },
-        { messageId: 'newLine', data: { prop: '{...props}' } },
+        { messageId: 'newLine', data: { prop: 'props' } },
         { messageId: 'newLine', data: { prop: 'bar' } },
       ],
     },
