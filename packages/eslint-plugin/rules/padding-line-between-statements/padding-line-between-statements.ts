@@ -549,6 +549,26 @@ const StatementTypes: Record<string, NodeTestObject> = {
     'interface',
   ),
   'function-overload': newNodeTypeTester(AST_NODE_TYPES.TSDeclareFunction),
+
+  'declare': {
+    test: (node, sourceCode): boolean => {
+      // Check if the first token is 'declare'
+      const firstToken = sourceCode.getFirstToken(node)
+      if (firstToken?.value !== 'declare')
+        return false
+
+      // Check if the node is a type that can have declare modifier
+      return [
+        AST_NODE_TYPES.TSDeclareFunction,
+        AST_NODE_TYPES.TSModuleDeclaration,
+        AST_NODE_TYPES.TSEnumDeclaration,
+        AST_NODE_TYPES.ClassDeclaration,
+        AST_NODE_TYPES.VariableDeclaration,
+        AST_NODE_TYPES.TSTypeAliasDeclaration,
+        AST_NODE_TYPES.TSInterfaceDeclaration,
+      ].includes(node.type)
+    },
+  },
   ...Object.fromEntries(
     Object.entries(MaybeMultilineStatementType)
       .flatMap(([key, value]) => [
