@@ -77,6 +77,25 @@ run<RuleOptions, MessageIds>({
         bar
       />
     `,
+    {
+      description: 'multiline with maxItemsPerLine=2',
+      code: $`
+        <App
+          foo bar
+          baz qux
+        />
+      `,
+      options: [{ multiLine: { maxItemsPerLine: 2 } }],
+    },
+    {
+      description: 'multiline with maxItemsPerLine=3',
+      code: $`
+        <App
+          foo bar baz
+        />
+      `,
+      options: [{ multiLine: { maxItemsPerLine: 3 } }],
+    },
   ],
 
   invalid: [
@@ -202,6 +221,42 @@ run<RuleOptions, MessageIds>({
       errors: [
         { messageId: 'shouldNotWrap', data: { prop: 'foo' } },
         { messageId: 'shouldNotWrap', data: { prop: 'bar' } },
+      ],
+    },
+    {
+      description: 'multiline with maxItemsPerLine=2 exceeds limit',
+      code: $`
+        <App
+          foo bar baz
+        />
+      `,
+      output: $`
+        <App
+          foo bar
+        baz
+        />
+      `,
+      options: [{ multiLine: { maxItemsPerLine: 2 } }],
+      errors: [
+        { messageId: 'shouldWrap', data: { prop: 'baz' } },
+      ],
+    },
+    {
+      description: 'multiline with maxItemsPerLine=2 multiple lines exceed',
+      code: $`
+        <App
+          a b c d
+        />
+      `,
+      output: $`
+        <App
+          a b
+        c d
+        />
+      `,
+      options: [{ multiLine: { maxItemsPerLine: 2 } }],
+      errors: [
+        { messageId: 'shouldWrap', data: { prop: 'c' } },
       ],
     },
   ],

@@ -1,3 +1,4 @@
+import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
   isSingleLine,
@@ -5,6 +6,8 @@ import {
 } from '#utils/ast'
 import { getPropName } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
+
+type JsxProp = Tree.JSXAttribute | Tree.JSXSpreadAttribute
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-props-style',
@@ -37,6 +40,10 @@ export default createRule<RuleOptions, MessageIds>({
               type: 'integer',
               minimum: 0,
             },
+            maxItemsPerLine: {
+              type: 'integer',
+              minimum: 1,
+            },
           },
         },
       },
@@ -48,6 +55,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       multiLine: {
         minItems: 0,
+        maxItemsPerLine: 1,
       },
     }],
     // #endregion defaultOptions
@@ -63,6 +71,46 @@ export default createRule<RuleOptions, MessageIds>({
       multiLine,
     } = option!
 
+    function reportShouldWrap(node: JsxProp, prev: ASTNode, i: number) {
+      context.report({
+        node,
+        messageId: 'shouldWrap',
+        data: {
+          prop: getPropName(sourceCode, node),
+        },
+        fix(fixer) {
+          const prevToken = i === 0
+            ? sourceCode.getTokenBefore(node)!
+            : sourceCode.getLastToken(prev)!
+
+          if (sourceCode.commentsExistBetween(prevToken, sourceCode.getFirstToken(node)!))
+            return null
+
+          return fixer.replaceTextRange([prevToken.range[1], node.range[0]], '\n')
+        },
+      })
+    }
+
+    function reportShouldNotWrap(node: JsxProp, prev: ASTNode, i: number) {
+      context.report({
+        node,
+        messageId: 'shouldNotWrap',
+        data: {
+          prop: getPropName(sourceCode, node),
+        },
+        fix(fixer) {
+          const prevToken = i === 0
+            ? sourceCode.getTokenBefore(node)!
+            : sourceCode.getLastToken(prev)!
+
+          if (sourceCode.commentsExistBetween(prevToken, sourceCode.getFirstToken(node)!))
+            return null
+
+          return fixer.replaceTextRange([prevToken.range[1], node.range[0]], ' ')
+        },
+      })
+    }
+
     return {
       JSXOpeningElement(node) {
         const attrs = node.attributes
@@ -73,55 +121,39 @@ export default createRule<RuleOptions, MessageIds>({
           ? attrs.length > singleLine!.maxItems!
           : attrs.length >= multiLine!.minItems! && node.loc.start.line !== attrs[0].loc.start.line
 
+        const maxPerLine = needWrap ? multiLine!.maxItemsPerLine! : Number.POSITIVE_INFINITY
+
+        let itemsOnCurrentLine = 0
+
         for (let i = 0; i < attrs.length; i++) {
           const current = attrs[i]
           const prev = i === 0
             ? (node.typeArguments ?? node.name)
             : attrs[i - 1]
 
-          if (isTokenOnSameLine(prev, current)) {
+          const sameLine = isTokenOnSameLine(prev, current)
+
+          if (sameLine) {
+            itemsOnCurrentLine++
+
             if (!needWrap)
               continue
 
-            context.report({
-              node: current,
-              messageId: 'shouldWrap',
-              data: {
-                prop: getPropName(sourceCode, current),
-              },
-              fix(fixer) {
-                const prevToken = i === 0
-                  ? sourceCode.getTokenBefore(current)!
-                  : sourceCode.getLastToken(prev)!
-
-                if (sourceCode.commentsExistBetween(prevToken, sourceCode.getFirstToken(current)!))
-                  return null
-
-                return fixer.replaceTextRange([prevToken.range[1], current.range[0]], '\n')
-              },
-            })
+            if (i === 0) {
+              reportShouldWrap(current, prev, i)
+            }
+            else if (itemsOnCurrentLine > maxPerLine) {
+              reportShouldWrap(current, prev, i)
+              itemsOnCurrentLine = 1
+            }
           }
           else {
+            itemsOnCurrentLine = 1
+
             if (needWrap)
               continue
 
-            context.report({
-              node: current,
-              messageId: 'shouldNotWrap',
-              data: {
-                prop: getPropName(sourceCode, current),
-              },
-              fix(fixer) {
-                const prevToken = i === 0
-                  ? sourceCode.getTokenBefore(current)!
-                  : sourceCode.getLastToken(prev)!
-
-                if (sourceCode.commentsExistBetween(prevToken, sourceCode.getFirstToken(current)!))
-                  return null
-
-                return fixer.replaceTextRange([prevToken.range[1], current.range[0]], ' ')
-              },
-            })
+            reportShouldNotWrap(current, prev, i)
           }
         }
       },

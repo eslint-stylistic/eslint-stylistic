@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: GbuK8_AfOAMlNmATLpCruLrniXcgB9wxe8m3-UoWeKw */
+/* @checksum: NT3C6ZzkUB7C_MYr2asdyecLxBvzrXg1frbZ1ywTXZo */
 
 export interface JsxPropsStyleSchema0 {
   singleLine?: {
@@ -8,6 +8,7 @@ export interface JsxPropsStyleSchema0 {
   }
   multiLine?: {
     minItems?: number
+    maxItemsPerLine?: number
   }
 }
 
