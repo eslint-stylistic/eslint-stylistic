@@ -56,15 +56,6 @@ export default createRule<RuleOptions, MessageIds>({
     const sourceCode = context.sourceCode
 
     /**
-     * Resolves the spacing override for an operator by checking keys in priority order.
-     * @param keys Override keys to check in priority order
-     * @returns The override boolean, or undefined if no override matches
-     */
-    function resolveOverride(keys: string[]): boolean | undefined {
-      return keys.map(key => overrides[key]).find(override => override !== undefined)
-    }
-
-    /**
      * Check if the node is the first "!" in a "!!" convert to Boolean expression
      * @param node AST node
      * @returns Whether or not the node is first "!" in "!!"
@@ -127,7 +118,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param word The word to be used for reporting
      */
     function checkUnaryWordOperatorForSpaces(node: ASTNode, firstToken: Token, secondToken: Token, word: string) {
-      const shouldHaveSpace = resolveOverride([word]) ?? words
+      const shouldHaveSpace = overrides[word] ?? words
 
       if (shouldHaveSpace) {
         verifyWordHasSpaces(node, firstToken, secondToken, word)
@@ -146,7 +137,7 @@ export default createRule<RuleOptions, MessageIds>({
       const operatorToken = sourceCode.getLastToken(node, token => token.value === operator)!
       const prefixToken = sourceCode.getTokenBefore(operatorToken)!
 
-      const shouldHaveSpace = resolveOverride(['ts-non-null', operator]) ?? nonwords
+      const shouldHaveSpace = overrides['ts-non-null'] ?? overrides[operator] ?? nonwords
 
       if (shouldHaveSpace) {
         verifyNonWordsHaveSpaces(node, prefixToken, operatorToken)
@@ -299,7 +290,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       const operator = ('prefix' in node && node.prefix) ? tokens[0].value : tokens[1].value
 
-      const shouldHaveSpace = resolveOverride([operator]) ?? nonwords
+      const shouldHaveSpace = overrides[operator] ?? nonwords
 
       if (shouldHaveSpace) {
         verifyNonWordsHaveSpaces(node, firstToken, secondToken)
