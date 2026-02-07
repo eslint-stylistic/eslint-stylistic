@@ -6,6 +6,7 @@ import {
 } from '#utils/ast'
 import { getPropName } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
+import { safeReplaceTextBetween } from '#utils/fix'
 
 type JsxProp = Tree.JSXAttribute | Tree.JSXSpreadAttribute
 
@@ -71,43 +72,33 @@ export default createRule<RuleOptions, MessageIds>({
       multiLine,
     } = option!
 
+    function getPrevToken(node: JsxProp, prev: ASTNode, i: number) {
+      return i === 0
+        ? sourceCode.getTokenBefore(node)!
+        : sourceCode.getLastToken(prev)!
+    }
+
     function reportShouldWrap(node: JsxProp, prev: ASTNode, i: number) {
+      const prevToken = getPrevToken(node, prev, i)
       context.report({
         node,
         messageId: 'shouldWrap',
         data: {
           prop: getPropName(sourceCode, node),
         },
-        fix(fixer) {
-          const prevToken = i === 0
-            ? sourceCode.getTokenBefore(node)!
-            : sourceCode.getLastToken(prev)!
-
-          if (sourceCode.commentsExistBetween(prevToken, sourceCode.getFirstToken(node)!))
-            return null
-
-          return fixer.replaceTextRange([prevToken.range[1], node.range[0]], '\n')
-        },
+        fix: safeReplaceTextBetween(sourceCode, prevToken, node, '\n'),
       })
     }
 
     function reportShouldNotWrap(node: JsxProp, prev: ASTNode, i: number) {
+      const prevToken = getPrevToken(node, prev, i)
       context.report({
         node,
         messageId: 'shouldNotWrap',
         data: {
           prop: getPropName(sourceCode, node),
         },
-        fix(fixer) {
-          const prevToken = i === 0
-            ? sourceCode.getTokenBefore(node)!
-            : sourceCode.getLastToken(prev)!
-
-          if (sourceCode.commentsExistBetween(prevToken, sourceCode.getFirstToken(node)!))
-            return null
-
-          return fixer.replaceTextRange([prevToken.range[1], node.range[0]], ' ')
-        },
+        fix: safeReplaceTextBetween(sourceCode, prevToken, node, ' '),
       })
     }
 
