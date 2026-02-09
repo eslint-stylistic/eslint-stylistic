@@ -137,7 +137,7 @@ export default createRule<RuleOptions, MessageIds>({
       const operatorToken = sourceCode.getLastToken(node, token => token.value === operator)!
       const prefixToken = sourceCode.getTokenBefore(operatorToken)!
 
-      const shouldHaveSpace = overrides[operator] ?? nonwords
+      const shouldHaveSpace = overrides['ts-non-null'] ?? overrides[operator] ?? nonwords
 
       if (shouldHaveSpace) {
         verifyNonWordsHaveSpaces(node, prefixToken, operatorToken)
