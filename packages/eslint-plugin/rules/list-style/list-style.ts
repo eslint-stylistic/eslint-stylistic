@@ -69,11 +69,12 @@ export default createRule<RuleOptions, MessageIds>({
           overrides: {
             type: 'object',
             additionalProperties: false,
+            /// keep-sorted
             properties: {
+              '()': { $ref: '#/items/0/$defs/baseConfig' },
               '[]': { $ref: '#/items/0/$defs/baseConfig' },
               '{}': { $ref: '#/items/0/$defs/baseConfig' },
               '<>': { $ref: '#/items/0/$defs/baseConfig' },
-              '()': { $ref: '#/items/0/$defs/baseConfig' },
 
               'ArrayExpression': { $ref: '#/items/0/$defs/baseConfig' },
               'ArrayPattern': { $ref: '#/items/0/$defs/baseConfig' },
@@ -82,21 +83,22 @@ export default createRule<RuleOptions, MessageIds>({
               'ExportNamedDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
               'FunctionDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
               'FunctionExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'ImportDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
+              'IfStatement': { $ref: '#/items/0/$defs/baseConfig' },
               'ImportAttributes': { $ref: '#/items/0/$defs/baseConfig' },
+              'ImportDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
+              'JSONArrayExpression': { $ref: '#/items/0/$defs/baseConfig' },
+              'JSONObjectExpression': { $ref: '#/items/0/$defs/baseConfig' },
               'NewExpression': { $ref: '#/items/0/$defs/baseConfig' },
               'ObjectExpression': { $ref: '#/items/0/$defs/baseConfig' },
               'ObjectPattern': { $ref: '#/items/0/$defs/baseConfig' },
               'TSDeclareFunction': { $ref: '#/items/0/$defs/baseConfig' },
+              'TSEnumBody': { $ref: '#/items/0/$defs/baseConfig' },
               'TSFunctionType': { $ref: '#/items/0/$defs/baseConfig' },
               'TSInterfaceBody': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSEnumBody': { $ref: '#/items/0/$defs/baseConfig' },
               'TSTupleType': { $ref: '#/items/0/$defs/baseConfig' },
               'TSTypeLiteral': { $ref: '#/items/0/$defs/baseConfig' },
               'TSTypeParameterDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
               'TSTypeParameterInstantiation': { $ref: '#/items/0/$defs/baseConfig' },
-              'JSONArrayExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'JSONObjectExpression': { $ref: '#/items/0/$defs/baseConfig' },
             },
           },
         },
@@ -380,6 +382,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
+    /// keep-sorted
     return {
       ArrayExpression(node) {
         check('[]', node, node.elements)
@@ -387,30 +390,13 @@ export default createRule<RuleOptions, MessageIds>({
       ArrayPattern(node) {
         check('[]', node, node.elements)
       },
-      ObjectExpression(node) {
-        check('{}', node, node.properties)
-      },
-      ObjectPattern(node) {
-        check('{}', node, node.properties)
-      },
-      FunctionDeclaration(node) {
-        check('()', node, node.params)
-      },
-      FunctionExpression(node) {
-        check('()', node, node.params)
-      },
       ArrowFunctionExpression(node) {
         check('()', node, node.params)
       },
       CallExpression(node) {
         check('()', node, node.arguments)
       },
-      NewExpression(node) {
-        check('()', node, node.arguments)
-      },
-      ImportDeclaration(node) {
-        check('{}', node, node.specifiers.filter(specifier => specifier.type === 'ImportSpecifier'))
-
+      ExportAllDeclaration(node) {
         if (node.attributes)
           check('{}', node, node.attributes)
       },
@@ -420,11 +406,48 @@ export default createRule<RuleOptions, MessageIds>({
         if (node.attributes)
           check('{}', node, node.attributes)
       },
-      ExportAllDeclaration(node) {
+      FunctionDeclaration(node) {
+        check('()', node, node.params)
+      },
+      FunctionExpression(node) {
+        check('()', node, node.params)
+      },
+      IfStatement: (node) => {
+        check('()', node, [node.test])
+      },
+      ImportDeclaration(node) {
+        check('{}', node, node.specifiers.filter(specifier => specifier.type === 'ImportSpecifier'))
+
         if (node.attributes)
           check('{}', node, node.attributes)
       },
-
+      JSONArrayExpression(node: Tree.ArrayExpression) {
+        check('[]', node, node.elements)
+      },
+      JSONObjectExpression(node: Tree.ObjectExpression) {
+        check('{}', node, node.properties)
+      },
+      NewExpression(node) {
+        check('()', node, node.arguments)
+      },
+      ObjectExpression(node) {
+        check('{}', node, node.properties)
+      },
+      ObjectPattern(node) {
+        check('{}', node, node.properties)
+      },
+      TSDeclareFunction(node) {
+        check('()', node, node.params)
+      },
+      TSEnumBody(node) {
+        check('{}', node, node.members)
+      },
+      TSFunctionType(node) {
+        check('()', node, node.params)
+      },
+      TSInterfaceBody(node) {
+        check('{}', node, node.body)
+      },
       // TSMappedType(node) {
       //   check('[]', node, )
       // },
@@ -434,30 +457,11 @@ export default createRule<RuleOptions, MessageIds>({
       TSTypeLiteral(node) {
         check('{}', node, node.members)
       },
-      TSInterfaceBody(node) {
-        check('{}', node, node.body)
-      },
-      TSEnumBody(node) {
-        check('{}', node, node.members)
-      },
-      TSDeclareFunction(node) {
-        check('()', node, node.params)
-      },
-      TSFunctionType(node) {
-        check('()', node, node.params)
-      },
       TSTypeParameterDeclaration(node) {
         check('<>', node, node.params)
       },
       TSTypeParameterInstantiation(node) {
         check('<>', node, node.params)
-      },
-
-      JSONArrayExpression(node: Tree.ArrayExpression) {
-        check('[]', node, node.elements)
-      },
-      JSONObjectExpression(node: Tree.ObjectExpression) {
-        check('{}', node, node.properties)
       },
     }
   },

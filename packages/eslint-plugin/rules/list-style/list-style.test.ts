@@ -7,6 +7,8 @@ run<RuleOptions, MessageIds>({
   rule,
   lang: 'ts',
   valid: [
+    'if (a) {}',
+    'if (\na\n) {}',
     'const a = { foo: "bar", bar: 2 }',
     'const a = {\nfoo: "bar",\nbar: 2\n}',
     'const a = [1, 2, 3]',
@@ -181,6 +183,32 @@ run<RuleOptions, MessageIds>({
     `,
   ],
   invalid: [
+    {
+      code: $`
+        if (
+        a) {}
+      `,
+      output: $`
+        if (
+        a
+        ) {}
+      `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 2 },
+      ],
+    },
+    {
+      code: $`
+        if (a
+        ) {}
+      `,
+      output: $`
+        if (a) {}
+      `,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 6 },
+      ],
+    },
     {
       code: $`
         const a = {
