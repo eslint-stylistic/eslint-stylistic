@@ -139,7 +139,7 @@ export default createRule<RuleOptions, MessageIds>({
     const ecmaVersion = context?.languageOptions?.ecmaVersion ?? context.parserOptions.ecmaVersion as EcmaVersion | undefined
     const normalizedOptions = normalizeOptions(options, ecmaVersion)
 
-    const isTSX = context.parserOptions?.ecmaFeatures?.jsx
+    const isTSX = (context.languageOptions.parserOptions?.ecmaFeatures?.jsx ?? context.parserOptions?.ecmaFeatures?.jsx)
       && context.filename?.endsWith('.tsx')
 
     const sourceCode = context.sourceCode

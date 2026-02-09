@@ -586,7 +586,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceInEmptyObject',
           data: { node: 'ImportDeclaration' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 9,
           endLine: 1,
@@ -595,7 +594,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceInEmptyObject',
           data: { node: 'ImportAttributes' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 38,
           endLine: 1,
@@ -611,7 +609,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requiredSpaceInEmptyObject',
           data: { node: 'TSEnumBody' },
-          type: 'TSEnumBody',
           line: 1,
           column: 11,
           endLine: 1,
@@ -627,7 +624,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requiredSpaceInEmptyObject',
           data: { node: 'TSTypeLiteral' },
-          type: 'TSTypeLiteral',
           line: 1,
           column: 14,
           endLine: 1,
@@ -643,7 +639,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceInEmptyObject',
           data: { node: 'TSInterfaceBody' },
-          type: 'TSInterfaceBody',
           line: 1,
           column: 14,
           endLine: 1,
@@ -659,7 +654,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceInEmptyObject',
           data: { node: 'ExportNamedDeclaration' },
-          type: 'ExportNamedDeclaration',
           line: 1,
           column: 9,
           endLine: 1,
@@ -668,7 +662,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceInEmptyObject',
           data: { node: 'ImportAttributes' },
-          type: 'ExportNamedDeclaration',
           line: 1,
           column: 40,
           endLine: 1,
@@ -684,7 +677,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requiredSpaceInEmptyObject',
           data: { node: 'ImportDeclaration' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 9,
           endLine: 1,
@@ -693,7 +685,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requiredSpaceInEmptyObject',
           data: { node: 'ImportAttributes' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 40,
           endLine: 1,
@@ -709,7 +700,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requiredSpaceInEmptyObject',
           data: { node: 'TSEnumBody' },
-          type: 'TSEnumBody',
           line: 1,
           column: 11,
           endLine: 1,
@@ -725,7 +715,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requiredSpaceInEmptyObject',
           data: { node: 'TSTypeLiteral' },
-          type: 'TSTypeLiteral',
           line: 1,
           column: 14,
           endLine: 1,
