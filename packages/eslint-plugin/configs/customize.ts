@@ -187,16 +187,20 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
       '@stylistic/array-bracket-newline': 'off',
       '@stylistic/array-bracket-spacing': 'off',
       '@stylistic/array-element-newline': 'off',
-      '@stylistic/exp-jsx-props-style': severity,
       '@stylistic/exp-list-style': severity,
       '@stylistic/function-call-argument-newline': 'off',
       '@stylistic/function-paren-newline': 'off',
-      '@stylistic/jsx-first-prop-new-line': 'off',
-      '@stylistic/jsx-function-call-newline': 'off',
-      '@stylistic/jsx-max-props-per-line': 'off',
       '@stylistic/object-curly-newline': 'off',
       '@stylistic/object-curly-spacing': 'off',
       '@stylistic/object-property-newline': 'off',
+      ...jsx
+        ? {
+            '@stylistic/exp-jsx-props-style': severity,
+            '@stylistic/jsx-first-prop-new-line': 'off',
+            '@stylistic/jsx-function-call-newline': 'off',
+            '@stylistic/jsx-max-props-per-line': 'off',
+          }
+        : {},
     }
   }
 
