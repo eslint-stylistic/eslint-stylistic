@@ -1,8 +1,3 @@
-/**
- * @fileoverview Validate closing bracket location in JSX
- * @author Yannick Croissant
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'

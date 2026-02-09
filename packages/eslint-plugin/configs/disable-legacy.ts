@@ -30,6 +30,7 @@ const config: Linter.Config = {
     'max-len': 0,
     'max-statements-per-line': 0,
     'multiline-ternary': 0,
+    'multiline-comment-style': 0,
     'new-parens': 0,
     'newline-per-chained-call': 0,
     'no-confusing-arrow': 0,

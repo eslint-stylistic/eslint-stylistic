@@ -1,40 +1,28 @@
-/**
- * @fileoverview Ensure proper position of the first property in JSX
- * @author Joachim Seminck
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { isSingleLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-
-const messages = {
-  propOnNewLine: 'Property should be placed on a new line',
-  propOnSameLine: 'Property should be placed on the same line as the component declaration',
-}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-first-prop-new-line',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce proper position of the first property in JSX',
     },
     fixable: 'code',
-
-    messages,
-
     schema: [
       {
         type: 'string',
         enum: ['always', 'never', 'multiline', 'multiline-multiprop', 'multiprop'],
       },
     ],
+    defaultOptions: ['multiline-multiprop'],
+    messages: {
+      propOnNewLine: 'Property should be placed on a new line',
+      propOnSameLine: 'Property should be placed on the same line as the component declaration',
+    },
   },
-
-  create(context) {
-    const configuration = context.options[0] || 'multiline-multiprop'
-
+  create(context, [configuration]) {
     return {
       JSXOpeningElement(node) {
         if (

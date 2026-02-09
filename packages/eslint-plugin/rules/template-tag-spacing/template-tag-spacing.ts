@@ -11,27 +11,24 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'template-tag-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require or disallow spacing between template tags and their literals',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
         enum: ['always', 'never'],
       },
     ],
+    defaultOptions: ['never'],
     messages: {
       unexpected: 'Unexpected space between template tag and template literal.',
       missing: 'Missing space between template tag and template literal.',
     },
   },
-
-  create(context) {
-    const never = context.options[0] !== 'always'
+  create(context, [style]) {
+    const never = style !== 'always'
     const sourceCode = context.sourceCode
 
     /**

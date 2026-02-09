@@ -59,9 +59,7 @@ export function isReturningJSX(ASTnode: ASTNode, context: RuleContext<any, any>,
       case 'JSXFragment':
         return true
       case 'Literal':
-        if (!ignoreNull && node.value === null)
-          return true
-        return false
+        return !ignoreNull && node.value === null
       case 'Identifier': {
         const variable = findVariableByName(context, node.name)
         return isJSX(variable)

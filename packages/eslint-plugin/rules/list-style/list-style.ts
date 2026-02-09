@@ -2,7 +2,6 @@ import type { ASTNode, Token, Tree } from '#types'
 import type { BaseConfig, MessageIds, RuleOptions } from './types'
 import {
   AST_NODE_TYPES,
-  hasCommentsBetween,
   isClosingBraceToken,
   isClosingBracketToken,
   isClosingParenToken,
@@ -15,6 +14,7 @@ import {
   isTokenOnSameLine,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { safeReplaceTextBetween } from '#utils/fix'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'list-style',
@@ -102,6 +102,20 @@ export default createRule<RuleOptions, MessageIds>({
         },
       },
     ],
+    // #region defaultOptions
+    defaultOptions: [{
+      singleLine: {
+        spacing: 'never',
+        maxItems: Number.POSITIVE_INFINITY,
+      },
+      multiLine: {
+        minItems: 0,
+      },
+      overrides: {
+        '{}': { singleLine: { spacing: 'always' } },
+      },
+    }],
+    // #endregion defaultOptions
     messages: {
       shouldSpacing: `Should have space between '{{prev}}' and '{{next}}'`,
       shouldNotSpacing: `Should not have space(s) between '{{prev}}' and '{{next}}'`,
@@ -109,21 +123,7 @@ export default createRule<RuleOptions, MessageIds>({
       shouldNotWrap: `Should not have line break(s) between '{{prev}}' and '{{next}}'`,
     },
   },
-  // #region defaultOptions
-  defaultOptions: [{
-    singleLine: {
-      spacing: 'never',
-      maxItems: Number.POSITIVE_INFINITY,
-    },
-    multiLine: {
-      minItems: 0,
-    },
-    overrides: {
-      '{}': { singleLine: { spacing: 'always' } },
-    },
-  }],
-  // #endregion defaultOptions
-  create: (context, [options] = [{}]) => {
+  create: (context, [options]) => {
     const { sourceCode } = context
     const {
       singleLine,
@@ -238,7 +238,7 @@ export default createRule<RuleOptions, MessageIds>({
               next: next.value,
             },
             fix(fixer) {
-              if (hasCommentsBetween(sourceCode, prev, next))
+              if (sourceCode.commentsExistBetween(prev, next))
                 return null
 
               return fixer.insertTextBefore(
@@ -263,15 +263,7 @@ export default createRule<RuleOptions, MessageIds>({
               prev: prev.value,
               next: next.value,
             },
-            fix(fixer) {
-              if (hasCommentsBetween(sourceCode, prev, next))
-                return null
-
-              const range = [prev.range[1], next.range[0]] as const
-              const delimiter = items.length === 1 ? '' : getDelimiter(node, prev)
-
-              return fixer.replaceTextRange(range, delimiter ?? '')
-            },
+            fix: safeReplaceTextBetween(sourceCode, prev, next, () => items.length === 1 ? '' : getDelimiter(node, prev) ?? ''),
           })
         }
       }
@@ -327,11 +319,12 @@ export default createRule<RuleOptions, MessageIds>({
 
     function getLeftParen(node: ASTNode, items: (ASTNode | null)[], type: ParenType) {
       switch (node.type) {
+        // fun?.()
         // fun<T>()
         // new Foo<T>()
         case AST_NODE_TYPES.CallExpression:
         case AST_NODE_TYPES.NewExpression:
-          return sourceCode.getTokenAfter(node.typeArguments ?? node.callee)
+          return sourceCode.getTokenAfter(node.typeArguments ?? node.callee, isOpeningParenToken)
 
         // const foo = [, a]
         // const [, a] = foo

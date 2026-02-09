@@ -1,8 +1,3 @@
-/**
- * @fileoverview Ensure proper position of the first property in JSX
- * @author Joachim Seminck
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'

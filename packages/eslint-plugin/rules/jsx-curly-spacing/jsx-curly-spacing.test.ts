@@ -1,9 +1,3 @@
-/**
- * @fileoverview Enforce or disallow spaces inside of curly braces in JSX attributes.
- * @author Yannick Croissant
- * @author Erik Wendel
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'

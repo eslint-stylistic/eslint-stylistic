@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: B9Xuzw8xZiK_fneqs8jInWdZlTCYrLuG3DJ0naQrxnY */
+/* @checksum: NRwu6f45q0mvETFVxCp0jlO4Eyna2iAHWR94yGw8I6A */
 
 export type MultilineTernarySchema0
   = | 'always'

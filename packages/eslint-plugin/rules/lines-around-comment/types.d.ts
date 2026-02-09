@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: oK2R8S52XoAnbNzxzOnA3ppxaugBFB-PwM47mkhp8Cg */
+/* @checksum: XYaYl7A35NZmTou65W8oCTk4SGbxTL6a86-vyZM1y8Q */
 
 export interface LinesAroundCommentSchema0 {
   beforeBlockComment?: boolean

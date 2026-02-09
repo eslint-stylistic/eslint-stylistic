@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: ZGFqQzg84hi9Hxqzf99MMK_yV8JG0ORwl-tVxacIUqI */
+/* @checksum: sHmAHfAD-dTU0BMSRETEuscZ_pJ7XrVxC-5M7bNjsa8 */
 
 export interface SpaceUnaryOpsSchema0 {
   words?: boolean

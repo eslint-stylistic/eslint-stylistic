@@ -12,28 +12,24 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'one-var-declaration-per-line',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require or disallow newlines around variable declarations',
     },
-
+    fixable: 'whitespace',
     schema: [
       {
         type: 'string',
         enum: ['always', 'initializations'],
       },
     ],
-
-    fixable: 'whitespace',
-
+    defaultOptions: ['initializations'],
     messages: {
       expectVarOnNewline: 'Expected variable declaration to be on a new line.',
     },
   },
-
-  create(context) {
+  create(context, [style]) {
     const { sourceCode } = context
-    const always = context.options[0] === 'always'
+    const always = style === 'always'
 
     /**
      * Determine if provided keyword is a variant of for specifiers

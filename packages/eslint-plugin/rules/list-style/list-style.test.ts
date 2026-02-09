@@ -29,6 +29,7 @@ run<RuleOptions, MessageIds>({
     'a\n.filter(items => {\n\n})',
     'new Foo(a, b)',
     'new Foo(\na,\nb\n)',
+    'new (Foo())(a, b)',
     'function foo<T = {\na: 1,\nb: 2\n}>(a, b) {}',
     'foo(() =>\nbar())',
     `call<{\nfoo: 'bar'\n}>('')`,
@@ -142,6 +143,13 @@ run<RuleOptions, MessageIds>({
         (x),
         y,
         z
+      )
+    `,
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1030#issuecomment-3797379905
+    $`
+      foo?.(
+        [],
+        {},
       )
     `,
     // https://github.com/antfu/eslint-plugin-antfu/issues/22

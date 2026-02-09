@@ -5,13 +5,10 @@ import type * as pluginKit from '@eslint/plugin-kit'
  * Check if the given sourceCode is TextSourceCode
  */
 export function isTextSourceCode(sourceCode: core.SourceCode): sourceCode is core.TextSourceCode {
-  if (typeof (sourceCode as { text?: unknown }).text !== 'string') {
-    // The `sourceCode` is probably `core.BinarySourceCode`.
-    // ESLint core can specify `core.BinarySourceCode` using type annotations,
-    // but it seems that there is no plugin yet that can actually use `core.BinarySourceCode`. (2025/11)
-    return false
-  }
-  return true
+  // The `sourceCode` is probably `core.BinarySourceCode`.
+  // ESLint core can specify `core.BinarySourceCode` using type annotations,
+  // but it seems that there is no plugin yet that can actually use `core.BinarySourceCode`. (2025/11)
+  return typeof (sourceCode as { text?: unknown }).text === 'string'
 }
 
 export type TextSourceCodeWithLinesAndGetLocFromIndex

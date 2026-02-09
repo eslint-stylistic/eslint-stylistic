@@ -17,7 +17,6 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Require or disallow semicolons instead of ASI',
-      // too opinionated to be recommended
     },
     fixable: 'code',
     schema: {
@@ -64,29 +63,24 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
+    defaultOptions: ['always'],
     messages: {
       missingSemi: 'Missing semicolon.',
       extraSemi: 'Extra semicolon.',
     },
   },
-  defaultOptions: [
-    'always',
-    {
-      omitLastInOneLineBlock: false,
-      beforeStatementContinuationChars: 'any',
-    },
-  ] as unknown as RuleOptions,
-  create(context) {
+  create(context, [mode, options]) {
     const OPT_OUT_PATTERN = /^[-[(/+`]/u // One of [(/+-`
     const unsafeClassFieldNames = new Set(['get', 'set', 'static'])
     const unsafeClassFieldFollowers = new Set(['*', 'in', 'instanceof'])
-    const options = context.options[1]
-    const never = context.options[0] === 'never'
+    const never = mode === 'never'
     const exceptOneLine = Boolean(options && 'omitLastInOneLineBlock' in options && options.omitLastInOneLineBlock)
     const exceptOneLineClassBody = Boolean(options && 'omitLastInOneLineClassBody' in options && options.omitLastInOneLineClassBody)
-    const beforeStatementContinuationChars = options
+    const beforeStatementContinuationChars = (
+      options
       && 'beforeStatementContinuationChars' in options
-      && options.beforeStatementContinuationChars || 'any'
+      && options.beforeStatementContinuationChars
+    ) || 'any'
     const sourceCode = context.sourceCode
 
     /**
