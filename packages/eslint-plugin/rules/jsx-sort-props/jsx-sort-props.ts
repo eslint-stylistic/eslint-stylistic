@@ -1,4 +1,4 @@
-import type { ASTNode, RuleContext, RuleFixer, Token, Tree } from '#types'
+import type { ASTNode, RuleContext, RuleFixer, SourceCode, Token, Tree } from '#types'
 import type { JsxSortPropsRuleOptions, MessageIds, RuleOptions } from './types'
 import { isSingleLine } from '#utils/ast'
 import { getPropName, isDOMComponent } from '#utils/ast/jsx'
@@ -31,9 +31,9 @@ function shouldSortToEnd(node: Tree.JSXAttribute) {
   return !!attr && !!attr.hasComment
 }
 
-function contextCompare(a: Tree.JSXAttribute, b: Tree.JSXAttribute, options: JsxCompareOptions) {
-  let aProp = getPropName(a)
-  let bProp = getPropName(b)
+function contextCompare(sourceCode: SourceCode, a: Tree.JSXAttribute, b: Tree.JSXAttribute, options: JsxCompareOptions) {
+  let aProp = getPropName(sourceCode, a)
+  let bProp = getPropName(sourceCode, b)
   const aPropNamespace = aProp.split(':')[0]
   const bPropNamespace = bProp.split(':')[0]
 
@@ -236,7 +236,7 @@ function generateFixerFunction(node: Tree.JSXOpeningElement, context: Readonly<R
   const sortableAttributeGroups = getGroupsOfSortableAttributes(attributes, context)
   const sortedAttributeGroups = sortableAttributeGroups
     .slice(0)
-    .map(group => [...group].sort((a, b) => contextCompare(a, b, options)))
+    .map(group => [...group].sort((a, b) => contextCompare(context.sourceCode, a, b, options)))
 
   return function fixFunction(fixer: RuleFixer) {
     const fixers: { range: [number, number], text: string }[] = []
@@ -425,6 +425,7 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   create(context, [options]) {
+    const { sourceCode } = context
     const {
       ignoreCase,
       callbacksLast,
@@ -452,8 +453,8 @@ export default createRule<RuleOptions, MessageIds>({
           if (decl.type === 'JSXSpreadAttribute')
             return attrs[idx + 1]
 
-          let previousPropName = getPropName(memo)
-          let currentPropName = getPropName(decl)
+          let previousPropName = getPropName(sourceCode, memo)
+          let currentPropName = getPropName(sourceCode, decl)
           const previousReservedNamespace = previousPropName.split(':')[0]
           const currentReservedNamespace = currentPropName.split(':')[0]
           const previousValue = (<Tree.JSXAttribute>memo).value
