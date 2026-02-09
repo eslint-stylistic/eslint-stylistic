@@ -1,15 +1,15 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 28ZR4fq8SruuO4ihE0IeYtYJ_f2q3FKn_bE0Qd_jWOI */
+/* @checksum: i88viWnuUhK0LskOe_I4q5mof7jlnkKN03Lz95U65Gk */
 
 export interface ListStyleSchema0 {
   singleLine?: SingleLineConfig
   multiLine?: MultiLineConfig
   overrides?: {
+    '()'?: BaseConfig
     '[]'?: BaseConfig
     '{}'?: BaseConfig
     '<>'?: BaseConfig
-    '()'?: BaseConfig
     'ArrayExpression'?: BaseConfig
     'ArrayPattern'?: BaseConfig
     'ArrowFunctionExpression'?: BaseConfig
@@ -17,21 +17,22 @@ export interface ListStyleSchema0 {
     'ExportNamedDeclaration'?: BaseConfig
     'FunctionDeclaration'?: BaseConfig
     'FunctionExpression'?: BaseConfig
-    'ImportDeclaration'?: BaseConfig
+    'IfStatement'?: BaseConfig
     'ImportAttributes'?: BaseConfig
+    'ImportDeclaration'?: BaseConfig
+    'JSONArrayExpression'?: BaseConfig
+    'JSONObjectExpression'?: BaseConfig
     'NewExpression'?: BaseConfig
     'ObjectExpression'?: BaseConfig
     'ObjectPattern'?: BaseConfig
     'TSDeclareFunction'?: BaseConfig
+    'TSEnumBody'?: BaseConfig
     'TSFunctionType'?: BaseConfig
     'TSInterfaceBody'?: BaseConfig
-    'TSEnumBody'?: BaseConfig
     'TSTupleType'?: BaseConfig
     'TSTypeLiteral'?: BaseConfig
     'TSTypeParameterDeclaration'?: BaseConfig
     'TSTypeParameterInstantiation'?: BaseConfig
-    'JSONArrayExpression'?: BaseConfig
-    'JSONObjectExpression'?: BaseConfig
   }
 }
 export interface SingleLineConfig {
