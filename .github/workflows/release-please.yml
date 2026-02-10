@@ -13,6 +13,7 @@ permissions:
 
 jobs:
   release-please:
+    if: github.event.repository.fork == false
     runs-on: ubuntu-latest
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
