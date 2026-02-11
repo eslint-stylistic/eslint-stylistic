@@ -1,7 +1,9 @@
+ignoreWorkspaceRootCheck: true
 shellEmulator: true
 trustPolicy: no-downgrade
 trustPolicyExclude:
-  - semver
+  # @babel/eslint-parser@7.28.6
+  - semver@6.3.1
 
 packages:
   - docs
@@ -10,7 +12,7 @@ packages:
 catalogs:
   build:
     '@codecov/rollup-plugin': ^1.9.1
-    tsdown: ^0.20.1
+    tsdown: ^0.20.3
   dev:
     '@antfu/eslint-config': ^7.4.3
     '@antfu/eslint-define-config': 1.23.0-2
@@ -20,7 +22,7 @@ catalogs:
     '@eslint/plugin-kit': ^0.6.0
     '@types/estraverse': ^5.1.7
     '@types/estree': ^1.0.8
-    '@types/node': ^25.0.10
+    '@types/node': ^25.2.2
     '@types/picomatch': ^4.0.2
     '@types/semver': ^7.7.1
     '@typescript-eslint/parser': ^8.55.0
@@ -39,24 +41,24 @@ catalogs:
     lint-staged: ^16.2.7
     ohash: ^2.0.11
     prettier: ^3.8.1
-    semver: ^7.7.3
+    semver: ^7.7.4
     simple-git-hooks: ^2.13.1
     taze: ^19.9.2
     tsx: ^4.21.0
     typescript: ^5.9.3
     vite: ^7.3.1
-    vue-tsc: ^3.2.3
+    vue-tsc: ^3.2.4
   docs:
     '@iconify-json/carbon': ^1.2.18
-    '@iconify-json/ri': ^1.2.7
-    '@shikijs/transformers': ^3.21.0
-    '@shikijs/twoslash': ^3.21.0
-    '@shikijs/vitepress-twoslash': ^3.21.0
+    '@iconify-json/ri': ^1.2.9
+    '@shikijs/transformers': ^3.22.0
+    '@shikijs/twoslash': ^3.22.0
+    '@shikijs/vitepress-twoslash': ^3.22.0
     '@types/markdown-it-container': ^4.0.0
-    '@vueuse/core': ^14.1.0
+    '@vueuse/core': ^14.2.0
     fuse.js: ^7.1.0
     markdown-it-container: ^4.0.0
-    shiki: ^3.21.0
+    shiki: ^3.22.0
     twoslash: ^0.3.6
     twoslash-eslint: ^0.3.6
     unocss: ^66.6.0
@@ -65,7 +67,7 @@ catalogs:
     vue: ^3.5.27
   prod:
     '@eslint-community/eslint-utils': ^4.9.1
-    '@typescript-eslint/types': ^8.53.1
+    '@typescript-eslint/types': ^8.54.0
     eslint-visitor-keys: ^4.2.1
     espree: ^10.4.0
     estraverse: ^5.3.0
@@ -81,7 +83,7 @@ catalogs:
     eslint-vitest-rule-tester: ^3.1.0
     vitest: ^4.0.18
     vue-eslint-parser: ^10.2.0
+
 onlyBuiltDependencies:
   - esbuild
   - simple-git-hooks
-  - unrs-resolver

@@ -1070,14 +1070,16 @@ export default createRule<RuleOptions, MessageIds>({
           if (
             !(EXCEPT_COND_TERNARY && availableTypes.has(node.consequent.type))
             && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.consequent.type))
-            && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
+            && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          ) {
             report(node.consequent)
           }
 
           if (
             !(EXCEPT_COND_TERNARY && availableTypes.has(node.alternate.type))
             && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.alternate.type))
-            && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
+            && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          ) {
             report(node.alternate)
           }
         }
@@ -1303,8 +1305,7 @@ export default createRule<RuleOptions, MessageIds>({
           }
 
           if (nodeObjHasExcessParens
-            && node.object.type === 'CallExpression'
-          ) {
+            && node.object.type === 'CallExpression') {
             report(node.object)
           }
 
@@ -1317,8 +1318,7 @@ export default createRule<RuleOptions, MessageIds>({
 
           if (nodeObjHasExcessParens
             && node.optional
-            && node.object.type === 'ChainExpression'
-          ) {
+            && node.object.type === 'ChainExpression') {
             report(node.object)
           }
 

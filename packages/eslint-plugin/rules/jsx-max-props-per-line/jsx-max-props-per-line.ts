@@ -1,14 +1,8 @@
-import type { ReportDescriptor, RuleContext, Tree } from '#types'
+import type { ReportDescriptor, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isSingleLine, isTokenOnSameLine } from '#utils/ast'
+import { getPropName } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
-
-function getPropName(context: RuleContext<MessageIds, RuleOptions>, propNode: Tree.JSXAttribute | Tree.JSXSpreadAttribute) {
-  if (propNode.type === 'JSXSpreadAttribute')
-    return context.sourceCode.getText(propNode.argument)
-
-  return propNode.name.name
-}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-max-props-per-line',
@@ -59,6 +53,7 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   create(context, [configuration]) {
+    const sourceCode = context.sourceCode
     const {
       maximum,
     } = configuration!
@@ -76,7 +71,6 @@ export default createRule<RuleOptions, MessageIds>({
       : maximum!
 
     function generateFixFunction(line: (Tree.JSXAttribute | Tree.JSXSpreadAttribute)[], max: number): ReportDescriptor<MessageIds>['fix'] {
-      const sourceCode = context.sourceCode
       const output = []
       const front = line[0].range[0]
       const back = line[line.length - 1].range[1]
@@ -126,7 +120,7 @@ export default createRule<RuleOptions, MessageIds>({
             : multi
 
           if (propsInLine.length > maxPropsCountPerLine) {
-            const name = getPropName(context, propsInLine[maxPropsCountPerLine])
+            const name = getPropName(sourceCode, propsInLine[maxPropsCountPerLine])
 
             context.report({
               messageId: 'newLine',

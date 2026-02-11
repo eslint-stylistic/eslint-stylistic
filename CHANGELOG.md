@@ -1,5 +1,20 @@
 # Changelog
 
+## [5.8.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.7.1...v5.8.0) (2026-02-09)
+
+
+### Features
+
+* **list-style:** support if statement ([#1119](https://github.com/eslint-stylistic/eslint-stylistic/issues/1119)) ([23b25ab](https://github.com/eslint-stylistic/eslint-stylistic/commit/23b25abe1be6086f2d7b843229fbdaeb63fec668))
+* new rule `jsx-props-style` ([#1118](https://github.com/eslint-stylistic/eslint-stylistic/issues/1118)) ([dc9cc1b](https://github.com/eslint-stylistic/eslint-stylistic/commit/dc9cc1b5ce09b6d42f4248cc4a3a688660dcd7fa))
+* **space-unary-ops:** allow override `ts-non-null` ([#1120](https://github.com/eslint-stylistic/eslint-stylistic/issues/1120)) ([faca500](https://github.com/eslint-stylistic/eslint-stylistic/commit/faca500773c54df3e5d95203b19e283c2b654f63))
+* upgrade deps ([#1122](https://github.com/eslint-stylistic/eslint-stylistic/issues/1122)) ([773da95](https://github.com/eslint-stylistic/eslint-stylistic/commit/773da95508a5e0289de960af9623b755297e502b))
+
+
+### Bug Fixes
+
+* **list-style:** correctly get `(` for optional call expressions ([#1114](https://github.com/eslint-stylistic/eslint-stylistic/issues/1114)) ([2090a72](https://github.com/eslint-stylistic/eslint-stylistic/commit/2090a728703c7f8522a580983db952361ad0b4ec))
+
 ## [5.7.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.7.0...v5.7.1) (2026-01-23)
 
 

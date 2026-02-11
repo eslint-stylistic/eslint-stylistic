@@ -92,8 +92,7 @@ export default createRule<RuleOptions, MessageIds>({
         && !isOpenParenOfTemplate(prevToken)
         && !tokensToIgnore.has(prevToken)
         && isTokenOnSameLine(prevToken, token)
-        && !sourceCode.isSpaceBetween(prevToken, token)
-      ) {
+        && !sourceCode.isSpaceBetween(prevToken, token)) {
         context.report({
           loc: token.loc,
           messageId: 'expectedBefore',
@@ -119,8 +118,7 @@ export default createRule<RuleOptions, MessageIds>({
         && !isOpenParenOfTemplate(prevToken)
         && !tokensToIgnore.has(prevToken)
         && isTokenOnSameLine(prevToken, token)
-        && sourceCode.isSpaceBetween(prevToken, token)
-      ) {
+        && sourceCode.isSpaceBetween(prevToken, token)) {
         context.report({
           loc: { start: prevToken.loc.end, end: token.loc.start },
           messageId: 'unexpectedBefore',
@@ -146,8 +144,7 @@ export default createRule<RuleOptions, MessageIds>({
         && !isCloseParenOfTemplate(nextToken)
         && !tokensToIgnore.has(nextToken)
         && isTokenOnSameLine(token, nextToken)
-        && !sourceCode.isSpaceBetween(token, nextToken)
-      ) {
+        && !sourceCode.isSpaceBetween(token, nextToken)) {
         context.report({
           loc: token.loc,
           messageId: 'expectedAfter',
@@ -173,8 +170,7 @@ export default createRule<RuleOptions, MessageIds>({
         && !isCloseParenOfTemplate(nextToken)
         && !tokensToIgnore.has(nextToken)
         && isTokenOnSameLine(token, nextToken)
-        && sourceCode.isSpaceBetween(token, nextToken)
-      ) {
+        && sourceCode.isSpaceBetween(token, nextToken)) {
         context.report({
           loc: { start: token.loc.end, end: nextToken.loc.start },
           messageId: 'unexpectedAfter',
@@ -339,8 +335,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       if (firstToken
         && ((isKeywordToken(firstToken) && firstToken.value === 'function')
-          || firstToken.value === 'async')
-      ) {
+          || firstToken.value === 'async')) {
         checkSpacingBefore(firstToken)
       }
     }
@@ -460,8 +455,7 @@ export default createRule<RuleOptions, MessageIds>({
           (('method' in node && node.method) || node.type === 'MethodDefinition')
           && 'async' in node.value && node.value.async
         )
-        || node.type === AST_NODE_TYPES.AccessorProperty
-      ) {
+        || node.type === AST_NODE_TYPES.AccessorProperty) {
         const token = sourceCode.getTokenBefore(
           node.key,
           (tok) => {
