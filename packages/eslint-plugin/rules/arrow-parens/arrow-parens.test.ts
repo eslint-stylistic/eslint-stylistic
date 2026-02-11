@@ -4,7 +4,7 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { $, run } from '#test'
+import { $, run, skipBabel } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from './arrow-parens'
 
@@ -35,8 +35,6 @@ run<RuleOptions, MessageIds>({
     { code: 'a.then((foo) => {});', options: ['always'] },
     { code: 'a.then((foo) => { if (true) {}; });', options: ['always'] },
     { code: 'a.then(async (foo) => { if (true) {}; });', options: ['always'], parserOptions: { ecmaVersion: 8 } },
-    { code: '(a: T) => a', options: ['always'], languageOptions: languageOptionsForBabelFlow },
-    { code: '(a): T => a', options: ['always'], languageOptions: languageOptionsForBabelFlow },
 
     // "as-needed"
     { code: '() => {}', options: ['as-needed'] },
@@ -53,9 +51,6 @@ run<RuleOptions, MessageIds>({
     { code: 'async a => a', options: ['as-needed'], parserOptions: { ecmaVersion: 8 } },
     { code: 'async ([a, b]) => {}', options: ['as-needed'], parserOptions: { ecmaVersion: 8 } },
     { code: 'async (a, b) => {}', options: ['as-needed'], parserOptions: { ecmaVersion: 8 } },
-    { code: '(a: T) => a', options: ['as-needed'], languageOptions: languageOptionsForBabelFlow },
-    { code: '(a?) => a', options: ['as-needed'], languageOptions: languageOptionsForBabelFlow },
-    { code: '(a): T => a', options: ['as-needed'], languageOptions: languageOptionsForBabelFlow },
 
     // "as-needed", { "requireForBlockBody": true }
     { code: '() => {}', options: ['as-needed', { requireForBlockBody: true }] },
@@ -73,8 +68,6 @@ run<RuleOptions, MessageIds>({
     { code: 'a => ({})', options: ['as-needed', { requireForBlockBody: true }] },
     { code: 'async a => ({})', options: ['as-needed', { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
     { code: 'async a => a', options: ['as-needed', { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
-    { code: '(a: T) => a', options: ['as-needed', { requireForBlockBody: true }], languageOptions: languageOptionsForBabelFlow },
-    { code: '(a): T => a', options: ['as-needed', { requireForBlockBody: true }], languageOptions: languageOptionsForBabelFlow },
     {
       code: 'const f = (/** @type {number} */a/**hello*/) => a + a;',
       options: ['as-needed'],
@@ -497,3 +490,19 @@ run<RuleOptions, MessageIds>({
     },
   ],
 })
+
+if (!skipBabel) {
+  run({
+    languageOptions: languageOptionsForBabelFlow,
+    valid: [
+      { code: '(a: T) => a', options: ['always'] },
+      { code: '(a): T => a', options: ['always'] },
+      { code: '(a: T) => a', options: ['as-needed'] },
+      { code: '(a?) => a', options: ['as-needed'] },
+      { code: '(a): T => a', options: ['as-needed'] },
+      { code: '(a: T) => a', options: ['as-needed', { requireForBlockBody: true }] },
+      { code: '(a): T => a', options: ['as-needed', { requireForBlockBody: true }] },
+    ],
+    invalid: [],
+  })
+}

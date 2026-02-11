@@ -2,7 +2,7 @@ import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { $, run } from '#test'
+import { $, run, skipBabel } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import tsParser from '@typescript-eslint/parser'
 import rule from './indent'
@@ -11402,48 +11402,6 @@ run<RuleOptions, MessageIds>({
 
     {
       code: $`
-        ({
-            foo
-            }: bar) => baz
-      `,
-      output: $`
-        ({
-            foo
-        }: bar) => baz
-      `,
-      languageOptions: languageOptionsForBabelFlow,
-      errors: expectedErrors([3, 0, 4]),
-    },
-    {
-      code: $`
-        ([
-            foo
-            ]: bar) => baz
-      `,
-      output: $`
-        ([
-            foo
-        ]: bar) => baz
-      `,
-      languageOptions: languageOptionsForBabelFlow,
-      errors: expectedErrors([3, 0, 4]),
-    },
-    {
-      code: $`
-        ({
-            foo
-            }: {}) => baz
-      `,
-      output: $`
-        ({
-            foo
-        }: {}) => baz
-      `,
-      languageOptions: languageOptionsForBabelFlow,
-      errors: expectedErrors([3, 0, 4]),
-    },
-    {
-      code: $`
         class Foo {
         foo() {
         bar();
@@ -14289,3 +14247,52 @@ run<RuleOptions, MessageIds>({
     },
   ],
 })
+
+if (!skipBabel) {
+  run({
+    name: 'indent_babel',
+    languageOptions: languageOptionsForBabelFlow,
+    valid: [],
+    invalid: [
+      {
+        code: $`
+          ({
+              foo
+              }: bar) => baz
+        `,
+        output: $`
+          ({
+              foo
+          }: bar) => baz
+        `,
+        errors: expectedErrors([3, 0, 4]),
+      },
+      {
+        code: $`
+          ([
+              foo
+              ]: bar) => baz
+        `,
+        output: $`
+          ([
+              foo
+          ]: bar) => baz
+        `,
+        errors: expectedErrors([3, 0, 4]),
+      },
+      {
+        code: $`
+          ({
+              foo
+              }: {}) => baz
+        `,
+        output: $`
+          ({
+              foo
+          }: {}) => baz
+        `,
+        errors: expectedErrors([3, 0, 4]),
+      },
+    ],
+  })
+}

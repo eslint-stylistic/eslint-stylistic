@@ -4,7 +4,7 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { $, run } from '#test'
+import { $, run, skipBabel } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from './space-before-function-paren'
 
@@ -99,10 +99,6 @@ run<RuleOptions, MessageIds>({
     {
       code: 'var bar = function foo () {}',
       options: [{ named: 'ignore', anonymous: 'always' }],
-    },
-    {
-      code: 'type TransformFunction = (el: ASTElement, code: string) => string;',
-      languageOptions: languageOptionsForBabelFlow,
     },
 
     // Async arrow functions
@@ -615,3 +611,16 @@ run<RuleOptions, MessageIds>({
     },
   ],
 })
+
+if (!skipBabel) {
+  run({
+    name: 'space-before-function-paren_babel',
+    valid: [
+      {
+        code: 'type TransformFunction = (el: ASTElement, code: string) => string;',
+        languageOptions: languageOptionsForBabelFlow,
+      },
+    ],
+    invalid: [],
+  })
+}

@@ -4,7 +4,7 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { run, skipBabel } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from './object-curly-newline'
 
@@ -69,26 +69,6 @@ run<RuleOptions, MessageIds>({
       ].join('\n'),
       options: ['always'],
     },
-    {
-      code: [
-        'function foo({',
-        ' a,',
-        ' b',
-        '} : MyType) {}',
-      ].join('\n'),
-      options: ['always'],
-      languageOptions: languageOptionsForBabelFlow,
-    },
-    {
-      code: [
-        'function foo({',
-        ' a,',
-        ' b',
-        '} : { a : string, b : string }) {}',
-      ].join('\n'),
-      options: ['always'],
-      languageOptions: languageOptionsForBabelFlow,
-    },
 
     // "never" -------------------------------------------------------------
     {
@@ -123,16 +103,6 @@ run<RuleOptions, MessageIds>({
         '}};',
       ].join('\n'),
       options: ['never'],
-    },
-    {
-      code: 'function foo({ a, b } : MyType) {}',
-      options: ['never'],
-      languageOptions: languageOptionsForBabelFlow,
-    },
-    {
-      code: 'function foo({ a, b } : { a : string, b : string }) {}',
-      options: ['never'],
-      languageOptions: languageOptionsForBabelFlow,
     },
 
     // "multiline" ---------------------------------------------------------
@@ -664,34 +634,6 @@ run<RuleOptions, MessageIds>({
         { line: 3, column: 2, messageId: 'expectedLinebreakBeforeClosingBrace' },
       ],
     },
-    {
-      code: 'function foo({ a, b } : MyType) {}',
-      output: [
-        'function foo({',
-        ' a, b ',
-        '} : MyType) {}',
-      ].join('\n'),
-      options: ['always'],
-      languageOptions: languageOptionsForBabelFlow,
-      errors: [
-        { line: 1, column: 14, messageId: 'expectedLinebreakAfterOpeningBrace' },
-        { line: 1, column: 21, messageId: 'expectedLinebreakBeforeClosingBrace' },
-      ],
-    },
-    {
-      code: 'function foo({ a, b } : { a : string, b : string }) {}',
-      output: [
-        'function foo({',
-        ' a, b ',
-        '} : { a : string, b : string }) {}',
-      ].join('\n'),
-      options: ['always'],
-      languageOptions: languageOptionsForBabelFlow,
-      errors: [
-        { line: 1, column: 14, messageId: 'expectedLinebreakAfterOpeningBrace' },
-        { line: 1, column: 21, messageId: 'expectedLinebreakBeforeClosingBrace' },
-      ],
-    },
 
     // "never" ------------------------------------------------------------
     {
@@ -784,42 +726,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         { line: 1, column: 9, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
         { line: 5, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-      ],
-    },
-    {
-      code: [
-        'function foo({',
-        ' a,',
-        ' b',
-        '} : MyType) {}',
-      ].join('\n'),
-      output: [
-        'function foo({a,',
-        ' b} : MyType) {}',
-      ].join('\n'),
-      options: ['never'],
-      languageOptions: languageOptionsForBabelFlow,
-      errors: [
-        { line: 1, column: 14, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
-        { line: 4, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-      ],
-    },
-    {
-      code: [
-        'function foo({',
-        ' a,',
-        ' b',
-        '} : { a : string, b : string }) {}',
-      ].join('\n'),
-      output: [
-        'function foo({a,',
-        ' b} : { a : string, b : string }) {}',
-      ].join('\n'),
-      options: ['never'],
-      languageOptions: languageOptionsForBabelFlow,
-      errors: [
-        { line: 1, column: 14, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
-        { line: 4, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
       ],
     },
 
@@ -1762,3 +1668,100 @@ run<RuleOptions, MessageIds>({
     },
   ],
 })
+
+if (!skipBabel) {
+  run({
+    name: 'object-curly-newline_babel',
+    languageOptions: languageOptionsForBabelFlow,
+    valid: [
+      {
+        code: [
+          'function foo({',
+          ' a,',
+          ' b',
+          '} : MyType) {}',
+        ].join('\n'),
+        options: ['always'],
+      },
+      {
+        code: [
+          'function foo({',
+          ' a,',
+          ' b',
+          '} : { a : string, b : string }) {}',
+        ].join('\n'),
+        options: ['always'],
+      },
+      {
+        code: 'function foo({ a, b } : MyType) {}',
+        options: ['never'],
+      },
+      {
+        code: 'function foo({ a, b } : { a : string, b : string }) {}',
+        options: ['never'],
+      },
+    ],
+    invalid: [
+      {
+        code: 'function foo({ a, b } : MyType) {}',
+        output: [
+          'function foo({',
+          ' a, b ',
+          '} : MyType) {}',
+        ].join('\n'),
+        options: ['always'],
+        errors: [
+          { line: 1, column: 14, messageId: 'expectedLinebreakAfterOpeningBrace' },
+          { line: 1, column: 21, messageId: 'expectedLinebreakBeforeClosingBrace' },
+        ],
+      },
+      {
+        code: 'function foo({ a, b } : { a : string, b : string }) {}',
+        output: [
+          'function foo({',
+          ' a, b ',
+          '} : { a : string, b : string }) {}',
+        ].join('\n'),
+        options: ['always'],
+        errors: [
+          { line: 1, column: 14, messageId: 'expectedLinebreakAfterOpeningBrace' },
+          { line: 1, column: 21, messageId: 'expectedLinebreakBeforeClosingBrace' },
+        ],
+      },
+      {
+        code: [
+          'function foo({',
+          ' a,',
+          ' b',
+          '} : MyType) {}',
+        ].join('\n'),
+        output: [
+          'function foo({a,',
+          ' b} : MyType) {}',
+        ].join('\n'),
+        options: ['never'],
+        errors: [
+          { line: 1, column: 14, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
+          { line: 4, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
+        ],
+      },
+      {
+        code: [
+          'function foo({',
+          ' a,',
+          ' b',
+          '} : { a : string, b : string }) {}',
+        ].join('\n'),
+        output: [
+          'function foo({a,',
+          ' b} : { a : string, b : string }) {}',
+        ].join('\n'),
+        options: ['never'],
+        errors: [
+          { line: 1, column: 14, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
+          { line: 4, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
+        ],
+      },
+    ],
+  })
+}
