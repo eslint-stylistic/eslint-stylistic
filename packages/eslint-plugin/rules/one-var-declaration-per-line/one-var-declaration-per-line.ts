@@ -46,29 +46,25 @@ export default createRule<RuleOptions, MessageIds>({
         return
 
       const declarations = node.declarations
-      let prev: Tree.LetOrConstOrVarDeclarator
 
-      declarations.forEach((current) => {
-        if (prev && isTokenOnSameLine(prev, current)) {
+      for (let i = 1; i < declarations.length; i++) {
+        const prev = declarations[i - 1]
+        const current = declarations[i]
+
+        if (isTokenOnSameLine(prev, current)) {
           if (always || prev.init || current.init) {
             context.report({
               node,
               messageId: 'expectVarOnNewline',
               loc: current.loc,
               fix: (fixer) => {
-                const tokenBefore = sourceCode.getTokenBefore(current)
-                if (tokenBefore) {
-                  return fixer.insertTextAfterRange([tokenBefore.range[1], current.range[0]], '\n')
-                }
-                else {
-                  return fixer.insertTextBefore(current, '\n')
-                }
+                const tokenBefore = sourceCode.getTokenBefore(current)!
+                return fixer.insertTextAfterRange([tokenBefore.range[1], current.range[0]], '\n')
               },
             })
           }
         }
-        prev = current
-      })
+      }
     }
 
     return {
