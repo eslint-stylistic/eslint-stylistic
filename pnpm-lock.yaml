@@ -435,7 +435,7 @@ importers:
         specifier: catalog:prod
         version: 8.55.0
       eslint:
-        specifier: '>=9.0.0'
+        specifier: ^9.0.0 || ^10.0.0
         version: 10.0.0(jiti@2.6.1)
       eslint-visitor-keys:
         specifier: catalog:prod

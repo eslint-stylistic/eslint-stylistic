@@ -54,12 +54,15 @@ export function findVariableByName(context: RuleContext<any, any>, name: string)
   if (!variable || !variable.defs[0] || !variable.defs[0].node)
     return null
 
+  // @ts-expect-error will remove in v6
   if (variable.defs[0].node.type === 'TypeAlias')
+    // @ts-expect-error will remove in v6
     return variable.defs[0].node.right
 
   if (variable.defs[0].type === 'ImportBinding')
     return variable.defs[0].node
 
+  // @ts-expect-error will remove in v6
   return variable.defs[0].node.init
 }
 
