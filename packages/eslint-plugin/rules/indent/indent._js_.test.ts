@@ -14252,7 +14252,6 @@ if (!skipBabel) {
   run<RuleOptions, MessageIds>({
     name: 'indent_babel',
     rule,
-    languageOptions: languageOptionsForBabelFlow,
     valid: [],
     invalid: [
       {
@@ -14266,6 +14265,7 @@ if (!skipBabel) {
               foo
           }: bar) => baz
         `,
+        languageOptions: languageOptionsForBabelFlow,
         errors: expectedErrors([3, 0, 4]),
       },
       {
@@ -14279,6 +14279,7 @@ if (!skipBabel) {
               foo
           ]: bar) => baz
         `,
+        languageOptions: languageOptionsForBabelFlow,
         errors: expectedErrors([3, 0, 4]),
       },
       {
@@ -14292,6 +14293,7 @@ if (!skipBabel) {
               foo
           }: {}) => baz
         `,
+        languageOptions: languageOptionsForBabelFlow,
         errors: expectedErrors([3, 0, 4]),
       },
     ],

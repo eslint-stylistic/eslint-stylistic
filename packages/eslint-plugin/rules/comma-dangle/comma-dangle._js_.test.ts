@@ -2199,12 +2199,12 @@ if (!skipBabel) {
   run<RuleOptions, MessageIds>({
     name: 'comma-dangle_babel',
     rule,
-    languageOptions: languageOptionsForBabelFlow,
     valid: [
       // https://github.com/eslint/eslint/issues/7370
       {
         code: 'function foo({a}: {a: string,}) {}',
         options: ['never'],
+        languageOptions: languageOptionsForBabelFlow,
       },
       {
         code: 'function foo({a,}: {a: string}) {}',
@@ -2218,10 +2218,12 @@ if (!skipBabel) {
       {
         code: 'function foo(a): {b: boolean,} {}',
         options: [{ functions: 'never' }],
+        languageOptions: languageOptionsForBabelFlow,
       },
       {
         code: 'function foo(a,): {b: boolean} {}',
         options: [{ functions: 'always' }],
+        languageOptions: languageOptionsForBabelFlow,
       },
     ],
     invalid: [
@@ -2241,18 +2243,21 @@ if (!skipBabel) {
         code: 'function foo({a,}: {a: string}) {}',
         output: 'function foo({a}: {a: string}) {}',
         options: ['never'],
+        languageOptions: languageOptionsForBabelFlow,
         errors: [{ messageId: 'unexpected' }],
       },
       {
         code: 'function foo(a): {b: boolean,} {}',
         output: 'function foo(a,): {b: boolean,} {}',
         options: [{ functions: 'always' }],
+        languageOptions: languageOptionsForBabelFlow,
         errors: [{ messageId: 'missing' }],
       },
       {
         code: 'function foo(a,): {b: boolean} {}',
         output: 'function foo(a): {b: boolean} {}',
         options: [{ functions: 'never' }],
+        languageOptions: languageOptionsForBabelFlow,
         errors: [{ messageId: 'unexpected' }],
       },
     ],

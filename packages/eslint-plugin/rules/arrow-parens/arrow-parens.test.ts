@@ -495,15 +495,14 @@ if (!skipBabel) {
   run<RuleOptions, MessageIds>({
     name: 'arrow-parens_babel',
     rule,
-    languageOptions: languageOptionsForBabelFlow,
     valid: [
-      { code: '(a: T) => a', options: ['always'] },
-      { code: '(a): T => a', options: ['always'] },
-      { code: '(a: T) => a', options: ['as-needed'] },
-      { code: '(a?) => a', options: ['as-needed'] },
-      { code: '(a): T => a', options: ['as-needed'] },
-      { code: '(a: T) => a', options: ['as-needed', { requireForBlockBody: true }] },
-      { code: '(a): T => a', options: ['as-needed', { requireForBlockBody: true }] },
+      { code: '(a: T) => a', options: ['always'], languageOptions: languageOptionsForBabelFlow },
+      { code: '(a): T => a', options: ['always'], languageOptions: languageOptionsForBabelFlow },
+      { code: '(a: T) => a', options: ['as-needed'], languageOptions: languageOptionsForBabelFlow },
+      { code: '(a?) => a', options: ['as-needed'], languageOptions: languageOptionsForBabelFlow },
+      { code: '(a): T => a', options: ['as-needed'], languageOptions: languageOptionsForBabelFlow },
+      { code: '(a: T) => a', options: ['as-needed', { requireForBlockBody: true }], languageOptions: languageOptionsForBabelFlow },
+      { code: '(a): T => a', options: ['as-needed', { requireForBlockBody: true }], languageOptions: languageOptionsForBabelFlow },
     ],
     invalid: [],
   })

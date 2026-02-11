@@ -1511,12 +1511,12 @@ if (!skipBabel) {
   run<RuleOptions, MessageIds>({
     name: 'object-curly-spacing_babel',
     rule,
-    languageOptions: languageOptionsForBabelFlow,
     valid: [
       // https://github.com/eslint/eslint/issues/6940
       {
         code: 'function foo ({a, b}: Props) {\n}',
         options: ['never'],
+        languageOptions: languageOptionsForBabelFlow,
       },
     ],
     invalid: [
@@ -1525,6 +1525,7 @@ if (!skipBabel) {
         code: 'function foo ({a, b }: Props) {\n}',
         output: 'function foo ({a, b}: Props) {\n}',
         options: ['never'],
+        languageOptions: languageOptionsForBabelFlow,
         errors: [
           {
             messageId: 'unexpectedSpaceBefore',

@@ -1673,7 +1673,6 @@ if (!skipBabel) {
   run<RuleOptions, MessageIds>({
     name: 'object-curly-newline_babel',
     rule,
-    languageOptions: languageOptionsForBabelFlow,
     valid: [
       {
         code: [
@@ -1683,6 +1682,7 @@ if (!skipBabel) {
           '} : MyType) {}',
         ].join('\n'),
         options: ['always'],
+        languageOptions: languageOptionsForBabelFlow,
       },
       {
         code: [
@@ -1692,14 +1692,17 @@ if (!skipBabel) {
           '} : { a : string, b : string }) {}',
         ].join('\n'),
         options: ['always'],
+        languageOptions: languageOptionsForBabelFlow,
       },
       {
         code: 'function foo({ a, b } : MyType) {}',
         options: ['never'],
+        languageOptions: languageOptionsForBabelFlow,
       },
       {
         code: 'function foo({ a, b } : { a : string, b : string }) {}',
         options: ['never'],
+        languageOptions: languageOptionsForBabelFlow,
       },
     ],
     invalid: [
@@ -1711,6 +1714,7 @@ if (!skipBabel) {
           '} : MyType) {}',
         ].join('\n'),
         options: ['always'],
+        languageOptions: languageOptionsForBabelFlow,
         errors: [
           { line: 1, column: 14, messageId: 'expectedLinebreakAfterOpeningBrace' },
           { line: 1, column: 21, messageId: 'expectedLinebreakBeforeClosingBrace' },
@@ -1724,6 +1728,7 @@ if (!skipBabel) {
           '} : { a : string, b : string }) {}',
         ].join('\n'),
         options: ['always'],
+        languageOptions: languageOptionsForBabelFlow,
         errors: [
           { line: 1, column: 14, messageId: 'expectedLinebreakAfterOpeningBrace' },
           { line: 1, column: 21, messageId: 'expectedLinebreakBeforeClosingBrace' },
@@ -1741,6 +1746,7 @@ if (!skipBabel) {
           ' b} : MyType) {}',
         ].join('\n'),
         options: ['never'],
+        languageOptions: languageOptionsForBabelFlow,
         errors: [
           { line: 1, column: 14, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
           { line: 4, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
@@ -1758,6 +1764,7 @@ if (!skipBabel) {
           ' b} : { a : string, b : string }) {}',
         ].join('\n'),
         options: ['never'],
+        languageOptions: languageOptionsForBabelFlow,
         errors: [
           { line: 1, column: 14, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
           { line: 4, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
