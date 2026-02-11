@@ -978,8 +978,9 @@ run<RuleOptions, MessageIds>({
 })
 
 if (!skipBabel) {
-  run({
+  run<RuleOptions, MessageIds>({
     name: 'array-bracket-spacing_babel',
+    rule,
     valid: [
       // destructuring with type annotation
       {

@@ -1670,8 +1670,9 @@ run<RuleOptions, MessageIds>({
 })
 
 if (!skipBabel) {
-  run({
+  run<RuleOptions, MessageIds>({
     name: 'object-curly-newline_babel',
+    rule,
     languageOptions: languageOptionsForBabelFlow,
     valid: [
       {

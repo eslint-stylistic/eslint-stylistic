@@ -613,8 +613,9 @@ run<RuleOptions, MessageIds>({
 })
 
 if (!skipBabel) {
-  run({
+  run<RuleOptions, MessageIds>({
     name: 'space-before-function-paren_babel',
+    rule,
     valid: [
       {
         code: 'type TransformFunction = (el: ASTElement, code: string) => string;',

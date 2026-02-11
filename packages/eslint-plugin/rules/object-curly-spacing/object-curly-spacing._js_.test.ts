@@ -1508,8 +1508,9 @@ run<RuleOptions, MessageIds>({
 })
 
 if (!skipBabel) {
-  run({
+  run<RuleOptions, MessageIds>({
     name: 'object-curly-spacing_babel',
+    rule,
     languageOptions: languageOptionsForBabelFlow,
     valid: [
       // https://github.com/eslint/eslint/issues/6940

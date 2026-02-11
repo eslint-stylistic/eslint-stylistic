@@ -492,7 +492,9 @@ run<RuleOptions, MessageIds>({
 })
 
 if (!skipBabel) {
-  run({
+  run<RuleOptions, MessageIds>({
+    name: 'arrow-parens_babel',
+    rule,
     languageOptions: languageOptionsForBabelFlow,
     valid: [
       { code: '(a: T) => a', options: ['always'] },

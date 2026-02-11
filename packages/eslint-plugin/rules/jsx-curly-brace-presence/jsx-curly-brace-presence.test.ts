@@ -891,8 +891,9 @@ run<RuleOptions, MessageIds>({
 })
 
 if (!skipBabel) {
-  run({
+  run<RuleOptions, MessageIds>({
     name: 'jsx-curly-brace-presence_babel',
+    rule,
     valid: [],
     invalid: [
       { // require('@babel/eslint-parser/package.json').peerDependencies.eslint

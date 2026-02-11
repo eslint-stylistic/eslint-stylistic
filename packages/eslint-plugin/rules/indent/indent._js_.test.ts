@@ -14249,8 +14249,9 @@ run<RuleOptions, MessageIds>({
 })
 
 if (!skipBabel) {
-  run({
+  run<RuleOptions, MessageIds>({
     name: 'indent_babel',
+    rule,
     languageOptions: languageOptionsForBabelFlow,
     valid: [],
     invalid: [

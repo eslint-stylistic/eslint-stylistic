@@ -2196,8 +2196,9 @@ run<RuleOptions, MessageIds>({
 })
 
 if (!skipBabel) {
-  run({
+  run<RuleOptions, MessageIds>({
     name: 'comma-dangle_babel',
+    rule,
     languageOptions: languageOptionsForBabelFlow,
     valid: [
       // https://github.com/eslint/eslint/issues/7370
