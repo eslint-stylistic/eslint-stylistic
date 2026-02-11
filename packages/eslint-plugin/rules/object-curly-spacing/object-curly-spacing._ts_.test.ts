@@ -722,5 +722,14 @@ run<RuleOptions, MessageIds>({
         },
       ],
     },
+    {
+      code: 'const foo = ({str}: { str: string }) => null',
+      output: 'const foo = ({ str }: { str: string }) => null',
+      options: ['always'],
+      errors: [
+        { messageId: 'requireSpaceAfter' },
+        { messageId: 'requireSpaceBefore' },
+      ],
+    },
   ],
 })
