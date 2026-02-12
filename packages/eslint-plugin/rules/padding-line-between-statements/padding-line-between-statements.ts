@@ -605,9 +605,9 @@ export default createRule<RuleOptions, MessageIds>({
           properties: {
             selector: {
               type: 'string',
-              required: true,
             },
           },
+          required: ['selector'],
           additionalProperties: false,
         },
         statementMatcher: {
