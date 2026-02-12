@@ -1,5 +1,3 @@
-// any is required to work around manipulating the AST in weird ways
-
 import type { ASTNode, RuleFunction, RuleListener, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
@@ -694,12 +692,10 @@ export default createRule<RuleOptions, MessageIds>({
           messageId: 'unexpected',
           fix: isFixable(node)
             ? (fixer) => {
-                const parenthesizedSource = sourceCode.text.slice(leftParenToken.range[1], rightParenToken.range[0])
-
-                return fixer.replaceTextRange([
-                  leftParenToken.range[0],
-                  rightParenToken.range[1],
-                ], (requiresLeadingSpace(node) ? ' ' : '') + parenthesizedSource + (requiresTrailingSpace(node) ? ' ' : ''))
+                return [
+                  fixer.replaceText(leftParenToken, requiresLeadingSpace(node) ? ' ' : ''),
+                  fixer.replaceText(rightParenToken, requiresTrailingSpace(node) ? ' ' : ''),
+                ]
               }
             : null,
         })
