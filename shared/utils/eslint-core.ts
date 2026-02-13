@@ -27,3 +27,12 @@ export function hasLinesAndGetLocFromIndex(sourceCode: core.TextSourceCode): sou
     && Array.isArray((sourceCode as { lines?: unknown }).lines)
   )
 }
+
+export function isESTreeSourceCode(sourceCode: unknown) {
+  return (
+    typeof sourceCode === 'object'
+    && sourceCode !== null
+    && 'isESTree' in sourceCode
+    && sourceCode.isESTree === true
+  )
+}
