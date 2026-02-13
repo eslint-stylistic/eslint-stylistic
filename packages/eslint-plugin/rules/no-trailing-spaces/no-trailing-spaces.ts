@@ -2,8 +2,7 @@
  * @fileoverview Disallow trailing spaces at the end of lines.
  * @author Nodeca Team <https://github.com/nodeca>
  */
-
-import type { ASTNode, Tree } from '#types'
+import type { ASTNode, MarkdownSourceCode, SourceCode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createGlobalLinebreakMatcher } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -36,7 +35,7 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   create(context, [options]) {
-    const sourceCode = context.sourceCode
+    const sourceCode = context.sourceCode as unknown as SourceCode | MarkdownSourceCode
 
     const BLANK_CLASS = '[ \t\u00A0\u2000-\u200B\u3000]'
     // eslint-disable-next-line regexp/no-obscure-range
@@ -94,7 +93,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     return {
 
-      Program: function checkTrailingSpaces(node) {
+      [context.sourceCode.ast.type]: function checkTrailingSpaces(node) {
         /**
          * Let's hack. Since Espree does not return whitespace nodes,
          * fetch the source code and do matching via regexps.
@@ -104,7 +103,9 @@ export default createRule<RuleOptions, MessageIds>({
         const skipMatch = new RegExp(SKIP_BLANK, 'u')
         const lines = sourceCode.lines
         const linebreaks = sourceCode.getText().match(createGlobalLinebreakMatcher())
-        const comments = sourceCode.getAllComments()
+        const comments = 'getAllComments' in sourceCode
+          ? sourceCode.getAllComments()
+          : []
         const commentLineNumbers = getCommentLineNumbers(comments)
 
         let totalLength = 0
@@ -136,7 +137,9 @@ export default createRule<RuleOptions, MessageIds>({
 
             const rangeStart = totalLength + location.start.column
             const rangeEnd = totalLength + location.end.column
-            const containingNode = sourceCode.getNodeByRangeIndex(rangeStart)
+            const containingNode = 'getNodeByRangeIndex' in sourceCode
+              ? sourceCode.getNodeByRangeIndex(rangeStart)
+              : null
 
             if (containingNode && containingNode.type === 'TemplateElement'
               && rangeStart > containingNode.parent.range[0]
