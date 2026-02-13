@@ -93,7 +93,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     return {
 
-      [context.sourceCode.ast.type]: function checkTrailingSpaces(node) {
+      [context.sourceCode.ast.type || 'Program']: function checkTrailingSpaces(node) {
         /**
          * Let's hack. Since Espree does not return whitespace nodes,
          * fetch the source code and do matching via regexps.
