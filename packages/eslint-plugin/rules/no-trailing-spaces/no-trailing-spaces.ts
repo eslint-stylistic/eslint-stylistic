@@ -2,7 +2,7 @@
  * @fileoverview Disallow trailing spaces at the end of lines.
  * @author Nodeca Team <https://github.com/nodeca>
  */
-import type { ASTNode, MarkdownSourceCode, SourceCode, Tree } from '#types'
+import type { ASTNode, SourceCode, TextSourceCodeBase, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createGlobalLinebreakMatcher } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -35,7 +35,7 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   create(context, [options]) {
-    const sourceCode = context.sourceCode as unknown as SourceCode | MarkdownSourceCode
+    const sourceCode = context.sourceCode as unknown as TextSourceCodeBase | SourceCode
 
     const BLANK_CLASS = '[ \t\u00A0\u2000-\u200B\u3000]'
     // eslint-disable-next-line regexp/no-obscure-range
