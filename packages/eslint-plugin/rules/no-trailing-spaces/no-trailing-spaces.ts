@@ -35,7 +35,7 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   create(context, [options]) {
-    const sourceCode = context.sourceCode as unknown as TextSourceCodeBase | SourceCode
+    const sourceCode = context.sourceCode as TextSourceCodeBase | SourceCode
 
     const BLANK_CLASS = '[ \t\u00A0\u2000-\u200B\u3000]'
     // eslint-disable-next-line regexp/no-obscure-range
