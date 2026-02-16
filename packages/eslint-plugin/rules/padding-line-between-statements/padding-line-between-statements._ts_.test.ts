@@ -229,6 +229,130 @@ run<RuleOptions, MessageIds>({
         },
       ],
     },
+
+    // ----------------------------------------------------------------------
+    // declare (https://github.com/eslint-stylistic/eslint-stylistic/issues/1115)
+    // ----------------------------------------------------------------------
+
+    // declare function
+    {
+      code: $`
+        declare function foo(): void;
+        
+        foo();
+      `,
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'declare', next: '*' },
+      ],
+    },
+    // declare class
+    {
+      code: $`
+        declare class Foo {}
+        
+        const x = 1;
+      `,
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'declare', next: '*' },
+      ],
+    },
+    // declare const
+    {
+      code: $`
+        declare const x: number;
+        
+        foo();
+      `,
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'declare', next: '*' },
+      ],
+    },
+    // declare let
+    {
+      code: $`
+        declare let x: number;
+        
+        foo();
+      `,
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'declare', next: '*' },
+      ],
+    },
+    // declare var
+    {
+      code: $`
+        declare var x: number;
+        
+        foo();
+      `,
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'declare', next: '*' },
+      ],
+    },
+    // declare enum
+    {
+      code: $`
+        declare enum Foo { A, B }
+        
+        foo();
+      `,
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'declare', next: '*' },
+      ],
+    },
+    // declare module
+    {
+      code: $`
+        declare module "foo" {}
+        
+        foo();
+      `,
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'declare', next: '*' },
+      ],
+    },
+    // declare namespace
+    {
+      code: $`
+        declare namespace Foo {}
+        
+        foo();
+      `,
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'declare', next: '*' },
+      ],
+    },
+    // non-declare should not match
+    {
+      code: $`
+        function foo(): void {}
+        bar();
+      `,
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'declare', next: '*' },
+      ],
+    },
+    // declare before other statements (prev)
+    {
+      code: $`
+        foo();
+        
+        declare const x: number;
+      `,
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: '*', next: 'declare' },
+      ],
+    },
   ],
   invalid: [
     // ----------------------------------------------------------------------
@@ -454,6 +578,113 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [{ blankLine: 'always', prev: '*', next: 'multiline-type' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+
+    // ----------------------------------------------------------------------
+    // declare (https://github.com/eslint-stylistic/eslint-stylistic/issues/1115)
+    // ----------------------------------------------------------------------
+
+    // declare function should require blank line
+    {
+      code: $`
+        declare function foo(): void;
+        bar();
+      `,
+      output: $`
+        declare function foo(): void;
+        
+        bar();
+      `,
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'declare', next: '*' },
+      ],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    // declare class should require blank line
+    {
+      code: $`
+        declare class Foo {}
+        const x = 1;
+      `,
+      output: $`
+        declare class Foo {}
+        
+        const x = 1;
+      `,
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'declare', next: '*' },
+      ],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    // declare const should require blank line
+    {
+      code: $`
+        declare const x: number;
+        foo();
+      `,
+      output: $`
+        declare const x: number;
+        
+        foo();
+      `,
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'declare', next: '*' },
+      ],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    // declare module should require blank line
+    {
+      code: $`
+        declare module "foo" {}
+        bar();
+      `,
+      output: $`
+        declare module "foo" {}
+        
+        bar();
+      `,
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'declare', next: '*' },
+      ],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    // blank line before declare should be removed when never
+    {
+      code: $`
+        foo();
+        
+        declare const x: number;
+      `,
+      output: $`
+        foo();
+        declare const x: number;
+      `,
+      options: [
+        { blankLine: 'always', prev: '*', next: '*' },
+        { blankLine: 'never', prev: '*', next: 'declare' },
+      ],
+      errors: [{ messageId: 'unexpectedBlankLine' }],
+    },
+    // blank line should be added before declare when always
+    {
+      code: $`
+        foo();
+        declare const x: number;
+      `,
+      output: $`
+        foo();
+        
+        declare const x: number;
+      `,
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: '*', next: 'declare' },
+      ],
       errors: [{ messageId: 'expectedBlankLine' }],
     },
   ],
