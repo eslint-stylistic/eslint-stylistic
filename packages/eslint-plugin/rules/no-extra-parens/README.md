@@ -371,7 +371,9 @@ const quux = (function () {}.apply());
 
 #### allowParensAfterCommentPattern
 
-To make this rule allow extra parentheses preceded by specific comments, set this option to a string pattern that will be passed to the [`RegExp` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp).
+Parentheses preceded by a JSDoc `@type` comment (e.g. `/** @type {Foo} */ (expr)`) are always allowed by default, without needing this option.
+
+To allow extra parentheses preceded by other specific comments, set this option to a string pattern that will be passed to the [`RegExp` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp).
 
 Examples of **correct** code for this rule with the `"all"` and `{ "allowParensAfterCommentPattern": "@type" }` options:
 

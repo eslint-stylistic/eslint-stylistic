@@ -1,8 +1,3 @@
-/**
- * @fileoverview Disallow parenthesising higher precedence subexpressions.
- * @author Michael Ficarra
- */
-
 import type { InvalidTestCase } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
@@ -835,6 +830,8 @@ run<RuleOptions, MessageIds>({
           (options.server.options).requestCert = false;
       }
     `,
+    'const x = /** @type {number} */ (value)',
+    'if (/** @type {A} */ (/** @type {B} */ (/** @type {C} */ (/** @type {D} */ (expr))))) {}',
 
     // "allowParensAfterCommentPattern" option
     {
@@ -3495,5 +3492,15 @@ run<RuleOptions, MessageIds>({
     invalid('_ = () => (\'abc\');', '_ = () => \'abc\';'),
     invalid('if (foo) (\'bar\');', 'if (foo) \'bar\';'),
     invalid('const foo = () => (\'bar\');', 'const foo = () => \'bar\';'),
+
+    {
+      code: 'const x = /** @type {number} */ ((((value))))',
+      output: 'const x = /** @type {number} */ (value)',
+      recursive: 2,
+    },
+    {
+      code: 'if ((/** @type {A} */ (/** @type {B} */ (/** @type {C} */(expr))))) {}',
+      output: 'if (/** @type {A} */ (/** @type {B} */ (/** @type {C} */(expr)))) {}',
+    },
   ],
 })
