@@ -19,6 +19,7 @@ catalogs:
     '@antfu/utils': ^9.3.0
     '@eslint/core': ^1.1.0
     '@eslint/css': ^0.14.1
+    '@eslint/markdown': ^7.5.1
     '@eslint/plugin-kit': ^0.5.1
     '@types/estraverse': ^5.1.7
     '@types/estree': ^1.0.8

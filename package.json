@@ -33,6 +33,7 @@
     "@eslint-stylistic/metadata": "workspace:*",
     "@eslint/core": "catalog:dev",
     "@eslint/css": "catalog:dev",
+    "@eslint/markdown": "catalog:dev",
     "@eslint/plugin-kit": "catalog:dev",
     "@stylistic/eslint-plugin": "workspace:*",
     "@types/estraverse": "catalog:dev",
