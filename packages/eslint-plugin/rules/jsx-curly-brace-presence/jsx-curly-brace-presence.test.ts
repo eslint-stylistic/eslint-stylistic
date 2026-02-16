@@ -1,10 +1,3 @@
-/**
- * @fileoverview Enforce curly braces or disallow unnecessary curly braces in JSX
- * @author Jacky Ho
- */
-
-// For better readability on tests involving quotes
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { BABEL_ESLINT, babelParserOptions, invalids, valids } from '#test/parsers-jsx'

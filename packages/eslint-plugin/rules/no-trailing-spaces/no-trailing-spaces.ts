@@ -12,36 +12,30 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'no-trailing-spaces',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow trailing whitespace at the end of lines',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'object',
         properties: {
           skipBlankLines: {
             type: 'boolean',
-            default: false,
           },
           ignoreComments: {
             type: 'boolean',
-            default: false,
           },
         },
         additionalProperties: false,
       },
     ],
-
+    defaultOptions: [{ skipBlankLines: false, ignoreComments: false }],
     messages: {
       trailingSpace: 'Trailing spaces not allowed.',
     },
   },
-
-  create(context) {
+  create(context, [options]) {
     const sourceCode = context.sourceCode
 
     const BLANK_CLASS = '[ \t\u00A0\u2000-\u200B\u3000]'
@@ -50,9 +44,10 @@ export default createRule<RuleOptions, MessageIds>({
     // eslint-disable-next-line regexp/no-obscure-range
     const NONBLANK = `${BLANK_CLASS}+$`
 
-    const options = context.options[0] || {}
-    const skipBlankLines = options.skipBlankLines || false
-    const ignoreComments = options.ignoreComments || false
+    const {
+      skipBlankLines,
+      ignoreComments,
+    } = options!
 
     /**
      * Report the error message

@@ -30,8 +30,6 @@ const OPTION_VALUE: JSONSchema.JSONSchema4 = {
   ],
 }
 
-const defaultOptionValue = { multiline: false, minProperties: Number.POSITIVE_INFINITY, consistent: true }
-
 interface NormalizedOptions {
   ObjectExpression: { multiline: boolean, minProperties: number, consistent: boolean }
   ObjectPattern: { multiline: boolean, minProperties: number, consistent: boolean }
@@ -71,6 +69,8 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    // eslint-disable-next-line eslint-plugin/require-meta-default-options
+    defaultOptions: [],
     messages: {
       unexpectedLinebreakBeforeClosingBrace: 'Unexpected line break before this closing brace.',
       unexpectedLinebreakAfterOpeningBrace: 'Unexpected line break after this opening brace.',
@@ -78,18 +78,7 @@ export default createRule<RuleOptions, MessageIds>({
       expectedLinebreakAfterOpeningBrace: 'Expected a line break after this opening brace.',
     },
   },
-  defaultOptions: [
-    {
-      ObjectExpression: defaultOptionValue,
-      ObjectPattern: defaultOptionValue,
-      ImportDeclaration: defaultOptionValue,
-      ExportDeclaration: defaultOptionValue,
-      TSTypeLiteral: defaultOptionValue,
-      TSInterfaceBody: defaultOptionValue,
-    },
-  ],
-
-  create(context) {
+  create(context, [options]) {
     const sourceCode = context.sourceCode
 
     /**
@@ -163,7 +152,7 @@ export default createRule<RuleOptions, MessageIds>({
       return { ObjectExpression: value, ObjectPattern: value, ImportDeclaration: value, ExportNamedDeclaration: value, TSTypeLiteral: value, TSInterfaceBody: value, TSEnumBody: value }
     }
 
-    const normalizedOptions = normalizeOptions(context.options[0])
+    const normalizedOptions = normalizeOptions(options)
 
     /**
      * Determines if ObjectExpression, ObjectPattern, ImportDeclaration, ExportNamedDeclaration, TSTypeLiteral or TSInterfaceBody

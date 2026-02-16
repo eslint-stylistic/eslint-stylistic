@@ -1,8 +1,3 @@
-/**
- * @fileoverview Tests for jsx-tag-spacing
- * @author Diogo Franco (Kovensky)
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'

@@ -1,7 +1,7 @@
 {
   "name": "@stylistic/eslint-plugin",
   "type": "module",
-  "version": "5.7.0",
+  "version": "5.8.0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
@@ -62,6 +62,7 @@
     "./rules/jsx-one-expression-per-line": "./dist/rules/jsx-one-expression-per-line.js",
     "./rules/jsx-pascal-case": "./dist/rules/jsx-pascal-case.js",
     "./rules/jsx-props-no-multi-spaces": "./dist/rules/jsx-props-no-multi-spaces.js",
+    "./rules/jsx-props-style": "./dist/rules/jsx-props-style.js",
     "./rules/jsx-quotes": "./dist/rules/jsx-quotes.js",
     "./rules/jsx-self-closing-comp": "./dist/rules/jsx-self-closing-comp.js",
     "./rules/jsx-sort-props": "./dist/rules/jsx-sort-props.js",

@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: hY74YhES9eoNEfu5brdpFWXsHAnaqm_qaqolYKkrxes */
+/* @checksum: DwIn4hmcdJf3jZ6Xcu1g3msHJcNF-eYu7fAQ6Z2BsMY */
 
 export interface NoMultiSpacesSchema0 {
   exceptions?: {

@@ -1,5 +1,3 @@
-// any is required to work around manipulating the AST in weird ways
-
 import type { ASTNode, RuleFunction, RuleListener, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
@@ -120,11 +118,11 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
+    defaultOptions: ['all'],
     messages: {
       unexpected: 'Unnecessary parentheses around expression.',
     },
   },
-  defaultOptions: ['all'],
   create(context, [nodes, options]) {
     const sourceCode = context.sourceCode
 
@@ -718,12 +716,10 @@ export default createRule<RuleOptions, MessageIds>({
           messageId: 'unexpected',
           fix: isFixable(node)
             ? (fixer) => {
-                const parenthesizedSource = sourceCode.text.slice(leftParenToken.range[1], rightParenToken.range[0])
-
-                return fixer.replaceTextRange([
-                  leftParenToken.range[0],
-                  rightParenToken.range[1],
-                ], (requiresLeadingSpace(node) ? ' ' : '') + parenthesizedSource + (requiresTrailingSpace(node) ? ' ' : ''))
+                return [
+                  fixer.replaceText(leftParenToken, requiresLeadingSpace(node) ? ' ' : ''),
+                  fixer.replaceText(rightParenToken, requiresTrailingSpace(node) ? ' ' : ''),
+                ]
               }
             : null,
         })
@@ -1094,14 +1090,16 @@ export default createRule<RuleOptions, MessageIds>({
           if (
             !(EXCEPT_COND_TERNARY && availableTypes.has(node.consequent.type))
             && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.consequent.type))
-            && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
+            && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          ) {
             report(node.consequent)
           }
 
           if (
             !(EXCEPT_COND_TERNARY && availableTypes.has(node.alternate.type))
             && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.alternate.type))
-            && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
+            && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          ) {
             report(node.alternate)
           }
         }
@@ -1327,8 +1325,7 @@ export default createRule<RuleOptions, MessageIds>({
           }
 
           if (nodeObjHasExcessParens
-            && node.object.type === 'CallExpression'
-          ) {
+            && node.object.type === 'CallExpression') {
             report(node.object)
           }
 
@@ -1341,8 +1338,7 @@ export default createRule<RuleOptions, MessageIds>({
 
           if (nodeObjHasExcessParens
             && node.optional
-            && node.object.type === 'ChainExpression'
-          ) {
+            && node.object.type === 'ChainExpression') {
             report(node.object)
           }
 

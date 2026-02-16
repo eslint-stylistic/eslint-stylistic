@@ -7,6 +7,8 @@ run<RuleOptions, MessageIds>({
   rule,
   lang: 'ts',
   valid: [
+    'if (a) {}',
+    'if (\na\n) {}',
     'const a = { foo: "bar", bar: 2 }',
     'const a = {\nfoo: "bar",\nbar: 2\n}',
     'const a = [1, 2, 3]',
@@ -29,6 +31,7 @@ run<RuleOptions, MessageIds>({
     'a\n.filter(items => {\n\n})',
     'new Foo(a, b)',
     'new Foo(\na,\nb\n)',
+    'new (Foo())(a, b)',
     'function foo<T = {\na: 1,\nb: 2\n}>(a, b) {}',
     'foo(() =>\nbar())',
     `call<{\nfoo: 'bar'\n}>('')`,
@@ -144,6 +147,13 @@ run<RuleOptions, MessageIds>({
         z
       )
     `,
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1030#issuecomment-3797379905
+    $`
+      foo?.(
+        [],
+        {},
+      )
+    `,
     // https://github.com/antfu/eslint-plugin-antfu/issues/22
     $`
       import Icon, {
@@ -173,6 +183,32 @@ run<RuleOptions, MessageIds>({
     `,
   ],
   invalid: [
+    {
+      code: $`
+        if (
+        a) {}
+      `,
+      output: $`
+        if (
+        a
+        ) {}
+      `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 2 },
+      ],
+    },
+    {
+      code: $`
+        if (a
+        ) {}
+      `,
+      output: $`
+        if (a) {}
+      `,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 6 },
+      ],
+    },
     {
       code: $`
         const a = {

@@ -107,12 +107,6 @@ export default createRule<RuleOptions, MessageIds>({
         'Require a specific member delimiter style for interfaces and type literals',
     },
     fixable: 'whitespace',
-    messages: {
-      unexpectedComma: 'Unexpected separator (,).',
-      unexpectedSemi: 'Unexpected separator (;).',
-      expectedComma: 'Expected a comma.',
-      expectedSemi: 'Expected a semicolon.',
-    },
     schema: [
       {
         $defs: {
@@ -151,20 +145,26 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-  },
-  defaultOptions: [
-    {
-      multiline: {
-        delimiter: 'semi',
-        requireLast: true,
+    defaultOptions: [
+      {
+        multiline: {
+          delimiter: 'semi',
+          requireLast: true,
+        },
+        singleline: {
+          delimiter: 'semi',
+          requireLast: false,
+        },
+        multilineDetection: 'brackets',
       },
-      singleline: {
-        delimiter: 'semi',
-        requireLast: false,
-      },
-      multilineDetection: 'brackets',
+    ],
+    messages: {
+      unexpectedComma: 'Unexpected separator (,).',
+      unexpectedSemi: 'Unexpected separator (;).',
+      expectedComma: 'Expected a comma.',
+      expectedSemi: 'Expected a semicolon.',
     },
-  ],
+  },
   create(context, [options]) {
     const sourceCode = context.sourceCode
 

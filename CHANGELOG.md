@@ -1,5 +1,44 @@
 # Changelog
 
+## [5.8.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.7.1...v5.8.0) (2026-02-09)
+
+
+### Features
+
+* **list-style:** support if statement ([#1119](https://github.com/eslint-stylistic/eslint-stylistic/issues/1119)) ([23b25ab](https://github.com/eslint-stylistic/eslint-stylistic/commit/23b25abe1be6086f2d7b843229fbdaeb63fec668))
+* new rule `jsx-props-style` ([#1118](https://github.com/eslint-stylistic/eslint-stylistic/issues/1118)) ([dc9cc1b](https://github.com/eslint-stylistic/eslint-stylistic/commit/dc9cc1b5ce09b6d42f4248cc4a3a688660dcd7fa))
+* **space-unary-ops:** allow override `ts-non-null` ([#1120](https://github.com/eslint-stylistic/eslint-stylistic/issues/1120)) ([faca500](https://github.com/eslint-stylistic/eslint-stylistic/commit/faca500773c54df3e5d95203b19e283c2b654f63))
+* upgrade deps ([#1122](https://github.com/eslint-stylistic/eslint-stylistic/issues/1122)) ([773da95](https://github.com/eslint-stylistic/eslint-stylistic/commit/773da95508a5e0289de960af9623b755297e502b))
+
+
+### Bug Fixes
+
+* **list-style:** correctly get `(` for optional call expressions ([#1114](https://github.com/eslint-stylistic/eslint-stylistic/issues/1114)) ([2090a72](https://github.com/eslint-stylistic/eslint-stylistic/commit/2090a728703c7f8522a580983db952361ad0b4ec))
+
+## [5.7.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.7.0...v5.7.1) (2026-01-23)
+
+
+### Bug Fixes
+
+* add `meta` to plugin ([#1102](https://github.com/eslint-stylistic/eslint-stylistic/issues/1102)) ([f9d8a21](https://github.com/eslint-stylistic/eslint-stylistic/commit/f9d8a2143ae854924b58c8bac7c5f5c22a06b5c4))
+* **deps:** revert `eslint-visitor-keys` and `espree` to compatible versions ([#1111](https://github.com/eslint-stylistic/eslint-stylistic/issues/1111)) ([572f1ab](https://github.com/eslint-stylistic/eslint-stylistic/commit/572f1abf6382248e276f0ad2e3107f08a035436f))
+* **disable-legacy:** disable `multiline-comment-style` ([#1103](https://github.com/eslint-stylistic/eslint-stylistic/issues/1103)) ([03fc476](https://github.com/eslint-stylistic/eslint-stylistic/commit/03fc476d716e4aa41390b867f2f0fa0155a9bfec))
+* **no-whitespace-before-property:** detect whitespace in `TSIndexedAccessType` with parens ([#1099](https://github.com/eslint-stylistic/eslint-stylistic/issues/1099)) ([60aafcb](https://github.com/eslint-stylistic/eslint-stylistic/commit/60aafcbf47c086031522c4700ada4b2a313614ce))
+* upgrade deps ([#1112](https://github.com/eslint-stylistic/eslint-stylistic/issues/1112)) ([29a1d0a](https://github.com/eslint-stylistic/eslint-stylistic/commit/29a1d0a5aa0d0f248b515474a1c6583abcd5fe1b))
+
+
+### Documentation
+
+* **indent:** update deprecation tips ([#1109](https://github.com/eslint-stylistic/eslint-stylistic/issues/1109)) ([6a6d30b](https://github.com/eslint-stylistic/eslint-stylistic/commit/6a6d30b125e3bfd031c62ed058358cfcc0356fa5))
+
+
+### Chores
+
+* extract `safeReplaceTextBetween` to reuse common fix logic ([#1104](https://github.com/eslint-stylistic/eslint-stylistic/issues/1104)) ([a49451f](https://github.com/eslint-stylistic/eslint-stylistic/commit/a49451f8246d5efe670116beec741d993c53a682))
+* **jsx-rules:** cleanup `meta`, use `defaultOptions` ([#1108](https://github.com/eslint-stylistic/eslint-stylistic/issues/1108)) ([55bbd1d](https://github.com/eslint-stylistic/eslint-stylistic/commit/55bbd1d52f5d5b300bfd6032a17c4ada66629453))
+* **line-comment-position:** simplify options initialization ([#1106](https://github.com/eslint-stylistic/eslint-stylistic/issues/1106)) ([4d6b10a](https://github.com/eslint-stylistic/eslint-stylistic/commit/4d6b10ad6a29ec4443b66db3634f88e314df4f74))
+* use `defaultOptions` in rules ([#1105](https://github.com/eslint-stylistic/eslint-stylistic/issues/1105)) ([666e8ee](https://github.com/eslint-stylistic/eslint-stylistic/commit/666e8eea27f98ffeb836ede36ce81491a8c580e7))
+
 ## [5.7.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.6.1...v5.7.0) (2026-01-09)
 
 

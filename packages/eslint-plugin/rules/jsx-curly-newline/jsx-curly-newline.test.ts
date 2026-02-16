@@ -1,7 +1,3 @@
-/**
- * @fileoverview enforce consistent line breaks inside jsx curly
- */
-
 import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'

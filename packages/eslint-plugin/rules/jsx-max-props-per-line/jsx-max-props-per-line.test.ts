@@ -1,8 +1,3 @@
-/**
- * @fileoverview Limit maximum of props on a single line in JSX
- * @author Yannick Croissant
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'

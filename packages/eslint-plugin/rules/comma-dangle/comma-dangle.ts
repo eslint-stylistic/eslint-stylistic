@@ -58,6 +58,7 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Require or disallow trailing commas',
     },
+    fixable: 'code',
     schema: {
       $defs: {
         value: {
@@ -97,13 +98,12 @@ export default createRule<RuleOptions, MessageIds>({
       ],
       additionalItems: false,
     },
-    fixable: 'code',
+    defaultOptions: ['never'],
     messages: {
       unexpected: 'Unexpected trailing comma.',
       missing: 'Missing trailing comma.',
     },
   },
-  defaultOptions: ['never'],
   create(context, [options]) {
     function normalizeOptions(options: Option = {}, ecmaVersion: EcmaVersion | 'latest' | undefined): NormalizedOptions {
       const DEFAULT_OPTION_VALUE = 'never'
@@ -136,10 +136,10 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    const ecmaVersion = context?.languageOptions?.ecmaVersion ?? context.parserOptions.ecmaVersion as EcmaVersion | undefined
+    const ecmaVersion = context.languageOptions?.ecmaVersion ?? context.parserOptions?.ecmaVersion as EcmaVersion | undefined
     const normalizedOptions = normalizeOptions(options, ecmaVersion)
 
-    const isTSX = context.parserOptions?.ecmaFeatures?.jsx
+    const isTSX = (context.languageOptions?.parserOptions?.ecmaFeatures?.jsx ?? context.parserOptions?.ecmaFeatures?.jsx)
       && context.filename?.endsWith('.tsx')
 
     const sourceCode = context.sourceCode

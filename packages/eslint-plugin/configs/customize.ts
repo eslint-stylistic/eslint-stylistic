@@ -13,6 +13,8 @@ type Rules = Partial<{
  * A factory function to customize the recommended config
  */
 export function customize(options: StylisticCustomizeOptions = {}): Linter.Config {
+  const defaultPluginName = plugin.meta.namespace
+
   const {
     arrowParens = false,
     blockSpacing = true,
@@ -21,7 +23,7 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
     experimental: enableExperimentalRules = false,
     indent = 2,
     jsx = true,
-    pluginName = '@stylistic',
+    pluginName = defaultPluginName,
     quoteProps = 'consistent-as-needed',
     quotes = 'single',
     semi = false,
@@ -185,18 +187,25 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
       '@stylistic/array-bracket-newline': 'off',
       '@stylistic/array-bracket-spacing': 'off',
       '@stylistic/array-element-newline': 'off',
-      '@stylistic/exp-list-style': 'error',
+      '@stylistic/exp-list-style': severity,
       '@stylistic/function-call-argument-newline': 'off',
       '@stylistic/function-paren-newline': 'off',
-      '@stylistic/jsx-function-call-newline': 'off',
       '@stylistic/object-curly-newline': 'off',
       '@stylistic/object-curly-spacing': 'off',
       '@stylistic/object-property-newline': 'off',
+      ...jsx
+        ? {
+            '@stylistic/exp-jsx-props-style': severity,
+            '@stylistic/jsx-first-prop-new-line': 'off',
+            '@stylistic/jsx-function-call-newline': 'off',
+            '@stylistic/jsx-max-props-per-line': 'off',
+          }
+        : {},
     }
   }
 
-  if (pluginName !== '@stylistic') {
-    const regex = /^@stylistic\//
+  if (pluginName !== defaultPluginName) {
+    const regex = new RegExp(`^${defaultPluginName}/`)
     rules = Object.fromEntries(
       Object.entries(rules!)
         .map(([ruleName, ruleConfig]) => [

@@ -1,9 +1,4 @@
-/**
- * @fileoverview Enforce props alphabetical sorting
- * @author Ilya Volodin, Yannick Croissant
- */
-
-import type { ASTNode, RuleContext, RuleFixer, Token, Tree } from '#types'
+import type { ASTNode, RuleContext, RuleFixer, SourceCode, Token, Tree } from '#types'
 import type { JsxSortPropsRuleOptions, MessageIds, RuleOptions } from './types'
 import { isSingleLine } from '#utils/ast'
 import { getPropName, isDOMComponent } from '#utils/ast/jsx'
@@ -15,18 +10,6 @@ type JsxCompareOptions = Required<JsxSortPropsRuleOptions[0]> & {
 
 function isCallbackPropName(name: string) {
   return /^on[A-Z]/.test(name)
-}
-
-const messages = {
-  listIsEmpty: 'A customized reserved first list must not be empty',
-  listReservedPropsFirst: 'Reserved props must be listed before all other props',
-  listReservedPropsLast: 'Reserved props must be listed after all other props',
-  listCallbacksLast: 'Callbacks must be listed after all other props',
-  listShorthandFirst: 'Shorthand props must be listed before all other props',
-  listShorthandLast: 'Shorthand props must be listed after all other props',
-  listMultilineFirst: 'Multiline props must be listed before all other props',
-  listMultilineLast: 'Multiline props must be listed after all other props',
-  sortPropsByAlpha: 'Props should be sorted alphabetically',
 }
 
 const RESERVED_PROPS_LIST = [
@@ -48,9 +31,9 @@ function shouldSortToEnd(node: Tree.JSXAttribute) {
   return !!attr && !!attr.hasComment
 }
 
-function contextCompare(a: Tree.JSXAttribute, b: Tree.JSXAttribute, options: JsxCompareOptions) {
-  let aProp = getPropName(a)
-  let bProp = getPropName(b)
+function contextCompare(sourceCode: SourceCode, a: Tree.JSXAttribute, b: Tree.JSXAttribute, options: JsxCompareOptions) {
+  let aProp = getPropName(sourceCode, a)
+  let bProp = getPropName(sourceCode, b)
   const aPropNamespace = aProp.split(':')[0]
   const bPropNamespace = bProp.split(':')[0]
 
@@ -253,7 +236,7 @@ function generateFixerFunction(node: Tree.JSXOpeningElement, context: Readonly<R
   const sortableAttributeGroups = getGroupsOfSortableAttributes(attributes, context)
   const sortedAttributeGroups = sortableAttributeGroups
     .slice(0)
-    .map(group => [...group].sort((a, b) => contextCompare(a, b, options)))
+    .map(group => [...group].sort((a, b) => contextCompare(context.sourceCode, a, b, options)))
 
   return function fixFunction(fixer: RuleFixer) {
     const fixers: { range: [number, number], text: string }[] = []
@@ -345,7 +328,6 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-sort-props',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce props alphabetical sorting',
     },
@@ -366,8 +348,6 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
-    messages,
-
     schema: [{
       type: 'object',
       properties: {
@@ -388,7 +368,6 @@ export default createRule<RuleOptions, MessageIds>({
         multiline: {
           type: 'string',
           enum: ['ignore', 'first', 'last'],
-          default: 'ignore',
         },
         ignoreCase: {
           type: 'boolean',
@@ -418,26 +397,48 @@ export default createRule<RuleOptions, MessageIds>({
         },
         locale: {
           type: 'string',
-          default: 'auto',
         },
       },
       additionalProperties: false,
     }],
+    defaultOptions: [{
+      ignoreCase: false,
+      callbacksLast: false,
+      shorthandFirst: false,
+      shorthandLast: false,
+      multiline: 'ignore',
+      noSortAlphabetically: false,
+      reservedFirst: false,
+      reservedLast: [],
+      locale: 'auto',
+    }],
+    messages: {
+      listIsEmpty: 'A customized reserved first list must not be empty',
+      listReservedPropsFirst: 'Reserved props must be listed before all other props',
+      listReservedPropsLast: 'Reserved props must be listed after all other props',
+      listCallbacksLast: 'Callbacks must be listed after all other props',
+      listShorthandFirst: 'Shorthand props must be listed before all other props',
+      listShorthandLast: 'Shorthand props must be listed after all other props',
+      listMultilineFirst: 'Multiline props must be listed before all other props',
+      listMultilineLast: 'Multiline props must be listed after all other props',
+      sortPropsByAlpha: 'Props should be sorted alphabetically',
+    },
   },
-
-  create(context) {
-    const configuration = context.options[0] || {}
-    const ignoreCase = configuration.ignoreCase || false
-    const callbacksLast = configuration.callbacksLast || false
-    const shorthandFirst = configuration.shorthandFirst || false
-    const shorthandLast = configuration.shorthandLast || false
-    const multiline = configuration.multiline || 'ignore'
-    const noSortAlphabetically = configuration.noSortAlphabetically || false
-    const reservedFirst = configuration.reservedFirst || false
-    const reservedFirstError = validateReservedFirstConfig(context, reservedFirst)
+  create(context, [options]) {
+    const { sourceCode } = context
+    const {
+      ignoreCase,
+      callbacksLast,
+      shorthandFirst,
+      shorthandLast,
+      multiline,
+      noSortAlphabetically,
+      reservedFirst,
+      reservedLast,
+      locale,
+    } = options!
+    const reservedFirstError = validateReservedFirstConfig(context, reservedFirst!)
     const reservedList = Array.isArray(reservedFirst) ? reservedFirst : RESERVED_PROPS_LIST
-    const reservedLastList = configuration.reservedLast || []
-    const locale = configuration.locale || 'auto'
 
     return {
       Program() {
@@ -452,8 +453,8 @@ export default createRule<RuleOptions, MessageIds>({
           if (decl.type === 'JSXSpreadAttribute')
             return attrs[idx + 1]
 
-          let previousPropName = getPropName(memo)
-          let currentPropName = getPropName(decl)
+          let previousPropName = getPropName(sourceCode, memo)
+          let currentPropName = getPropName(sourceCode, decl)
           const previousReservedNamespace = previousPropName.split(':')[0]
           const currentReservedNamespace = currentPropName.split(':')[0]
           const previousValue = (<Tree.JSXAttribute>memo).value
@@ -497,9 +498,9 @@ export default createRule<RuleOptions, MessageIds>({
             }
           }
 
-          if (reservedLastList.length > 0) {
-            const previousReservedIndex = getReservedPropIndex(previousPropName, reservedLastList)
-            const currentReservedIndex = getReservedPropIndex(currentPropName, reservedLastList)
+          if (reservedLast!.length > 0) {
+            const previousReservedIndex = getReservedPropIndex(previousPropName, reservedLast!)
+            const currentReservedIndex = getReservedPropIndex(currentPropName, reservedLast!)
 
             if (previousReservedIndex === -1 && currentReservedIndex > -1)
               return decl

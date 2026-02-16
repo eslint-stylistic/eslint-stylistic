@@ -148,13 +148,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'spaced-comment',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent spacing after the `//` or `/*` in a comment',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
@@ -210,7 +207,6 @@ export default createRule<RuleOptions, MessageIds>({
               },
               balanced: {
                 type: 'boolean',
-                default: false,
               },
             },
             additionalProperties: false,
@@ -219,7 +215,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
+    defaultOptions: ['always'],
     messages: {
       unexpectedSpaceAfterMarker: 'Unexpected space or tab after marker ({{refChar}}) in comment.',
       expectedExceptionAfter: 'Expected exception block, space or tab after \'{{refChar}}\' in comment.',
@@ -229,19 +225,16 @@ export default createRule<RuleOptions, MessageIds>({
       expectedSpaceAfter: 'Expected space or tab after \'{{refChar}}\' in comment.',
     },
   },
-
-  create(context) {
+  create(context, [style, config = {}]) {
     const sourceCode = context.sourceCode
 
-    // Unless the first option is never, require a space
-    const requireSpace = context.options[0] !== 'never'
+    const requireSpace = style !== 'never'
 
     /**
      * Parse the second options.
      * If markers don't include `"*"`, it's added automatically for JSDoc
      * comments.
      */
-    const config = context.options[1] || {}
     const balanced = config.block && config.block.balanced
 
     const styleRules = ['block', 'line'].reduce((rule, type: string) => {
