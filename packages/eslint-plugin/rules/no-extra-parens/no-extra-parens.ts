@@ -690,19 +690,15 @@ export default createRule<RuleOptions, MessageIds>({
 
         if (isIIFE(node) && !('callee' in node && isParenthesised(node.callee)))
           return
-
-        if (isAllowedByCommentDirective(leftParenToken))
-          return
       }
-      else {
-        let parenLayers = 2
-        while (isAllowedByCommentDirective(leftParenToken)) {
-          if (!isParenthesizedRaw(parenLayers, node, sourceCode))
-            return
-          leftParenToken = sourceCode.getTokenBefore(leftParenToken, isOpeningParenToken)!
-          rightParenToken = sourceCode.getTokenAfter(rightParenToken, isClosingParenToken)!
-          parenLayers++
-        }
+
+      let parenLayers = 2
+      while (isAllowedByCommentDirective(leftParenToken)) {
+        if (!isParenthesizedRaw(parenLayers, node, sourceCode))
+          return
+        leftParenToken = sourceCode.getTokenBefore(leftParenToken, isOpeningParenToken)!
+        rightParenToken = sourceCode.getTokenAfter(rightParenToken, isClosingParenToken)!
+        parenLayers++
       }
 
       /**
