@@ -1,5 +1,22 @@
 # Changelog
 
+## [5.8.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.8.0...v5.8.1) (2026-02-16)
+
+
+### Bug Fixes
+
+* **comma-dangle:** check tsx file correctly ([#1127](https://github.com/eslint-stylistic/eslint-stylistic/issues/1127)) ([271da42](https://github.com/eslint-stylistic/eslint-stylistic/commit/271da423f8d47e264e5a9e1ded444eaa7b208c43))
+* **comma-dangle:** prevent crash when linting non-js files ([#1140](https://github.com/eslint-stylistic/eslint-stylistic/issues/1140)) ([4a96eae](https://github.com/eslint-stylistic/eslint-stylistic/commit/4a96eae4e31998904bc3c2b5c0719920a7984f98))
+* **indent:** ignore when source code is not ESTree ([#1139](https://github.com/eslint-stylistic/eslint-stylistic/issues/1139)) ([9e7f422](https://github.com/eslint-stylistic/eslint-stylistic/commit/9e7f42264b9462e21c269568e506977d5abac8ed))
+* **object-curly-spacing:** correctly handle object patterns with type annotations ([#1129](https://github.com/eslint-stylistic/eslint-stylistic/issues/1129)) ([5aaaec6](https://github.com/eslint-stylistic/eslint-stylistic/commit/5aaaec61ed9f4f7cc4fb431e5628f5d67e48be3c))
+
+
+### Chores
+
+* **lines-around-comment:** improve extensibility of allow boundary checks ([#1136](https://github.com/eslint-stylistic/eslint-stylistic/issues/1136)) ([18b961e](https://github.com/eslint-stylistic/eslint-stylistic/commit/18b961eacd7a37dc772a3669e236e60773965d9d))
+* **no-extra-parens:** simplify fixer ([#1133](https://github.com/eslint-stylistic/eslint-stylistic/issues/1133)) ([3504e1f](https://github.com/eslint-stylistic/eslint-stylistic/commit/3504e1fa3901f68d7d028465a1c0f779077db7eb))
+* **on-var-declaration-per-line:** simplify fixer ([#1132](https://github.com/eslint-stylistic/eslint-stylistic/issues/1132)) ([c827fde](https://github.com/eslint-stylistic/eslint-stylistic/commit/c827fde7e77e2a66b0873c41d10bb8e02cb2bf66))
+
 ## [5.8.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.7.1...v5.8.0) (2026-02-09)
 
 
