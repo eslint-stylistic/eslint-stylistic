@@ -1,6 +1,6 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, AST_TOKEN_TYPES, COMMENTS_IGNORE_PATTERN, isCommentToken, isHashbangComment, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES, COMMENTS_IGNORE_PATTERN, isCommentToken, isHashbangComment, isNodeOfTypes, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 /**
@@ -32,6 +32,59 @@ function getCommentLineNums(comments: Tree.Comment[]): number[] {
   return lines
 }
 
+type AllowBoundary = 'Start' | 'End'
+const ALLOW_TARGETS = ['Block', 'Class', 'Object', 'Array', 'Interface', 'Type', 'Enum', 'Module'] as const
+type AllowTarget = (typeof ALLOW_TARGETS)[number]
+type AllowOptionName<T extends AllowTarget = AllowTarget> = `allow${T}${AllowBoundary}`
+
+const ALLOW_NODE_TYPES: Record<AllowTarget, AST_NODE_TYPES[]> = {
+  Block: [
+    AST_NODE_TYPES.ClassBody,
+    AST_NODE_TYPES.BlockStatement,
+    AST_NODE_TYPES.StaticBlock,
+    AST_NODE_TYPES.SwitchCase,
+    AST_NODE_TYPES.SwitchStatement,
+  ],
+  Class: [
+    AST_NODE_TYPES.ClassBody,
+  ],
+  Object: [
+    AST_NODE_TYPES.ObjectExpression,
+    AST_NODE_TYPES.ObjectPattern,
+  ],
+  Array: [
+    AST_NODE_TYPES.ArrayExpression,
+    AST_NODE_TYPES.ArrayPattern,
+  ],
+  Interface: [
+    AST_NODE_TYPES.TSInterfaceBody,
+  ],
+  Type: [
+    AST_NODE_TYPES.TSTypeLiteral,
+  ],
+  Enum: [
+    AST_NODE_TYPES.TSEnumBody,
+    AST_NODE_TYPES.TSEnumDeclaration,
+  ],
+  Module: [
+    AST_NODE_TYPES.TSModuleBlock,
+  ],
+}
+
+function getAllowOptionName<T extends AllowTarget>(
+  target: T,
+  boundary: AllowBoundary,
+): AllowOptionName<T> {
+  return `allow${target}${boundary}`
+}
+
+const ALLOW_SCHEMA_PROPERTIES = Object.fromEntries(
+  ALLOW_TARGETS.flatMap(target => [
+    [getAllowOptionName(target, 'Start'), { type: 'boolean' }],
+    [getAllowOptionName(target, 'End'), { type: 'boolean' }],
+  ]),
+)
+
 export default createRule<RuleOptions, MessageIds>({
   name: 'lines-around-comment',
   meta: {
@@ -56,54 +109,7 @@ export default createRule<RuleOptions, MessageIds>({
           afterLineComment: {
             type: 'boolean',
           },
-          allowBlockStart: {
-            type: 'boolean',
-          },
-          allowBlockEnd: {
-            type: 'boolean',
-          },
-          allowClassStart: {
-            type: 'boolean',
-          },
-          allowClassEnd: {
-            type: 'boolean',
-          },
-          allowObjectStart: {
-            type: 'boolean',
-          },
-          allowObjectEnd: {
-            type: 'boolean',
-          },
-          allowArrayStart: {
-            type: 'boolean',
-          },
-          allowArrayEnd: {
-            type: 'boolean',
-          },
-          allowInterfaceStart: {
-            type: 'boolean',
-          },
-          allowInterfaceEnd: {
-            type: 'boolean',
-          },
-          allowTypeStart: {
-            type: 'boolean',
-          },
-          allowTypeEnd: {
-            type: 'boolean',
-          },
-          allowEnumStart: {
-            type: 'boolean',
-          },
-          allowEnumEnd: {
-            type: 'boolean',
-          },
-          allowModuleStart: {
-            type: 'boolean',
-          },
-          allowModuleEnd: {
-            type: 'boolean',
-          },
+          ...ALLOW_SCHEMA_PROPERTIES,
           ignorePattern: {
             type: 'string',
           },
@@ -128,6 +134,7 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   create(context, [options]) {
+    const normalizedOptions = options!
     const defaultIgnoreRegExp = COMMENTS_IGNORE_PATTERN
     const {
       beforeBlockComment,
@@ -135,25 +142,9 @@ export default createRule<RuleOptions, MessageIds>({
       beforeLineComment,
       afterLineComment,
       afterHashbangComment,
-      allowBlockStart,
-      allowBlockEnd,
-      allowClassStart,
-      allowClassEnd,
-      allowObjectStart,
-      allowObjectEnd,
-      allowArrayStart,
-      allowArrayEnd,
-      allowInterfaceStart,
-      allowInterfaceEnd,
-      allowTypeStart,
-      allowTypeEnd,
-      allowEnumStart,
-      allowEnumEnd,
-      allowModuleStart,
-      allowModuleEnd,
       applyDefaultIgnorePatterns,
       ignorePattern = '',
-    } = options!
+    } = normalizedOptions
     const customIgnoreRegExp = ignorePattern ? new RegExp(ignorePattern, 'u') : null
 
     const sourceCode = context.sourceCode
@@ -191,16 +182,6 @@ export default createRule<RuleOptions, MessageIds>({
         return true
 
       return false
-    }
-
-    /**
-     * @returns whether comments are inside a node type.
-     */
-    function isParentNodeType<T extends Tree.AST_NODE_TYPES>(
-      parent: ASTNode,
-      nodeType: T,
-    ): parent is Extract<ASTNode, { type: T }> {
-      return parent.type === nodeType
     }
 
     /**
@@ -244,11 +225,11 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function isCommentAtParentStart(
       token: Token,
-      nodeType: AST_NODE_TYPES,
+      nodeTypes: AST_NODE_TYPES[],
     ): boolean {
       const parent = getParentNodeOfToken(token)
 
-      if (parent && isParentNodeType(parent, nodeType)) {
+      if (parent && isNodeOfTypes(nodeTypes)(parent)) {
         let parentStartNodeOrToken: Token | ASTNode | null = parent
 
         if (parent.type === 'StaticBlock') {
@@ -271,135 +252,51 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function isCommentAtParentEnd(
       token: Token,
-      nodeType: Tree.AST_NODE_TYPES,
+      nodeTypes: Tree.AST_NODE_TYPES[],
     ): boolean {
       const parent = getParentNodeOfToken(token)
 
       return (
         !!parent
-        && isParentNodeType(parent, nodeType)
+        && isNodeOfTypes(nodeTypes)(parent)
         && parent.loc.end.line - token.loc.end.line === 1
       )
     }
 
-    /**
-     * Returns whether or not comments are at the block start or not.
-     * @param token The Comment token.
-     * @returns True if the comment is at block start.
-     */
-    function isCommentAtBlockStart(token: Token) {
-      return (
-        isCommentAtParentStart(token, AST_NODE_TYPES.ClassBody)
-        || isCommentAtParentStart(token, AST_NODE_TYPES.BlockStatement)
-        || isCommentAtParentStart(token, AST_NODE_TYPES.StaticBlock)
-        || isCommentAtParentStart(token, AST_NODE_TYPES.SwitchCase)
-        || isCommentAtParentStart(token, AST_NODE_TYPES.SwitchStatement)
-      )
+    function isCommentAtBoundary(
+      token: Tree.Comment,
+      target: AllowTarget,
+      boundary: AllowBoundary,
+    ): boolean {
+      const boundaryChecker = boundary === 'Start'
+        ? isCommentAtParentStart
+        : isCommentAtParentEnd
+
+      return boundaryChecker(token, ALLOW_NODE_TYPES[target])
     }
 
-    /**
-     * Returns whether or not comments are at the block end or not.
-     * @param token The Comment token.
-     * @returns True if the comment is at block end.
-     */
-    function isCommentAtBlockEnd(token: Token) {
-      return (
-        isCommentAtParentEnd(token, AST_NODE_TYPES.ClassBody)
-        || isCommentAtParentEnd(token, AST_NODE_TYPES.BlockStatement)
-        || isCommentAtParentEnd(token, AST_NODE_TYPES.StaticBlock)
-        || isCommentAtParentEnd(token, AST_NODE_TYPES.SwitchCase)
-        || isCommentAtParentEnd(token, AST_NODE_TYPES.SwitchStatement)
-      )
-    }
+    function isExceptionAllowed(token: Tree.Comment, boundary: AllowBoundary): boolean {
+      const blockOptionName = getAllowOptionName('Block', boundary)
+      const classOptionName = getAllowOptionName('Class', boundary)
 
-    /**
-     * Returns whether or not comments are at the class start or not.
-     * @param token The Comment token.
-     * @returns True if the comment is at class start.
-     */
-    function isCommentAtClassStart(token: Token) {
-      return isCommentAtParentStart(token, AST_NODE_TYPES.ClassBody)
-    }
+      if (
+        normalizedOptions[blockOptionName]
+        && isCommentAtBoundary(token, 'Block', boundary)
+        && !(
+          normalizedOptions[classOptionName] === false
+          && isCommentAtBoundary(token, 'Class', boundary)
+        )
+      ) {
+        return true
+      }
 
-    /**
-     * Returns whether or not comments are at the class end or not.
-     * @param token The Comment token.
-     * @returns True if the comment is at class end.
-     */
-    function isCommentAtClassEnd(token: Token) {
-      return isCommentAtParentEnd(token, AST_NODE_TYPES.ClassBody)
-    }
+      return ALLOW_TARGETS.some((target) => {
+        if (target === 'Block')
+          return false
 
-    /**
-     * Returns whether or not comments are at the object start or not.
-     * @param token The Comment token.
-     * @returns True if the comment is at object start.
-     */
-    function isCommentAtObjectStart(token: Token) {
-      return isCommentAtParentStart(token, AST_NODE_TYPES.ObjectExpression)
-        || isCommentAtParentStart(token, AST_NODE_TYPES.ObjectPattern)
-    }
-
-    /**
-     * Returns whether or not comments are at the object end or not.
-     * @param token The Comment token.
-     * @returns True if the comment is at object end.
-     */
-    function isCommentAtObjectEnd(token: Token) {
-      return isCommentAtParentEnd(token, AST_NODE_TYPES.ObjectExpression)
-        || isCommentAtParentEnd(token, AST_NODE_TYPES.ObjectPattern)
-    }
-
-    /**
-     * Returns whether or not comments are at the array start or not.
-     * @param token The Comment token.
-     * @returns True if the comment is at array start.
-     */
-    function isCommentAtArrayStart(token: Token) {
-      return isCommentAtParentStart(token, AST_NODE_TYPES.ArrayExpression)
-        || isCommentAtParentStart(token, AST_NODE_TYPES.ArrayPattern)
-    }
-
-    /**
-     * Returns whether or not comments are at the array end or not.
-     * @param token The Comment token.
-     * @returns True if the comment is at array end.
-     */
-    function isCommentAtArrayEnd(token: Token) {
-      return isCommentAtParentEnd(token, AST_NODE_TYPES.ArrayExpression)
-        || isCommentAtParentEnd(token, AST_NODE_TYPES.ArrayPattern)
-    }
-
-    function isCommentAtInterfaceStart(token: Tree.Comment): boolean {
-      return isCommentAtParentStart(token, AST_NODE_TYPES.TSInterfaceBody)
-    }
-
-    function isCommentAtInterfaceEnd(token: Tree.Comment): boolean {
-      return isCommentAtParentEnd(token, AST_NODE_TYPES.TSInterfaceBody)
-    }
-
-    function isCommentAtTypeStart(token: Tree.Comment): boolean {
-      return isCommentAtParentStart(token, AST_NODE_TYPES.TSTypeLiteral)
-    }
-
-    function isCommentAtTypeEnd(token: Tree.Comment): boolean {
-      return isCommentAtParentEnd(token, AST_NODE_TYPES.TSTypeLiteral)
-    }
-
-    function isCommentAtEnumStart(token: Tree.Comment): boolean {
-      return isCommentAtParentStart(token, AST_NODE_TYPES.TSEnumBody) || isCommentAtParentStart(token, AST_NODE_TYPES.TSEnumDeclaration)
-    }
-
-    function isCommentAtEnumEnd(token: Tree.Comment): boolean {
-      return isCommentAtParentEnd(token, AST_NODE_TYPES.TSEnumBody) || isCommentAtParentEnd(token, AST_NODE_TYPES.TSEnumDeclaration)
-    }
-
-    function isCommentAtModuleStart(token: Tree.Comment): boolean {
-      return isCommentAtParentStart(token, AST_NODE_TYPES.TSModuleBlock)
-    }
-
-    function isCommentAtModuleEnd(token: Tree.Comment): boolean {
-      return isCommentAtParentEnd(token, AST_NODE_TYPES.TSModuleBlock)
+        const optionName = getAllowOptionName(target, boundary)
+        return Boolean(normalizedOptions[optionName]) && isCommentAtBoundary(token, target, boundary)
+      })
     }
 
     function checkForEmptyLine(
@@ -430,71 +327,8 @@ export default createRule<RuleOptions, MessageIds>({
       if (codeAroundComment(token))
         return
 
-      const blockStartAllowed
-        = Boolean(allowBlockStart)
-          && isCommentAtBlockStart(token)
-          && !(allowClassStart === false && isCommentAtClassStart(token))
-      const blockEndAllowed
-        = Boolean(allowBlockEnd)
-          && isCommentAtBlockEnd(token)
-          && !(
-            allowClassEnd === false
-            && isCommentAtClassEnd(token)
-          )
-      const classStartAllowed
-        = Boolean(allowClassStart)
-          && isCommentAtClassStart(token)
-      const classEndAllowed
-        = Boolean(allowClassEnd)
-          && isCommentAtClassEnd(token)
-      const objectStartAllowed
-        = Boolean(allowObjectStart)
-          && isCommentAtObjectStart(token)
-      const objectEndAllowed
-        = Boolean(allowObjectEnd)
-          && isCommentAtObjectEnd(token)
-      const arrayStartAllowed
-        = Boolean(allowArrayStart)
-          && isCommentAtArrayStart(token)
-      const arrayEndAllowed
-        = Boolean(allowArrayEnd)
-          && isCommentAtArrayEnd(token)
-      const interfaceStartAllowed
-        = Boolean(allowInterfaceStart)
-          && isCommentAtInterfaceStart(token)
-      const interfaceEndAllowed
-        = Boolean(allowInterfaceEnd) && isCommentAtInterfaceEnd(token)
-      const typeStartAllowed
-        = Boolean(allowTypeStart) && isCommentAtTypeStart(token)
-      const typeEndAllowed
-        = Boolean(allowTypeEnd) && isCommentAtTypeEnd(token)
-      const enumStartAllowed
-        = Boolean(allowEnumStart) && isCommentAtEnumStart(token)
-      const enumEndAllowed
-        = Boolean(allowEnumEnd) && isCommentAtEnumEnd(token)
-      const moduleStartAllowed
-        = Boolean(allowModuleStart) && isCommentAtModuleStart(token)
-      const moduleEndAllowed
-        = Boolean(allowModuleEnd) && isCommentAtModuleEnd(token)
-
-      const exceptionStartAllowed
-        = blockStartAllowed
-          || classStartAllowed
-          || objectStartAllowed
-          || arrayStartAllowed
-          || interfaceStartAllowed
-          || typeStartAllowed
-          || enumStartAllowed
-          || moduleStartAllowed
-      const exceptionEndAllowed
-        = blockEndAllowed
-          || classEndAllowed
-          || objectEndAllowed
-          || arrayEndAllowed
-          || interfaceEndAllowed
-          || typeEndAllowed
-          || enumEndAllowed
-          || moduleEndAllowed
+      const exceptionStartAllowed = isExceptionAllowed(token, 'Start')
+      const exceptionEndAllowed = isExceptionAllowed(token, 'End')
 
       const previousTokenOrComment = sourceCode.getTokenBefore(token, {
         includeComments: true,
