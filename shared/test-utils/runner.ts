@@ -35,7 +35,7 @@ const defaultOptions: Record<TestLanguage, RuleTesterInitOptions> = {
   markdown: {
     configs: {
       plugins: {
-        markdown: eslintMarkdown,
+        markdown: eslintMarkdown as ESLint.Plugin,
       },
       language: 'markdown/gfm',
     },

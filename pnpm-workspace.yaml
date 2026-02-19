@@ -26,8 +26,8 @@ catalogs:
     '@types/node': ^25.2.2
     '@types/picomatch': ^4.0.2
     '@types/semver': ^7.7.1
-    '@typescript-eslint/parser': ^8.55.0
-    '@typescript-eslint/utils': ^8.55.0
+    '@typescript-eslint/parser': ^8.56.0
+    '@typescript-eslint/utils': ^8.56.0
     change-case: ^5.4.4
     escape-string-regexp: ^5.0.0
     eslint: ^10.0.0
