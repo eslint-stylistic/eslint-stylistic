@@ -113,3 +113,33 @@ jobs:
 
       - name: Fixtures
         run: nr test:fixtures
+
+  test-eslint9:
+    runs-on: ubuntu-slim
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - name: Setup
+        run: npm i -g @antfu/ni
+
+      - name: Install
+        run: nci
+
+      - run: ni eslint@9 -D
+
+      - name: Restore dist cache
+        uses: actions/download-artifact@v7
+        with:
+          name: dist
+          path: packages
+
+      - name: Test
+        run: nr test
+
+      - name: Fixtures
+        run: nr test:fixtures

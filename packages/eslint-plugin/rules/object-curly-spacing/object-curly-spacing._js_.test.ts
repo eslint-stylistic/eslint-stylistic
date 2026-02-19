@@ -4,7 +4,7 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { run, skipBabel } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from './object-curly-spacing'
 
@@ -162,12 +162,6 @@ run<RuleOptions, MessageIds>({
     { code: 'export {} from \'foo\';', options: ['never'], parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
     { code: 'export {};', options: ['never'], parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
 
-    // https://github.com/eslint/eslint/issues/6940
-    {
-      code: 'function foo ({a, b}: Props) {\n}',
-      options: ['never'],
-      languageOptions: languageOptionsForBabelFlow,
-    },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/906
     `import foo, * as bar from 'mod'`,
     {
@@ -1345,23 +1339,6 @@ run<RuleOptions, MessageIds>({
       ],
     },
 
-    // https://github.com/eslint/eslint/issues/6940
-    {
-      code: 'function foo ({a, b }: Props) {\n}',
-      output: 'function foo ({a, b}: Props) {\n}',
-      options: ['never'],
-      languageOptions: languageOptionsForBabelFlow,
-      errors: [
-        {
-          messageId: 'unexpectedSpaceBefore',
-          data: { token: '}' },
-          line: 1,
-          column: 20,
-          endLine: 1,
-          endColumn: 21,
-        },
-      ],
-    },
     {
       code: 'var obj = {};',
       output: 'var obj = { };',
@@ -1529,3 +1506,37 @@ run<RuleOptions, MessageIds>({
     },
   ],
 })
+
+if (!skipBabel) {
+  run<RuleOptions, MessageIds>({
+    name: 'object-curly-spacing_babel',
+    rule,
+    valid: [
+      // https://github.com/eslint/eslint/issues/6940
+      {
+        code: 'function foo ({a, b}: Props) {\n}',
+        options: ['never'],
+        languageOptions: languageOptionsForBabelFlow,
+      },
+    ],
+    invalid: [
+      // https://github.com/eslint/eslint/issues/6940
+      {
+        code: 'function foo ({a, b }: Props) {\n}',
+        output: 'function foo ({a, b}: Props) {\n}',
+        options: ['never'],
+        languageOptions: languageOptionsForBabelFlow,
+        errors: [
+          {
+            messageId: 'unexpectedSpaceBefore',
+            data: { token: '}' },
+            line: 1,
+            column: 20,
+            endLine: 1,
+            endColumn: 21,
+          },
+        ],
+      },
+    ],
+  })
+}

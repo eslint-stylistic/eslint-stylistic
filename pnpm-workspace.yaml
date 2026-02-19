@@ -14,23 +14,23 @@ catalogs:
     '@codecov/rollup-plugin': ^1.9.1
     tsdown: ^0.20.3
   dev:
-    '@antfu/eslint-config': ^7.3.0
+    '@antfu/eslint-config': ^7.4.3
     '@antfu/eslint-define-config': 1.23.0-2
     '@antfu/utils': ^9.3.0
     '@eslint/core': ^1.1.0
     '@eslint/css': ^0.14.1
     '@eslint/markdown': ^7.5.1
-    '@eslint/plugin-kit': ^0.5.1
+    '@eslint/plugin-kit': ^0.6.0
     '@types/estraverse': ^5.1.7
     '@types/estree': ^1.0.8
     '@types/node': ^25.2.2
     '@types/picomatch': ^4.0.2
     '@types/semver': ^7.7.1
-    '@typescript-eslint/parser': ^8.54.0
-    '@typescript-eslint/utils': ^8.54.0
+    '@typescript-eslint/parser': ^8.56.0
+    '@typescript-eslint/utils': ^8.56.0
     change-case: ^5.4.4
     escape-string-regexp: ^5.0.0
-    eslint: ^9.39.2
+    eslint: ^10.0.0
     eslint-plugin-eslint-plugin: ^7.3.0
     eslint-plugin-format: ^1.4.0
     execa: ^9.6.1

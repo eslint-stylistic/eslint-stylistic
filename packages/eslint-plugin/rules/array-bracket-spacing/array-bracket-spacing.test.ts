@@ -4,7 +4,7 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { run, skipBabel } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from './array-bracket-spacing'
 
@@ -150,24 +150,6 @@ run<RuleOptions, MessageIds>({
     { code: 'var foo = [{\'bar\': \'baz\'}, 1,  5];', options: ['never'] },
     { code: 'var foo = [1, 5, {\'bar\': \'baz\'}];', options: ['never'] },
     { code: 'var obj = {\'foo\': [1, 2]}', options: ['never'] },
-
-    // destructuring with type annotation
-    {
-      code: '([ a, b ]: Array<any>) => {}',
-      options: ['always'],
-      languageOptions: {
-        ...languageOptionsForBabelFlow,
-        ecmaVersion: 6,
-      },
-    },
-    {
-      code: '([a, b]: Array< any >) => {}',
-      options: ['never'],
-      languageOptions: {
-        ...languageOptionsForBabelFlow,
-        ecmaVersion: 6,
-      },
-    },
   ],
 
   invalid: [
@@ -860,70 +842,6 @@ run<RuleOptions, MessageIds>({
       ],
     },
 
-    // destructuring with type annotation
-    {
-      code: '([ a, b ]: Array<any>) => {}',
-      output: '([a, b]: Array<any>) => {}',
-      options: ['never'],
-      languageOptions: {
-        ...languageOptionsForBabelFlow,
-        ecmaVersion: 6,
-      },
-      errors: [
-        {
-          messageId: 'unexpectedSpaceAfter',
-          data: {
-            tokenValue: '[',
-          },
-          line: 1,
-          column: 3,
-          endLine: 1,
-          endColumn: 4,
-        },
-        {
-          messageId: 'unexpectedSpaceBefore',
-          data: {
-            tokenValue: ']',
-          },
-          line: 1,
-          column: 8,
-          endLine: 1,
-          endColumn: 9,
-        },
-      ],
-    },
-    {
-      code: '([a, b]: Array< any >) => {}',
-      output: '([ a, b ]: Array< any >) => {}',
-      options: ['always'],
-      languageOptions: {
-        ...languageOptionsForBabelFlow,
-        ecmaVersion: 6,
-      },
-      errors: [
-        {
-          messageId: 'missingSpaceAfter',
-          data: {
-            tokenValue: '[',
-          },
-          line: 1,
-          column: 2,
-          endLine: 1,
-          endColumn: 3,
-        },
-        {
-          messageId: 'missingSpaceBefore',
-          data: {
-            tokenValue: ']',
-          },
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 8,
-        },
-      ],
-    },
-
     // multiple spaces
     {
       code: 'var arr = [  1, 2   ];',
@@ -1058,3 +976,94 @@ run<RuleOptions, MessageIds>({
     },
   ],
 })
+
+if (!skipBabel) {
+  run<RuleOptions, MessageIds>({
+    name: 'array-bracket-spacing_babel',
+    rule,
+    valid: [
+      // destructuring with type annotation
+      {
+        code: '([ a, b ]: Array<any>) => {}',
+        options: ['always'],
+        languageOptions: {
+          ...languageOptionsForBabelFlow,
+          ecmaVersion: 6,
+        },
+      },
+      {
+        code: '([a, b]: Array< any >) => {}',
+        options: ['never'],
+        languageOptions: {
+          ...languageOptionsForBabelFlow,
+          ecmaVersion: 6,
+        },
+      },
+    ],
+    invalid: [
+      // destructuring with type annotation
+      {
+        code: '([ a, b ]: Array<any>) => {}',
+        output: '([a, b]: Array<any>) => {}',
+        options: ['never'],
+        languageOptions: {
+          ...languageOptionsForBabelFlow,
+          ecmaVersion: 6,
+        },
+        errors: [
+          {
+            messageId: 'unexpectedSpaceAfter',
+            data: {
+              tokenValue: '[',
+            },
+            line: 1,
+            column: 3,
+            endLine: 1,
+            endColumn: 4,
+          },
+          {
+            messageId: 'unexpectedSpaceBefore',
+            data: {
+              tokenValue: ']',
+            },
+            line: 1,
+            column: 8,
+            endLine: 1,
+            endColumn: 9,
+          },
+        ],
+      },
+      {
+        code: '([a, b]: Array< any >) => {}',
+        output: '([ a, b ]: Array< any >) => {}',
+        options: ['always'],
+        languageOptions: {
+          ...languageOptionsForBabelFlow,
+          ecmaVersion: 6,
+        },
+        errors: [
+          {
+            messageId: 'missingSpaceAfter',
+            data: {
+              tokenValue: '[',
+            },
+            line: 1,
+            column: 2,
+            endLine: 1,
+            endColumn: 3,
+          },
+          {
+            messageId: 'missingSpaceBefore',
+            data: {
+              tokenValue: ']',
+            },
+            line: 1,
+            column: 7,
+            endLine: 1,
+            endColumn: 8,
+          },
+        ],
+      },
+    ],
+  })
+}
