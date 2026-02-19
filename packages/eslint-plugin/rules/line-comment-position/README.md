@@ -135,8 +135,6 @@ Examples of **correct** code for the `{ "applyDefaultIgnorePatterns": false }` o
 
 :::
 
-**Deprecated:** the object property `applyDefaultPatterns` is deprecated. Please use the property `applyDefaultIgnorePatterns` instead.
-
 ## When Not To Use It
 
 If you aren't concerned about having different line comment styles, then you can turn off this rule.

@@ -1,13 +1,12 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: e2Haj08rfAq4MOSeRT_RDC0iAb3Fz-2x-mRdt0DkPdI */
+/* @checksum: E0B_HpsBrWma5eE8VAwxPP8smmRlKCp_3EwEQ5C3Hss */
 
 export type LineCommentPositionSchema0
   = | ('above' | 'beside')
     | {
       position?: 'above' | 'beside'
       ignorePattern?: string
-      applyDefaultPatterns?: boolean
       applyDefaultIgnorePatterns?: boolean
     }
 
