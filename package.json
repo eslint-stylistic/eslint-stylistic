@@ -3,7 +3,7 @@
   "type": "module",
   "version": "5.8.0",
   "private": true,
-  "packageManager": "pnpm@10.29.2",
+  "packageManager": "pnpm@10.30.0",
   "license": "MIT",
   "scripts": {
     "build": "pnpm -r run build",
