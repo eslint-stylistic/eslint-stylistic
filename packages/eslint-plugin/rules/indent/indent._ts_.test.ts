@@ -894,6 +894,84 @@ run<RuleOptions, MessageIds>({
           =
               require('source')
     `,
+    { // fails, `indent` should probably ignore checks in this example and leave it to indent-binary-ops
+      code: $`
+        return 1 +
+          2 + (
+            3
+          )
+      `,
+      options: [2],
+    },
+    { // passes, contradicts the previous test, change only the + to *
+      code: $`
+        return 1 +
+          2 * (
+            3
+          )
+      `,
+      options: [2],
+    },
+    { // passes
+      code: $`
+        const result = x 
+          + z * (
+            x ** 2
+            + y ** 3
+          );
+      `,
+      options: [2],
+    },
+    { // passes with operators on line-end
+      code: $`
+        const result = x +
+          z * (
+            x ** 2 +
+            y ** 3
+          );
+      `,
+      options: [2],
+    },
+    { // fails, `indent` should probably ignore checks in this example and leave it to indent-binary-ops
+      code: $`
+        const result = x +
+          z + (
+            x ** 2 +
+            y ** 3
+          );
+      `,
+      options: [2],
+    },
+    { // fails, `indent` should probably ignore checks in this example and leave it to indent-binary-ops
+      code: $`
+        const condition1 = true;
+        const condition2 = false;
+        const condition3 = true;
+        const data = "foo"
+        
+        const consolidated = condition1 &&
+          condition2 && (
+            condition3 ||
+            typeof data === "string"
+          )
+      `,
+      options: [2],
+    },
+    { // passes, change && for || which changes the order of operations?
+      code: $`
+        const condition1 = true;
+        const condition2 = false;
+        const condition3 = true;
+        const data = "foo"
+        
+        const consolidated = condition1 ||
+          condition2 && (
+            condition3 ||
+            typeof data === "string"
+          )
+      `,
+      options: [2],
+    },
   ],
   invalid: [
     ...individualNodeTests.invalid!,
@@ -2308,6 +2386,62 @@ declare function h(x: number): number;
       errors: [
         { messageId: 'wrongIndentation', data: { expected: '4 spaces', actual: 0 } },
         { messageId: 'wrongIndentation', data: { expected: '8 spaces', actual: 0 } },
+      ],
+    },
+    {
+      code: $`
+        const x = 10;
+        const y = 4;
+        const z = 2;
+        
+        const result = x +
+            z * (
+                  x ** 2 +
+                y ** 3
+            );
+      `,
+      output: $`
+        const x = 10;
+        const y = 4;
+        const z = 2;
+        
+        const result = x +
+            z * (
+                x ** 2 +
+                y ** 3
+            );
+      `,
+      options: [4],
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '8 spaces', actual: 10 } },
+      ],
+    },
+    {
+      code: $`
+        const x = 10;
+        const y = 4;
+        const z = 2;
+        
+        const result = x +
+            z + (
+                  x ** 2 +
+                y ** 3
+            );
+      `,
+      output: $`
+        const x = 10;
+        const y = 4;
+        const z = 2;
+        
+        const result = x +
+            z + (
+                x ** 2 +
+                y ** 3
+            );
+      `,
+      options: [4],
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '8 spaces', actual: 10 } },
       ],
     },
   ],
