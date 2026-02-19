@@ -229,8 +229,65 @@ run<RuleOptions, MessageIds>({
         },
       ],
     },
+    {
+      code: $`
+        export function before() {}
+        
+        export function foo(a: string): void;
+        export function foo(a: number): void;
+        export function foo(a: string | number): void {
+          return;
+        }
+      `,
+      options: [
+        {
+          blankLine: 'always',
+          prev: 'export',
+          next: 'export',
+        },
+        {
+          blankLine: 'never',
+          prev: { selector: 'ExportNamedDeclaration[declaration.type="TSDeclareFunction"]' },
+          next: { selector: 'ExportNamedDeclaration[declaration.type="TSDeclareFunction"]' },
+        },
+        {
+          blankLine: 'never',
+          prev: { selector: 'ExportNamedDeclaration[declaration.type="TSDeclareFunction"]' },
+          next: { selector: 'ExportNamedDeclaration[declaration.type="FunctionDeclaration"]' },
+        },
+      ],
+    },
   ],
   invalid: [
+    {
+      code: $`
+        export function foo(a: string): void;
+        
+        export function foo(a: string | number): void {
+          return;
+        }
+      `,
+      output: $`
+        export function foo(a: string): void;
+        export function foo(a: string | number): void {
+          return;
+        }
+      `,
+      options: [
+        {
+          blankLine: 'always',
+          prev: 'export',
+          next: 'export',
+        },
+        {
+          blankLine: 'never',
+          prev: { selector: 'ExportNamedDeclaration[declaration.type="TSDeclareFunction"]' },
+          next: { selector: 'ExportNamedDeclaration[declaration.type="FunctionDeclaration"]' },
+        },
+      ],
+      errors: [{ messageId: 'unexpectedBlankLine' }],
+    },
+
     // ----------------------------------------------------------------------
     // exports
     // ----------------------------------------------------------------------

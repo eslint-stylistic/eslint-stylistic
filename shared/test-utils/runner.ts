@@ -1,6 +1,7 @@
 import type { ESLint } from 'eslint'
 import type { RuleTesterInitOptions, TestCasesOptions } from 'eslint-vitest-rule-tester'
 import eslintCss from '@eslint/css'
+import eslintMarkdown from '@eslint/markdown'
 import tsParser from '@typescript-eslint/parser'
 import { run as _run } from 'eslint-vitest-rule-tester'
 import jsonParser from 'jsonc-eslint-parser'
@@ -13,7 +14,7 @@ export interface ExtendedRuleTesterOptions<RuleOptions = any, MessageIds extends
   lang?: TestLanguage
 }
 
-type TestLanguage = 'js' | 'ts' | 'json' | 'css'
+type TestLanguage = 'js' | 'ts' | 'json' | 'css' | 'markdown'
 
 const defaultOptions: Record<TestLanguage, RuleTesterInitOptions> = {
   js: {},
@@ -29,6 +30,14 @@ const defaultOptions: Record<TestLanguage, RuleTesterInitOptions> = {
         css: eslintCss as ESLint.Plugin,
       },
       language: 'css/css',
+    },
+  },
+  markdown: {
+    configs: {
+      plugins: {
+        markdown: eslintMarkdown,
+      },
+      language: 'markdown/gfm',
     },
   },
 }

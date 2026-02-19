@@ -1,5 +1,3 @@
-// any is required to work around manipulating the AST in weird ways
-
 import type { ASTNode, RuleFunction, RuleListener, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
@@ -9,6 +7,7 @@ import {
   getStaticPropertyName,
   isClosingParenToken,
   isDecimalInteger,
+  isJSDocComment,
   isKeywordToken,
   isMixedLogicalAndCoalesceExpressions,
   isNodeOfTypes,
@@ -654,13 +653,36 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
+     * Checks if the parentheses are allowed by a preceding comment directive,
+     * such as a JSDoc `@type` cast or a user-specified comment pattern.
+     */
+    function isAllowedByCommentDirective(leftParenToken: Token) {
+      const comments = sourceCode.getCommentsBefore(leftParenToken)
+      if (comments.length === 0)
+        return false
+
+      const lastComment = comments.at(-1)!
+
+      if (isJSDocComment(lastComment) && /@type\s*\{[^}]+\}/.test(lastComment.value))
+        return true
+
+      if (ALLOW_PARENS_AFTER_COMMENT_PATTERN) {
+        const ignorePattern = new RegExp(ALLOW_PARENS_AFTER_COMMENT_PATTERN, 'u')
+        if (ignorePattern.test(lastComment.value))
+          return true
+      }
+
+      return false
+    }
+
+    /**
      * Report the node
      * @param node node to evaluate
      * @private
      */
     function report(node: ASTNode) {
-      const leftParenToken = sourceCode.getTokenBefore(node)!
-      const rightParenToken = sourceCode.getTokenAfter(node)!
+      let leftParenToken = sourceCode.getTokenBefore(node)!
+      let rightParenToken = sourceCode.getTokenAfter(node)!
 
       if (!isParenthesisedTwice(node)) {
         if (tokensToIgnore.has(sourceCode.getFirstToken(node)!))
@@ -668,19 +690,15 @@ export default createRule<RuleOptions, MessageIds>({
 
         if (isIIFE(node) && !('callee' in node && isParenthesised(node.callee)))
           return
+      }
 
-        if (ALLOW_PARENS_AFTER_COMMENT_PATTERN) {
-          const commentsBeforeLeftParenToken = sourceCode.getCommentsBefore(leftParenToken)
-          const totalCommentsBeforeLeftParenTokenCount = commentsBeforeLeftParenToken.length
-          const ignorePattern = new RegExp(ALLOW_PARENS_AFTER_COMMENT_PATTERN, 'u')
-
-          if (
-            totalCommentsBeforeLeftParenTokenCount > 0
-            && ignorePattern.test(commentsBeforeLeftParenToken[totalCommentsBeforeLeftParenTokenCount - 1].value)
-          ) {
-            return
-          }
-        }
+      let parenLayers = 2
+      while (isAllowedByCommentDirective(leftParenToken)) {
+        if (!isParenthesizedRaw(parenLayers, node, sourceCode))
+          return
+        leftParenToken = sourceCode.getTokenBefore(leftParenToken, isOpeningParenToken)!
+        rightParenToken = sourceCode.getTokenAfter(rightParenToken, isClosingParenToken)!
+        parenLayers++
       }
 
       /**
@@ -694,12 +712,10 @@ export default createRule<RuleOptions, MessageIds>({
           messageId: 'unexpected',
           fix: isFixable(node)
             ? (fixer) => {
-                const parenthesizedSource = sourceCode.text.slice(leftParenToken.range[1], rightParenToken.range[0])
-
-                return fixer.replaceTextRange([
-                  leftParenToken.range[0],
-                  rightParenToken.range[1],
-                ], (requiresLeadingSpace(node) ? ' ' : '') + parenthesizedSource + (requiresTrailingSpace(node) ? ' ' : ''))
+                return [
+                  fixer.replaceText(leftParenToken, requiresLeadingSpace(node) ? ' ' : ''),
+                  fixer.replaceText(rightParenToken, requiresTrailingSpace(node) ? ' ' : ''),
+                ]
               }
             : null,
         })

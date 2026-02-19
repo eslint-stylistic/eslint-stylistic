@@ -1,11 +1,14 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: kErv8daz4JbmG-vYHrJ-SzRKG2mIlo-tnqA0BTwEsBA */
+/* @checksum: z7w4fx79LQxKqTU2Aq0IMGdELgYUqFszqpinRSMBKYM */
 
 export type PaddingType = 'any' | 'never' | 'always'
 export type StatementOption
+  = | StatementMatcher
+    | [StatementMatcher, ...StatementMatcher[]]
+export type StatementMatcher
   = | StatementType
-    | [StatementType, ...StatementType[]]
+    | SelectorOption
 export type StatementType
   = | '*'
     | 'exports'
@@ -68,6 +71,10 @@ export type PaddingLineBetweenStatementsSchema0 = {
   prev: StatementOption
   next: StatementOption
 }[]
+
+export interface SelectorOption {
+  selector: string
+}
 
 export type PaddingLineBetweenStatementsRuleOptions
   = PaddingLineBetweenStatementsSchema0

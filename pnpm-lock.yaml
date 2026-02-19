@@ -28,6 +28,9 @@ catalogs:
     '@eslint/css':
       specifier: ^0.14.1
       version: 0.14.1
+    '@eslint/markdown':
+      specifier: ^7.5.1
+      version: 7.5.1
     '@eslint/plugin-kit':
       specifier: ^0.6.0
       version: 0.6.0
@@ -247,6 +250,9 @@ importers:
       '@eslint/css':
         specifier: catalog:dev
         version: 0.14.1
+      '@eslint/markdown':
+        specifier: catalog:dev
+        version: 7.5.1
       '@eslint/plugin-kit':
         specifier: catalog:dev
         version: 0.6.0
