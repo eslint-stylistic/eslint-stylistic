@@ -260,7 +260,12 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns A representation of the comment value in bare-block form
      */
     function convertToBlock(firstComment: Token, commentLinesList: string[]): string {
-      return `/* ${commentLinesList.join(`\n${getInitialOffset(firstComment)}   `)} */`
+      // Indent the lines by their initial offset + additional 3 spaces;
+      // If its the last line, just add it with one additional space to account for the closing token ('*/');
+      const len = commentLinesList.length - 1
+      const indented = commentLinesList.map((c, i) => `${c}\n${getInitialOffset(firstComment)}${(i < len ? '   ' : ' ')}`)
+
+      return `/*${indented.join('')}*/`
     }
 
     /**
@@ -299,6 +304,7 @@ export default createRule<RuleOptions, MessageIds>({
 
           if (!/^[*!]?\s*$/u.test(lines[0])) {
             const start = /^[*!]/.test(firstComment.value) ? firstComment.range[0] + 1 : firstComment.range[0]
+            const [, offset = ''] = lines[0].match(/^[*!]?(\s*)/u) || []
 
             context.report({
               loc: {
@@ -306,7 +312,7 @@ export default createRule<RuleOptions, MessageIds>({
                 end: { line: firstComment.loc.start.line, column: firstComment.loc.start.column + 2 },
               },
               messageId: 'startNewline',
-              fix: fixer => fixer.insertTextAfterRange([start, start + 2], `\n${expectedLinePrefix}`),
+              fix: fixer => fixer.insertTextAfterRange([start, start + 2], `\n${expectedLinePrefix}${offset.length === 0 ? ' ' : ''}`),
             })
           }
 
@@ -357,8 +363,8 @@ export default createRule<RuleOptions, MessageIds>({
 
                     offset = `${commentTextPrefix.slice(prefix.length)}${initialOffset}`
 
-                    if (/^\s*\//u.test(lineText) && offset.length === 0)
-                      offset += ' '
+                    if (!isWhiteSpaces(lineText) && !/^\s*\/?\*\s/u.test(lineTextToAlignWith))
+                      offset = ` ${offset}`
 
                     break
                   }
@@ -407,6 +413,9 @@ export default createRule<RuleOptions, MessageIds>({
         const [firstComment] = commentGroup
         const commentLines = getCommentLines(commentGroup)
 
+        if (!isWhiteSpaces(commentLines[0]))
+          commentLines.unshift('')
+
         // Disallows consecutive line comments in favor of using a block comment.
         if (firstComment.type === 'Line' && commentLines.length > 1
           && !commentLines.some(value => value.includes('*/'))) {
@@ -427,6 +436,9 @@ export default createRule<RuleOptions, MessageIds>({
 
         // Prohibits block comments from having a * at the beginning of each line.
         if (isStarredBlockComment(commentGroup)) {
+          if (isWhiteSpaces(commentLines[commentLines.length - 1]))
+            commentLines.pop()
+
           context.report({
             loc: {
               start: firstComment.loc.start,
