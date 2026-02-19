@@ -1,4 +1,4 @@
-import type { ASTNode, Tree } from '#types'
+import type { Tree } from '#types'
 import type { MessageIds, RuleOptions, TypeAnnotationSpacingSchema0 } from './types'
 import {
   isClassOrTypeElement,
@@ -6,12 +6,9 @@ import {
   isFunctionOrFunctionType,
   isIdentifier,
   isNotOpeningParenToken,
-  isTSConstructorType,
-  isTSFunctionType,
   isVariableDeclarator,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { warnDeprecation } from '#utils/index'
 
 type OverrideOptions = Required<Required<TypeAnnotationSpacingSchema0>['overrides']>
 
@@ -26,18 +23,9 @@ function createRules(options: TypeAnnotationSpacingSchema0 | undefined): Overrid
     ...globals,
     ...override?.colon,
   }
-  const arrow = typeof override.arrow === 'string' ? override.arrow : {
-    ...{ before: true, after: true },
-    ...globals,
-    ...override?.arrow,
-  }
-
-  if (Object.hasOwn(override, 'arrow') && override.arrow !== 'ignore')
-    warnDeprecation('options("overrides.arrow")', '"arrow-spacing"', 'type-annotation-spacing')
 
   return {
     colon,
-    arrow,
     variable: { ...colon, ...override?.variable },
     property: { ...colon, ...override?.property },
     parameter: { ...colon, ...override?.parameter },
@@ -47,7 +35,7 @@ function createRules(options: TypeAnnotationSpacingSchema0 | undefined): Overrid
 
 function getIdentifierRules(
   rules: OverrideOptions,
-  node: ASTNode | undefined,
+  node: Tree.Identifier,
 ) {
   const scope = node?.parent
 
@@ -65,9 +53,7 @@ function getRules(
 ) {
   const scope = node?.parent?.parent
 
-  if (isTSFunctionType(scope) || isTSConstructorType(scope))
-    return rules.arrow
-  else if (isIdentifier(scope))
+  if (isIdentifier(scope))
     return getIdentifierRules(rules, scope)
   else if (isClassOrTypeElement(scope))
     return rules.property
@@ -105,15 +91,6 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'object',
             properties: {
               colon: { $ref: '#/items/0/$defs/spacingConfig' },
-              arrow: {
-                oneOf: [
-                  {
-                    type: 'string',
-                    enum: ['ignore'],
-                  },
-                  { $ref: '#/items/0/$defs/spacingConfig' },
-                ],
-              },
               variable: { $ref: '#/items/0/$defs/spacingConfig' },
               parameter: { $ref: '#/items/0/$defs/spacingConfig' },
               property: { $ref: '#/items/0/$defs/spacingConfig' },
@@ -140,7 +117,6 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   create(context, [options]) {
-    const punctuators = [':', '=>']
     const sourceCode = context.sourceCode
 
     const ruleSet = createRules(options)
@@ -152,24 +128,20 @@ export default createRule<RuleOptions, MessageIds>({
     function checkTypeAnnotationSpacing(
       typeAnnotation: Tree.TypeNode,
     ): void {
-      /** :, => */
+      /** : */
       const punctuatorTokenEnd = sourceCode.getTokenBefore(typeAnnotation, isNotOpeningParenToken)!
-      /** :, =>, ?() */
-      let punctuatorTokenStart = punctuatorTokenEnd
-      let previousToken = sourceCode.getTokenBefore(punctuatorTokenEnd)!
       let type = punctuatorTokenEnd.value
 
-      if (!punctuators.includes(type))
+      if (type !== ':')
         return
 
-      const config = getRules(ruleSet, typeAnnotation)
+      /** :, ?() */
+      let punctuatorTokenStart = punctuatorTokenEnd
+      let previousToken = sourceCode.getTokenBefore(punctuatorTokenEnd)!
 
-      if (config === 'ignore')
-        return
+      const { before, after } = getRules(ruleSet, typeAnnotation)
 
-      const { before, after } = config
-
-      if (type === ':' && previousToken.value === '?') {
+      if (previousToken.value === '?') {
         // space between ? and :
         if (sourceCode.isSpaceBetween(previousToken, punctuatorTokenStart)) {
           context.report({
