@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: z7w4fx79LQxKqTU2Aq0IMGdELgYUqFszqpinRSMBKYM */
+/* @checksum: 3QCTtOH6rJM5_AGJ58rGpeEaBEfaJz17MSCxWB4X_PU */
 
 export type PaddingType = 'any' | 'never' | 'always'
 export type StatementOption
@@ -74,6 +74,7 @@ export type PaddingLineBetweenStatementsSchema0 = {
 
 export interface SelectorOption {
   selector: string
+  lineMode?: 'any' | 'singleline' | 'multiline'
 }
 
 export type PaddingLineBetweenStatementsRuleOptions

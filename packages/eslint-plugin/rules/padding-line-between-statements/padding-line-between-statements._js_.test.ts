@@ -2952,6 +2952,41 @@ run<RuleOptions, MessageIds>({
       ],
       errors: [{ messageId: 'unexpectedBlankLine' }],
     },
+    {
+      code: 'foo()\n\nbar()',
+      output: 'foo()\nbar()',
+      options: [
+        {
+          blankLine: 'never',
+          prev: { selector: 'ExpressionStatement[expression.callee.name="foo"]', lineMode: 'singleline' },
+          next: '*',
+        },
+      ],
+      errors: [{ messageId: 'unexpectedBlankLine' }],
+    },
+    {
+      code: $`
+        foo()
+        if (a) {
+          bar()
+        }
+      `,
+      output: $`
+        foo()
+        
+        if (a) {
+          bar()
+        }
+      `,
+      options: [
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: { selector: 'IfStatement', lineMode: 'multiline' },
+        },
+      ],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
 
     // ----------------------------------------------------------------------
     // wildcard
