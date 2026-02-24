@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: Ojmta3fFZhIjcRSSdLABcGH7X64Ao2tEO8zwavpoJlk */
+/* @checksum: JUOdGbXqiVTkA7Szyvk1JCfp6PimKfJlN61wTWcXnB0 */
 
 export type JsxClosingTagLocationSchema0
   = | 'tag-aligned'

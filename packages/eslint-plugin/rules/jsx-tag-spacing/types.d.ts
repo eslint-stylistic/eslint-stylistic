@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: pOD-S6HnSaLSg2uSVR4z8UFaMHuX_NGZwuBVoKsXBBY */
+/* @checksum: EEJDHIp325b3ZM5_eeF0M5iBLTfbtngfZKHBrPR_3yU */
 
 export interface JsxTagSpacingSchema0 {
   closingSlash?: 'always' | 'never' | 'allow'

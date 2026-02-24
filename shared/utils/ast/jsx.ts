@@ -27,14 +27,14 @@ export function isJSX(node: ASTNode): node is (Tree.JSXElement | Tree.JSXFragmen
 }
 
 /**
- * Returns the name of the prop given the JSXAttribute object.
+ * Returns the name of the prop given the JSXAttribute or JSXSpreadAttribute node.
  *
- * Ported from `jsx-ast-utils/propName` to reduce bundle size
+ * Ported and enhanced from `jsx-ast-utils/propName` to reduce bundle size
  * @see https://github.com/jsx-eslint/jsx-ast-utils/blob/main/src/propName.js
  */
-export function getPropName(prop: Tree.JSXAttribute | Tree.JSXSpreadAttribute) {
-  if (!prop.type || prop.type !== 'JSXAttribute')
-    throw new Error('The prop must be a JSXAttribute collected by the AST parser.')
+export function getPropName(sourceCode: SourceCode, prop: Tree.JSXAttribute | Tree.JSXSpreadAttribute): string {
+  if (prop.type === 'JSXSpreadAttribute')
+    return sourceCode.getText(prop.argument)
   if (prop.name.type === 'JSXNamespacedName')
     return `${prop.name.namespace.name}:${prop.name.name.name}`
   return prop.name.name

@@ -1185,7 +1185,7 @@ run<RuleOptions, MessageIds>({
             <Foo />
         </App>
       `,
-      errors: expectedErrors([2, 4, 2, 'Punctuator']),
+      errors: expectedErrors([2, 4, 2]),
     },
     {
       code: `
@@ -1199,7 +1199,7 @@ run<RuleOptions, MessageIds>({
             <></>
         </App>
       `,
-      errors: expectedErrors([2, 4, 2, 'Punctuator']),
+      errors: expectedErrors([2, 4, 2]),
     },
     {
       code: `
@@ -1213,7 +1213,7 @@ run<RuleOptions, MessageIds>({
             <Foo />
         </>
       `,
-      errors: expectedErrors([2, 4, 2, 'Punctuator']),
+      errors: expectedErrors([2, 4, 2]),
     },
     {
       code: `
@@ -1227,7 +1227,7 @@ run<RuleOptions, MessageIds>({
         </App>
       `,
       options: [2],
-      errors: expectedErrors([2, 2, 4, 'Punctuator']),
+      errors: expectedErrors([2, 2, 4]),
     },
     {
       code: `
@@ -1241,7 +1241,7 @@ run<RuleOptions, MessageIds>({
         </App>
       `,
       options: ['tab'],
-      errors: expectedErrors('tab', [2, 1, '4 spaces', 'Punctuator']),
+      errors: expectedErrors('tab', [2, 1, '4 spaces']),
     },
     {
       code: `
@@ -1259,7 +1259,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2],
-      errors: expectedErrors([4, 2, 9, 'Punctuator']),
+      errors: expectedErrors([4, 2, 9]),
     },
     {
       code: `
@@ -1277,7 +1277,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2],
-      errors: expectedErrors([4, 2, 4, 'Punctuator']),
+      errors: expectedErrors([4, 2, 4]),
     },
     {
       code: `
@@ -1304,9 +1304,9 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2],
       errors: expectedErrors([
-        [3, 4, 0, 'Punctuator'],
-        [4, 6, 2, 'Punctuator'],
-        [5, 4, 0, 'Punctuator'],
+        [3, 4, 0],
+        [4, 6, 2],
+        [5, 4, 0],
       ]),
     },
     {
@@ -1320,7 +1320,7 @@ run<RuleOptions, MessageIds>({
             {test}
         </App>
       `,
-      errors: expectedErrors([2, 4, 3, 'Punctuator']),
+      errors: expectedErrors([2, 4, 3]),
     },
     {
       code: `
@@ -1341,7 +1341,7 @@ run<RuleOptions, MessageIds>({
             ))}
         </App>
       `,
-      errors: expectedErrors([4, 12, 11, 'Punctuator']),
+      errors: expectedErrors([4, 12, 11]),
     },
     {
       code: `
@@ -1355,7 +1355,7 @@ run<RuleOptions, MessageIds>({
         </App>
       `,
       options: ['tab'],
-      errors: expectedErrors('tab', [2, 1, 0, 'Punctuator']),
+      errors: expectedErrors('tab', [2, 1, 0]),
     },
     {
       code: $`
@@ -1377,7 +1377,7 @@ run<RuleOptions, MessageIds>({
         </App>
       `,
       options: ['tab'],
-      errors: expectedErrors('tab', [4, 3, 2, 'Punctuator']),
+      errors: expectedErrors('tab', [4, 3, 2]),
     },
     {
       code: $`
@@ -1391,7 +1391,7 @@ run<RuleOptions, MessageIds>({
         </App>
       `,
       options: ['tab'],
-      errors: expectedErrors('tab', [3, 1, 0, 'Punctuator']),
+      errors: expectedErrors('tab', [3, 1, 0]),
     },
     {
       code: `
@@ -1407,7 +1407,7 @@ run<RuleOptions, MessageIds>({
         ]
       `,
       options: [2],
-      errors: expectedErrors([3, 2, 4, 'Punctuator']),
+      errors: expectedErrors([3, 2, 4]),
     },
     {
       code: `
@@ -1424,7 +1424,7 @@ run<RuleOptions, MessageIds>({
         ]
       `,
       options: [2],
-      errors: expectedErrors([3, 2, 4, 'Punctuator']),
+      errors: expectedErrors([3, 2, 4]),
     },
     {
       code: `
@@ -1442,7 +1442,7 @@ run<RuleOptions, MessageIds>({
         </App>
       `,
       options: ['tab'],
-      errors: expectedErrors('tab', [3, '1 tab', '1 space', 'Punctuator']),
+      errors: expectedErrors('tab', [3, '1 tab', '1 space']),
     },
     {
       code: `
@@ -1460,7 +1460,7 @@ run<RuleOptions, MessageIds>({
         </App>
       `,
       options: [2],
-      errors: expectedErrors([3, 2, '1 tab', 'Punctuator']),
+      errors: expectedErrors([3, 2, '1 tab']),
     },
     {
       code: `
@@ -1483,7 +1483,7 @@ run<RuleOptions, MessageIds>({
             }
         </div>
       `,
-      errors: expectedErrors([5, 12, 8, 'Punctuator']),
+      errors: expectedErrors([5, 12, 8]),
     },
     {
       code: `
@@ -1506,7 +1506,7 @@ run<RuleOptions, MessageIds>({
             }
         </div>
       `,
-      errors: expectedErrors([5, 12, 8, 'Punctuator']),
+      errors: expectedErrors([5, 12, 8]),
     },
     {
       // Multiline ternary
@@ -1521,7 +1521,7 @@ run<RuleOptions, MessageIds>({
             <Foo /> :
             <Bar />
       `,
-      errors: expectedErrors([3, 4, 0, 'Punctuator']),
+      errors: expectedErrors([3, 4, 0]),
     },
     {
       code: `
@@ -1535,7 +1535,7 @@ run<RuleOptions, MessageIds>({
             <Foo /> :
             <></>
       `,
-      errors: expectedErrors([3, 4, 0, 'Punctuator']),
+      errors: expectedErrors([3, 4, 0]),
     },
     {
       // Multiline ternary
@@ -1552,7 +1552,7 @@ run<RuleOptions, MessageIds>({
             :
             <Bar />
       `,
-      errors: expectedErrors([4, 4, 0, 'Punctuator']),
+      errors: expectedErrors([4, 4, 0]),
     },
     {
       code: `
@@ -1568,7 +1568,7 @@ run<RuleOptions, MessageIds>({
             :
             <></>
       `,
-      errors: expectedErrors([4, 4, 0, 'Punctuator']),
+      errors: expectedErrors([4, 4, 0]),
     },
     {
       // Multiline ternary
@@ -1583,7 +1583,7 @@ run<RuleOptions, MessageIds>({
             :
             <Bar />
       `,
-      errors: expectedErrors([3, 4, 6, 'Punctuator']),
+      errors: expectedErrors([3, 4, 6]),
     },
     {
       // Multiline ternary
@@ -1600,7 +1600,7 @@ run<RuleOptions, MessageIds>({
         ) :
             <Bar />
       `,
-      errors: expectedErrors([4, 4, 0, 'Punctuator']),
+      errors: expectedErrors([4, 4, 0]),
     },
     {
       code: `
@@ -1616,7 +1616,7 @@ run<RuleOptions, MessageIds>({
         ) :
             <></>
       `,
-      errors: expectedErrors([4, 4, 0, 'Punctuator']),
+      errors: expectedErrors([4, 4, 0]),
     },
     {
       // Multiline ternary
@@ -1635,7 +1635,7 @@ run<RuleOptions, MessageIds>({
             :
             <Bar />
       `,
-      errors: expectedErrors([5, 4, 0, 'Punctuator']),
+      errors: expectedErrors([5, 4, 0]),
     },
     {
       // Multiline ternary
@@ -1652,7 +1652,7 @@ run<RuleOptions, MessageIds>({
                 <Bar />
             )
       `,
-      errors: expectedErrors([3, 8, 4, 'Punctuator']),
+      errors: expectedErrors([3, 8, 4]),
     },
     {
       code: `
@@ -1668,7 +1668,7 @@ run<RuleOptions, MessageIds>({
                 <></>
             )
       `,
-      errors: expectedErrors([3, 8, 4, 'Punctuator']),
+      errors: expectedErrors([3, 8, 4]),
     },
     {
       // Multiline ternary
@@ -1687,7 +1687,7 @@ run<RuleOptions, MessageIds>({
                 <Bar />
             )
       `,
-      errors: expectedErrors([4, 8, 0, 'Punctuator']),
+      errors: expectedErrors([4, 8, 0]),
     },
     {
       // Multiline ternary
@@ -1706,7 +1706,7 @@ run<RuleOptions, MessageIds>({
                 <Bar />
             )
       `,
-      errors: expectedErrors([4, 8, 4, 'Punctuator']),
+      errors: expectedErrors([4, 8, 4]),
     },
     {
       code: `
@@ -1724,7 +1724,7 @@ run<RuleOptions, MessageIds>({
                 <></>
             )
       `,
-      errors: expectedErrors([4, 8, 4, 'Punctuator']),
+      errors: expectedErrors([4, 8, 4]),
     },
     {
       // Multiline ternary
@@ -1744,8 +1744,8 @@ run<RuleOptions, MessageIds>({
         )
       `,
       errors: expectedErrors([
-        [2, 4, 0, 'Punctuator'],
-        [4, 4, 0, 'Punctuator'],
+        [2, 4, 0],
+        [4, 4, 0],
       ]),
     },
     {
@@ -1765,8 +1765,8 @@ run<RuleOptions, MessageIds>({
         )
       `,
       errors: expectedErrors([
-        [2, 4, 0, 'Punctuator'],
-        [4, 4, 0, 'Punctuator'],
+        [2, 4, 0],
+        [4, 4, 0],
       ]),
     },
     {
@@ -1789,8 +1789,8 @@ run<RuleOptions, MessageIds>({
             )
       `,
       errors: expectedErrors([
-        [2, 4, 0, 'Punctuator'],
-        [5, 8, 0, 'Punctuator'],
+        [2, 4, 0],
+        [5, 8, 0],
       ]),
     },
     {
@@ -1815,8 +1815,8 @@ run<RuleOptions, MessageIds>({
             )
       `,
       errors: expectedErrors([
-        [2, 4, 0, 'Punctuator'],
-        [6, 8, 0, 'Punctuator'],
+        [2, 4, 0],
+        [6, 8, 0],
       ]),
     },
     {
@@ -1840,8 +1840,8 @@ run<RuleOptions, MessageIds>({
             )
       `,
       errors: expectedErrors([
-        [2, 4, 0, 'Punctuator'],
-        [6, 8, 0, 'Punctuator'],
+        [2, 4, 0],
+        [6, 8, 0],
       ]),
     },
     {
@@ -1857,7 +1857,7 @@ run<RuleOptions, MessageIds>({
             <Bar />
         )
       `,
-      errors: expectedErrors([2, 4, 0, 'Punctuator']),
+      errors: expectedErrors([2, 4, 0]),
     },
     {
       code: `
@@ -1871,7 +1871,7 @@ run<RuleOptions, MessageIds>({
             <></>
         )
       `,
-      errors: expectedErrors([2, 4, 0, 'Punctuator']),
+      errors: expectedErrors([2, 4, 0]),
     },
     {
       // Multiline ternary
@@ -1888,7 +1888,7 @@ run<RuleOptions, MessageIds>({
                 <Bar />
             )
       `,
-      errors: expectedErrors([3, 8, 0, 'Punctuator']),
+      errors: expectedErrors([3, 8, 0]),
     },
     {
       code: `
@@ -1904,7 +1904,7 @@ run<RuleOptions, MessageIds>({
                 <></>
             )
       `,
-      errors: expectedErrors([3, 8, 0, 'Punctuator']),
+      errors: expectedErrors([3, 8, 0]),
     },
     {
       code: `
@@ -1921,7 +1921,7 @@ run<RuleOptions, MessageIds>({
             </div>
         </p>
       `,
-      errors: expectedErrors([4, 4, 2, 'Punctuator']),
+      errors: expectedErrors([4, 4, 2]),
     },
     {
       code: `
@@ -1949,7 +1949,7 @@ run<RuleOptions, MessageIds>({
         );
       `,
       options: [2],
-      errors: expectedErrors([8, 4, 0, 'Punctuator']),
+      errors: expectedErrors([8, 4, 0]),
     },
     {
       code: $`
@@ -1977,7 +1977,7 @@ run<RuleOptions, MessageIds>({
         );
       `,
       options: ['tab'],
-      errors: expectedErrors('tab', [8, 2, 0, 'Punctuator']),
+      errors: expectedErrors('tab', [8, 2, 0]),
     },
     {
       code: `
@@ -2085,7 +2085,7 @@ run<RuleOptions, MessageIds>({
             }}
         </span>
       `,
-      errors: expectedErrors([3, 8, 4, 'Punctuator']),
+      errors: expectedErrors([3, 8, 4]),
     },
     {
       code: `
@@ -2103,7 +2103,7 @@ run<RuleOptions, MessageIds>({
         </span>
       `,
       features: ['do expressions'],
-      errors: expectedErrors([3, 8, 4, 'Punctuator']),
+      errors: expectedErrors([3, 8, 4]),
     },
     {
       code: `
@@ -2116,7 +2116,7 @@ run<RuleOptions, MessageIds>({
             text
         </div>
       `,
-      errors: expectedErrors([1, 4, 0, 'JSXText']),
+      errors: expectedErrors([1, 4, 0]),
     },
     {
       code: `
@@ -2148,7 +2148,7 @@ run<RuleOptions, MessageIds>({
             aaa
         </>
       `,
-      errors: expectedErrors([1, 4, 0, 'JSXText']),
+      errors: expectedErrors([1, 4, 0]),
     },
     {
       code: `
@@ -2281,9 +2281,9 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2],
       errors: expectedErrors([
-        [3, 4, 0, 'Punctuator'],
-        [4, 4, 0, 'Punctuator'],
-        [5, 2, 0, 'Punctuator'],
+        [3, 4, 0],
+        [4, 4, 0],
+        [5, 2, 0],
       ]),
     },
     // Would be nice to handle in one pass, but multipass works fine.
@@ -2307,9 +2307,9 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2],
       errors: expectedErrors([
-        [2, 4, 0, 'JSXText'],
-        [4, 4, 0, 'Punctuator'],
-        [5, 2, 0, 'Punctuator'],
+        [2, 4, 0],
+        [4, 4, 0],
+        [5, 2, 0],
       ]),
     },
     {
@@ -2331,7 +2331,7 @@ run<RuleOptions, MessageIds>({
         );
       `,
       options: [2],
-      errors: expectedErrors([4, 4, 0, 'Punctuator']),
+      errors: expectedErrors([4, 4, 0]),
     },
     {
       code: `

@@ -1,12 +1,25 @@
-import type { Token } from '#types'
+import type { NodeTypes, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 
-const PRESERVE_PREFIX_SPACE_BEFORE_GENERIC = new Set([
+const PRESERVE_PREFIX_SPACE_BEFORE_GENERIC = new Set<NodeTypes>([
   'TSCallSignatureDeclaration',
+  // const foo = <T>(name: T) => name
+  //            ^
+  // handled by `space-infix-ops`
   'ArrowFunctionExpression',
+  // type Foo = <T>(name: T) => name
+  //           ^
+  // handled by `space-infix-ops`
   'TSFunctionType',
+  // type Foo = new <T>(name: T) => name
+  //               ^
+  // handled by `space-unary-ops`
+  'TSConstructorType',
   'FunctionExpression',
+  // const foo = class <T> {}
+  //                  ^
+  // handled by `keyword-spacing`
   'ClassExpression',
 ])
 
@@ -23,7 +36,6 @@ export default createRule<RuleOptions, MessageIds>({
       genericSpacingMismatch: 'Generic spaces mismatch',
     },
   },
-  defaultOptions: [],
   create: (context) => {
     const sourceCode = context.sourceCode
 
@@ -102,28 +114,6 @@ export default createRule<RuleOptions, MessageIds>({
         const closeToken = sourceCode.getTokenAfter(params[params.length - 1])
 
         checkBracketSpacing(openToken, closeToken)
-
-        // add space between <T,K>
-        for (let i = 1; i < params.length; i++) {
-          const prev = params[i - 1]
-          const current = params[i]
-          const from = prev.range[1]
-          const to = current.range[0]
-          const span = sourceCode.text.slice(from, to)
-          if (span !== ', ' && !span.match(/,\s*\n/)) {
-            context.report({
-              * fix(fixer) {
-                yield fixer.replaceTextRange([from, to], ', ')
-              },
-              loc: {
-                start: prev.loc.end,
-                end: current.loc.start,
-              },
-              messageId: 'genericSpacingMismatch',
-              node,
-            })
-          }
-        }
       },
 
       // add space around = in type Foo<T = true>

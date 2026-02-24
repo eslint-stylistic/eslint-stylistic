@@ -68,6 +68,30 @@ run<RuleOptions, MessageIds>({
       }],
     },
     {
+      code: 'var a = \'a\';\u2028',
+      output: 'var a = \'a\';\n',
+      options: ['unix'],
+      errors: [{
+        line: 1,
+        column: 13,
+        endLine: 2,
+        endColumn: 1,
+        messageId: 'expectedLF',
+      }],
+    },
+    {
+      code: 'var a = \'a\';\u2029',
+      output: 'var a = \'a\';\n',
+      options: ['unix'],
+      errors: [{
+        line: 1,
+        column: 13,
+        endLine: 2,
+        endColumn: 1,
+        messageId: 'expectedLF',
+      }],
+    },
+    {
       code: 'var a = \'a\',\n b = \'b\';\n\n function foo(params) {\r\n /* do stuff */ \n }\r\n',
       output: 'var a = \'a\',\n b = \'b\';\n\n function foo(params) {\n /* do stuff */ \n }\n',
       errors: [{

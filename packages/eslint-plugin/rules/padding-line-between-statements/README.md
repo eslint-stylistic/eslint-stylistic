@@ -83,6 +83,10 @@ You can supply any number of configurations. If a statement pair matches multipl
   - `"type"` is `type alias` declarations.
   - `"function-overload"` is function overloads.
 
+- `STATEMENT_TYPE` can also be `{ "selector": AST_SELECTOR }`.
+  - `AST_SELECTOR` is an [ESLint selector](https://eslint.org/docs/latest/extend/selectors).
+  - This can be used as an escape hatch for project-specific statement matching.
+
 > [!NOTE]
 >
 > `STATEMENT_TYPE` following can add `singleline-` or `multiline-` prefix:

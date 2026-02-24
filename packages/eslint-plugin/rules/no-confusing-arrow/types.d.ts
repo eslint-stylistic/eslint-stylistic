@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: uTtTncDKMZFKWlLLKF5foio6hnIYrFHtKNch51LjKCM */
+/* @checksum: KP0uLz6TfXojHJOmOO_MdF4UqNKFgbFWNjKphrHY4z4 */
 
 export interface NoConfusingArrowSchema0 {
   allowParens?: boolean

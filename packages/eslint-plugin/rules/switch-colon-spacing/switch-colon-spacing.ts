@@ -5,29 +5,32 @@
 
 import type { RuleFixer, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { getSwitchCaseColonToken, hasCommentsBetween, isClosingBraceToken, isTokenOnSameLine } from '#utils/ast'
+import { getSwitchCaseColonToken, isClosingBraceToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'switch-colon-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce spacing around colons of switch statements',
     },
-
+    fixable: 'whitespace',
     schema: [
       {
         type: 'object',
         properties: {
-          before: { type: 'boolean', default: false },
-          after: { type: 'boolean', default: true },
+          before: {
+            type: 'boolean',
+          },
+          after: {
+            type: 'boolean',
+          },
         },
         additionalProperties: false,
       },
     ],
-    fixable: 'whitespace',
+    defaultOptions: [{ before: false, after: true }],
     messages: {
       expectedBefore: 'Expected space(s) before this colon.',
       expectedAfter: 'Expected space(s) after this colon.',
@@ -35,12 +38,10 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedAfter: 'Unexpected space(s) after this colon.',
     },
   },
-
-  create(context) {
+  create(context, [options]) {
     const sourceCode = context.sourceCode
-    const options = context.options[0] || {}
-    const beforeSpacing = options.before === true // false by default
-    const afterSpacing = options.after !== false // true by default
+    const beforeSpacing = options!.before === true
+    const afterSpacing = options!.after !== false
 
     /**
      * Check whether the spacing between the given 2 tokens is valid or not.
@@ -66,7 +67,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns The fix object.
      */
     function fix(fixer: RuleFixer, left: Token, right: Token, spacing: boolean) {
-      if (hasCommentsBetween(sourceCode, left, right))
+      if (sourceCode.commentsExistBetween(left, right))
         return null
 
       if (spacing)
