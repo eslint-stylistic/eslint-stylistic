@@ -55,7 +55,7 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         {
-          "foo": ["bar",  "baz"],
+          "foo": ["bar","baz"],
         }
       `,
       errors: [
@@ -91,7 +91,7 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         {
-          "foo": {"a": "1",  "b": "2"}
+          "foo": {"a": "1","b": "2"}
         }
       `,
       errors: [
@@ -134,8 +134,8 @@ run<RuleOptions, MessageIds>({
         {
           "foo": { "a": "1",
             // comment
-            "b": "2"  },
-          "bar": ["1",  "2"]
+            "b": "2"},
+          "bar": ["1","2"]
         }
       `,
       errors: [

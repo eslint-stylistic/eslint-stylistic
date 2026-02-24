@@ -331,6 +331,11 @@ const individualNodeTests = [
         }
       `,
       $`
+        type Partial<T> = {
+            readonly [P in keyof T]: T[P];
+        }
+      `,
+      $`
         // TSQuestionToken
         type Partial<T> = {
             [P in keyof T]?: T[P];

@@ -75,16 +75,16 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [
+      {
+        before: false,
+        after: false,
+      },
+    ],
     messages: {
       genericSpacingMismatch: 'Generic spaces mismatch',
     },
   },
-  defaultOptions: [
-    {
-      before: false,
-      after: false,
-    },
-  ],
   create: (context) => {
     const sourceCode = context.sourceCode
 

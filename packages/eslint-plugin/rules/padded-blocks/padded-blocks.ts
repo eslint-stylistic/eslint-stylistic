@@ -4,12 +4,11 @@
  */
 
 import type { ASTNode, Token, Tree } from '#types'
-import type { MessageIds, PaddedBlocksSchema0, RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const OPTION_ENUMS = ['always', 'never', 'start', 'end']
-type OptionSchema = Extract<PaddedBlocksSchema0, object>
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'padded-blocks',
@@ -57,26 +56,20 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
+    defaultOptions: ['always', { allowSingleLineBlocks: false }],
     messages: {
       missingPadBlock: 'Block must be padded by blank lines.',
       extraPadBlock: 'Block must not be padded by blank lines.',
     },
   },
-  create(context) {
-    const options: OptionSchema = {}
-    const typeOptions = context.options[0] || 'always'
-    const exceptOptions = context.options[1] || {}
-
-    if (typeof typeOptions === 'string') {
-      options.blocks = typeOptions
-      options.switches = typeOptions
-      options.classes = typeOptions
-    }
-    else {
-      Object.assign(options, typeOptions)
-    }
-    exceptOptions.allowSingleLineBlocks ??= false
+  create(context, [typeOptions, { allowSingleLineBlocks } = {}]) {
+    const options = typeof typeOptions === 'string'
+      ? {
+          blocks: typeOptions,
+          switches: typeOptions,
+          classes: typeOptions,
+        }
+      : typeOptions!
 
     const sourceCode = context.sourceCode
 
@@ -183,7 +176,7 @@ export default createRule<RuleOptions, MessageIds>({
       const blockHasTopPadding = isPaddingBetweenTokens(tokenBeforeFirst, firstBlockToken)
       const blockHasBottomPadding = isPaddingBetweenTokens(lastBlockToken, tokenAfterLast)
 
-      if (exceptOptions.allowSingleLineBlocks && isTokenOnSameLine(tokenBeforeFirst, tokenAfterLast))
+      if (allowSingleLineBlocks && isTokenOnSameLine(tokenBeforeFirst, tokenAfterLast))
         return
 
       const requiredPadding = requirePaddingFor(node)

@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: tu4oLOTfQp3sh6A5GvsAX8-37zHJAnW-0YUiwYZee5A */
+/* @checksum: su4IROeDEIS4Y9ZRXQHAx_OLZcfH7DMU-qFYpsUT7cM */
 
 export interface NoTrailingSpacesSchema0 {
   skipBlankLines?: boolean

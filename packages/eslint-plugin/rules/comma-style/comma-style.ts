@@ -20,13 +20,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'comma-style',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent comma style',
     },
-
     fixable: 'code',
-
     schema: [
       {
         type: 'string',
@@ -45,27 +42,16 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
+    defaultOptions: ['last'],
     messages: {
       unexpectedLineBeforeAndAfterComma: 'Bad line breaking before and after \',\'.',
       expectedCommaFirst: '\',\' should be placed first.',
       expectedCommaLast: '\',\' should be placed last.',
     },
   },
-
-  create(context) {
-    const style = context.options[0] || 'last'
+  create(context, [style, options]) {
     const sourceCode = context.sourceCode
-    const exceptions = {} as Record<NodeTypes, boolean>
-
-    if (context.options.length === 2 && Object.hasOwn(context.options[1]!, 'exceptions')) {
-      context.options[1] ??= { exceptions: {} }
-      const rawExceptions = context.options[1].exceptions!
-      const keys = Object.keys(rawExceptions)
-
-      for (let i = 0; i < keys.length; i++)
-        exceptions[keys[i] as keyof typeof exceptions] = rawExceptions[keys[i]]
-    }
+    const exceptions = (options?.exceptions ?? {}) as Record<NodeTypes, boolean>
 
     /**
      * Modified text based on the style
@@ -129,7 +115,7 @@ export default createRule<RuleOptions, MessageIds>({
         && !isTokenOnSameLine(tokenBeforeComma, commaToken)) {
         const comment = sourceCode.getCommentsAfter(commaToken)[0]
         const styleType = comment && comment.type === 'Block' && isTokenOnSameLine(commaToken, comment)
-          ? style
+          ? style!
           : 'between'
 
         // lone comma

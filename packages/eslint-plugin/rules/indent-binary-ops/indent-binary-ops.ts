@@ -25,11 +25,11 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    defaultOptions: [2],
     messages: {
       wrongIndentation: 'Expected indentation of {{expected}}',
     },
   },
-  defaultOptions: [2],
   create: (context, options) => {
     const { sourceCode } = context
 

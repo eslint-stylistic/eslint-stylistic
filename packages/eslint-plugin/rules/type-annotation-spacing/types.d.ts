@@ -1,13 +1,13 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: W8VBfH12khrfK-jOBx6A0SeVBtrZCmFqtYGaG3ZKP0E */
+/* @checksum: TehsjS4cvQZ7gBl6yKT0BxJ-fxVCkwZyPanqqW95MCo */
 
 export interface TypeAnnotationSpacingSchema0 {
   before?: boolean
   after?: boolean
   overrides?: {
     colon?: SpacingConfig
-    arrow?: SpacingConfig
+    arrow?: 'ignore' | SpacingConfig
     variable?: SpacingConfig
     parameter?: SpacingConfig
     property?: SpacingConfig

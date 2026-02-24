@@ -5,7 +5,7 @@ import type { Linter } from 'eslint'
  *
  * @param plugin
  * @param name
- * @param flat
+ * @param filter
  */
 export function createAllConfigs<T extends { rules: Record<string, any> }>(
   plugin: T,

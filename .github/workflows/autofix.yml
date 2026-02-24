@@ -17,7 +17,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -38,6 +38,6 @@ jobs:
         run: nr build
 
       - name: Lint
-        run: nr lint --fix
+        run: nr update
 
       - uses: autofix-ci/action@v1.3

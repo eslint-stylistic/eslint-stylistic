@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: soIHpiM5cFCk368MarW27c-YxxnV_-4kK7HlPO1MR1A */
+/* @checksum: m43MttZx9Gnm9QR2YW8MQ1RA6gygt0z9ToguHqNxgeM */
 
 export interface ObjectPropertyNewlineSchema0 {
   allowAllPropertiesOnSameLine?: boolean
