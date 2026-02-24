@@ -26,8 +26,6 @@ const IGNORE_BEFORE = new Set<NodeTypes>([
 const IGNORE_AFTER = new Set<NodeTypes>([
   // const foo = class Foo<T> extends Bar<T> {}
   //                                        ^
-  // const foo = class Foo<T> {}
-  //                         ^
   // handled by `space-before-blocks`
   'ClassExpression',
   // class foo<T> extends bar<T> {}
@@ -42,11 +40,26 @@ const IGNORE_AFTER = new Set<NodeTypes>([
   //                 ^
   // handled by `space-before-blocks`
   'TSInterfaceDeclaration',
+  // const x: Array<T> = []
+  //                  ^
+  // handled by `space-infix-ops`
   'TSTypeReference',
   // type Foo = import('foo')<T> ['Foo']
   //                            ^
   // handled by `no-whitespace-before-property`
   'TSImportType',
+  // function foo<T> () {}
+  //                ^
+  // handled by `space-before-function-paren`
+  'FunctionDeclaration',
+  // const foo = function<T> () {}
+  //                        ^
+  // handled by `space-before-function-paren`
+  'FunctionExpression',
+  // declare function foo<T> (): void
+  //                        ^
+  // handled by `space-before-function-paren`
+  'TSDeclareFunction',
 ])
 
 type SupportNodes = Tree.TSTypeParameterDeclaration | Tree.TSTypeParameterInstantiation
@@ -65,11 +78,9 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           before: {
             type: 'boolean',
-            default: false,
           },
           after: {
             type: 'boolean',
-            default: false,
           },
         },
         additionalProperties: false,
@@ -85,8 +96,9 @@ export default createRule<RuleOptions, MessageIds>({
       genericSpacingMismatch: 'Generic spaces mismatch',
     },
   },
-  create: (context) => {
+  create: (context, [options]) => {
     const sourceCode = context.sourceCode
+    const { before, after } = options!
 
     function checkBefore(node: SupportNodes) {
       if (IGNORE_BEFORE.has(node.parent.type))
@@ -96,14 +108,16 @@ export default createRule<RuleOptions, MessageIds>({
       if (!preToken)
         return
 
-      const preSpace = sourceCode.isSpaceBetween(preToken, node)
+      const hasSpace = sourceCode.isSpaceBetween(preToken, node)
 
-      if (preSpace) {
+      if (before !== hasSpace) {
         context.report({
           node,
           messageId: 'genericSpacingMismatch',
           fix(fixer) {
-            return fixer.replaceTextRange([preToken.range[1], node.range[0]], '')
+            return before
+              ? fixer.insertTextBefore(node, ' ')
+              : fixer.replaceTextRange([preToken.range[1], node.range[0]], '')
           },
         })
       }
@@ -116,12 +130,16 @@ export default createRule<RuleOptions, MessageIds>({
       if (!nextToken)
         return
 
-      if (sourceCode.isSpaceBetween(node, nextToken)) {
+      const hasSpace = sourceCode.isSpaceBetween(node, nextToken)
+
+      if (after !== hasSpace) {
         context.report({
           node,
           messageId: 'genericSpacingMismatch',
           fix(fixer) {
-            return fixer.replaceTextRange([node.range[1], nextToken.range[0]], '')
+            return after
+              ? fixer.insertTextAfter(node, ' ')
+              : fixer.replaceTextRange([node.range[1], nextToken.range[0]], '')
           },
         })
       }
