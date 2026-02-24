@@ -7,11 +7,14 @@ run<RuleOptions, MessageIds>({
   rule,
   valid: [
     'const foo: Array<number> = []',
+    'const foo: Array<number>= []',
     'type Foo<T = true> = T',
+    'type Foo<T = true>= T',
     'type Foo<T extends true = true> = T',
     'type Foo<T = (true)> = T',
     'type Foo<T extends (true) = (true)> = T',
     'type Foo = new <T>(name: T) => void',
+    'type Foo = new<T>(name: T) => void',
     $`
       type Foo<
         T = true,
@@ -23,7 +26,6 @@ run<RuleOptions, MessageIds>({
         T
       >() {}
     `,
-    'const foo = <T>(name: T) => name',
     $`
       interface Log {
         foo<T>(name: T): void
@@ -46,9 +48,19 @@ run<RuleOptions, MessageIds>({
       > = T
     `,
     `const toSortedImplementation = Array.prototype.toSorted || function <T>(name: T): void {}`,
-    `const foo = class <T> { value: T; }`,
-    '<T>() => 1',
+    `type Foo = import('foo')<T>['Foo']`,
     `type Foo = import('foo')<T> ['Foo']`,
+    `const foo = class <T> { value: T; }`,
+    `const foo = class<T>{ value: T; }`,
+    `class Foo<T>{ value: T; }`,
+    `class Foo<T> { value: T; }`,
+    'const foo = <T>() => 1',
+    'const foo =<T>() => 1',
+    'const foo = function <T> () {}',
+    'const foo = function<T>() {}',
+    'function foo<T>() {}',
+    'declare function foo<T>(): void',
+    'declare function foo<T> (): void',
   ],
   invalid: ([
     ['const val: Set< string> = new Set()', 'const val: Set<string> = new Set()'],
@@ -106,4 +118,54 @@ run<RuleOptions, MessageIds>({
     output,
     errors: Array.from({ length: errorLen }, () => ({ messageId: 'genericSpacingMismatch' })),
   })),
+})
+
+run<RuleOptions, MessageIds>({
+  name: 'type-generic-spacing',
+  rule,
+  valid: [
+    { code: 'function foo <T>() {}', options: [{ before: true }] },
+    { code: 'type Foo <T> = T', options: [{ before: true }] },
+    { code: 'class Foo <T> {}', options: [{ before: true }] },
+    { code: 'const val = callback<string> (() => \'foo\')', options: [{ after: true }] },
+    { code: 'interface Foo { foo<T> (name: T): void }', options: [{ after: true }] },
+  ],
+  invalid: [
+    {
+      code: 'function foo<T>() {}',
+      output: 'function foo <T>() {}',
+      options: [{ before: true }],
+      errors: [{ messageId: 'genericSpacingMismatch' }],
+    },
+    {
+      code: 'type Foo<T> = T',
+      output: 'type Foo <T> = T',
+      options: [{ before: true }],
+      errors: [{ messageId: 'genericSpacingMismatch' }],
+    },
+    {
+      code: 'class Foo<T> {}',
+      output: 'class Foo <T> {}',
+      options: [{ before: true }],
+      errors: [{ messageId: 'genericSpacingMismatch' }],
+    },
+    {
+      code: 'const val = foo<string>()',
+      output: 'const val = foo <string> ()',
+      options: [{ before: true, after: true }],
+      errors: [
+        { messageId: 'genericSpacingMismatch' },
+        { messageId: 'genericSpacingMismatch' },
+      ],
+    },
+    {
+      code: 'interface Foo { foo<T>(name: T): void }',
+      output: 'interface Foo { foo <T> (name: T): void }',
+      options: [{ before: true, after: true }],
+      errors: [
+        { messageId: 'genericSpacingMismatch' },
+        { messageId: 'genericSpacingMismatch' },
+      ],
+    },
+  ],
 })
