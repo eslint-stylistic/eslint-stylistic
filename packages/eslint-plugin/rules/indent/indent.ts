@@ -187,15 +187,16 @@ type Offset = 'first' | 'off' | number
  * can easily be swapped out.
  */
 class IndexMap<T = any> {
-  _values: (T | undefined)[]
+  _keys: number[]
+  _values: Map<number, T>
 
   /**
    * Creates an empty map
    * @param maxKey The maximum key
    */
-  constructor(maxKey: number) {
-    // Initializing the array with the maximum expected size avoids dynamic reallocations that could degrade performance.
-    this._values = new Array(maxKey + 1)
+  constructor(_maxKey: number) {
+    this._keys = []
+    this._values = new Map()
   }
 
   /**
@@ -203,8 +204,25 @@ class IndexMap<T = any> {
    * @param key The entry's key
    * @param value The entry's value
    */
-  insert(key: number, value: T) {
-    this._values[key] = value
+  insert(key: number, value: T | undefined) {
+    if (value === undefined) {
+      if (!this._values.delete(key))
+        return
+
+      const index = this._lowerBound(key)
+      if (this._keys[index] === key)
+        this._keys.splice(index, 1)
+      return
+    }
+
+    if (this._values.has(key)) {
+      this._values.set(key, value)
+      return
+    }
+
+    const index = this._lowerBound(key)
+    this._keys.splice(index, 0, key)
+    this._values.set(key, value)
   }
 
   /**
@@ -213,14 +231,25 @@ class IndexMap<T = any> {
    * @returns The value of the found entry, or undefined if no such entry exists.
    */
   findLastNotAfter(key: number): T | undefined {
-    const values = this._values
+    const keys = this._keys
 
-    for (let index = key; index >= 0; index--) {
-      const value = values[index]
+    if (keys.length === 0 || key < keys[0])
+      return
 
-      if (value)
-        return value
+    let low = 0
+    let high = keys.length - 1
+
+    while (low <= high) {
+      const mid = (low + high) >> 1
+      const midKey = keys[mid]
+
+      if (midKey <= key)
+        low = mid + 1
+      else
+        high = mid - 1
     }
+
+    return high >= 0 ? this._values.get(keys[high]) : undefined
   }
 
   /**
@@ -229,7 +258,34 @@ class IndexMap<T = any> {
    * @param end The end of the range
    */
   deleteRange(start: number, end: number) {
-    this._values.fill(undefined, start, end)
+    if (start >= end || this._keys.length === 0)
+      return
+
+    const left = this._lowerBound(start)
+    const right = this._lowerBound(end)
+
+    if (right <= left)
+      return
+
+    for (let i = left; i < right; i++)
+      this._values.delete(this._keys[i])
+
+    this._keys.splice(left, right - left)
+  }
+
+  _lowerBound(value: number) {
+    let low = 0
+    let high = this._keys.length
+
+    while (low < high) {
+      const mid = (low + high) >> 1
+      if (this._keys[mid] < value)
+        low = mid + 1
+      else
+        high = mid
+    }
+
+    return low
   }
 }
 
