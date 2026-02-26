@@ -6,7 +6,6 @@ description: Require a specific member delimiter style for interfaces and type l
 
 TypeScript allows three delimiters between members in interfaces and type aliases:
 
-<!-- prettier-ignore -->
 ```ts
 interface Foo {
     // Semicolons (default, preferred in TypeScript):
