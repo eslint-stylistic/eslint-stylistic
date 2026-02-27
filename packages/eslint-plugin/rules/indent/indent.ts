@@ -1072,12 +1072,6 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Checks if a token's indentation is correct
-     * @param token Token to examine
-     * @param desiredIndent Desired indentation of the string
-     * @returns `true` if the token's indentation is correct
-     */
-    /**
      * Check to see if the node is a file level IIFE
      * @param node The function node to check.
      * @returns True if the node is the outer IIFE
