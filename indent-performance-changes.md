@@ -3,14 +3,30 @@
 This file records the **final, retained** performance-related changes made to the indent rule.
 It is intended as a checklist for manual review or adjustment.
 
-Baseline used for comparisons:
+Benchmark context (2026-02-27):
 
 - `TIMING=10 npx eslint --quiet` in `/Users/hyoban/i/dify/web`
-- Baseline `style/indent`: **3360.041 ms**
+- Baseline (origin/main `indent.ts`): **3063.804 ms**
+- Final (current optimized): **1727.778 ms** (~43.6% faster, **-1336.026 ms**)
 
-Final result after changes:
+Per-optimization revert results (baseline **1727.778 ms**, 2026-02-27):
 
-- `style/indent`: **1621.734 ms** (~51.7% faster)
+| Optimization                                         | Reverted `style/indent` | Δ vs baseline            |
+| ---------------------------------------------------- | ----------------------- | ------------------------ |
+| 1) Reduce `ast_exports` getter overhead              | **2537.556 ms**         | **+809.778 ms** (+46.9%) |
+| 2) Early return for single-line element lists        | **1826.473 ms**         | **+98.695 ms** (+5.7%)   |
+| 3) `IndexMap` dense storage using `Int32Array`       | **2425.315 ms**         | **+697.537 ms** (+40.4%) |
+| 4) `OffsetStorage` uses descriptor arrays            | **2425.315 ms**         | **+697.537 ms** (+40.4%) |
+| 5) TypedArray token index acceleration               | **1807.322 ms**         | **+79.544 ms** (+4.6%)   |
+| 6) `parameterParens` uses `Uint8Array`               | **1821.220 ms**         | **+93.442 ms** (+5.4%)   |
+| 7) `isIndentMatchRange` avoids substring allocations | **1813.355 ms**         | **+85.577 ms** (+5.0%)   |
+| 8) `TokenInfo` array-based storage                   | **1842.216 ms**         | **+114.438 ms** (+6.6%)  |
+| 9) `addParensIndent` scope reduction                 | **1780.468 ms**         | **+52.690 ms** (+3.0%)   |
+
+Notes:
+
+- #3 and #4 are tightly coupled; measured together by reverting both to the origin/main-style `IndexMap` + `OffsetStorage` implementation.
+- #5 was measured by swapping `Uint32Array`/`Int32Array` to plain arrays while keeping the same algorithm, so the delta reflects TypedArray gains specifically.
 
 ---
 
@@ -192,9 +208,9 @@ Final result after changes:
 ## Verification (Bench/Test/Lint/Typecheck)
 
 - **Performance benchmark**
-  - Baseline `style/indent`: **3360.041 ms**
-  - Final `style/indent`: **1621.734 ms**
-  - Improvement: **~51.7%**
+  - Baseline `style/indent` (origin/main, 2026-02-27): **3063.804 ms**
+  - Final `style/indent` (current optimized, 2026-02-27): **1727.778 ms**
+  - Improvement: **~43.6%**
 
 - **Tests**
   - `pnpm test` ✅
