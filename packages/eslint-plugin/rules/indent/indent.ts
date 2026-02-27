@@ -266,8 +266,6 @@ class IndexMap {
   deleteRange(start: number, end: number) {
     this._values.fill(0, start, end)
   }
-
-  freeze() {}
 }
 
 /**
@@ -659,10 +657,6 @@ class OffsetStorage {
    */
   getFirstDependency(token: Token) {
     return this._descriptorFrom[this._getOffsetDescriptorId(token)]
-  }
-
-  freeze() {
-    this._indexMap.freeze()
   }
 }
 
@@ -2505,8 +2499,6 @@ export default createRule<RuleOptions, MessageIds>({
         }
 
         addParensIndent(sourceCode.ast.tokens)
-
-        offsets.freeze()
 
         for (let i = 1; i <= lineCount; i++) {
           if (!tokenInfo.firstTokensByLineNumber[i]) {
