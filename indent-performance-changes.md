@@ -141,3 +141,93 @@ Final result after changes:
 - Tests and lint were run after final changes.
 - Lint warning about `baseline-browser-mapping` still appears but is pre-existing.
 - Deprecation warnings about `TSEnumMember.computed` appear in tests (pre-existing).
+
+---
+
+## Analysis (Profiling & Hotspots)
+
+- Bench command: `TIMING=10 npx eslint --quiet` in `/Users/hyoban/i/dify/web`.
+- CPU profiling command: `node --cpu-prof --cpu-prof-dir=/tmp ./node_modules/eslint/bin/eslint.js --quiet`.
+- Profile focus: `packages/eslint-plugin/dist/rules/indent.js`.
+- Hotspots found:
+  - `addParensIndent` dominated self time.
+  - `Program:exit` large inclusive time.
+  - Significant self time inside `rolldown-runtime.js` getter logic from `ast_exports` access.
+- Conclusion:
+  - Repeated `ast_exports` property getter calls in hot paths were causing large constant overhead.
+  - Reducing getter access in hot loops would likely yield the biggest gains.
+
+---
+
+## Modifications (From Analysis to Fix)
+
+1. **Avoid `ast_exports` getters in hot paths**
+   - Aliased frequent AST helpers in `packages/eslint-plugin/rules/indent/indent.ts` to local `const` bindings.
+   - This removed repeated getter access when calling `isOpeningParenToken`, `isClosingParenToken`, etc.
+
+2. **`addElementListIndent` single-line early return**
+   - Skip work when start/end tokens are on the same line.
+
+3. **`IndexMap` dense storage + descriptor arrays**
+   - `IndexMap` moved to `Int32Array` with `fillRange`.
+   - `OffsetStorage` descriptor data moved to parallel arrays for faster lookups.
+
+4. **TypedArray indices**
+   - `sourceTokenIndexByStart` and `nextTokenIndex` moved to typed arrays.
+
+5. **`parameterParens` to `Uint8Array`**
+   - Fast membership marking.
+
+6. **`isIndentMatchRange` direct text comparison**
+   - Avoid substring allocations.
+
+7. **`TokenInfo` array storage**
+   - Reduce object overhead for per-token access.
+
+8. **`addParensIndent` scope reduction**
+   - Skip same-line pairs; apply only for first-token-of-line/base-token.
+
+---
+
+## Verification (Bench/Test/Lint/Typecheck)
+
+- **Performance benchmark**
+  - Baseline `style/indent`: **3360.041 ms**
+  - Final `style/indent`: **1621.734 ms**
+  - Improvement: **~51.7%**
+
+- **Tests**
+  - `pnpm test` ✅
+  - Note: Deprecation warnings about `TSEnumMember.computed` (pre-existing).
+
+- **Lint**
+  - `pnpm lint` ✅
+  - Note: `baseline-browser-mapping` warning (pre-existing).
+
+- **Typecheck**
+  - `pnpm typecheck` ✅
+  - Fixes applied:
+    - `NonCommentToken` type added to distinguish comment vs non-comment tokens.
+    - `getTokenBeforeToken` / `getTokenAfterToken` accept `Token` but return `NonCommentToken | null`.
+    - `resolveTokenBefore` helper ensures preceding/following tokens for comments are non-comment tokens.
+    - `ignoreNode` handles `null` dependency safely.
+
+---
+
+## Required Optimization Workflow (per user instructions)
+
+- Always run **baseline performance** before any code changes:
+  - Command: `TIMING=10 npx eslint --quiet` in `/Users/hyoban/i/dify/web`.
+- Make code changes to the indent rule.
+- Run **post-change benchmark** with the same command and environment.
+- Ensure **tests** and **lint** pass after changes:
+  - `pnpm test`
+  - `pnpm lint` (warning about `baseline-browser-mapping` is acceptable as pre-existing)
+- Typecheck must pass:
+  - `pnpm typecheck`
+- Profiling requirements when asked:
+  - Use CPU profiling: `node --cpu-prof --cpu-prof-dir=/tmp ./node_modules/eslint/bin/eslint.js --quiet`.
+  - Analyze `packages/eslint-plugin/dist/rules/indent.js` for hotspots.
+- Performance targets requested during the process (historical):
+  - Must not regress below **4.5%** improvement.
+  - Must reach **≥5%**, then **≥20%**, then **≥30%** improvement before reporting.
