@@ -41,7 +41,7 @@ catalogs:
     jsonc-eslint-parser: ^2.4.2
     lint-staged: ^16.2.7
     ohash: ^2.0.11
-    prettier: ^3.8.1
+    oxfmt: ^0.35.0
     semver: ^7.7.4
     simple-git-hooks: ^2.13.1
     taze: ^19.9.2
