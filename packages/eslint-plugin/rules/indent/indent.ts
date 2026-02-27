@@ -6,48 +6,10 @@
 
 import type { ASTNode, JSONSchema, NodeTypes, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import {
-  isClosingBraceToken as _isClosingBraceToken,
-  isClosingBracketToken as _isClosingBracketToken,
-  isClosingParenToken as _isClosingParenToken,
-  isColonToken as _isColonToken,
-  isCommentToken as _isCommentToken,
-  isNotClosingParenToken as _isNotClosingParenToken,
-  isNotOpeningParenToken as _isNotOpeningParenToken,
-  isNotSemicolonToken as _isNotSemicolonToken,
-  isOpeningBraceToken as _isOpeningBraceToken,
-  isOpeningBracketToken as _isOpeningBracketToken,
-  isOpeningParenToken as _isOpeningParenToken,
-  isOptionalChainPunctuator as _isOptionalChainPunctuator,
-  isSemicolonToken as _isSemicolonToken,
-  isTokenOnSameLine as _isTokenOnSameLine,
-  AST_NODE_TYPES,
-  createGlobalLinebreakMatcher,
-  getCommentsBetween,
-  isEqToken,
-  isQuestionToken,
-  isSingleLine,
-  skipChainExpression,
-  STATEMENT_LIST_PARENTS,
-} from '#utils/ast'
+import { AST_NODE_TYPES, createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { isESTreeSourceCode } from '#utils/eslint-core'
 import { warnDeprecatedOptions } from '#utils/index'
-
-const isClosingBraceToken = _isClosingBraceToken
-const isClosingBracketToken = _isClosingBracketToken
-const isClosingParenToken = _isClosingParenToken
-const isColonToken = _isColonToken
-const isCommentToken = _isCommentToken
-const isNotClosingParenToken = _isNotClosingParenToken
-const isNotOpeningParenToken = _isNotOpeningParenToken
-const isNotSemicolonToken = _isNotSemicolonToken
-const isOpeningBraceToken = _isOpeningBraceToken
-const isOpeningBracketToken = _isOpeningBracketToken
-const isOpeningParenToken = _isOpeningParenToken
-const isOptionalChainPunctuator = _isOptionalChainPunctuator
-const isSemicolonToken = _isSemicolonToken
-const isTokenOnSameLine = _isTokenOnSameLine
 
 const KNOWN_NODES = new Set([
   'AssignmentExpression',
