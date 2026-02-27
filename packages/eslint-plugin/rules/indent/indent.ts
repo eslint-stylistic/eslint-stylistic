@@ -237,34 +237,22 @@ class IndexMap {
   }
 
   /**
-   * Inserts an entry into the map.
-   * @param key The entry's key
-   * @param value The entry's value
-   */
-  insert(key: number, value: number) {
-    this._values[key] = value
-  }
-
-  /**
    * Finds the value of the entry with the largest key less than or equal to the provided key
    * @param key The provided key
-   * @returns The value of the found entry, or undefined if no such entry exists.
+   * @returns The value of the found entry. For dense storage this is always defined and defaults to 0.
    */
   findLastNotAfter(key: number): number {
     return this._values[key]
   }
 
   /**
-   * Deletes all of the keys in the interval [start, end)
+   * Sets all keys in the interval [start, end) to the provided value
    * @param start The start of the range
    * @param end The end of the range
+   * @param value The value to assign
    */
   fillRange(start: number, end: number, value: number) {
     this._values.fill(value, start, end)
-  }
-
-  deleteRange(start: number, end: number) {
-    this._values.fill(0, start, end)
   }
 }
 
@@ -359,7 +347,8 @@ class OffsetStorage {
    * @param tokenInfo a TokenInfo instance
    * @param indentSize The desired size of each indentation level
    * @param indentType The indentation character
-   * @param maxIndex The maximum end index of any token
+   * @param nextTokenIndex Dense mapping from token start positions to token indexes
+   * @param allTokens All tokens (including comments), in source order
    */
   constructor(
     tokenInfo: TokenInfo,
@@ -538,8 +527,8 @@ class OffsetStorage {
    */
   setDesiredOffsets(range: [number, number], fromToken: Token | null | undefined, offset: Offset, force = false) {
     /**
-     * Offset ranges are stored as a collection of nodes, where each node maps a numeric key to an offset
-     * descriptor. The tree for the example above would have the following nodes:
+     * Offset ranges are stored as contiguous ranges of token indexes. Conceptually, each range start maps
+     * to an offset descriptor. The example above would have the following range starts:
      *
      * key: 0, value: { offset: 0, from: null }
      * key: 15, value: { offset: 1, from: barToken }
@@ -547,8 +536,8 @@ class OffsetStorage {
      * key: 43, value: { offset: 2, from: barToken }
      * key: 820, value: { offset: 1, from: bazToken }
      *
-     * To find the offset descriptor for any given token, one needs to find the node with the largest key
-     * which is <= token.start. To make this operation fast, the nodes are stored in a map indexed by key.
+     * To find the offset descriptor for any given token, locate the range that contains its token index.
+     * The dense IndexMap stores the descriptor id for each token index, making lookup O(1).
      */
 
     const descriptorToInsert = this._addDescriptor(offset, fromToken, force)
