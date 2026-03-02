@@ -92,7 +92,7 @@ jobs:
         run: nci
 
       - name: Restore dist cache
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: dist
           path: packages
@@ -133,7 +133,7 @@ jobs:
       - run: ni eslint@9 -D
 
       - name: Restore dist cache
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: dist
           path: packages
