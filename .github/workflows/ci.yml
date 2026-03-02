@@ -57,7 +57,7 @@ jobs:
         run: nr build
 
       - name: Cache dist
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           retention-days: 3
           name: dist
