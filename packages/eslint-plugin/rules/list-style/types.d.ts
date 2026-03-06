@@ -1,38 +1,40 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: i88viWnuUhK0LskOe_I4q5mof7jlnkKN03Lz95U65Gk */
+/* @checksum: bO-QF1vmjhbG-SOI1py-wrNSdizWYw_vlRpd_N-bzaA */
+
+export type OverrideConfig = BaseConfig | 'off'
 
 export interface ListStyleSchema0 {
   singleLine?: SingleLineConfig
   multiLine?: MultiLineConfig
   overrides?: {
-    '()'?: BaseConfig
-    '[]'?: BaseConfig
-    '{}'?: BaseConfig
-    '<>'?: BaseConfig
-    'ArrayExpression'?: BaseConfig
-    'ArrayPattern'?: BaseConfig
-    'ArrowFunctionExpression'?: BaseConfig
-    'CallExpression'?: BaseConfig
-    'ExportNamedDeclaration'?: BaseConfig
-    'FunctionDeclaration'?: BaseConfig
-    'FunctionExpression'?: BaseConfig
-    'IfStatement'?: BaseConfig
-    'ImportAttributes'?: BaseConfig
-    'ImportDeclaration'?: BaseConfig
-    'JSONArrayExpression'?: BaseConfig
-    'JSONObjectExpression'?: BaseConfig
-    'NewExpression'?: BaseConfig
-    'ObjectExpression'?: BaseConfig
-    'ObjectPattern'?: BaseConfig
-    'TSDeclareFunction'?: BaseConfig
-    'TSEnumBody'?: BaseConfig
-    'TSFunctionType'?: BaseConfig
-    'TSInterfaceBody'?: BaseConfig
-    'TSTupleType'?: BaseConfig
-    'TSTypeLiteral'?: BaseConfig
-    'TSTypeParameterDeclaration'?: BaseConfig
-    'TSTypeParameterInstantiation'?: BaseConfig
+    '()'?: OverrideConfig
+    '[]'?: OverrideConfig
+    '{}'?: OverrideConfig
+    '<>'?: OverrideConfig
+    'ArrayExpression'?: OverrideConfig
+    'ArrayPattern'?: OverrideConfig
+    'ArrowFunctionExpression'?: OverrideConfig
+    'CallExpression'?: OverrideConfig
+    'ExportNamedDeclaration'?: OverrideConfig
+    'FunctionDeclaration'?: OverrideConfig
+    'FunctionExpression'?: OverrideConfig
+    'IfStatement'?: OverrideConfig
+    'ImportAttributes'?: OverrideConfig
+    'ImportDeclaration'?: OverrideConfig
+    'JSONArrayExpression'?: OverrideConfig
+    'JSONObjectExpression'?: OverrideConfig
+    'NewExpression'?: OverrideConfig
+    'ObjectExpression'?: OverrideConfig
+    'ObjectPattern'?: OverrideConfig
+    'TSDeclareFunction'?: OverrideConfig
+    'TSEnumBody'?: OverrideConfig
+    'TSFunctionType'?: OverrideConfig
+    'TSInterfaceBody'?: OverrideConfig
+    'TSTupleType'?: OverrideConfig
+    'TSTypeLiteral'?: OverrideConfig
+    'TSTypeParameterDeclaration'?: OverrideConfig
+    'TSTypeParameterInstantiation'?: OverrideConfig
   }
 }
 export interface SingleLineConfig {

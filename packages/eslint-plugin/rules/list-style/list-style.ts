@@ -1,5 +1,5 @@
 import type { ASTNode, Token, Tree } from '#types'
-import type { BaseConfig, MessageIds, RuleOptions } from './types'
+import type { BaseConfig, MessageIds, OverrideConfig, RuleOptions } from './types'
 import {
   AST_NODE_TYPES,
   isClosingBraceToken,
@@ -60,6 +60,12 @@ export default createRule<RuleOptions, MessageIds>({
               multiline: { $ref: '#/items/0/$defs/multiLineConfig' },
             },
           },
+          overrideConfig: {
+            oneOf: [
+              { $ref: '#/items/0/$defs/baseConfig' },
+              { type: 'string', enum: ['off'] },
+            ],
+          },
         },
         type: 'object',
         additionalProperties: false,
@@ -71,34 +77,34 @@ export default createRule<RuleOptions, MessageIds>({
             additionalProperties: false,
             /// keep-sorted
             properties: {
-              '()': { $ref: '#/items/0/$defs/baseConfig' },
-              '[]': { $ref: '#/items/0/$defs/baseConfig' },
-              '{}': { $ref: '#/items/0/$defs/baseConfig' },
-              '<>': { $ref: '#/items/0/$defs/baseConfig' },
+              '()': { $ref: '#/items/0/$defs/overrideConfig' },
+              '[]': { $ref: '#/items/0/$defs/overrideConfig' },
+              '{}': { $ref: '#/items/0/$defs/overrideConfig' },
+              '<>': { $ref: '#/items/0/$defs/overrideConfig' },
 
-              'ArrayExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'ArrayPattern': { $ref: '#/items/0/$defs/baseConfig' },
-              'ArrowFunctionExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'CallExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'ExportNamedDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
-              'FunctionDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
-              'FunctionExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'IfStatement': { $ref: '#/items/0/$defs/baseConfig' },
-              'ImportAttributes': { $ref: '#/items/0/$defs/baseConfig' },
-              'ImportDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
-              'JSONArrayExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'JSONObjectExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'NewExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'ObjectExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'ObjectPattern': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSDeclareFunction': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSEnumBody': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSFunctionType': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSInterfaceBody': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSTupleType': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSTypeLiteral': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSTypeParameterDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSTypeParameterInstantiation': { $ref: '#/items/0/$defs/baseConfig' },
+              'ArrayExpression': { $ref: '#/items/0/$defs/overrideConfig' },
+              'ArrayPattern': { $ref: '#/items/0/$defs/overrideConfig' },
+              'ArrowFunctionExpression': { $ref: '#/items/0/$defs/overrideConfig' },
+              'CallExpression': { $ref: '#/items/0/$defs/overrideConfig' },
+              'ExportNamedDeclaration': { $ref: '#/items/0/$defs/overrideConfig' },
+              'FunctionDeclaration': { $ref: '#/items/0/$defs/overrideConfig' },
+              'FunctionExpression': { $ref: '#/items/0/$defs/overrideConfig' },
+              'IfStatement': { $ref: '#/items/0/$defs/overrideConfig' },
+              'ImportAttributes': { $ref: '#/items/0/$defs/overrideConfig' },
+              'ImportDeclaration': { $ref: '#/items/0/$defs/overrideConfig' },
+              'JSONArrayExpression': { $ref: '#/items/0/$defs/overrideConfig' },
+              'JSONObjectExpression': { $ref: '#/items/0/$defs/overrideConfig' },
+              'NewExpression': { $ref: '#/items/0/$defs/overrideConfig' },
+              'ObjectExpression': { $ref: '#/items/0/$defs/overrideConfig' },
+              'ObjectPattern': { $ref: '#/items/0/$defs/overrideConfig' },
+              'TSDeclareFunction': { $ref: '#/items/0/$defs/overrideConfig' },
+              'TSEnumBody': { $ref: '#/items/0/$defs/overrideConfig' },
+              'TSFunctionType': { $ref: '#/items/0/$defs/overrideConfig' },
+              'TSInterfaceBody': { $ref: '#/items/0/$defs/overrideConfig' },
+              'TSTupleType': { $ref: '#/items/0/$defs/overrideConfig' },
+              'TSTypeLiteral': { $ref: '#/items/0/$defs/overrideConfig' },
+              'TSTypeParameterDeclaration': { $ref: '#/items/0/$defs/overrideConfig' },
+              'TSTypeParameterInstantiation': { $ref: '#/items/0/$defs/overrideConfig' },
             },
           },
         },
@@ -135,14 +141,24 @@ export default createRule<RuleOptions, MessageIds>({
 
     type OverrideKey = keyof NonNullable<typeof overrides>
 
-    const _resolvedOptions: Partial<Record<OverrideKey, Required<BaseConfig>>> = {}
+    const _resolvedOptions = new Map<OverrideKey, Required<OverrideConfig>>()
 
-    function resolveOption(parenType: ParenType, nodeType: OverrideKey) {
-      if (!_resolvedOptions[nodeType]) {
-        const overridesByParen = overrides![parenType] ?? {}
-        const overridesByNode = overrides![nodeType] ?? {}
+    function resolveOption(parenType: ParenType, nodeType: OverrideKey): Required<OverrideConfig> {
+      if (_resolvedOptions.has(nodeType))
+        return _resolvedOptions.get(nodeType)!
 
-        _resolvedOptions[nodeType] = {
+      let overridesByParen = overrides?.[parenType]
+      let overridesByNode = overrides?.[nodeType]
+
+      let resolved: Required<OverrideConfig>
+      if (overridesByNode === 'off' || (overridesByNode === undefined && overridesByParen === 'off')) {
+        resolved = 'off'
+      }
+      else {
+        overridesByParen = typeof overridesByParen === 'object' ? overridesByParen : {}
+        overridesByNode ??= {}
+
+        resolved = {
           singleLine: {
             ...singleLine,
             ...overridesByParen.singleLine,
@@ -156,7 +172,8 @@ export default createRule<RuleOptions, MessageIds>({
         }
       }
 
-      return _resolvedOptions[nodeType]
+      _resolvedOptions.set(nodeType, resolved)
+      return resolved
     }
 
     function getDelimiter(root: ASTNode, current: Token): string | undefined {
@@ -373,6 +390,9 @@ export default createRule<RuleOptions, MessageIds>({
       const nodeType = items[0]?.type === 'ImportAttribute' ? 'ImportAttributes' : node.type as OverrideKey
 
       const config = resolveOption(parenType, nodeType)
+
+      if (config === 'off')
+        return
 
       if (isTokenOnSameLine(left, right) && items.length <= config.singleLine.maxItems!) {
         checkSpacing(node, left, right, config)
