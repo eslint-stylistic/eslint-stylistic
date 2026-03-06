@@ -293,6 +293,7 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     }],
+    defaultOptions: [{ }],
     messages: {
       extraKey: 'Extra space after {{computed}}key \'{{key}}\'.',
       extraValue: 'Extra space before value for {{computed}}key \'{{key}}\'.',
@@ -300,7 +301,6 @@ export default createRule<RuleOptions, MessageIds>({
       missingValue: 'Missing space before value for {{computed}}key \'{{key}}\'.',
     },
   },
-  defaultOptions: [{}],
   create(context, [_options]) {
     // TODO: need to unify the usage of options
     const options: OptionsUnion = _options || {}
@@ -479,8 +479,7 @@ export default createRule<RuleOptions, MessageIds>({
         diff && mode === 'strict'
         || diff < 0 && mode === 'minimum'
         || diff > 0 && !expected && mode === 'minimum')
-      && !(expected && containsLineTerminator(whitespace))
-      ) {
+      && !(expected && containsLineTerminator(whitespace))) {
         const nextColon = getNextColon(property.key)!
         const tokenBeforeColon = sourceCode.getTokenBefore(nextColon, { includeComments: true })!
         const tokenAfterColon = sourceCode.getTokenAfter(nextColon, { includeComments: true })!

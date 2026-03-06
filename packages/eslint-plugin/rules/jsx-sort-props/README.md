@@ -1,5 +1,8 @@
 # jsx-sort-props
 
+> [!NOTE] Deprecation
+> This rule is deprecated. Please use the [`sort-jsx-props`](https://perfectionist.dev/rules/sort-jsx-props) rule from the [`eslint-plugin-perfectionist`](https://perfectionist.dev) package instead.
+
 Enforce props alphabetical sorting.
 
 Some developers prefer to sort props names alphabetically to be able to find necessary props easier at the later time. Others feel that it adds complexity and becomes burden to maintain.

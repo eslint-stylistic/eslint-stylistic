@@ -1,8 +1,3 @@
-/**
- * @fileoverview Disallow parenthesising higher precedence subexpressions.
- * @author Michael Ficarra
- */
-
 import type { InvalidTestCase } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
@@ -821,36 +816,27 @@ run<RuleOptions, MessageIds>({
       options: ['functions'],
     },
 
+    'const span = /**@type {HTMLSpanElement}*/(event.currentTarget);',
+    'if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log(\'good\');',
+    $`
+      validate(/** @type {Schema} */ (schema), options, {
+          name: "Dev Server",
+          baseDataPath: "options",
+      });
+    `,
+    $`
+      if (condition) {
+          /** @type {ServerOptions} */
+          (options.server.options).requestCert = false;
+      }
+    `,
+    'const x = /** @type {number} */ (value)',
+    'if (/** @type {A} */ (/** @type {B} */ (/** @type {C} */ (/** @type {D} */ (expr))))) {}',
+
     // "allowParensAfterCommentPattern" option
     {
-      code: 'const span = /**@type {HTMLSpanElement}*/(event.currentTarget);',
-      options: ['all', { allowParensAfterCommentPattern: '@type' }],
-    },
-    {
-      code: 'if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log(\'good\');',
-      options: ['all', { allowParensAfterCommentPattern: '@type' }],
-    },
-    {
-      code: $`
-        validate(/** @type {Schema} */ (schema), options, {
-            name: "Dev Server",
-            baseDataPath: "options",
-        });
-      `,
-      options: ['all', { allowParensAfterCommentPattern: '@type' }],
-    },
-    {
-      code: $`
-        if (condition) {
-            /** @type {ServerOptions} */
-            (options.server.options).requestCert = false;
-        }
-      `,
-      options: ['all', { allowParensAfterCommentPattern: '@type' }],
-    },
-    {
-      code: 'const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));',
-      options: ['all', { allowParensAfterCommentPattern: '@type' }],
+      code: 'const net = ipaddr.parseCIDR(/* any-string */ (cidr));',
+      options: ['all', { allowParensAfterCommentPattern: 'any-string' }],
     },
 
     '(a ? b : c) ? d : e',
@@ -3371,98 +3357,15 @@ run<RuleOptions, MessageIds>({
       errors: [{ messageId: 'unexpected' }],
     },
 
-    // "allowParensAfterCommentPattern" option (off by default)
     {
-      code: 'const span = /**@type {HTMLSpanElement}*/(event.currentTarget);',
-      output: 'const span = /**@type {HTMLSpanElement}*/event.currentTarget;',
-      options: ['all'],
-      errors: [{ messageId: 'unexpected' }],
-    },
-    {
-      code: 'if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log(\'good\');',
-      output: 'if (/** @type {Compiler | MultiCompiler} */options.hooks) console.log(\'good\');',
-      options: ['all'],
-      errors: [{ messageId: 'unexpected' }],
-    },
-    {
-      code: $`
-        validate(/** @type {Schema} */ (schema), options, {
-            name: "Dev Server",
-            baseDataPath: "options",
-        });
-      `,
-      output: $`
-        validate(/** @type {Schema} */ schema, options, {
-            name: "Dev Server",
-            baseDataPath: "options",
-        });
-      `,
-      options: ['all'],
-      errors: [{ messageId: 'unexpected' }],
-    },
-    {
-      code: $`
-        if (condition) {
-            /** @type {ServerOptions} */
-            (options.server.options).requestCert = false;
-        }
-      `,
-      output: $`
-        if (condition) {
-            /** @type {ServerOptions} */
-            options.server.options.requestCert = false;
-        }
-      `,
-      options: ['all'],
-      errors: [{ messageId: 'unexpected' }],
-    },
-    {
-      code: 'const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));',
-      output: 'const net = ipaddr.parseCIDR(/** @type {string} */ cidr);',
-      options: ['all'],
-      errors: [{ messageId: 'unexpected' }],
-    },
-    {
-      code: 'const span = /**@type {HTMLSpanElement}*/(event.currentTarget);',
-      output: 'const span = /**@type {HTMLSpanElement}*/event.currentTarget;',
+      code: 'const span = /** {HTMLSpanElement}*/(event.currentTarget);',
+      output: 'const span = /** {HTMLSpanElement}*/event.currentTarget;',
       options: ['all', { allowParensAfterCommentPattern: 'invalid' }],
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: 'if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log(\'good\');',
-      output: 'if (/** @type {Compiler | MultiCompiler} */options.hooks) console.log(\'good\');',
-      options: ['all', { allowParensAfterCommentPattern: 'invalid' }],
-      errors: [{ messageId: 'unexpected' }],
-    },
-    {
-      code: $`
-        validate(/** @type {Schema} */ (schema), options, {
-            name: "Dev Server",
-            baseDataPath: "options",
-        });
-      `,
-      output: $`
-        validate(/** @type {Schema} */ schema, options, {
-            name: "Dev Server",
-            baseDataPath: "options",
-        });
-      `,
-      options: ['all', { allowParensAfterCommentPattern: 'invalid' }],
-      errors: [{ messageId: 'unexpected' }],
-    },
-    {
-      code: $`
-        if (condition) {
-            /** @type {ServerOptions} */
-            (options.server.options).requestCert = false;
-        }
-      `,
-      output: $`
-        if (condition) {
-            /** @type {ServerOptions} */
-            options.server.options.requestCert = false;
-        }
-      `,
+      code: 'if (/** {Compiler | MultiCompiler} */(options).hooks) console.log(\'good\');',
+      output: 'if (/** {Compiler | MultiCompiler} */options.hooks) console.log(\'good\');',
       options: ['all', { allowParensAfterCommentPattern: 'invalid' }],
       errors: [{ messageId: 'unexpected' }],
     },
@@ -3481,7 +3384,6 @@ run<RuleOptions, MessageIds>({
             options.server.options.requestCert = false;
         }
       `,
-      options: ['all', { allowParensAfterCommentPattern: '@type' }],
       errors: [{ messageId: 'unexpected' }],
     },
     {
@@ -3497,7 +3399,6 @@ run<RuleOptions, MessageIds>({
             (options.server.options).requestCert = false;
         }
       `,
-      options: ['all', { allowParensAfterCommentPattern: '@type' }],
       errors: [{ messageId: 'unexpected' }],
     },
     {
@@ -3515,13 +3416,6 @@ run<RuleOptions, MessageIds>({
             options.server.options.requestCert = false;
         }
       `,
-      options: ['all', { allowParensAfterCommentPattern: '@type' }],
-      errors: [{ messageId: 'unexpected' }],
-    },
-    {
-      code: 'const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));',
-      output: 'const net = ipaddr.parseCIDR(/** @type {string} */ cidr);',
-      options: ['all', { allowParensAfterCommentPattern: 'invalid' }],
       errors: [{ messageId: 'unexpected' }],
     },
 
@@ -3598,5 +3492,15 @@ run<RuleOptions, MessageIds>({
     invalid('_ = () => (\'abc\');', '_ = () => \'abc\';'),
     invalid('if (foo) (\'bar\');', 'if (foo) \'bar\';'),
     invalid('const foo = () => (\'bar\');', 'const foo = () => \'bar\';'),
+
+    {
+      code: 'const x = /** @type {number} */ ((((value))))',
+      output: 'const x = /** @type {number} */ (value)',
+      recursive: 2,
+    },
+    {
+      code: 'if ((/** @type {A} */ (/** @type {B} */ (/** @type {C} */(expr))))) {}',
+      output: 'if (/** @type {A} */ (/** @type {B} */ (/** @type {C} */(expr)))) {}',
+    },
   ],
 })

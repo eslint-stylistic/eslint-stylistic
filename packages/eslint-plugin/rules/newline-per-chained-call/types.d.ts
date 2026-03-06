@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: eJo5XRRSpADneLhBnycfif8AobC2Giyvx59vTnNQuWw */
+/* @checksum: Bzr-ILAL8zcs1Oj4CeJI6Sn_zvPOE-zAYZyrOmLe_vE */
 
 export interface NewlinePerChainedCallSchema0 {
   ignoreChainWithDepth?: number

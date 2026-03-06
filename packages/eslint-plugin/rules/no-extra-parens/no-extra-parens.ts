@@ -1,5 +1,3 @@
-// any is required to work around manipulating the AST in weird ways
-
 import type { ASTNode, RuleFunction, RuleListener, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
@@ -9,6 +7,7 @@ import {
   getStaticPropertyName,
   isClosingParenToken,
   isDecimalInteger,
+  isJSDocComment,
   isKeywordToken,
   isMixedLogicalAndCoalesceExpressions,
   isNodeOfTypes,
@@ -82,15 +81,15 @@ export default createRule<RuleOptions, MessageIds>({
                 nestedBinaryExpressions: { type: 'boolean' },
                 returnAssign: { type: 'boolean' },
                 ignoreJSX: { type: 'string', enum: ['none', 'all', 'single-line', 'multi-line'] },
-                /** @deprected */
+                /** @deprecated */
                 enforceForArrowConditionals: { type: 'boolean' },
                 enforceForSequenceExpressions: { type: 'boolean' },
-                /** @deprected */
+                /** @deprecated */
                 enforceForNewInMemberExpressions: { type: 'boolean' },
                 enforceForFunctionPrototypeMethods: { type: 'boolean' },
                 allowParensAfterCommentPattern: { type: 'string' },
                 nestedConditionalExpressions: { type: 'boolean' },
-                /** @deprected */
+                /** @deprecated */
                 allowNodesInSpreadElement: {
                   type: 'object',
                   properties: {
@@ -119,11 +118,11 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
+    defaultOptions: ['all'],
     messages: {
       unexpected: 'Unnecessary parentheses around expression.',
     },
   },
-  defaultOptions: ['all'],
   create(context, [nodes, options]) {
     const sourceCode = context.sourceCode
 
@@ -135,15 +134,15 @@ export default createRule<RuleOptions, MessageIds>({
     const IGNORE_NESTED_BINARY = ALL_NODES && options?.nestedBinaryExpressions === false
     const EXCEPT_RETURN_ASSIGN = ALL_NODES && options?.returnAssign === false
     const IGNORE_JSX = ALL_NODES && options?.ignoreJSX
-    /** @deprected */
+    /** @deprecated */
     const IGNORE_ARROW_CONDITIONALS = ALL_NODES && options?.enforceForArrowConditionals === false
     const IGNORE_SEQUENCE_EXPRESSIONS = ALL_NODES && options?.enforceForSequenceExpressions === false
-    /** @deprected */
+    /** @deprecated */
     const IGNORE_NEW_IN_MEMBER_EXPR = ALL_NODES && options?.enforceForNewInMemberExpressions === false
     const IGNORE_FUNCTION_PROTOTYPE_METHODS = ALL_NODES && options?.enforceForFunctionPrototypeMethods === false
     const ALLOW_PARENS_AFTER_COMMENT_PATTERN = ALL_NODES && options?.allowParensAfterCommentPattern
     const ALLOW_NESTED_TERNARY = ALL_NODES && options?.nestedConditionalExpressions === false
-    /** @deprected */
+    /** @deprecated */
     const ALLOW_NODES_IN_SPREAD = ALL_NODES && options
       && new Set(Object.entries(options.allowNodesInSpreadElement || {}).filter(([_, value]) => value).map(([key]) => key))
 
@@ -180,10 +179,8 @@ export default createRule<RuleOptions, MessageIds>({
       while (currentNode !== ancestor) {
         currentNode = currentNode.parent
 
-        /* c8 ignore start */
         if (currentNode === null || currentNode === undefined)
           throw new Error('Nodes are not in the ancestor-descendant relationship.')
-        /* c8 ignore stop */
 
         path.push(currentNode)
       }
@@ -656,13 +653,36 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
+     * Checks if the parentheses are allowed by a preceding comment directive,
+     * such as a JSDoc `@type` cast or a user-specified comment pattern.
+     */
+    function isAllowedByCommentDirective(leftParenToken: Token) {
+      const comments = sourceCode.getCommentsBefore(leftParenToken)
+      if (comments.length === 0)
+        return false
+
+      const lastComment = comments.at(-1)!
+
+      if (isJSDocComment(lastComment) && /@type\s*\{[^}]+\}/.test(lastComment.value))
+        return true
+
+      if (ALLOW_PARENS_AFTER_COMMENT_PATTERN) {
+        const ignorePattern = new RegExp(ALLOW_PARENS_AFTER_COMMENT_PATTERN, 'u')
+        if (ignorePattern.test(lastComment.value))
+          return true
+      }
+
+      return false
+    }
+
+    /**
      * Report the node
      * @param node node to evaluate
      * @private
      */
     function report(node: ASTNode) {
-      const leftParenToken = sourceCode.getTokenBefore(node)!
-      const rightParenToken = sourceCode.getTokenAfter(node)!
+      let leftParenToken = sourceCode.getTokenBefore(node)!
+      let rightParenToken = sourceCode.getTokenAfter(node)!
 
       if (!isParenthesisedTwice(node)) {
         if (tokensToIgnore.has(sourceCode.getFirstToken(node)!))
@@ -670,19 +690,15 @@ export default createRule<RuleOptions, MessageIds>({
 
         if (isIIFE(node) && !('callee' in node && isParenthesised(node.callee)))
           return
+      }
 
-        if (ALLOW_PARENS_AFTER_COMMENT_PATTERN) {
-          const commentsBeforeLeftParenToken = sourceCode.getCommentsBefore(leftParenToken)
-          const totalCommentsBeforeLeftParenTokenCount = commentsBeforeLeftParenToken.length
-          const ignorePattern = new RegExp(ALLOW_PARENS_AFTER_COMMENT_PATTERN, 'u')
-
-          if (
-            totalCommentsBeforeLeftParenTokenCount > 0
-            && ignorePattern.test(commentsBeforeLeftParenToken[totalCommentsBeforeLeftParenTokenCount - 1].value)
-          ) {
-            return
-          }
-        }
+      let parenLayers = 2
+      while (isAllowedByCommentDirective(leftParenToken)) {
+        if (!isParenthesizedRaw(parenLayers, node, sourceCode))
+          return
+        leftParenToken = sourceCode.getTokenBefore(leftParenToken, isOpeningParenToken)!
+        rightParenToken = sourceCode.getTokenAfter(rightParenToken, isClosingParenToken)!
+        parenLayers++
       }
 
       /**
@@ -696,12 +712,10 @@ export default createRule<RuleOptions, MessageIds>({
           messageId: 'unexpected',
           fix: isFixable(node)
             ? (fixer) => {
-                const parenthesizedSource = sourceCode.text.slice(leftParenToken.range[1], rightParenToken.range[0])
-
-                return fixer.replaceTextRange([
-                  leftParenToken.range[0],
-                  rightParenToken.range[1],
-                ], (requiresLeadingSpace(node) ? ' ' : '') + parenthesizedSource + (requiresTrailingSpace(node) ? ' ' : ''))
+                return [
+                  fixer.replaceText(leftParenToken, requiresLeadingSpace(node) ? ' ' : ''),
+                  fixer.replaceText(rightParenToken, requiresTrailingSpace(node) ? ' ' : ''),
+                ]
               }
             : null,
         })
@@ -1072,14 +1086,16 @@ export default createRule<RuleOptions, MessageIds>({
           if (
             !(EXCEPT_COND_TERNARY && availableTypes.has(node.consequent.type))
             && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.consequent.type))
-            && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
+            && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          ) {
             report(node.consequent)
           }
 
           if (
             !(EXCEPT_COND_TERNARY && availableTypes.has(node.alternate.type))
             && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.alternate.type))
-            && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
+            && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          ) {
             report(node.alternate)
           }
         }
@@ -1305,8 +1321,7 @@ export default createRule<RuleOptions, MessageIds>({
           }
 
           if (nodeObjHasExcessParens
-            && node.object.type === 'CallExpression'
-          ) {
+            && node.object.type === 'CallExpression') {
             report(node.object)
           }
 
@@ -1319,8 +1334,7 @@ export default createRule<RuleOptions, MessageIds>({
 
           if (nodeObjHasExcessParens
             && node.optional
-            && node.object.type === 'ChainExpression'
-          ) {
+            && node.object.type === 'ChainExpression') {
             report(node.object)
           }
 

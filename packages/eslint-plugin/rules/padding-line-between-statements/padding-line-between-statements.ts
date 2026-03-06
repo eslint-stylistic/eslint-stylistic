@@ -1,4 +1,10 @@
 import type { ASTNode, ESTree, RuleContext, SourceCode, Token } from '#types'
+import type {
+  MessageIds,
+  RuleOptions,
+  SelectorOption,
+  StatementOption,
+} from './types'
 import {
   AST_NODE_TYPES,
   isClosingBraceToken,
@@ -40,20 +46,15 @@ interface NodeTestObject {
   test: NodeTest
 }
 
-interface PaddingOption {
-  blankLine: keyof typeof PaddingTypes
-  prev: string[] | string
-  next: string[] | string
-}
-
-type MessageIds = 'expectedBlankLine' | 'unexpectedBlankLine'
-type Options = PaddingOption[]
-
 const LT = `[${Array.from(LINEBREAKS).join('')}]`
 const PADDING_LINE_SEQUENCE = new RegExp(
   String.raw`^(\s*?${LT})\s*${LT}(\s*;?)$`,
   'u',
 )
+
+function isSelectorOption(option: StatementOption): option is SelectorOption {
+  return typeof option === 'object' && !Array.isArray(option)
+}
 
 /**
  * Creates tester which check if a node starts with specific keyword with the
@@ -355,7 +356,7 @@ function verifyForAny(): void {
  * @private
  */
 function verifyForNever(
-  context: RuleContext<MessageIds, Options>,
+  context: RuleContext<MessageIds, RuleOptions>,
   _: ASTNode,
   nextNode: ASTNode,
   paddingLines: [Token, Token][],
@@ -400,7 +401,7 @@ function verifyForNever(
  * @private
  */
 function verifyForAlways(
-  context: RuleContext<MessageIds, Options>,
+  context: RuleContext<MessageIds, RuleOptions>,
   prevNode: ASTNode,
   nextNode: ASTNode,
   paddingLines: [Token, Token][],
@@ -579,7 +580,7 @@ const StatementTypes: Record<string, NodeTestObject> = {
   ),
 }
 
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'padding-line-between-statements',
   meta: {
     type: 'layout',
@@ -599,12 +600,32 @@ export default createRule<Options, MessageIds>({
           type: 'string',
           enum: Object.keys(StatementTypes),
         },
-        statementOption: {
+        selectorOption: {
+          type: 'object',
+          properties: {
+            selector: {
+              type: 'string',
+            },
+            lineMode: {
+              type: 'string',
+              enum: ['any', 'singleline', 'multiline'],
+            },
+          },
+          required: ['selector'],
+          additionalProperties: false,
+        },
+        statementMatcher: {
           anyOf: [
             { $ref: '#/$defs/statementType' },
+            { $ref: '#/$defs/selectorOption' },
+          ],
+        },
+        statementOption: {
+          anyOf: [
+            { $ref: '#/$defs/statementMatcher' },
             {
               type: 'array',
-              items: { $ref: '#/$defs/statementType' },
+              items: { $ref: '#/$defs/statementMatcher' },
               minItems: 1,
               uniqueItems: true,
               additionalItems: false,
@@ -625,16 +646,35 @@ export default createRule<Options, MessageIds>({
         required: ['blankLine', 'prev', 'next'],
       },
     },
+    defaultOptions: [],
     messages: {
       unexpectedBlankLine: 'Unexpected blank line before this statement.',
       expectedBlankLine: 'Expected blank line before this statement.',
     },
   },
-  defaultOptions: [],
-  create(context) {
+  create(context, options) {
     const sourceCode = context.sourceCode
 
-    const configureList = context.options || []
+    const selectorMatchedNodes = new Map<string, Set<ASTNode>>()
+    const pendingPairs: { prevNode: ASTNode, nextNode: ASTNode }[] = []
+
+    function collectSelectorOption(option: StatementOption): void {
+      if (Array.isArray(option)) {
+        for (const item of option)
+          collectSelectorOption(item)
+        return
+      }
+
+      if (!isSelectorOption(option))
+        return
+
+      selectorMatchedNodes.set(option.selector, new Set())
+    }
+
+    for (const configure of options) {
+      collectSelectorOption(configure.prev)
+      collectSelectorOption(configure.next)
+    }
 
     type Scope = {
       upper: Scope
@@ -673,7 +713,7 @@ export default createRule<Options, MessageIds>({
      * @returns `true` if the statement node matched the type.
      * @private
      */
-    function match(node: ASTNode, type: string[] | string): boolean {
+    function match(node: ASTNode, type: StatementOption): boolean {
       let innerStatementNode = node
 
       while (innerStatementNode.type === AST_NODE_TYPES.LabeledStatement)
@@ -682,11 +722,27 @@ export default createRule<Options, MessageIds>({
       if (Array.isArray(type))
         return type.some(match.bind(null, innerStatementNode))
 
-      return StatementTypes[type].test(innerStatementNode, sourceCode)
+      if (isSelectorOption(type)) {
+        const matchedNodes = selectorMatchedNodes.get(type.selector)
+        if (!matchedNodes?.has(innerStatementNode))
+          return false
+
+        const lineMode = type.lineMode
+
+        if (lineMode === 'singleline')
+          return isSingleLine(innerStatementNode)
+        else if (lineMode === 'multiline')
+          return !isSingleLine(innerStatementNode)
+
+        return true
+      }
+      else {
+        return StatementTypes[type].test(innerStatementNode, sourceCode)
+      }
     }
 
     /**
-     * Finds the last matched configure from configureList.
+     * Finds the last matched configure from options.
      * @param prevNode The previous statement to match.
      * @param nextNode The current statement to match.
      * @returns The tester of the last matched configure.
@@ -696,8 +752,8 @@ export default createRule<Options, MessageIds>({
       prevNode: ASTNode,
       nextNode: ASTNode,
     ): (typeof PaddingTypes)[keyof typeof PaddingTypes] {
-      for (let i = configureList.length - 1; i >= 0; --i) {
-        const configure = configureList[i]
+      for (let i = options.length - 1; i >= 0; --i) {
+        const configure = options[i]
         if (
           match(prevNode, configure.prev)
           && match(nextNode, configure.next)
@@ -766,14 +822,19 @@ export default createRule<Options, MessageIds>({
       const prevNode = scopeInfo!.prevNode
 
       // Verify.
-      if (prevNode) {
-        const type = getPaddingType(prevNode, node)
-        const paddingLines = getPaddingLineSequences(prevNode, node)
-
-        type.verify(context, prevNode, node, paddingLines)
-      }
+      if (prevNode)
+        pendingPairs.push({ prevNode, nextNode: node })
 
       scopeInfo!.prevNode = node
+    }
+
+    function verifyPendingPairs(): void {
+      for (const { prevNode, nextNode } of pendingPairs) {
+        const type = getPaddingType(prevNode, nextNode)
+        const paddingLines = getPaddingLineSequences(prevNode, nextNode)
+
+        type.verify(context, prevNode, nextNode, paddingLines)
+      }
     }
 
     /**
@@ -788,9 +849,21 @@ export default createRule<Options, MessageIds>({
       enterScope()
     }
 
+    const selectorMatchListeners = Object.fromEntries(
+      Array.from(selectorMatchedNodes.keys(), selector => [
+        selector,
+        (node: ASTNode): void => {
+          selectorMatchedNodes.get(selector)?.add(node)
+        },
+      ]),
+    )
+
     return {
       'Program': enterScope,
-      'Program:exit': exitScope,
+      'Program:exit': () => {
+        verifyPendingPairs()
+        exitScope()
+      },
       'BlockStatement': enterScope,
       'BlockStatement:exit': exitScope,
       'SwitchStatement': enterScope,
@@ -812,6 +885,7 @@ export default createRule<Options, MessageIds>({
       'TSMethodSignature:exit': exitScope,
 
       ':statement': verify,
+      ...selectorMatchListeners,
     }
   },
 })

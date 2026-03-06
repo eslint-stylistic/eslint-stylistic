@@ -429,20 +429,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
-        "name": "jsx-indent",
-        "ruleId": "@stylistic/jsx-indent",
-        "entry": "packages/eslint-plugin/rules/jsx-indent/jsx-indent.ts",
-        "docsEntry": "packages/eslint-plugin/rules/jsx-indent/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Enforce JSX indentation. Deprecated, use `indent` rule instead.",
-            "experimental": false,
-            "recommended": false
-          }
-        }
-      },
-      {
         "name": "jsx-indent-props",
         "ruleId": "@stylistic/jsx-indent-props",
         "entry": "packages/eslint-plugin/rules/jsx-indent-props/jsx-indent-props.ts",
@@ -521,6 +507,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "docs": {
             "description": "Disallow multiple spaces between inline JSX props. Deprecated, use `no-multi-spaces` rule instead.",
             "experimental": false,
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "jsx-props-style",
+        "ruleId": "@stylistic/exp-jsx-props-style",
+        "entry": "packages/eslint-plugin/rules/jsx-props-style/jsx-props-style.ts",
+        "docsEntry": "packages/eslint-plugin/rules/jsx-props-style/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce consistent line break styles for JSX props",
+            "experimental": true,
             "recommended": false
           }
         }

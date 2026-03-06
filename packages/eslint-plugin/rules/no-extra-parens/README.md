@@ -371,7 +371,9 @@ const quux = (function () {}.apply());
 
 #### allowParensAfterCommentPattern
 
-To make this rule allow extra parentheses preceded by specific comments, set this option to a string pattern that will be passed to the [`RegExp` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp).
+Parentheses preceded by a JSDoc `@type` comment (e.g. `/** @type {Foo} */ (expr)`) are always allowed by default, without needing this option.
+
+To allow extra parentheses preceded by other specific comments, set this option to a string pattern that will be passed to the [`RegExp` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp).
 
 Examples of **correct** code for this rule with the `"all"` and `{ "allowParensAfterCommentPattern": "@type" }` options:
 
@@ -444,7 +446,7 @@ const fruits = {
 
 The following configuration ignores `ConditionalExpression` in `ArrowFunctionExpression` nodes like [`enforceForArrowConditionals`](#enforceforarrowconditionals-deprecated):
 
-Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["ArrowFunctionExpression[body.type=ConditionalExpression"] }` option:
+Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["ArrowFunctionExpression[body.type=ConditionalExpression]"] }` option:
 
 ::: correct
 
@@ -459,7 +461,7 @@ const d = c => (1 ? 2 : 3);
 
 The following configuration ignores `NewExpression` in `MemberExpression` nodes like [`enforceForNewInMemberExpressions`](#enforcefornewinmemberexpressions-deprecated):
 
-Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["MemberExpression[object.type=NewExpression"] }` option:
+Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["MemberExpression[object.type=NewExpression]"] }` option:
 
 ::: correct
 
@@ -538,13 +540,13 @@ const foo = (
 
 The following configuration ignores parens around a `TSIntersectionType` as the typeAnnotation of a `TSTypeAliasDeclaration`.
 
-Examples of **correct** code for this rule with the `4, { "ignoredNodes": ['TSTypeAliasDeclaration[typeAnnotation.type='TSIntersectionType'] }` option:
+Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["TSTypeAliasDeclaration[typeAnnotation.type=TSIntersectionType]"] }` option:
 
 ::: correct
 
 ```js
 /* eslint @stylistic/no-extra-parens: ["error", "all", {
-    "ignoredNodes": ["TSTypeAliasDeclaration[typeAnnotation.type='TSIntersectionType']"]
+    "ignoredNodes": ["TSTypeAliasDeclaration[typeAnnotation.type=TSIntersectionType]"]
 }] */
 
 type TBar = (

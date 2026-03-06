@@ -113,22 +113,20 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    defaultOptions: [
+      'double',
+      {
+        allowTemplateLiterals: 'never',
+        avoidEscape: false,
+        ignoreStringLiterals: false,
+      },
+    ],
     messages: {
       wrongQuotes: 'Strings must use {{description}}.',
     },
   },
-  defaultOptions: [
-    'double',
-    {
-      allowTemplateLiterals: 'never',
-      avoidEscape: false,
-      ignoreStringLiterals: false,
-    },
-  ],
-  create(context) {
-    const quoteOption = context.options[0]
+  create(context, [quoteOption, options]) {
     const settings = QUOTE_SETTINGS[quoteOption || 'double']
-    const options = context.options[1]
     const sourceCode = context.sourceCode
     let avoidEscape = false
     let ignoreStringLiterals = false
@@ -148,13 +146,11 @@ export default createRule<RuleOptions, MessageIds>({
         allowTemplateLiteralsToAvoidEscape = options.allowTemplateLiterals === true
       }
     }
-    /* v8 ignore start */
     else if (options === AVOID_ESCAPE) { // deprecated
       warnDeprecation(`option("${AVOID_ESCAPE}")`, '"avoidEscape"', 'quotes')
 
       avoidEscape = true
     }
-    /* v8 ignore stop */
 
     /**
      * Determines if a given node is part of JSX syntax.
@@ -273,6 +269,7 @@ export default createRule<RuleOptions, MessageIds>({
         case AST_NODE_TYPES.ImportAttribute:
           return parent.value === node
 
+        case AST_NODE_TYPES.TSImportType:
         case AST_NODE_TYPES.TSAbstractMethodDefinition:
         case AST_NODE_TYPES.TSMethodSignature:
         case AST_NODE_TYPES.TSPropertySignature:
@@ -288,6 +285,8 @@ export default createRule<RuleOptions, MessageIds>({
         case AST_NODE_TYPES.AccessorProperty:
           return parent.key === node && !parent.computed
 
+        // TODO: remove when `typescript-eslint@8.48.0` is not supported
+        // Related: https://github.com/typescript-eslint/typescript-eslint/pull/11591
         case AST_NODE_TYPES.TSLiteralType:
           return parent.parent?.type === AST_NODE_TYPES.TSImportType
 

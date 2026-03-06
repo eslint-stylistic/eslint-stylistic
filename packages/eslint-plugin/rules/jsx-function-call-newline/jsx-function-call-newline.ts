@@ -1,17 +1,8 @@
-/**
- * @fileoverview Enforce line breaks before and after JSX elements when they are used as arguments to a function
- * @author Riri
- */
-
 import type { ASTNode, RuleContext, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isSingleLine, isTokenOnSameLine } from '#utils/ast'
 import { isJSX } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
-
-const messages = {
-  missingLineBreak: 'Missing line break around JSX',
-}
 
 function endWithComma(context: RuleContext<any, any>, node: ASTNode) {
   const sourceCode = context.sourceCode
@@ -25,24 +16,20 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-function-call-newline',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce line breaks before and after JSX elements when they are used as arguments to a function.',
     },
-
     fixable: 'whitespace',
-
-    messages,
-
     schema: [{
       type: 'string',
       enum: ['always', 'multiline'],
     }],
+    defaultOptions: ['multiline'],
+    messages: {
+      missingLineBreak: 'Missing line break around JSX',
+    },
   },
-
-  create(context) {
-    const option = context.options[0] || 'multiline'
-
+  create(context, [option]) {
     function needsOpeningNewLine(node: ASTNode) {
       const previousToken = context.sourceCode.getTokenBefore(node)!
 
