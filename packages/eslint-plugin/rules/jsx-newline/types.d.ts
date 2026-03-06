@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 0bUA9LKlGHp70kf6oIxuqxxkJCCQLNYIgkxagF1Rld8 */
+/* @checksum: j9W4HabkC26CKdL2wfOGscuvuW9E135rtEvE5k7-YyE */
 
 export interface JsxNewlineSchema0 {
   prevent?: boolean

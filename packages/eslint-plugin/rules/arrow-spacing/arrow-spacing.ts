@@ -9,30 +9,25 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'arrow-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent spacing before and after the arrow in arrow functions',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'object',
         properties: {
           before: {
             type: 'boolean',
-            default: true,
           },
           after: {
             type: 'boolean',
-            default: true,
           },
         },
         additionalProperties: false,
       },
     ],
-
+    defaultOptions: [{ before: true, after: true }],
     messages: {
       expectedBefore: 'Missing space before =>.',
       unexpectedBefore: 'Unexpected space before =>.',
@@ -41,14 +36,7 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedAfter: 'Unexpected space after =>.',
     },
   },
-
-  create(context) {
-    // merge rules with default
-    const rule = Object.assign({}, context.options[0])
-
-    rule.before = rule.before !== false
-    rule.after = rule.after !== false
-
+  create(context, [option]) {
     const sourceCode = context.sourceCode
 
     function getArrow(node: SupportedNode) {
@@ -72,7 +60,7 @@ export default createRule<RuleOptions, MessageIds>({
       const beforeToken = sourceCode.getTokenBefore(arrowToken, { includeComments: true })!
       const isSpacedBefore = sourceCode.isSpaceBetween(beforeToken, arrowToken)
 
-      if (rule.before) {
+      if (option!.before) {
         // should be space(s) before arrow
         if (!isSpacedBefore) {
           context.report({
@@ -100,7 +88,7 @@ export default createRule<RuleOptions, MessageIds>({
       const afterToken = sourceCode.getTokenAfter(arrowToken, { includeComments: true })!
       const isSpacedAfter = sourceCode.isSpaceBetween(arrowToken, afterToken)
 
-      if (rule.after) {
+      if (option!.after) {
         // should be space(s) after arrow
         if (!isSpacedAfter) {
           context.report({

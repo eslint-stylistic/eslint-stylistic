@@ -1,6 +1,7 @@
 # jsx-props-no-multi-spaces
 
-> **Deprecated**: Use [`no-multi-spaces`](no-multi-spaces) instead, as it fully covers all test cases from this rule.
+> [!NOTE] Deprecation
+> This rule is deprecated. Please use [`no-multi-spaces`](no-multi-spaces) instead, as it fully covers all test cases from this rule.
 
 Disallow multiple spaces between inline JSX props.
 

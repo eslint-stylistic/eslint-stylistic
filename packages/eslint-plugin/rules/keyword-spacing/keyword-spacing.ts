@@ -23,8 +23,12 @@ export default createRule<RuleOptions, MessageIds>({
       {
         type: 'object',
         properties: {
-          before: { type: 'boolean', default: true },
-          after: { type: 'boolean', default: true },
+          before: {
+            type: 'boolean',
+          },
+          after: {
+            type: 'boolean',
+          },
           overrides: {
             type: 'object',
             properties: KEYWORDS.reduce<Record<string, JSONSchema.JSONSchema4>>((retv, key) => {
@@ -44,6 +48,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [{ before: true, after: true, overrides: {} }],
     messages: {
       expectedBefore: 'Expected space(s) before "{{value}}".',
       expectedAfter: 'Expected space(s) after "{{value}}".',
@@ -51,8 +56,7 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedAfter: 'Unexpected space(s) after "{{value}}".',
     },
   },
-  defaultOptions: [{}],
-  create(context) {
+  create(context, [options]) {
     const sourceCode = context.sourceCode
 
     const tokensToIgnore = new WeakSet()
@@ -88,8 +92,7 @@ export default createRule<RuleOptions, MessageIds>({
         && !isOpenParenOfTemplate(prevToken)
         && !tokensToIgnore.has(prevToken)
         && isTokenOnSameLine(prevToken, token)
-        && !sourceCode.isSpaceBetween(prevToken, token)
-      ) {
+        && !sourceCode.isSpaceBetween(prevToken, token)) {
         context.report({
           loc: token.loc,
           messageId: 'expectedBefore',
@@ -115,8 +118,7 @@ export default createRule<RuleOptions, MessageIds>({
         && !isOpenParenOfTemplate(prevToken)
         && !tokensToIgnore.has(prevToken)
         && isTokenOnSameLine(prevToken, token)
-        && sourceCode.isSpaceBetween(prevToken, token)
-      ) {
+        && sourceCode.isSpaceBetween(prevToken, token)) {
         context.report({
           loc: { start: prevToken.loc.end, end: token.loc.start },
           messageId: 'unexpectedBefore',
@@ -142,8 +144,7 @@ export default createRule<RuleOptions, MessageIds>({
         && !isCloseParenOfTemplate(nextToken)
         && !tokensToIgnore.has(nextToken)
         && isTokenOnSameLine(token, nextToken)
-        && !sourceCode.isSpaceBetween(token, nextToken)
-      ) {
+        && !sourceCode.isSpaceBetween(token, nextToken)) {
         context.report({
           loc: token.loc,
           messageId: 'expectedAfter',
@@ -169,8 +170,7 @@ export default createRule<RuleOptions, MessageIds>({
         && !isCloseParenOfTemplate(nextToken)
         && !tokensToIgnore.has(nextToken)
         && isTokenOnSameLine(token, nextToken)
-        && sourceCode.isSpaceBetween(token, nextToken)
-      ) {
+        && sourceCode.isSpaceBetween(token, nextToken)) {
         context.report({
           loc: { start: token.loc.end, end: nextToken.loc.start },
           messageId: 'unexpectedAfter',
@@ -192,21 +192,21 @@ export default createRule<RuleOptions, MessageIds>({
      *      Keys are keywords (there are for every keyword).
      *      Values are instances of `{"before": function, "after": function}`.
      */
-    function parseOptions(options: Options = {}): Record<string, {
+    function parseOptions(options: Options): Record<string, {
       before: (token: Token, pattern?: RegExp) => void
       after: (token: Token, pattern?: RegExp) => void
     }> {
-      const before = options.before !== false
-      const after = options.after !== false
+      const { before, after, overrides } = options
       const defaultValue = {
         before: before ? expectSpaceBefore : unexpectSpaceBefore,
         after: after ? expectSpaceAfter : unexpectSpaceAfter,
       }
-      const overrides = (options && options.overrides) || {} as any
       const retv = Object.create(null)
 
       for (let i = 0; i < KEYWORDS.length; ++i) {
         const key = KEYWORDS[i]
+        // TODO: fix it
+        // @ts-expect-error index signature for string is missing
         const override = overrides[key]
 
         if (override) {
@@ -226,7 +226,7 @@ export default createRule<RuleOptions, MessageIds>({
       return retv
     }
 
-    const checkMethodMap = parseOptions(context.options[0]!)
+    const checkMethodMap = parseOptions(options!)
 
     /**
      * Reports a given token if usage of spacing followed by the token is
@@ -335,8 +335,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       if (firstToken
         && ((isKeywordToken(firstToken) && firstToken.value === 'function')
-          || firstToken.value === 'async')
-      ) {
+          || firstToken.value === 'async')) {
         checkSpacingBefore(firstToken)
       }
     }
@@ -456,8 +455,7 @@ export default createRule<RuleOptions, MessageIds>({
           (('method' in node && node.method) || node.type === 'MethodDefinition')
           && 'async' in node.value && node.value.async
         )
-        || node.type === AST_NODE_TYPES.AccessorProperty
-      ) {
+        || node.type === AST_NODE_TYPES.AccessorProperty) {
         const token = sourceCode.getTokenBefore(
           node.key,
           (tok) => {

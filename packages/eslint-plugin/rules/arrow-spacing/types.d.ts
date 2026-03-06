@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: GB-NOGp-2oJ9B0MUedzLdpUqvNQxv-l2Rv9PNFOFae4 */
+/* @checksum: wNwOsFZHoyOIMWVjpVkRJYVKOyP3pHHETK-wra-Zwto */
 
 export interface ArrowSpacingSchema0 {
   before?: boolean

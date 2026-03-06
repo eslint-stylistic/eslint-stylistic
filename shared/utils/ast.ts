@@ -5,5 +5,35 @@ export {
   AST_TOKEN_TYPES,
 } from '@typescript-eslint/types'
 
-// eslint-disable-next-line ts/no-restricted-imports
-export * from '@typescript-eslint/utils/ast-utils'
+export {
+  isArrowToken,
+  isClassOrTypeElement,
+  isClosingBraceToken,
+  isClosingBracketToken,
+  isClosingParenToken,
+  isColonToken,
+  isCommaToken,
+  isCommentToken,
+  isFunction,
+  isFunctionOrFunctionType,
+  isIdentifier,
+  isNodeOfTypes,
+  isNotClosingParenToken,
+  isNotCommaToken,
+  isNotOpeningParenToken,
+  isNotOptionalChainPunctuator,
+  isNotSemicolonToken,
+  isOpeningBraceToken,
+  isOpeningBracketToken,
+  isOpeningParenToken,
+  isOptionalCallExpression,
+  isOptionalChainPunctuator,
+  isParenthesized,
+  isSemicolonToken,
+  isTokenOnSameLine,
+  isTSConstructorType,
+  isTSFunctionType,
+  isTypeKeyword,
+  isVariableDeclarator,
+  LINEBREAK_MATCHER,
+} from '@typescript-eslint/utils/ast-utils'

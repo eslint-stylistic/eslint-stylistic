@@ -64,14 +64,19 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           exceptAfterSingleLine: {
             type: 'boolean',
-            default: false,
           },
           exceptAfterOverload: {
             type: 'boolean',
-            default: true,
           },
         },
         additionalProperties: false,
+      },
+    ],
+    defaultOptions: [
+      'always',
+      {
+        exceptAfterOverload: true,
+        exceptAfterSingleLine: false,
       },
     ],
     messages: {
@@ -79,20 +84,18 @@ export default createRule<RuleOptions, MessageIds>({
       always: 'Expected blank line between class members.',
     },
   },
-  defaultOptions: [
-    'always',
-    {
-      exceptAfterOverload: true,
-      exceptAfterSingleLine: false,
-    },
-  ],
   create(context, [firstOption, secondOption]) {
-    const options: RuleOptions = []
+    const configureList = typeof firstOption === 'object' ? firstOption.enforce : [{ blankLine: firstOption, prev: '*', next: '*' }]
+    const { exceptAfterSingleLine } = secondOption!
+    const exceptAfterOverload
+      = secondOption?.exceptAfterOverload && (
+        firstOption === 'always'
+        || (
+          typeof firstOption !== 'string'
+          && firstOption?.enforce.some(({ blankLine, prev, next }) => blankLine === 'always' && prev !== 'field' && next !== 'field')
+        )
+      )
 
-    options[0] = context.options[0] || 'always'
-    options[1] = context.options[1] || { exceptAfterSingleLine: false }
-
-    const configureList = typeof options[0] === 'object' ? options[0].enforce : [{ blankLine: options[0], prev: '*', next: '*' }]
     const sourceCode = context.sourceCode
 
     /**
@@ -213,15 +216,6 @@ export default createRule<RuleOptions, MessageIds>({
       return null
     }
 
-    const exceptAfterOverload
-      = secondOption?.exceptAfterOverload && (
-        firstOption === 'always'
-        || (
-          typeof firstOption !== 'string'
-          && firstOption?.enforce.some(({ blankLine, prev, next }) => blankLine === 'always' && prev !== 'field' && next !== 'field')
-        )
-      )
-
     function isOverload(node: ASTNode): boolean {
       return (
         (node.type === AST_NODE_TYPES.TSAbstractMethodDefinition
@@ -240,7 +234,7 @@ export default createRule<RuleOptions, MessageIds>({
           const curFirst = sourceCode.getFirstToken(body[i])!
           const { curLast, nextFirst } = getBoundaryTokens(body[i], body[i + 1])
           const isMulti = !isTokenOnSameLine(curFirst, curLast)
-          const skip = !isMulti && options[1]!.exceptAfterSingleLine
+          const skip = !isMulti && exceptAfterSingleLine
           const beforePadding = findLastConsecutiveTokenAfter(curLast!, nextFirst!, 1)
           const afterPadding = findFirstConsecutiveTokenBefore(nextFirst!, curLast!, 1)
           const isPadded = afterPadding.loc.start.line - beforePadding.loc.end.line > 1

@@ -7,6 +7,8 @@ run<RuleOptions, MessageIds>({
   rule,
   lang: 'ts',
   valid: [
+    'if (a) {}',
+    'if (\na\n) {}',
     'const a = { foo: "bar", bar: 2 }',
     'const a = {\nfoo: "bar",\nbar: 2\n}',
     'const a = [1, 2, 3]',
@@ -29,6 +31,7 @@ run<RuleOptions, MessageIds>({
     'a\n.filter(items => {\n\n})',
     'new Foo(a, b)',
     'new Foo(\na,\nb\n)',
+    'new (Foo())(a, b)',
     'function foo<T = {\na: 1,\nb: 2\n}>(a, b) {}',
     'foo(() =>\nbar())',
     `call<{\nfoo: 'bar'\n}>('')`,
@@ -81,6 +84,18 @@ run<RuleOptions, MessageIds>({
           'ImportAttributes': {
             singleLine: { spacing: 'never' },
           },
+        },
+      }],
+    },
+    {
+      code: $`
+        if (node.callee.type !== 'Identifier'
+          || (node.callee.name !== 't' && node.callee.name !== 'n')
+        ) {}
+      `,
+      options: [{
+        overrides: {
+          IfStatement: 'off',
         },
       }],
     },
@@ -144,6 +159,13 @@ run<RuleOptions, MessageIds>({
         z
       )
     `,
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1030#issuecomment-3797379905
+    $`
+      foo?.(
+        [],
+        {},
+      )
+    `,
     // https://github.com/antfu/eslint-plugin-antfu/issues/22
     $`
       import Icon, {
@@ -175,6 +197,32 @@ run<RuleOptions, MessageIds>({
   invalid: [
     {
       code: $`
+        if (
+        a) {}
+      `,
+      output: $`
+        if (
+        a
+        ) {}
+      `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 2 },
+      ],
+    },
+    {
+      code: $`
+        if (a
+        ) {}
+      `,
+      output: $`
+        if (a) {}
+      `,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 6 },
+      ],
+    },
+    {
+      code: $`
         const a = {
         foo: "bar", bar: 2 }
       `,
@@ -196,7 +244,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       output: $`
-        const a = {foo: "bar", bar: 2}
+        const a = {foo: "bar",bar: 2}
       `,
       errors: [
         { messageId: 'shouldNotWrap', line: 1, column: 23 },
@@ -228,7 +276,7 @@ run<RuleOptions, MessageIds>({
         ]
       `,
       output: $`
-        const a = [1, 2, 3]
+        const a = [1,2, 3]
       `,
       errors: [
         { messageId: 'shouldNotWrap', line: 1, column: 14 },
@@ -257,7 +305,7 @@ run<RuleOptions, MessageIds>({
         bar } from "foo"
       `,
       output: $`
-        import { foo, bar } from "foo"
+        import { foo,bar } from "foo"
       `,
       errors: [
         { messageId: 'shouldNotWrap', line: 1, column: 14 },
@@ -415,7 +463,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       output: $`
-        export interface Foo {        a: 1,  b: Pick<Bar, 'baz'>,  c: 3,}
+        export interface Foo {        a: 1,b: Pick<Bar, 'baz'>,c: 3,}
       `,
       errors: [
         { messageId: 'shouldNotWrap', line: 1, column: 35 },
@@ -661,7 +709,7 @@ run<RuleOptions, MessageIds>({
     {
       description: 'CRLF',
       code: 'const a = {foo: "bar", \r\nbar: 2\r\n}',
-      output: 'const a = {foo: "bar", bar: 2}',
+      output: 'const a = {foo: "bar",bar: 2}',
       errors: [
         { messageId: 'shouldNotWrap', line: 1, column: 23 },
         { messageId: 'shouldNotWrap', line: 2, column: 7 },
@@ -897,8 +945,8 @@ run<RuleOptions, MessageIds>({
         };
       `,
       output: $`
-        const foo = [1, 2];
-        const bar = { a: 1, b: 2 };
+        const foo = [1,2];
+        const bar = {a: 1,b: 2};
       `,
       options: [{ multiLine: { minItems: 3 } }],
       errors: [
@@ -921,6 +969,15 @@ run<RuleOptions, MessageIds>({
       `,
       errors: [
         { messageId: 'shouldNotWrap', line: 1, column: 7 },
+      ],
+    },
+    {
+      description: 'indent by tab',
+      code: `const foo = [1,\n\t2,\n\t3];`,
+      output: `const foo = [1,2,3];`,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 16 },
+        { messageId: 'shouldNotWrap', line: 2, column: 4 },
       ],
     },
   ],

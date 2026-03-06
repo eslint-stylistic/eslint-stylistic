@@ -1,4 +1,6 @@
 ---
+related_rules:
+  - dot-location
 ---
 
 # no-whitespace-before-property

@@ -9,7 +9,6 @@ import {
   LINEBREAKS,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { warnDeprecation } from '#utils/index'
 
 /**
  * Switches quoting of javascript string between ' " and `
@@ -65,8 +64,6 @@ const QUOTE_SETTINGS = {
 // An unescaped newline is a newline preceded by an even number of backslashes.
 const UNESCAPED_LINEBREAK_PATTERN = new RegExp(String.raw`(^|[^\\])(\\\\)*[${Array.from(LINEBREAKS).join('')}]`, 'u')
 
-const AVOID_ESCAPE = 'avoid-escape'
-
 export default createRule<RuleOptions, MessageIds>({
   name: 'quotes',
   meta: {
@@ -82,77 +79,44 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['single', 'double', 'backtick'],
       },
       {
-        anyOf: [
-          {
+        type: 'object',
+        properties: {
+          avoidEscape: {
+            type: 'boolean',
+          },
+          allowTemplateLiterals: {
             type: 'string',
-            enum: ['avoid-escape'],
+            enum: ['never', 'avoidEscape', 'always'],
           },
-          {
-            type: 'object',
-            properties: {
-              avoidEscape: {
-                type: 'boolean',
-              },
-              allowTemplateLiterals: {
-                anyOf: [
-                  {
-                    type: 'boolean',
-                  },
-                  {
-                    type: 'string',
-                    enum: ['never', 'avoidEscape', 'always'],
-                  },
-                ],
-              },
-              ignoreStringLiterals: {
-                type: 'boolean',
-              },
-            },
-            additionalProperties: false,
+          ignoreStringLiterals: {
+            type: 'boolean',
           },
-        ],
+        },
+        additionalProperties: false,
+      },
+    ],
+    defaultOptions: [
+      'double',
+      {
+        allowTemplateLiterals: 'never',
+        avoidEscape: false,
+        ignoreStringLiterals: false,
       },
     ],
     messages: {
       wrongQuotes: 'Strings must use {{description}}.',
     },
   },
-  defaultOptions: [
-    'double',
-    {
-      allowTemplateLiterals: 'never',
-      avoidEscape: false,
-      ignoreStringLiterals: false,
-    },
-  ],
-  create(context) {
-    const quoteOption = context.options[0]
-    const settings = QUOTE_SETTINGS[quoteOption || 'double']
-    const options = context.options[1]
+  create(context, [quoteOption, options]) {
     const sourceCode = context.sourceCode
-    let avoidEscape = false
-    let ignoreStringLiterals = false
-    let allowTemplateLiteralsAlways = false
-    let allowTemplateLiteralsToAvoidEscape = false
-    if (typeof (options) === 'object') {
-      avoidEscape = options.avoidEscape === true
-      ignoreStringLiterals = options.ignoreStringLiterals === true
-      if (typeof (options.allowTemplateLiterals) === 'string') {
-        allowTemplateLiteralsAlways = options.allowTemplateLiterals === 'always'
-        allowTemplateLiteralsToAvoidEscape = allowTemplateLiteralsAlways || options.allowTemplateLiterals === 'avoidEscape'
-      }
-      else if (typeof (options.allowTemplateLiterals) === 'boolean') { // deprecated
-        warnDeprecation('value(boolean) for "allowTemplateLiterals"', '"always"/"never"', 'quotes')
-
-        allowTemplateLiteralsAlways = options.allowTemplateLiterals === true
-        allowTemplateLiteralsToAvoidEscape = options.allowTemplateLiterals === true
-      }
-    }
-    else if (options === AVOID_ESCAPE) { // deprecated
-      warnDeprecation(`option("${AVOID_ESCAPE}")`, '"avoidEscape"', 'quotes')
-
-      avoidEscape = true
-    }
+    const settings = QUOTE_SETTINGS[quoteOption!]
+    const {
+      avoidEscape,
+      ignoreStringLiterals,
+      allowTemplateLiterals,
+    } = options!
+    const allowTemplateLiteralsAlways = allowTemplateLiterals === 'always'
+    const allowTemplateLiteralsToAvoidEscape = allowTemplateLiteralsAlways || allowTemplateLiterals === 'avoidEscape'
 
     /**
      * Determines if a given node is part of JSX syntax.
@@ -271,6 +235,7 @@ export default createRule<RuleOptions, MessageIds>({
         case AST_NODE_TYPES.ImportAttribute:
           return parent.value === node
 
+        case AST_NODE_TYPES.TSImportType:
         case AST_NODE_TYPES.TSAbstractMethodDefinition:
         case AST_NODE_TYPES.TSMethodSignature:
         case AST_NODE_TYPES.TSPropertySignature:
@@ -286,6 +251,8 @@ export default createRule<RuleOptions, MessageIds>({
         case AST_NODE_TYPES.AccessorProperty:
           return parent.key === node && !parent.computed
 
+        // TODO: remove when `typescript-eslint@8.48.0` is not supported
+        // Related: https://github.com/typescript-eslint/typescript-eslint/pull/11591
         case AST_NODE_TYPES.TSLiteralType:
           return parent.parent?.type === AST_NODE_TYPES.TSImportType
 
