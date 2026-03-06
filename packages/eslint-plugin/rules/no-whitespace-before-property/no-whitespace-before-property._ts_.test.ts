@@ -12,6 +12,8 @@ run<RuleOptions, MessageIds>({
     `type Foo = A['B']`,
     `type Foo = A.B`,
     `type Foo = import(A).B`,
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1097
+    `type Test = ( typeof arr )[ number ];`,
   ],
 
   invalid: [
@@ -29,6 +31,12 @@ run<RuleOptions, MessageIds>({
       code: `type Foo = import(A) .B`,
       output: `type Foo = import(A).B`,
       errors: [{ messageId: 'unexpectedWhitespace', data: { propName: 'B' } }],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1097
+    {
+      code: `type Test = ( typeof arr ) [ number ];`,
+      output: `type Test = ( typeof arr )[ number ];`,
+      errors: [{ messageId: 'unexpectedWhitespace', data: { propName: 'number' } }],
     },
   ],
 })

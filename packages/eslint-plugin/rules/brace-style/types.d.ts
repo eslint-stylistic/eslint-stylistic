@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: x-zK6lKOyxz2s9YQ6AWlku2z-BN7szEb1dTLyY20Z1Y */
+/* @checksum: 7oGE0AXRrEseAUOiN9MveDr6vQZJ2NqAt9vSP5zNDXc */
 
 export type BraceStyleSchema0
   = | '1tbs'

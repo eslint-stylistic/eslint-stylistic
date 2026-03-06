@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: R1snL1CuHOcWrAAdCe0ZU3VYisIyLwMggTcw-2w2naM */
+/* @checksum: _iEQuuuZVg3pIbpgObOUQNDMuk_hp0zxe9JZECJ-XEQ */
 
 export interface NoTabsSchema0 {
   allowIndentationTabs?: boolean

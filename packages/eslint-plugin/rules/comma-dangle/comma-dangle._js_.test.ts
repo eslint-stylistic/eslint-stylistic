@@ -4,7 +4,7 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { $, run } from '#test'
+import { $, run, skipBabel } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from './comma-dangle'
 
@@ -434,32 +434,6 @@ run<RuleOptions, MessageIds>({
       code: 'foo(\na,\nb\n)',
       options: [{ functions: 'only-multiline' }],
       parserOptions: { ecmaVersion: 8 },
-    },
-
-    // https://github.com/eslint/eslint/issues/7370
-    {
-      code: 'function foo({a}: {a: string,}) {}',
-      options: ['never'],
-      languageOptions: languageOptionsForBabelFlow,
-    },
-    {
-      code: 'function foo({a,}: {a: string}) {}',
-      options: ['always'],
-      languageOptions: {
-        ...languageOptionsForBabelFlow,
-        sourceType: 'script',
-        ecmaVersion: 5,
-      },
-    },
-    {
-      code: 'function foo(a): {b: boolean,} {}',
-      options: [{ functions: 'never' }],
-      languageOptions: languageOptionsForBabelFlow,
-    },
-    {
-      code: 'function foo(a,): {b: boolean} {}',
-      options: [{ functions: 'always' }],
-      languageOptions: languageOptionsForBabelFlow,
     },
 
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/158
@@ -1913,40 +1887,6 @@ run<RuleOptions, MessageIds>({
       ],
     },
 
-    // https://github.com/eslint/eslint/issues/7370
-    {
-      code: 'function foo({a}: {a: string,}) {}',
-      output: 'function foo({a,}: {a: string,}) {}',
-      options: ['always'],
-      languageOptions: {
-        ...languageOptionsForBabelFlow,
-        sourceType: 'script',
-        ecmaVersion: 5,
-      },
-      errors: [{ messageId: 'missing' }],
-    },
-    {
-      code: 'function foo({a,}: {a: string}) {}',
-      output: 'function foo({a}: {a: string}) {}',
-      options: ['never'],
-      languageOptions: languageOptionsForBabelFlow,
-      errors: [{ messageId: 'unexpected' }],
-    },
-    {
-      code: 'function foo(a): {b: boolean,} {}',
-      output: 'function foo(a,): {b: boolean,} {}',
-      options: [{ functions: 'always' }],
-      languageOptions: languageOptionsForBabelFlow,
-      errors: [{ messageId: 'missing' }],
-    },
-    {
-      code: 'function foo(a,): {b: boolean} {}',
-      output: 'function foo(a): {b: boolean} {}',
-      options: [{ functions: 'never' }],
-      languageOptions: languageOptionsForBabelFlow,
-      errors: [{ messageId: 'unexpected' }],
-    },
-
     // https://github.com/eslint/eslint/issues/11502
     {
       code: 'foo(a,)',
@@ -2254,3 +2194,72 @@ run<RuleOptions, MessageIds>({
     },
   ],
 })
+
+if (!skipBabel) {
+  run<RuleOptions, MessageIds>({
+    name: 'comma-dangle_babel',
+    rule,
+    valid: [
+      // https://github.com/eslint/eslint/issues/7370
+      {
+        code: 'function foo({a}: {a: string,}) {}',
+        options: ['never'],
+        languageOptions: languageOptionsForBabelFlow,
+      },
+      {
+        code: 'function foo({a,}: {a: string}) {}',
+        options: ['always'],
+        languageOptions: {
+          ...languageOptionsForBabelFlow,
+          sourceType: 'script',
+          ecmaVersion: 5,
+        },
+      },
+      {
+        code: 'function foo(a): {b: boolean,} {}',
+        options: [{ functions: 'never' }],
+        languageOptions: languageOptionsForBabelFlow,
+      },
+      {
+        code: 'function foo(a,): {b: boolean} {}',
+        options: [{ functions: 'always' }],
+        languageOptions: languageOptionsForBabelFlow,
+      },
+    ],
+    invalid: [
+      // https://github.com/eslint/eslint/issues/7370
+      {
+        code: 'function foo({a}: {a: string,}) {}',
+        output: 'function foo({a,}: {a: string,}) {}',
+        options: ['always'],
+        languageOptions: {
+          ...languageOptionsForBabelFlow,
+          sourceType: 'script',
+          ecmaVersion: 5,
+        },
+        errors: [{ messageId: 'missing' }],
+      },
+      {
+        code: 'function foo({a,}: {a: string}) {}',
+        output: 'function foo({a}: {a: string}) {}',
+        options: ['never'],
+        languageOptions: languageOptionsForBabelFlow,
+        errors: [{ messageId: 'unexpected' }],
+      },
+      {
+        code: 'function foo(a): {b: boolean,} {}',
+        output: 'function foo(a,): {b: boolean,} {}',
+        options: [{ functions: 'always' }],
+        languageOptions: languageOptionsForBabelFlow,
+        errors: [{ messageId: 'missing' }],
+      },
+      {
+        code: 'function foo(a,): {b: boolean} {}',
+        output: 'function foo(a): {b: boolean} {}',
+        options: [{ functions: 'never' }],
+        languageOptions: languageOptionsForBabelFlow,
+        errors: [{ messageId: 'unexpected' }],
+      },
+    ],
+  })
+}

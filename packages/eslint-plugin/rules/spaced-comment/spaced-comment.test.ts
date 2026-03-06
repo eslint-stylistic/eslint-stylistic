@@ -148,10 +148,6 @@ run<RuleOptions, MessageIds>({
       options: ['always', { markers: ['global'] }],
     },
     {
-      code: '/*eslint-env node*/',
-      options: ['always', { markers: ['eslint-env'] }],
-    },
-    {
       code: '/*eslint eqeqeq:0, curly: 2*/',
       options: ['always', { markers: ['eslint'] }],
     },

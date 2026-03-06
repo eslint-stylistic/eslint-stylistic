@@ -10,32 +10,30 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Enforce placing object properties on separate lines',
     },
+    fixable: 'whitespace',
     schema: [
       {
         type: 'object',
         properties: {
           allowAllPropertiesOnSameLine: {
             type: 'boolean',
-            default: false,
           },
         },
         additionalProperties: false,
       },
     ],
-    fixable: 'whitespace',
+    defaultOptions: [
+      {
+        allowAllPropertiesOnSameLine: false,
+      },
+    ],
     messages: {
       propertiesOnNewlineAll: 'Object properties must go on a new line if they aren\'t all on the same line.',
       propertiesOnNewline: 'Object properties must go on a new line.',
     },
   },
-  defaultOptions: [
-    {
-      allowAllPropertiesOnSameLine: false,
-    },
-  ],
-
-  create(context) {
-    const allowSameLine = context.options[0] && (context.options[0].allowAllPropertiesOnSameLine)
+  create(context, [options]) {
+    const allowSameLine = options!.allowAllPropertiesOnSameLine
 
     const messageId = allowSameLine
       ? 'propertiesOnNewlineAll'

@@ -1,8 +1,3 @@
-/**
- * @fileoverview enforce position of line comments
- * @author Alberto Rodríguez
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './line-comment-position'

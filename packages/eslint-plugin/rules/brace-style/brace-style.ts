@@ -1,7 +1,8 @@
-import type { ReportFixFunction, Token } from '#types'
+import type { Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isTokenOnSameLine, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { safeReplaceTextBetween } from '#utils/fix'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'brace-style',
@@ -21,12 +22,12 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           allowSingleLine: {
             type: 'boolean',
-            default: false,
           },
         },
         additionalProperties: false,
       },
     ],
+    defaultOptions: ['1tbs', { allowSingleLine: false }],
     messages: {
       nextLineOpen: 'Opening curly brace does not appear on the same line as controlling statement.',
       sameLineOpen: 'Opening curly brace appears on the same line as controlling statement.',
@@ -36,32 +37,14 @@ export default createRule<RuleOptions, MessageIds>({
       sameLineClose: 'Closing curly brace appears on the same line as the subsequent block.',
     },
   },
-  defaultOptions: ['1tbs', { allowSingleLine: false }],
-  create(context, optionsWithDefaults) {
-    const [
-      style,
-      { allowSingleLine } = { allowSingleLine: false },
-    ] = optionsWithDefaults
-
-    const isAllmanStyle = style === 'allman'
+  create(context, [style, options]) {
     const sourceCode = context.sourceCode
 
-    /**
-     * Fixes a place where a newline unexpectedly appears
-     * @param firstToken The token before the unexpected newline
-     * @param secondToken The token after the unexpected newline
-     * @returns A fixer function to remove the newlines between the tokens
-     */
-    function removeNewlineBetween(firstToken: Token, secondToken: Token): ReportFixFunction | null {
-      const textRange = [firstToken.range[1], secondToken.range[0]] as const
-      const textBetween = sourceCode.text.slice(textRange[0], textRange[1])
+    const {
+      allowSingleLine,
+    } = options!
 
-      // Don't do a fix if there is a comment between the tokens
-      if (textBetween.trim())
-        return null
-
-      return fixer => fixer.replaceTextRange(textRange, ' ')
-    }
+    const isAllmanStyle = style === 'allman'
 
     /**
      * Validates a pair of curly brackets based on the user's config
@@ -84,9 +67,11 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           node: openingCurlyToken,
           messageId: 'nextLineOpen',
-          fix: removeNewlineBetween(
+          fix: safeReplaceTextBetween(
+            sourceCode,
             tokenBeforeOpeningCurly!,
             openingCurlyToken,
+            ' ',
           ),
         })
       }
@@ -139,7 +124,7 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           node: curlyToken,
           messageId: 'nextLineClose',
-          fix: removeNewlineBetween(curlyToken, keywordToken),
+          fix: safeReplaceTextBetween(sourceCode, curlyToken, keywordToken, ' '),
         })
       }
 

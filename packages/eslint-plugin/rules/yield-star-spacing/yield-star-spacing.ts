@@ -11,13 +11,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'yield-star-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require or disallow spacing around the `*` in `yield*` expressions',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         oneOf: [
@@ -36,6 +33,7 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    defaultOptions: ['after'],
     messages: {
       missingBefore: 'Missing space before *.',
       missingAfter: 'Missing space after *.',
@@ -43,21 +41,20 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedAfter: 'Unexpected space after *.',
     },
   },
-
-  create(context) {
+  create(context, [options]) {
     const sourceCode = context.sourceCode
 
-    const mode = (function (option = 'after') {
-      if (typeof option === 'string') {
+    const mode = (() => {
+      if (typeof options === 'string') {
         return {
           before: { before: true, after: false },
           after: { before: false, after: true },
           both: { before: true, after: true },
           neither: { before: false, after: false },
-        }[option]
+        }[options]
       }
-      return option
-    }(context.options[0])) as { before: boolean, after: boolean }
+      return options!
+    })()
 
     /**
      * Checks the spacing between two tokens before or after the star token.
