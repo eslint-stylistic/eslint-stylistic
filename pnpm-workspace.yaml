@@ -62,6 +62,7 @@ catalogs:
     '@vueuse/core': ^14.2.1
     fuse.js: ^7.1.0
     markdown-it-container: ^4.0.0
+    oxc-minify: ^0.116.0
     shiki: ^4.0.1
     twoslash: ^0.3.6
     twoslash-eslint: ^0.3.6

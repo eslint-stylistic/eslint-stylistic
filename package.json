@@ -62,6 +62,7 @@
     "jsonc-eslint-parser": "catalog:dev",
     "lint-staged": "catalog:dev",
     "ohash": "catalog:dev",
+    "oxc-minify": "catalog:docs",
     "oxfmt": "catalog:dev",
     "picomatch": "catalog:prod",
     "semver": "catalog:dev",
