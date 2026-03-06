@@ -1,23 +1,8 @@
-/**
- * @fileoverview Limit maximum of props on a single line in JSX
- * @author Yannick Croissant
- */
-
-import type { ReportDescriptor, RuleContext, Tree } from '#types'
+import type { ReportDescriptor, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isSingleLine, isTokenOnSameLine } from '#utils/ast'
+import { getPropName } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
-
-function getPropName(context: RuleContext<MessageIds, RuleOptions>, propNode: Tree.JSXAttribute | Tree.JSXSpreadAttribute) {
-  if (propNode.type === 'JSXSpreadAttribute')
-    return context.sourceCode.getText(propNode.argument)
-
-  return propNode.name.name
-}
-
-const messages = {
-  newLine: 'Prop `{{prop}}` must be placed on a new line',
-}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-max-props-per-line',
@@ -27,9 +12,6 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Enforce maximum of props on a single line in JSX',
     },
     fixable: 'code',
-
-    messages,
-
     schema: [{
       anyOf: [{
         type: 'object',
@@ -65,26 +47,30 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       }],
     }],
+    defaultOptions: [{ maximum: 1 }],
+    messages: {
+      newLine: 'Prop `{{prop}}` must be placed on a new line',
+    },
   },
-
-  create(context) {
-    const configuration = context.options[0] || {}
-    const maximum = configuration.maximum || 1
+  create(context, [configuration]) {
+    const sourceCode = context.sourceCode
+    const {
+      maximum,
+    } = configuration!
 
     type InferSchemaByKey<K extends string> = Extract<RuleOptions[0], Record<K, any> | Partial<Record<K, any>>>
 
-    const maxConfig = typeof maximum === 'number'
+    const {
+      single = Infinity,
+      multi = Infinity,
+    } = typeof maximum === 'number'
       ? {
           single: (configuration as InferSchemaByKey<'when'>).when === 'multiline' ? Infinity : maximum,
           multi: maximum,
         }
-      : {
-          single: maximum.single || Infinity,
-          multi: maximum.multi || Infinity,
-        }
+      : maximum!
 
     function generateFixFunction(line: (Tree.JSXAttribute | Tree.JSXSpreadAttribute)[], max: number): ReportDescriptor<MessageIds>['fix'] {
-      const sourceCode = context.sourceCode
       const output = []
       const front = line[0].range[0]
       const back = line[line.length - 1].range[1]
@@ -113,7 +99,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         const isSingleLineTag = isSingleLine(node)
 
-        if ((isSingleLineTag ? maxConfig.single : maxConfig.multi) === Infinity)
+        if ((isSingleLineTag ? single : multi) === Infinity)
           return
 
         const firstProp = node.attributes[0]
@@ -130,11 +116,11 @@ export default createRule<RuleOptions, MessageIds>({
 
         linePartitionedProps.forEach((propsInLine) => {
           const maxPropsCountPerLine = isSingleLineTag && propsInLine[0].loc.start.line === node.loc.start.line
-            ? maxConfig.single
-            : maxConfig.multi
+            ? single
+            : multi
 
           if (propsInLine.length > maxPropsCountPerLine) {
-            const name = getPropName(context, propsInLine[maxPropsCountPerLine])
+            const name = getPropName(sourceCode, propsInLine[maxPropsCountPerLine])
 
             context.report({
               messageId: 'newLine',

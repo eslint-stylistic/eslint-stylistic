@@ -1,7 +1,8 @@
 /* eslint perfectionist/sort-objects: "error" */
 // @ts-check
 
-import antfu from '@antfu/eslint-config'
+import antfu, { GLOB_TESTS } from '@antfu/eslint-config'
+import eslintPlugin from 'eslint-plugin-eslint-plugin'
 import stylistic from './stub.mjs'
 
 const stylisticConfig = stylistic.configs.customize({
@@ -19,6 +20,11 @@ export default antfu(
     jsx: true,
     markdown: false,
     pnpm: true,
+    test: {
+      overrides: {
+        'antfu/indent-unindent': 'error',
+      },
+    },
     typescript: true,
   },
   {
@@ -39,16 +45,6 @@ export default antfu(
       'unicorn/consistent-function-scoping': 'off',
       'unicorn/no-new-array': 'off',
       'unicorn/prefer-number-properties': 'off',
-    },
-  },
-  {
-    files: [
-      '**/*.test.{js,ts}',
-    ],
-    name: 'local/test',
-    rules: {
-      'antfu/indent-unindent': 'error',
-      'node/prefer-global/process': 'off',
     },
   },
   {
@@ -75,8 +71,39 @@ export default antfu(
     ],
     name: 'local/no-trailing-spaces/readme',
     rules: {
-      'format/prettier': 'off',
       'style/no-trailing-spaces': 'off',
+    },
+  },
+  eslintPlugin.configs.recommended,
+  {
+    files: ['packages/eslint-plugin/rules/**/*.ts'],
+    rules: {
+      'eslint-plugin/meta-property-ordering': 'error',
+      'eslint-plugin/require-meta-schema-description': 'off',
+      'perfectionist/sort-objects': [
+        'error',
+        {
+          customGroups: [
+            { elementNamePattern: 'defaultOptions', groupName: 'bottom' },
+          ],
+          groups: ['unknown', 'multiline-property', 'bottom', 'method'],
+          newlinesBetween: 0,
+          type: 'subgroup-order',
+          useConfigurationIf: {
+            callingFunctionNamePattern: '^createRule$',
+          },
+        },
+        {
+          newlinesBetween: 0,
+          type: 'unsorted',
+          useConfigurationIf: {
+            declarationMatchesPattern: '^meta$',
+          },
+        },
+        {
+          type: 'unsorted',
+        },
+      ],
     },
   },
   {
@@ -84,7 +111,7 @@ export default antfu(
       'packages/eslint-plugin/{rules,utils}/**/*.ts',
       'shared/utils/**/*.ts',
     ],
-    ignores: ['**/*.test.ts'],
+    ignores: GLOB_TESTS,
     name: 'local/restrict-types',
     rules: {
       'ts/no-restricted-imports': ['error', {

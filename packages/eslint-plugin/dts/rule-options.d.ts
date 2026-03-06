@@ -31,12 +31,12 @@ import type { JsxEqualsSpacingRuleOptions } from '../rules/jsx-equals-spacing/ty
 import type { JsxFirstPropNewLineRuleOptions } from '../rules/jsx-first-prop-new-line/types'
 import type { JsxFunctionCallNewlineRuleOptions } from '../rules/jsx-function-call-newline/types'
 import type { JsxIndentPropsRuleOptions } from '../rules/jsx-indent-props/types'
-import type { JsxIndentRuleOptions } from '../rules/jsx-indent/types'
 import type { JsxMaxPropsPerLineRuleOptions } from '../rules/jsx-max-props-per-line/types'
 import type { JsxNewlineRuleOptions } from '../rules/jsx-newline/types'
 import type { JsxOneExpressionPerLineRuleOptions } from '../rules/jsx-one-expression-per-line/types'
 import type { JsxPascalCaseRuleOptions } from '../rules/jsx-pascal-case/types'
 import type { JsxPropsNoMultiSpacesRuleOptions } from '../rules/jsx-props-no-multi-spaces/types'
+import type { JsxPropsStyleRuleOptions } from '../rules/jsx-props-style/types'
 import type { JsxQuotesRuleOptions } from '../rules/jsx-quotes/types'
 import type { JsxSelfClosingCompRuleOptions } from '../rules/jsx-self-closing-comp/types'
 import type { JsxSortPropsRuleOptions } from '../rules/jsx-sort-props/types'
@@ -249,11 +249,6 @@ export interface RuleOptions {
    */
   '@stylistic/jsx-function-call-newline': JsxFunctionCallNewlineRuleOptions
   /**
-   * Enforce JSX indentation. Deprecated, use `indent` rule instead.
-   * @see https://eslint.style/rules/jsx-indent
-   */
-  '@stylistic/jsx-indent': JsxIndentRuleOptions
-  /**
    * Enforce props indentation in JSX
    * @see https://eslint.style/rules/jsx-indent-props
    */
@@ -283,6 +278,11 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/jsx-props-no-multi-spaces
    */
   '@stylistic/jsx-props-no-multi-spaces': JsxPropsNoMultiSpacesRuleOptions
+  /**
+   * Enforce consistent line break styles for JSX props
+   * @see https://eslint.style/rules/jsx-props-style
+   */
+  '@stylistic/exp-jsx-props-style': JsxPropsStyleRuleOptions
   /**
    * Enforce the consistent use of either double or single quotes in JSX attributes
    * @see https://eslint.style/rules/jsx-quotes
@@ -732,11 +732,6 @@ export interface UnprefixedRuleOptions {
    */
   'jsx-function-call-newline': JsxFunctionCallNewlineRuleOptions
   /**
-   * Enforce JSX indentation. Deprecated, use `indent` rule instead.
-   * @see https://eslint.style/rules/jsx-indent
-   */
-  'jsx-indent': JsxIndentRuleOptions
-  /**
    * Enforce props indentation in JSX
    * @see https://eslint.style/rules/jsx-indent-props
    */
@@ -766,6 +761,11 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/jsx-props-no-multi-spaces
    */
   'jsx-props-no-multi-spaces': JsxPropsNoMultiSpacesRuleOptions
+  /**
+   * Enforce consistent line break styles for JSX props
+   * @see https://eslint.style/rules/jsx-props-style
+   */
+  'exp-jsx-props-style': JsxPropsStyleRuleOptions
   /**
    * Enforce the consistent use of either double or single quotes in JSX attributes
    * @see https://eslint.style/rules/jsx-quotes

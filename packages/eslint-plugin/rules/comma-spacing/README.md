@@ -9,6 +9,7 @@ related_rules:
   - space-after-keywords
   - space-unary-ops
   - space-return-throw-case
+  - type-generic-spacing
 further_reading:
   - 'https://www.crockford.com/code.html'
   - 'https://dojotoolkit.org/reference-guide/1.9/developer/styleguide.html'
@@ -34,6 +35,7 @@ This rule does not apply in either of the following cases:
 - between comma and closing bracket `]`, to avoid conflicts with the [`array-bracket-spacing`](array-bracket-spacing) rule
 - between comma and closing brace `}`, to avoid conflicts with the [`object-curly-spacing`](object-curly-spacing) rule
 - between comma and closing parentheses `)`, to avoid conflicts with the [`space-in-parens`](space-in-parens) rule
+- between comma and closing angle bracket `>`, to avoid conflicts with the [`type-generic-spacing`](type-generic-spacing) rule
 
 ## Options
 
@@ -60,6 +62,8 @@ foo(a ,b);
 new Foo(a ,b);
 function baz(a ,b){}
 a ,b
+
+type Foo<T ,P> = Bar<T ,P>
 ```
 
 :::
@@ -68,7 +72,7 @@ Examples of **correct** code for this rule with the default `{ "before": false, 
 
 :::correct
 
-```js
+```ts
 /* eslint @stylistic/comma-spacing: ["error", { "before": false, "after": true }] */
 
 var foo = 1, bar = 2
@@ -80,6 +84,8 @@ foo(a, b);
 new Foo(a, b);
 function qur(a, b){}
 a, b
+
+type Foo<T, P> = Bar<T, P>
 ```
 
 :::
@@ -88,7 +94,7 @@ Additional examples of **correct** code for this rule with the default `{ "befor
 
 :::correct
 
-```js
+```ts
 /* eslint @stylistic/comma-spacing: ["error", { "before": false, "after": true }] */
 
 // this rule does not enforce spacing between two commas
@@ -112,6 +118,9 @@ import {foo, bar,} from "mod";
 
 // this rule does not enforce spacing before `)`
 foo(a, b,)
+
+// this rule does not enforce spacing before `>`
+type Foo<T, P,> = Bar<T, P>
 ```
 
 :::

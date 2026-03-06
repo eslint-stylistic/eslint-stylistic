@@ -64,6 +64,8 @@ This rule has three options:
 
 In this case, spacing will be disallowed after a `new` operator and required before/after a `++` operator.
 
+For TypeScript non-null assertions (`value!`), you can use the special `ts-non-null` key in overrides to configure spacing separately from the `!` NOT operator.
+
 Examples of **incorrect** code for this rule with the default `{"words": true, "nonwords": false}` option:
 
 ::: incorrect

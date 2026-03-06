@@ -1,21 +1,14 @@
-/**
- * @fileoverview Rule to enforce the position of line comments
- * @author Alberto Rodríguez
- */
 import type { MessageIds, RuleOptions } from './types'
 import { COMMENTS_IGNORE_PATTERN, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { warnDeprecatedOptions } from '#utils/index'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'line-comment-position',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce position of line comments',
     },
-
     schema: [
       {
         oneOf: [
@@ -33,9 +26,6 @@ export default createRule<RuleOptions, MessageIds>({
               ignorePattern: {
                 type: 'string',
               },
-              applyDefaultPatterns: {
-                type: 'boolean',
-              },
               applyDefaultIgnorePatterns: {
                 type: 'boolean',
               },
@@ -45,43 +35,25 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    defaultOptions: ['above'],
     messages: {
       above: 'Expected comment to be above code.',
       beside: 'Expected comment to be beside code.',
     },
   },
+  create(context, [options]) {
+    const {
+      position = 'above',
+      ignorePattern,
+      applyDefaultIgnorePatterns = true,
+    } = typeof options === 'string' ? { position: options } : options!
 
-  create(context) {
-    const options = context.options[0]
-
-    let above
-    let ignorePattern: string
-    let applyDefaultIgnorePatterns = true
-    let customIgnoreRegExp: RegExp
-
-    if (!options || typeof options === 'string') {
-      above = !options || options === 'above'
-    }
-    else {
-      above = !options.position || options.position === 'above'
-      ignorePattern = options.ignorePattern!
-      customIgnoreRegExp = new RegExp(ignorePattern, 'u')
-
-      if (Object.hasOwn(options, 'applyDefaultIgnorePatterns'))
-        applyDefaultIgnorePatterns = options.applyDefaultIgnorePatterns!
-      else
-        applyDefaultIgnorePatterns = options.applyDefaultPatterns !== false
-
-      warnDeprecatedOptions(options, 'applyDefaultPatterns', 'applyDefaultIgnorePatterns', 'line-comment-position')
-    }
+    const above = position === 'above'
+    const customIgnoreRegExp = ignorePattern ? new RegExp(ignorePattern, 'u') : null
 
     const defaultIgnoreRegExp = COMMENTS_IGNORE_PATTERN
     const fallThroughRegExp = /^\s*falls?\s?through/u
     const sourceCode = context.sourceCode
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       Program() {
@@ -94,7 +66,7 @@ export default createRule<RuleOptions, MessageIds>({
           if (applyDefaultIgnorePatterns && (defaultIgnoreRegExp.test(node.value) || fallThroughRegExp.test(node.value)))
             return
 
-          if (ignorePattern && customIgnoreRegExp.test(node.value))
+          if (customIgnoreRegExp?.test(node.value))
             return
 
           const previous = sourceCode.getTokenBefore(node, { includeComments: true })

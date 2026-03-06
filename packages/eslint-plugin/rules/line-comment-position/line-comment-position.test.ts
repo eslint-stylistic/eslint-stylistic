@@ -1,8 +1,3 @@
-/**
- * @fileoverview enforce position of line comments
- * @author Alberto Rodríguez
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './line-comment-position'
@@ -103,24 +98,6 @@ run<RuleOptions, MessageIds>({
     {
       code: '// jscs: disable\n1 + 1;',
       options: [{ position: 'beside', applyDefaultIgnorePatterns: false }],
-      errors: [{
-        messageId: 'beside',
-        line: 1,
-        column: 1,
-      }],
-    },
-    { // deprecated option still works
-      code: '// jscs: disable\n1 + 1;',
-      options: [{ position: 'beside', applyDefaultPatterns: false }],
-      errors: [{
-        messageId: 'beside',
-        line: 1,
-        column: 1,
-      }],
-    },
-    { // new option name takes precedence
-      code: '// jscs: disable\n1 + 1;',
-      options: [{ position: 'beside', applyDefaultIgnorePatterns: false, applyDefaultPatterns: true }],
       errors: [{
         messageId: 'beside',
         line: 1,
