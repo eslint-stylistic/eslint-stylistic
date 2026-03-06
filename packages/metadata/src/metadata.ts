@@ -540,20 +540,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
-        "name": "jsx-sort-props",
-        "ruleId": "@stylistic/jsx-sort-props",
-        "entry": "packages/eslint-plugin/rules/jsx-sort-props/jsx-sort-props.ts",
-        "docsEntry": "packages/eslint-plugin/rules/jsx-sort-props/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Enforce props alphabetical sorting",
-            "experimental": false,
-            "recommended": false
-          }
-        }
-      },
-      {
         "name": "jsx-tag-spacing",
         "ruleId": "@stylistic/jsx-tag-spacing",
         "entry": "packages/eslint-plugin/rules/jsx-tag-spacing/jsx-tag-spacing.ts",

@@ -40,7 +40,6 @@ import jsxPascalCase from './jsx-pascal-case/jsx-pascal-case'
 import jsxPropsStyle from './jsx-props-style/jsx-props-style'
 import jsxQuotes from './jsx-quotes/jsx-quotes'
 import jsxSelfClosingComp from './jsx-self-closing-comp/jsx-self-closing-comp'
-import jsxSortProps from './jsx-sort-props/jsx-sort-props'
 import jsxTagSpacing from './jsx-tag-spacing/jsx-tag-spacing'
 import jsxWrapMultilines from './jsx-wrap-multilines/jsx-wrap-multilines'
 import keySpacing from './key-spacing/key-spacing'
@@ -137,7 +136,6 @@ export default {
   'exp-jsx-props-style': jsxPropsStyle,
   'jsx-quotes': jsxQuotes,
   'jsx-self-closing-comp': jsxSelfClosingComp,
-  'jsx-sort-props': jsxSortProps,
   'jsx-tag-spacing': jsxTagSpacing,
   'jsx-wrap-multilines': jsxWrapMultilines,
   'key-spacing': keySpacing,

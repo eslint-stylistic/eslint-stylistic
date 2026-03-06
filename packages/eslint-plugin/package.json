@@ -63,7 +63,6 @@
     "./rules/jsx-props-style": "./dist/rules/jsx-props-style.js",
     "./rules/jsx-quotes": "./dist/rules/jsx-quotes.js",
     "./rules/jsx-self-closing-comp": "./dist/rules/jsx-self-closing-comp.js",
-    "./rules/jsx-sort-props": "./dist/rules/jsx-sort-props.js",
     "./rules/jsx-tag-spacing": "./dist/rules/jsx-tag-spacing.js",
     "./rules/jsx-wrap-multilines": "./dist/rules/jsx-wrap-multilines.js",
     "./rules/key-spacing": "./dist/rules/key-spacing.js",

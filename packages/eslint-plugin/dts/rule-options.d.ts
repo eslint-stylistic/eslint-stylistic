@@ -38,7 +38,6 @@ import type { JsxPascalCaseRuleOptions } from '../rules/jsx-pascal-case/types'
 import type { JsxPropsStyleRuleOptions } from '../rules/jsx-props-style/types'
 import type { JsxQuotesRuleOptions } from '../rules/jsx-quotes/types'
 import type { JsxSelfClosingCompRuleOptions } from '../rules/jsx-self-closing-comp/types'
-import type { JsxSortPropsRuleOptions } from '../rules/jsx-sort-props/types'
 import type { JsxTagSpacingRuleOptions } from '../rules/jsx-tag-spacing/types'
 import type { JsxWrapMultilinesRuleOptions } from '../rules/jsx-wrap-multilines/types'
 import type { KeySpacingRuleOptions } from '../rules/key-spacing/types'
@@ -287,11 +286,6 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/jsx-self-closing-comp
    */
   '@stylistic/jsx-self-closing-comp': JsxSelfClosingCompRuleOptions
-  /**
-   * Enforce props alphabetical sorting
-   * @see https://eslint.style/rules/jsx-sort-props
-   */
-  '@stylistic/jsx-sort-props': JsxSortPropsRuleOptions
   /**
    * Enforce whitespace in and around the JSX opening and closing brackets
    * @see https://eslint.style/rules/jsx-tag-spacing
@@ -765,11 +759,6 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/jsx-self-closing-comp
    */
   'jsx-self-closing-comp': JsxSelfClosingCompRuleOptions
-  /**
-   * Enforce props alphabetical sorting
-   * @see https://eslint.style/rules/jsx-sort-props
-   */
-  'jsx-sort-props': JsxSortPropsRuleOptions
   /**
    * Enforce whitespace in and around the JSX opening and closing brackets
    * @see https://eslint.style/rules/jsx-tag-spacing
