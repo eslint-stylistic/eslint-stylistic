@@ -18,6 +18,7 @@
     "prepare": "simple-git-hooks",
     "docs": "pnpm -C docs run docs:dev",
     "docs:build": "pnpm -C docs run docs:build",
+    "release": "npx bumpp -r",
     "play:lint": "pnpm -C playground run lint"
   },
   "devDependencies": {
