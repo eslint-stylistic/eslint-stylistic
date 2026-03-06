@@ -83,8 +83,11 @@ You can supply any number of configurations. If a statement pair matches multipl
   - `"type"` is `type alias` declarations.
   - `"function-overload"` is function overloads.
 
-- `STATEMENT_TYPE` can also be `{ "selector": AST_SELECTOR }`.
+- `STATEMENT_TYPE` can also be `{ "selector": AST_SELECTOR, "lineMode"?: "any" | "singleline" | "multiline" }`.
   - `AST_SELECTOR` is an [ESLint selector](https://eslint.org/docs/latest/extend/selectors).
+  - `lineMode` limits selector matches by statement line mode. It defaults to `"any"`.
+    - `"singleline"` matches only single-line statements.
+    - `"multiline"` matches only multiline statements.
   - This can be used as an escape hatch for project-specific statement matching.
 
 > [!NOTE]
