@@ -13,6 +13,7 @@ Examples of **incorrect** code for this rule:
 
 ::: incorrect
 
+<!-- prettier-ignore -->
 ```js
 /* eslint @stylistic/no-trailing-spaces: "error" */
 
@@ -52,6 +53,7 @@ Examples of **correct** code for this rule with the `{ "skipBlankLines": true }`
 
 ::: correct
 
+<!-- prettier-ignore -->
 ```js
 /* eslint @stylistic/no-trailing-spaces: ["error", { "skipBlankLines": true }] */
 
@@ -70,6 +72,7 @@ Examples of **correct** code for this rule with the `{ "ignoreComments": true }`
 
 ::: correct
 
+<!-- prettier-ignore -->
 ```js
 /* eslint @stylistic/no-trailing-spaces: ["error", { "ignoreComments": true }] */
 

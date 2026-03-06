@@ -7,26 +7,23 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'eol-last',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require or disallow newline at the end of files',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
         enum: ['always', 'never'],
       },
     ],
-
+    defaultOptions: ['always'],
     messages: {
       missing: 'Newline required at end of file but not found.',
       unexpected: 'Newline not allowed at end of file.',
     },
   },
-  create(context) {
+  create(context, [mode]) {
     // Language-agnostic SourceCode access
     const sourceCode = context.sourceCode as unknown as core.SourceCode
 
@@ -45,8 +42,6 @@ export default createRule<RuleOptions, MessageIds>({
      */
     if (!src.length)
       return {}
-
-    const mode = context.options[0] || 'always'
 
     if (mode === 'always' && !endsWithNewline) {
       // File is not newline-terminated, but should be

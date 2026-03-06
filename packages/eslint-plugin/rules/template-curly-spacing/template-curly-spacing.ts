@@ -12,19 +12,17 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'template-curly-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require or disallow spacing around embedded expressions of template strings',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
         enum: ['always', 'never'],
       },
     ],
+    defaultOptions: ['never'],
     messages: {
       expectedBefore: 'Expected space(s) before \'}\'.',
       expectedAfter: 'Expected space(s) after \'${\'.',
@@ -32,10 +30,9 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedAfter: 'Unexpected space(s) after \'${\'.',
     },
   },
-
-  create(context) {
+  create(context, [style]) {
     const sourceCode = context.sourceCode
-    const always = context.options[0] === 'always'
+    const always = style === 'always'
 
     /**
      * Checks spacing before `}` of a given token.

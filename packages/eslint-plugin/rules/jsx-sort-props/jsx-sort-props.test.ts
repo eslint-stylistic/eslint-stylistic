@@ -1,8 +1,3 @@
-/**
- * @fileoverview Enforce props alphabetical sorting
- * @author Yannick Croissant
- */
-
 import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'

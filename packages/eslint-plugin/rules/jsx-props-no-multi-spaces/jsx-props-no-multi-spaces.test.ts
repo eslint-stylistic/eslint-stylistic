@@ -1,8 +1,3 @@
-/**
- * @fileoverview Disallow multiple spaces between inline JSX props
- * @author Adrian Moennich
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'

@@ -8,6 +8,7 @@ import type { ASTNode, JSONSchema, NodeTypes, RuleFunction, RuleListener, Source
 import type { MessageIds, RuleOptions } from './types'
 import { AST_NODE_TYPES, createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { isESTreeSourceCode } from '#utils/eslint-core'
 import { warnDeprecatedOptions } from '#utils/index'
 
 const KNOWN_NODES = new Set([
@@ -548,7 +549,6 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Enforce consistent indentation',
-      // too opinionated to be recommended
     },
     fixable: 'whitespace',
     schema: [
@@ -570,7 +570,6 @@ export default createRule<RuleOptions, MessageIds>({
           SwitchCase: {
             type: 'integer',
             minimum: 0,
-            default: 0,
           },
           VariableDeclarator: {
             oneOf: [
@@ -675,7 +674,6 @@ export default createRule<RuleOptions, MessageIds>({
           ImportDeclaration: ELEMENT_LIST_SCHEMA,
           flatTernaryExpressions: {
             type: 'boolean',
-            default: false,
           },
           offsetTernaryExpressions: {
             oneOf: [
@@ -698,7 +696,6 @@ export default createRule<RuleOptions, MessageIds>({
                 additionalProperties: false,
               },
             ],
-            default: false,
           },
           offsetTernaryExpressionsOffsetCallExpressions: {
             type: 'boolean',
@@ -715,32 +712,34 @@ export default createRule<RuleOptions, MessageIds>({
           },
           ignoreComments: {
             type: 'boolean',
-            default: false,
           },
           tabLength: {
             type: 'number',
-            default: 4,
           },
         },
         additionalProperties: false,
+      },
+    ],
+    defaultOptions: [
+      // typescript docs and playground use 4 space indent
+      4,
+      {
+        // typescript docs indent the case from the switch
+        // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-1-8.html#example-4
+        SwitchCase: 1,
+        flatTernaryExpressions: false,
+        ignoredNodes: [],
       },
     ],
     messages: {
       wrongIndentation: 'Expected indentation of {{expected}} but found {{actual}}.',
     },
   },
-  defaultOptions: [
-    // typescript docs and playground use 4 space indent
-    4,
-    {
-      // typescript docs indent the case from the switch
-      // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-1-8.html#example-4
-      SwitchCase: 1,
-      flatTernaryExpressions: false,
-      ignoredNodes: [],
-    },
-  ],
   create(context, optionsWithDefaults) {
+    if (!isESTreeSourceCode(context.sourceCode)) {
+      return {}
+    }
+
     const DEFAULT_VARIABLE_INDENT = 1
     const DEFAULT_PARAMETER_INDENT = 1
     const DEFAULT_FUNCTION_BODY_INDENT = 1

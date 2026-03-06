@@ -1,56 +1,16 @@
-/**
- * @fileoverview Validate props indentation in JSX
- * @author Yannick Croissant
- *
- * This rule has been ported and modified from eslint and nodeca.
- * @author Vitaly Puzrin
- * @author Gyandeep Singh
- * @copyright 2015 Vitaly Puzrin. All rights reserved.
- * @copyright 2015 Gyandeep Singh. All rights reserved.
- */
-/*
- Copyright (C) 2014 by Vitaly Puzrin
-
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the 'Software'), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
-
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE SOFTWARE.
- */
-
 import type { ASTNode } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isNodeFirstInLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
-const messages = {
-  wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
-}
-
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-indent-props',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce props indentation in JSX',
     },
     fixable: 'code',
-
-    messages,
-
     schema: [{
       anyOf: [
         {
@@ -82,46 +42,32 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     }],
+    defaultOptions: [4],
+    messages: {
+      wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
+    },
   },
-
-  create(context) {
-    const options = context.options[0]
+  create(context, [options]) {
     const extraColumnStart = 0
-    let indentType: 'space' | 'tab' = 'space'
-    let indentSize: number | 'first' = 4
     const line = {
       isUsingOperator: false,
       currentOperator: false,
     }
-    let ignoreTernaryOperator = false
 
-    if (context.options.length) {
-      const isConfigObject = typeof context.options[0] === 'object'
-      const indentMode = isConfigObject
-        ? typeof options === 'object' && options.indentMode
-        : options
+    const {
+      indentMode = 4,
+      ignoreTernaryOperator = false,
+    } = typeof options === 'object'
+      ? options
+      : { indentMode: options }
 
-      if (indentMode === 'first') {
-        indentSize = 'first'
-        indentType = 'space'
-      }
-      else if (indentMode === 'tab') {
-        indentSize = 1
-        indentType = 'tab'
-      }
-      else if (typeof indentMode === 'number') {
-        indentSize = indentMode
-        indentType = 'space'
-      }
-
-      if (typeof options === 'object' && options.ignoreTernaryOperator)
-        ignoreTernaryOperator = true
-    }
+    const indentType: 'space' | 'tab' = indentMode === 'tab' ? 'tab' : 'space'
+    const indentSize: number | 'first' = indentMode === 'first' ? 'first' : indentMode === 'tab' ? 1 : indentMode
 
     /**
      * Get node indent
      * @param node Node to examine
-     * @return {number} Indent
+     * @return Indent
      */
     function getNodeIndent(node: ASTNode) {
       let src = context.sourceCode.getText(node, node.loc.start.column + extraColumnStart)

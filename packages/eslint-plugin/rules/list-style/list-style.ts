@@ -1,8 +1,7 @@
 import type { ASTNode, Token, Tree } from '#types'
-import type { BaseConfig, MessageIds, RuleOptions } from './types'
+import type { BaseConfig, MessageIds, OverrideConfig, RuleOptions } from './types'
 import {
   AST_NODE_TYPES,
-  hasCommentsBetween,
   isClosingBraceToken,
   isClosingBracketToken,
   isClosingParenToken,
@@ -15,6 +14,7 @@ import {
   isTokenOnSameLine,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { safeReplaceTextBetween } from '#utils/fix'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'list-style',
@@ -60,6 +60,12 @@ export default createRule<RuleOptions, MessageIds>({
               multiline: { $ref: '#/items/0/$defs/multiLineConfig' },
             },
           },
+          overrideConfig: {
+            oneOf: [
+              { $ref: '#/items/0/$defs/baseConfig' },
+              { type: 'string', enum: ['off'] },
+            ],
+          },
         },
         type: 'object',
         additionalProperties: false,
@@ -69,39 +75,55 @@ export default createRule<RuleOptions, MessageIds>({
           overrides: {
             type: 'object',
             additionalProperties: false,
+            /// keep-sorted
             properties: {
-              '[]': { $ref: '#/items/0/$defs/baseConfig' },
-              '{}': { $ref: '#/items/0/$defs/baseConfig' },
-              '<>': { $ref: '#/items/0/$defs/baseConfig' },
-              '()': { $ref: '#/items/0/$defs/baseConfig' },
+              '()': { $ref: '#/items/0/$defs/overrideConfig' },
+              '[]': { $ref: '#/items/0/$defs/overrideConfig' },
+              '{}': { $ref: '#/items/0/$defs/overrideConfig' },
+              '<>': { $ref: '#/items/0/$defs/overrideConfig' },
 
-              'ArrayExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'ArrayPattern': { $ref: '#/items/0/$defs/baseConfig' },
-              'ArrowFunctionExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'CallExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'ExportNamedDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
-              'FunctionDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
-              'FunctionExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'ImportDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
-              'ImportAttributes': { $ref: '#/items/0/$defs/baseConfig' },
-              'NewExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'ObjectExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'ObjectPattern': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSDeclareFunction': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSFunctionType': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSInterfaceBody': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSEnumBody': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSTupleType': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSTypeLiteral': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSTypeParameterDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
-              'TSTypeParameterInstantiation': { $ref: '#/items/0/$defs/baseConfig' },
-              'JSONArrayExpression': { $ref: '#/items/0/$defs/baseConfig' },
-              'JSONObjectExpression': { $ref: '#/items/0/$defs/baseConfig' },
+              'ArrayExpression': { $ref: '#/items/0/$defs/overrideConfig' },
+              'ArrayPattern': { $ref: '#/items/0/$defs/overrideConfig' },
+              'ArrowFunctionExpression': { $ref: '#/items/0/$defs/overrideConfig' },
+              'CallExpression': { $ref: '#/items/0/$defs/overrideConfig' },
+              'ExportNamedDeclaration': { $ref: '#/items/0/$defs/overrideConfig' },
+              'FunctionDeclaration': { $ref: '#/items/0/$defs/overrideConfig' },
+              'FunctionExpression': { $ref: '#/items/0/$defs/overrideConfig' },
+              'IfStatement': { $ref: '#/items/0/$defs/overrideConfig' },
+              'ImportAttributes': { $ref: '#/items/0/$defs/overrideConfig' },
+              'ImportDeclaration': { $ref: '#/items/0/$defs/overrideConfig' },
+              'JSONArrayExpression': { $ref: '#/items/0/$defs/overrideConfig' },
+              'JSONObjectExpression': { $ref: '#/items/0/$defs/overrideConfig' },
+              'NewExpression': { $ref: '#/items/0/$defs/overrideConfig' },
+              'ObjectExpression': { $ref: '#/items/0/$defs/overrideConfig' },
+              'ObjectPattern': { $ref: '#/items/0/$defs/overrideConfig' },
+              'TSDeclareFunction': { $ref: '#/items/0/$defs/overrideConfig' },
+              'TSEnumBody': { $ref: '#/items/0/$defs/overrideConfig' },
+              'TSFunctionType': { $ref: '#/items/0/$defs/overrideConfig' },
+              'TSInterfaceBody': { $ref: '#/items/0/$defs/overrideConfig' },
+              'TSTupleType': { $ref: '#/items/0/$defs/overrideConfig' },
+              'TSTypeLiteral': { $ref: '#/items/0/$defs/overrideConfig' },
+              'TSTypeParameterDeclaration': { $ref: '#/items/0/$defs/overrideConfig' },
+              'TSTypeParameterInstantiation': { $ref: '#/items/0/$defs/overrideConfig' },
             },
           },
         },
       },
     ],
+    // #region defaultOptions
+    defaultOptions: [{
+      singleLine: {
+        spacing: 'never',
+        maxItems: Number.POSITIVE_INFINITY,
+      },
+      multiLine: {
+        minItems: 0,
+      },
+      overrides: {
+        '{}': { singleLine: { spacing: 'always' } },
+      },
+    }],
+    // #endregion defaultOptions
     messages: {
       shouldSpacing: `Should have space between '{{prev}}' and '{{next}}'`,
       shouldNotSpacing: `Should not have space(s) between '{{prev}}' and '{{next}}'`,
@@ -109,21 +131,7 @@ export default createRule<RuleOptions, MessageIds>({
       shouldNotWrap: `Should not have line break(s) between '{{prev}}' and '{{next}}'`,
     },
   },
-  // #region defaultOptions
-  defaultOptions: [{
-    singleLine: {
-      spacing: 'never',
-      maxItems: Number.POSITIVE_INFINITY,
-    },
-    multiLine: {
-      minItems: 0,
-    },
-    overrides: {
-      '{}': { singleLine: { spacing: 'always' } },
-    },
-  }],
-  // #endregion defaultOptions
-  create: (context, [options] = [{}]) => {
+  create: (context, [options]) => {
     const { sourceCode } = context
     const {
       singleLine,
@@ -133,14 +141,24 @@ export default createRule<RuleOptions, MessageIds>({
 
     type OverrideKey = keyof NonNullable<typeof overrides>
 
-    const _resolvedOptions: Partial<Record<OverrideKey, Required<BaseConfig>>> = {}
+    const _resolvedOptions = new Map<OverrideKey, Required<OverrideConfig>>()
 
-    function resolveOption(parenType: ParenType, nodeType: OverrideKey) {
-      if (!_resolvedOptions[nodeType]) {
-        const overridesByParen = overrides![parenType] ?? {}
-        const overridesByNode = overrides![nodeType] ?? {}
+    function resolveOption(parenType: ParenType, nodeType: OverrideKey): Required<OverrideConfig> {
+      if (_resolvedOptions.has(nodeType))
+        return _resolvedOptions.get(nodeType)!
 
-        _resolvedOptions[nodeType] = {
+      let overridesByParen = overrides?.[parenType]
+      let overridesByNode = overrides?.[nodeType]
+
+      let resolved: Required<OverrideConfig>
+      if (overridesByNode === 'off' || (overridesByNode === undefined && overridesByParen === 'off')) {
+        resolved = 'off'
+      }
+      else {
+        overridesByParen = typeof overridesByParen === 'object' ? overridesByParen : {}
+        overridesByNode ??= {}
+
+        resolved = {
           singleLine: {
             ...singleLine,
             ...overridesByParen.singleLine,
@@ -154,7 +172,8 @@ export default createRule<RuleOptions, MessageIds>({
         }
       }
 
-      return _resolvedOptions[nodeType]
+      _resolvedOptions.set(nodeType, resolved)
+      return resolved
     }
 
     function getDelimiter(root: ASTNode, current: Token): string | undefined {
@@ -238,7 +257,7 @@ export default createRule<RuleOptions, MessageIds>({
               next: next.value,
             },
             fix(fixer) {
-              if (hasCommentsBetween(sourceCode, prev, next))
+              if (sourceCode.commentsExistBetween(prev, next))
                 return null
 
               return fixer.insertTextBefore(
@@ -263,15 +282,7 @@ export default createRule<RuleOptions, MessageIds>({
               prev: prev.value,
               next: next.value,
             },
-            fix(fixer) {
-              if (hasCommentsBetween(sourceCode, prev, next))
-                return null
-
-              const range = [prev.range[1], next.range[0]] as const
-              const delimiter = items.length === 1 ? '' : getDelimiter(node, prev)
-
-              return fixer.replaceTextRange(range, delimiter ?? '')
-            },
+            fix: safeReplaceTextBetween(sourceCode, prev, next, () => items.length === 1 ? '' : getDelimiter(node, prev) ?? ''),
           })
         }
       }
@@ -327,11 +338,12 @@ export default createRule<RuleOptions, MessageIds>({
 
     function getLeftParen(node: ASTNode, items: (ASTNode | null)[], type: ParenType) {
       switch (node.type) {
+        // fun?.()
         // fun<T>()
         // new Foo<T>()
         case AST_NODE_TYPES.CallExpression:
         case AST_NODE_TYPES.NewExpression:
-          return sourceCode.getTokenAfter(node.typeArguments ?? node.callee)
+          return sourceCode.getTokenAfter(node.typeArguments ?? node.callee, isOpeningParenToken)
 
         // const foo = [, a]
         // const [, a] = foo
@@ -379,6 +391,9 @@ export default createRule<RuleOptions, MessageIds>({
 
       const config = resolveOption(parenType, nodeType)
 
+      if (config === 'off')
+        return
+
       if (isTokenOnSameLine(left, right) && items.length <= config.singleLine.maxItems!) {
         checkSpacing(node, left, right, config)
       }
@@ -387,6 +402,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
+    /// keep-sorted
     return {
       ArrayExpression(node) {
         check('[]', node, node.elements)
@@ -394,30 +410,13 @@ export default createRule<RuleOptions, MessageIds>({
       ArrayPattern(node) {
         check('[]', node, node.elements)
       },
-      ObjectExpression(node) {
-        check('{}', node, node.properties)
-      },
-      ObjectPattern(node) {
-        check('{}', node, node.properties)
-      },
-      FunctionDeclaration(node) {
-        check('()', node, node.params)
-      },
-      FunctionExpression(node) {
-        check('()', node, node.params)
-      },
       ArrowFunctionExpression(node) {
         check('()', node, node.params)
       },
       CallExpression(node) {
         check('()', node, node.arguments)
       },
-      NewExpression(node) {
-        check('()', node, node.arguments)
-      },
-      ImportDeclaration(node) {
-        check('{}', node, node.specifiers.filter(specifier => specifier.type === 'ImportSpecifier'))
-
+      ExportAllDeclaration(node) {
         if (node.attributes)
           check('{}', node, node.attributes)
       },
@@ -427,11 +426,48 @@ export default createRule<RuleOptions, MessageIds>({
         if (node.attributes)
           check('{}', node, node.attributes)
       },
-      ExportAllDeclaration(node) {
+      FunctionDeclaration(node) {
+        check('()', node, node.params)
+      },
+      FunctionExpression(node) {
+        check('()', node, node.params)
+      },
+      IfStatement: (node) => {
+        check('()', node, [node.test])
+      },
+      ImportDeclaration(node) {
+        check('{}', node, node.specifiers.filter(specifier => specifier.type === 'ImportSpecifier'))
+
         if (node.attributes)
           check('{}', node, node.attributes)
       },
-
+      JSONArrayExpression(node: Tree.ArrayExpression) {
+        check('[]', node, node.elements)
+      },
+      JSONObjectExpression(node: Tree.ObjectExpression) {
+        check('{}', node, node.properties)
+      },
+      NewExpression(node) {
+        check('()', node, node.arguments)
+      },
+      ObjectExpression(node) {
+        check('{}', node, node.properties)
+      },
+      ObjectPattern(node) {
+        check('{}', node, node.properties)
+      },
+      TSDeclareFunction(node) {
+        check('()', node, node.params)
+      },
+      TSEnumBody(node) {
+        check('{}', node, node.members)
+      },
+      TSFunctionType(node) {
+        check('()', node, node.params)
+      },
+      TSInterfaceBody(node) {
+        check('{}', node, node.body)
+      },
       // TSMappedType(node) {
       //   check('[]', node, )
       // },
@@ -441,30 +477,11 @@ export default createRule<RuleOptions, MessageIds>({
       TSTypeLiteral(node) {
         check('{}', node, node.members)
       },
-      TSInterfaceBody(node) {
-        check('{}', node, node.body)
-      },
-      TSEnumBody(node) {
-        check('{}', node, node.members)
-      },
-      TSDeclareFunction(node) {
-        check('()', node, node.params)
-      },
-      TSFunctionType(node) {
-        check('()', node, node.params)
-      },
       TSTypeParameterDeclaration(node) {
         check('<>', node, node.params)
       },
       TSTypeParameterInstantiation(node) {
         check('<>', node, node.params)
-      },
-
-      JSONArrayExpression(node: Tree.ArrayExpression) {
-        check('[]', node, node.elements)
-      },
-      JSONObjectExpression(node: Tree.ObjectExpression) {
-        check('{}', node, node.properties)
       },
     }
   },

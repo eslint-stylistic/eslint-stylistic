@@ -38,6 +38,6 @@ jobs:
         run: nr build
 
       - name: Lint
-        run: nr lint --fix
+        run: nr update
 
       - uses: autofix-ci/action@v1.3

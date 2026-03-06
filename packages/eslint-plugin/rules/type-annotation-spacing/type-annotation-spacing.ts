@@ -85,14 +85,6 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Require consistent spacing around type annotations',
     },
     fixable: 'whitespace',
-    messages: {
-      expectedSpaceAfter: 'Expected a space after the \'{{type}}\'.',
-      expectedSpaceBefore: 'Expected a space before the \'{{type}}\'.',
-      unexpectedSpaceAfter: 'Unexpected space after the \'{{type}}\'.',
-      unexpectedSpaceBefore: 'Unexpected space before the \'{{type}}\'.',
-      unexpectedSpaceBetween:
-        'Unexpected space between the \'{{previousToken}}\' and the \'{{type}}\'.',
-    },
     schema: [
       {
         $defs: {
@@ -133,12 +125,20 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [
+      // technically there is a default, but the overrides mean
+      // that if we apply them here, it will break the no override case.
+      {},
+    ],
+    messages: {
+      expectedSpaceAfter: 'Expected a space after the \'{{type}}\'.',
+      expectedSpaceBefore: 'Expected a space before the \'{{type}}\'.',
+      unexpectedSpaceAfter: 'Unexpected space after the \'{{type}}\'.',
+      unexpectedSpaceBefore: 'Unexpected space before the \'{{type}}\'.',
+      unexpectedSpaceBetween:
+        'Unexpected space between the \'{{previousToken}}\' and the \'{{type}}\'.',
+    },
   },
-  defaultOptions: [
-    // technically there is a default, but the overrides mean
-    // that if we apply them here, it will break the no override case.
-    {},
-  ],
   create(context, [options]) {
     const punctuators = [':', '=>']
     const sourceCode = context.sourceCode
