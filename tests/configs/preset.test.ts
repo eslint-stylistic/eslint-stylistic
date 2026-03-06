@@ -3,8 +3,8 @@ import type { Linter } from 'eslint'
 import fs, { promises as fsp } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { execa } from 'execa'
-import fg from 'fast-glob'
+import { x } from 'tinyexec'
+import { glob } from 'tinyglobby'
 import { afterAll, beforeAll, it } from 'vitest'
 
 const fixturesDir = fileURLToPath(new URL('fixtures', import.meta.url))
@@ -91,16 +91,19 @@ export default [
 
     let error = null
     try {
-      await execa('npx', ['eslint', '.', '--fix'], {
-        cwd: target,
-        stdio: 'pipe',
+      await x('npx', ['eslint', '.', '--fix'], {
+        nodeOptions: {
+          cwd: target,
+          stdio: 'pipe',
+        },
+        throwOnError: true,
       })
     }
     catch (e) {
       error = e
     }
 
-    const files = await fg('**/*', {
+    const files = await glob('**/*', {
       ignore: [
         'node_modules',
         'eslint.config.js',
