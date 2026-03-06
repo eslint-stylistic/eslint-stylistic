@@ -11,6 +11,8 @@ const stylisticConfig = stylistic.configs.customize({
 
 export default antfu(
   {
+    // TODO: enable it
+    e18e: false,
     formatters: true,
     ignores: [
       '**/fixtures/**',
