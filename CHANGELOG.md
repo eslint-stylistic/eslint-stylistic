@@ -1,5 +1,24 @@
 # Changelog
 
+## [5.10.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.9.0...v5.10.0) (2026-03-06)
+
+
+### Features
+
+* **list-style:** allow 'off' in overrides ([#1144](https://github.com/eslint-stylistic/eslint-stylistic/issues/1144)) ([c43bd4b](https://github.com/eslint-stylistic/eslint-stylistic/commit/c43bd4b14ebb4222b3f4e151967aac5e82bd8290))
+* **padding-line-between-statements:** introduce `lineMode` for selector matcher ([#1143](https://github.com/eslint-stylistic/eslint-stylistic/issues/1143)) ([1ebd6d8](https://github.com/eslint-stylistic/eslint-stylistic/commit/1ebd6d8e59bad0e5330e560df724f29455b92adb))
+
+
+### Build Related
+
+* **deps:** bump actions/download-artifact from 7 to 8 ([#1153](https://github.com/eslint-stylistic/eslint-stylistic/issues/1153)) ([78ca032](https://github.com/eslint-stylistic/eslint-stylistic/commit/78ca032c765110952b63a86ca7177a28597371c9))
+* **deps:** bump actions/upload-artifact from 6 to 7 ([#1154](https://github.com/eslint-stylistic/eslint-stylistic/issues/1154)) ([01f7b17](https://github.com/eslint-stylistic/eslint-stylistic/commit/01f7b17856549b681589a97480f6014ab39f21f3))
+
+
+### Performance
+
+* no export all for @typescript-eslint/utils ([#1150](https://github.com/eslint-stylistic/eslint-stylistic/issues/1150)) ([258f9d8](https://github.com/eslint-stylistic/eslint-stylistic/commit/258f9d8f6a171fcdbdc994768fb08938fafc4470))
+
 ## [5.9.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.8.0...v5.9.0) (2026-02-19)
 
 
