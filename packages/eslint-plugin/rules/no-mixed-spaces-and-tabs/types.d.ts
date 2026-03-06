@@ -1,10 +1,8 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: HbBKHJYPNR0rrgfsuyFu94rh-NrUjU8mJqla6DMUtkA */
+/* @checksum: aVCRC6DpzKiJvS410GQJKI6cc9tsNMcQLj2Er4lVnwU */
 
-export type NoMixedSpacesAndTabsSchema0
-  = | 'smart-tabs'
-    | boolean
+export type NoMixedSpacesAndTabsSchema0 = 'smart-tabs'
 
 export type NoMixedSpacesAndTabsRuleOptions = [
   NoMixedSpacesAndTabsSchema0?,
