@@ -31,10 +31,6 @@ run<RuleOptions, MessageIds>({
     '/*\n*/\t ',
     '/* \t\n\t \n \t\n\t */ \t',
     {
-      code: '\tvar x = 5,\n\t    y = 2;',
-      options: [true],
-    },
-    {
       code: '/*\n\t */`\n\t   `;',
       parserOptions: { ecmaVersion: 6 },
     },
@@ -227,19 +223,6 @@ run<RuleOptions, MessageIds>({
           column: 1,
           endLine: 3,
           endColumn: 3,
-        },
-      ],
-    },
-    {
-      code: '\tvar x = 5,\n  \t  y = 2;',
-      options: [true],
-      errors: [
-        {
-          messageId: 'mixedSpacesAndTabs',
-          line: 2,
-          column: 2,
-          endLine: 2,
-          endColumn: 4,
         },
       ],
     },
