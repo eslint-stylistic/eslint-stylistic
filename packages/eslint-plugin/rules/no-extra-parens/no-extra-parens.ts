@@ -152,10 +152,9 @@ export default createRule<RuleOptions, MessageIds>({
       'no-extra-parens',
     )
 
-    // @ts-expect-error other properties are not used
-    const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' }) as 1
-    // @ts-expect-error other properties are not used
-    const PRECEDENCE_OF_UPDATE_EXPR = precedence({ type: 'UpdateExpression' }) as 17
+    const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' } as Tree.AssignmentExpression) as 1
+    const PRECEDENCE_OF_LOGICAL_EXPR = precedence({ type: 'LogicalExpression', operator: '||' } as Tree.LogicalExpression) as 4
+    const PRECEDENCE_OF_UPDATE_EXPR = precedence({ type: 'UpdateExpression' } as Tree.UpdateExpression) as 17
 
     type ReportsBuffer = {
       upper: ReportsBuffer
@@ -988,7 +987,6 @@ export default createRule<RuleOptions, MessageIds>({
 
         const availableTypes = new Set(['BinaryExpression', 'LogicalExpression'])
 
-        // TODO: fix in v6
         function shouldCheck(expression: ASTNode, precedenceLimit: number) {
           return isTypeAssertion(expression)
             ? hasDoubleExcessParens(expression)
@@ -999,7 +997,7 @@ export default createRule<RuleOptions, MessageIds>({
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.test.type))
           && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.test.type))
           && !isCondAssignException(node)
-          && shouldCheck(node.test, precedence({ type: 'LogicalExpression', operator: '||' } as Tree.LogicalExpression))
+          && shouldCheck(node.test, PRECEDENCE_OF_LOGICAL_EXPR)
         ) {
           report(node.test)
         }
