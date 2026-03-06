@@ -61,7 +61,7 @@
     "jiti": "catalog:dev",
     "json-schema-to-typescript-lite": "catalog:dev",
     "jsonc-eslint-parser": "catalog:dev",
-    "lint-staged": "catalog:dev",
+    "nano-staged": "catalog:dev",
     "ohash": "catalog:dev",
     "oxc-minify": "catalog:docs",
     "oxfmt": "catalog:dev",
@@ -88,9 +88,9 @@
     "vue-tsc": "catalog:dev"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged"
+    "pre-commit": "npx nano-staged"
   },
-  "lint-staged": {
+  "nano-staged": {
     "*": "eslint --fix"
   }
 }
