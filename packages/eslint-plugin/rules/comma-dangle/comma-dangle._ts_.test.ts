@@ -1,6 +1,3 @@
-// this rule tests the new lines, which prettier will want to fix and break the tests
-/* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
-
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from './comma-dangle'
@@ -277,6 +274,29 @@ run<RuleOptions, MessageIds>({
           jsx: true,
         },
       },
+    },
+
+    {
+      code: 'declare function foo(a: number, b: number,): void',
+      output: 'declare function foo(a: number, b: number): void',
+      errors: [
+        { messageId: 'unexpected', line: 1, column: 42 },
+      ],
+    },
+    {
+      code: 'type Foo = (a: number, b: number,) => void',
+      output: 'type Foo = (a: number, b: number) => void',
+      errors: [
+        { messageId: 'unexpected', line: 1, column: 33 },
+      ],
+    },
+
+    {
+      code: 'type Foo<T> = Bar<T,>',
+      output: 'type Foo<T> = Bar<T>',
+      errors: [
+        { messageId: 'unexpected', line: 1, column: 20 },
+      ],
     },
   ],
 })

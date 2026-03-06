@@ -2,7 +2,7 @@ import type { PackageInfo, RuleInfo } from '../../packages/metadata/src/types'
 import fs from 'node:fs/promises'
 import { basename, join, posix, win32 } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { pascalCase } from 'change-case'
+import { camelCase, pascalCase } from 'change-case'
 import fg from 'fast-glob'
 import { customize } from '../../packages/eslint-plugin/configs/customize'
 import { GEN_HEADER, ROOT } from './meta'
@@ -210,12 +210,6 @@ export async function writeREADME(pkg: PackageInfo) {
   ]
 
   await fs.writeFile(join(pkg.path, 'rules.md'), lines.join('\n'), 'utf-8')
-}
-
-export function camelCase(str: string) {
-  return str
-    .replace(/[^\w-]+/, '')
-    .replace(/-([a-z])/g, (_, c) => c.toUpperCase())
 }
 
 export async function generateMetadata(packages: PackageInfo[]) {

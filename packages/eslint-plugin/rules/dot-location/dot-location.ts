@@ -1,54 +1,57 @@
-/**
- * @fileoverview Validates newlines before and after dots
- * @author Greg Cochard
- */
-
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isDecimalIntegerNumericToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
+type SupportedNode = Tree.MemberExpression | Tree.MetaProperty | Tree.TSQualifiedName | Tree.TSImportType | Tree.JSXMemberExpression
+
 export default createRule<RuleOptions, MessageIds>({
   name: 'dot-location',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent newlines before and after dots',
     },
-
+    fixable: 'code',
     schema: [
       {
         type: 'string',
         enum: ['object', 'property'],
       },
     ],
-
-    fixable: 'code',
-
+    defaultOptions: ['object'],
     messages: {
       expectedDotAfterObject: 'Expected dot to be on same line as object.',
       expectedDotBeforeProperty: 'Expected dot to be on same line as property.',
     },
   },
-
-  create(context) {
-    const config = context.options[0]
-
-    // default to onObject if no preference is passed
-    const onObject = config === 'object' || !config
+  create(context, [config]) {
+    const onObject = config === 'object'
 
     const sourceCode = context.sourceCode
 
-    /**
-     * Reports if the dot between object and property is on the correct location.
-     * @param node The `MemberExpression` node.
-     */
-    function checkDotLocation(node: Tree.MemberExpression) {
-      const property = node.property
+    function getProperty(node: SupportedNode) {
+      if (node.type === 'TSImportType')
+        return node.qualifier
+
+      if (node.type === 'TSQualifiedName')
+        return node.right
+
+      return node.property
+    }
+
+    /** Reports if the dot between object and property is on the correct location. */
+    function checkDotLocation(node: SupportedNode) {
+      const property = getProperty(node)
+      if (!property)
+        return
+
       const dotToken = sourceCode.getTokenBefore(property)
 
-      if (onObject && dotToken) {
+      if (!dotToken)
+        return
+
+      if (onObject) {
         // `obj` expression can be parenthesized, but those paren tokens are not a part of the `obj` node.
         const tokenBeforeDot = sourceCode.getTokenBefore(dotToken)
 
@@ -68,7 +71,7 @@ export default createRule<RuleOptions, MessageIds>({
           })
         }
       }
-      else if (dotToken && !isTokenOnSameLine(dotToken, property)) {
+      else if (!isTokenOnSameLine(dotToken, property)) {
         context.report({
           node,
           loc: dotToken.loc,
@@ -81,17 +84,18 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    /**
-     * Checks the spacing of the dot within a member expression.
-     * @param node The node to check.
-     */
-    function checkNode(node: Tree.MemberExpression) {
-      if (node.type === 'MemberExpression' && !node.computed)
-        checkDotLocation(node)
-    }
-
     return {
-      MemberExpression: checkNode,
+      MemberExpression(node) {
+        // obj['foo']
+        if (node.computed)
+          return
+
+        checkDotLocation(node)
+      },
+      MetaProperty: checkDotLocation,
+      JSXMemberExpression: checkDotLocation,
+      TSQualifiedName: checkDotLocation,
+      TSImportType: checkDotLocation,
     }
   },
 })

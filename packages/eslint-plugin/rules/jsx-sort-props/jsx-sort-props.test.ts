@@ -1,8 +1,3 @@
-/**
- * @fileoverview Enforce props alphabetical sorting
- * @author Yannick Croissant
- */
-
 import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
@@ -11,43 +6,33 @@ import rule from './jsx-sort-props'
 
 const expectedError: TestCaseError<MessageIds> = {
   messageId: 'sortPropsByAlpha',
-  type: 'JSXIdentifier',
 }
 const expectedWithNamespaceError: TestCaseError<MessageIds> = {
   messageId: 'sortPropsByAlpha',
-  nodeType: 'JSXNamespacedName',
 }
 const expectedCallbackError: TestCaseError<MessageIds> = {
   messageId: 'listCallbacksLast',
-  type: 'JSXIdentifier',
 }
 const expectedShorthandFirstError: TestCaseError<MessageIds> = {
   messageId: 'listShorthandFirst',
-  type: 'JSXIdentifier',
 }
 const expectedShorthandLastError: TestCaseError<MessageIds> = {
   messageId: 'listShorthandLast',
-  type: 'JSXIdentifier',
 }
 const expectedMultilineFirstError: TestCaseError<MessageIds> = {
   messageId: 'listMultilineFirst',
-  type: 'JSXIdentifier',
 }
 const expectedMultilineLastError: TestCaseError<MessageIds> = {
   messageId: 'listMultilineLast',
-  type: 'JSXIdentifier',
 }
 const expectedReservedFirstError: TestCaseError<MessageIds> = {
   messageId: 'listReservedPropsFirst',
-  type: 'JSXIdentifier',
 }
 const expectedReservedLastError: TestCaseError<MessageIds> = {
   messageId: 'listReservedPropsLast',
-  type: 'JSXIdentifier',
 }
 const expectedReservedFirstWithNamespaceError: TestCaseError<MessageIds> = {
   messageId: 'listReservedPropsFirst',
-  type: 'JSXNamespacedName',
 }
 const expectedEmptyReservedFirstError: TestCaseError<MessageIds> = {
   messageId: 'listIsEmpty',

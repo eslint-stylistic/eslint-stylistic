@@ -4,7 +4,7 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { $, run } from '#test'
+import { $, run, skipBabel } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from './space-before-function-paren'
 
@@ -100,10 +100,6 @@ run<RuleOptions, MessageIds>({
       code: 'var bar = function foo () {}',
       options: [{ named: 'ignore', anonymous: 'always' }],
     },
-    {
-      code: 'type TransformFunction = (el: ASTElement, code: string) => string;',
-      languageOptions: languageOptionsForBabelFlow,
-    },
 
     // Async arrow functions
     { code: '() => 1', parserOptions: { ecmaVersion: 6 } },
@@ -134,7 +130,6 @@ run<RuleOptions, MessageIds>({
       output: 'function foo () {}',
       errors: [
         {
-          type: 'FunctionDeclaration',
           messageId: 'missingSpace',
           line: 1,
           column: 13,
@@ -147,7 +142,6 @@ run<RuleOptions, MessageIds>({
       output: 'function foo /* */() {}',
       errors: [
         {
-          type: 'FunctionDeclaration',
           messageId: 'missingSpace',
           line: 1,
           column: 18,
@@ -160,7 +154,6 @@ run<RuleOptions, MessageIds>({
       output: 'var foo = function () {}',
       errors: [
         {
-          type: 'FunctionExpression',
           messageId: 'missingSpace',
           line: 1,
           column: 19,
@@ -172,7 +165,6 @@ run<RuleOptions, MessageIds>({
       output: 'var bar = function foo () {}',
       errors: [
         {
-          type: 'FunctionExpression',
           messageId: 'missingSpace',
           line: 1,
           column: 23,
@@ -184,13 +176,11 @@ run<RuleOptions, MessageIds>({
       output: 'var obj = { get foo () {}, set foo (val) {} };',
       errors: [
         {
-          type: 'FunctionExpression',
           messageId: 'missingSpace',
           line: 1,
           column: 20,
         },
         {
-          type: 'FunctionExpression',
           messageId: 'missingSpace',
           line: 1,
           column: 34,
@@ -203,7 +193,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          type: 'FunctionExpression',
           messageId: 'missingSpace',
           line: 1,
           column: 16,
@@ -216,7 +205,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          type: 'FunctionDeclaration',
           messageId: 'missingSpace',
           line: 1,
           column: 14,
@@ -230,7 +218,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'FunctionDeclaration',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 13,
@@ -244,7 +231,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'FunctionDeclaration',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 13,
@@ -257,7 +243,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'FunctionDeclaration',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 13,
@@ -270,7 +255,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'FunctionDeclaration',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 13,
@@ -283,7 +267,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'FunctionDeclaration',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 13,
@@ -297,7 +280,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'FunctionDeclaration',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 13,
@@ -312,7 +294,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'FunctionDeclaration',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 13,
@@ -325,7 +306,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'FunctionDeclaration',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 13,
@@ -338,7 +318,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'FunctionExpression',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 19,
@@ -352,7 +331,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'FunctionExpression',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 23,
@@ -365,13 +343,11 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'FunctionExpression',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 20,
         },
         {
-          type: 'FunctionExpression',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 35,
@@ -385,7 +361,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          type: 'FunctionExpression',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 16,
@@ -399,7 +374,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          type: 'FunctionDeclaration',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 14,
@@ -422,31 +396,26 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          type: 'FunctionDeclaration',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 13,
         },
         {
-          type: 'FunctionExpression',
           messageId: 'missingSpace',
           line: 2,
           column: 19,
         },
         {
-          type: 'FunctionExpression',
           messageId: 'unexpectedSpace',
           line: 3,
           column: 20,
         },
         {
-          type: 'FunctionExpression',
           messageId: 'unexpectedSpace',
           line: 3,
           column: 35,
         },
         {
-          type: 'FunctionExpression',
           messageId: 'unexpectedSpace',
           line: 3,
           column: 49,
@@ -460,13 +429,11 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          type: 'FunctionExpression',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 24,
         },
         {
-          type: 'FunctionExpression',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 38,
@@ -480,7 +447,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          type: 'FunctionExpression',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 16,
@@ -502,31 +468,26 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          type: 'FunctionDeclaration',
           messageId: 'missingSpace',
           line: 1,
           column: 13,
         },
         {
-          type: 'FunctionExpression',
           messageId: 'unexpectedSpace',
           line: 2,
           column: 19,
         },
         {
-          type: 'FunctionExpression',
           messageId: 'missingSpace',
           line: 3,
           column: 20,
         },
         {
-          type: 'FunctionExpression',
           messageId: 'missingSpace',
           line: 3,
           column: 34,
         },
         {
-          type: 'FunctionExpression',
           messageId: 'missingSpace',
           line: 3,
           column: 47,
@@ -539,7 +500,6 @@ run<RuleOptions, MessageIds>({
       options: [{ named: 'ignore', anonymous: 'always' }],
       errors: [
         {
-          type: 'FunctionExpression',
           messageId: 'missingSpace',
           line: 1,
           column: 19,
@@ -552,7 +512,6 @@ run<RuleOptions, MessageIds>({
       options: [{ named: 'ignore', anonymous: 'never' }],
       errors: [
         {
-          type: 'FunctionExpression',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 19,
@@ -565,7 +524,6 @@ run<RuleOptions, MessageIds>({
       options: [{ named: 'always', anonymous: 'ignore' }],
       errors: [
         {
-          type: 'FunctionExpression',
           messageId: 'missingSpace',
           line: 1,
           column: 23,
@@ -578,7 +536,6 @@ run<RuleOptions, MessageIds>({
       options: [{ named: 'never', anonymous: 'ignore' }],
       errors: [
         {
-          type: 'FunctionExpression',
           messageId: 'unexpectedSpace',
           line: 1,
           column: 23,
@@ -605,52 +562,66 @@ run<RuleOptions, MessageIds>({
       code: 'async() => 1',
       output: 'async () => 1',
       parserOptions: { ecmaVersion: 8 },
-      errors: [{ messageId: 'missingSpace', type: 'ArrowFunctionExpression' }],
+      errors: [{ messageId: 'missingSpace' }],
     },
     {
       code: 'async() => 1',
       output: 'async () => 1',
       options: ['always'],
       parserOptions: { ecmaVersion: 8 },
-      errors: [{ messageId: 'missingSpace', type: 'ArrowFunctionExpression' }],
+      errors: [{ messageId: 'missingSpace' }],
     },
     {
       code: 'async () => 1',
       output: 'async() => 1',
       options: ['never'],
       parserOptions: { ecmaVersion: 8 },
-      errors: [{ messageId: 'unexpectedSpace', type: 'ArrowFunctionExpression' }],
+      errors: [{ messageId: 'unexpectedSpace' }],
     },
 
     // Catch clause
     {
       code: 'try {} catch(e) {}',
       output: 'try {} catch (e) {}',
-      errors: [{ messageId: 'missingSpace', type: 'CatchClause' }],
+      errors: [{ messageId: 'missingSpace' }],
     },
     {
       code: 'try {} catch(e) {}',
       output: 'try {} catch (e) {}',
       options: ['always'],
-      errors: [{ messageId: 'missingSpace', type: 'CatchClause' }],
+      errors: [{ messageId: 'missingSpace' }],
     },
     {
       code: 'try {} catch (e) {}',
       output: 'try {} catch(e) {}',
       options: ['never'],
-      errors: [{ messageId: 'unexpectedSpace', type: 'CatchClause' }],
+      errors: [{ messageId: 'unexpectedSpace' }],
     },
     {
       code: 'try {} catch(e) {}',
       output: 'try {} catch (e) {}',
       options: [{ catch: 'always' }],
-      errors: [{ messageId: 'missingSpace', type: 'CatchClause' }],
+      errors: [{ messageId: 'missingSpace' }],
     },
     {
       code: 'try {} catch (e) {}',
       output: 'try {} catch(e) {}',
       options: [{ catch: 'never' }],
-      errors: [{ messageId: 'unexpectedSpace', type: 'CatchClause' }],
+      errors: [{ messageId: 'unexpectedSpace' }],
     },
   ],
 })
+
+if (!skipBabel) {
+  run<RuleOptions, MessageIds>({
+    name: 'space-before-function-paren_babel',
+    rule,
+    valid: [
+      {
+        code: 'type TransformFunction = (el: ASTElement, code: string) => string;',
+        languageOptions: languageOptionsForBabelFlow,
+      },
+    ],
+    invalid: [],
+  })
+}

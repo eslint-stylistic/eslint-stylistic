@@ -33,12 +33,12 @@ import jsxEqualsSpacing from './jsx-equals-spacing/jsx-equals-spacing'
 import jsxFirstPropNewLine from './jsx-first-prop-new-line/jsx-first-prop-new-line'
 import jsxFunctionCallNewline from './jsx-function-call-newline/jsx-function-call-newline'
 import jsxIndentProps from './jsx-indent-props/jsx-indent-props'
-import jsxIndent from './jsx-indent/jsx-indent'
 import jsxMaxPropsPerLine from './jsx-max-props-per-line/jsx-max-props-per-line'
 import jsxNewline from './jsx-newline/jsx-newline'
 import jsxOneExpressionPerLine from './jsx-one-expression-per-line/jsx-one-expression-per-line'
 import jsxPascalCase from './jsx-pascal-case/jsx-pascal-case'
 import jsxPropsNoMultiSpaces from './jsx-props-no-multi-spaces/jsx-props-no-multi-spaces'
+import jsxPropsStyle from './jsx-props-style/jsx-props-style'
 import jsxQuotes from './jsx-quotes/jsx-quotes'
 import jsxSelfClosingComp from './jsx-self-closing-comp/jsx-self-closing-comp'
 import jsxSortProps from './jsx-sort-props/jsx-sort-props'
@@ -50,6 +50,7 @@ import lineCommentPosition from './line-comment-position/line-comment-position'
 import linebreakStyle from './linebreak-style/linebreak-style'
 import linesAroundComment from './lines-around-comment/lines-around-comment'
 import linesBetweenClassMembers from './lines-between-class-members/lines-between-class-members'
+import listStyle from './list-style/list-style'
 import maxLen from './max-len/max-len'
 import maxStatementsPerLine from './max-statements-per-line/max-statements-per-line'
 import memberDelimiterStyle from './member-delimiter-style/member-delimiter-style'
@@ -129,13 +130,13 @@ export default {
   'jsx-equals-spacing': jsxEqualsSpacing,
   'jsx-first-prop-new-line': jsxFirstPropNewLine,
   'jsx-function-call-newline': jsxFunctionCallNewline,
-  'jsx-indent': jsxIndent,
   'jsx-indent-props': jsxIndentProps,
   'jsx-max-props-per-line': jsxMaxPropsPerLine,
   'jsx-newline': jsxNewline,
   'jsx-one-expression-per-line': jsxOneExpressionPerLine,
   'jsx-pascal-case': jsxPascalCase,
   'jsx-props-no-multi-spaces': jsxPropsNoMultiSpaces,
+  'exp-jsx-props-style': jsxPropsStyle,
   'jsx-quotes': jsxQuotes,
   'jsx-self-closing-comp': jsxSelfClosingComp,
   'jsx-sort-props': jsxSortProps,
@@ -147,6 +148,7 @@ export default {
   'linebreak-style': linebreakStyle,
   'lines-around-comment': linesAroundComment,
   'lines-between-class-members': linesBetweenClassMembers,
+  'exp-list-style': listStyle,
   'max-len': maxLen,
   'max-statements-per-line': maxStatementsPerLine,
   'member-delimiter-style': memberDelimiterStyle,

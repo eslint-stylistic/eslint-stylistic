@@ -4,10 +4,12 @@
  * This is done intentionally based on the internal implementation of the base indent rule.
  */
 
-import type { ASTNode, JSONSchema, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
+import type { ASTNode, JSONSchema, NodeTypes, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { AST_NODE_TYPES, createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { isESTreeSourceCode } from '#utils/eslint-core'
+import { warnDeprecatedOptions } from '#utils/index'
 
 const KNOWN_NODES = new Set([
   'AssignmentExpression',
@@ -140,15 +142,12 @@ const KNOWN_NODES = new Set([
   AST_NODE_TYPES.TSLiteralType,
   AST_NODE_TYPES.TSMappedType,
   AST_NODE_TYPES.TSMethodSignature,
-  'TSMinusToken',
   AST_NODE_TYPES.TSModuleBlock,
   AST_NODE_TYPES.TSModuleDeclaration,
   AST_NODE_TYPES.TSNonNullExpression,
   AST_NODE_TYPES.TSParameterProperty,
-  'TSPlusToken',
   AST_NODE_TYPES.TSPropertySignature,
   AST_NODE_TYPES.TSQualifiedName,
-  'TSQuestionToken',
   AST_NODE_TYPES.TSRestType,
   AST_NODE_TYPES.TSThisType,
   AST_NODE_TYPES.TSTupleType,
@@ -550,7 +549,6 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Enforce consistent indentation',
-      // too opinionated to be recommended
     },
     fixable: 'whitespace',
     schema: [
@@ -572,7 +570,6 @@ export default createRule<RuleOptions, MessageIds>({
           SwitchCase: {
             type: 'integer',
             minimum: 0,
-            default: 0,
           },
           VariableDeclarator: {
             oneOf: [
@@ -677,58 +674,78 @@ export default createRule<RuleOptions, MessageIds>({
           ImportDeclaration: ELEMENT_LIST_SCHEMA,
           flatTernaryExpressions: {
             type: 'boolean',
-            default: false,
           },
           offsetTernaryExpressions: {
-            type: 'boolean',
-            default: false,
+            oneOf: [
+              {
+                type: 'boolean',
+              },
+              {
+                type: 'object',
+                properties: {
+                  CallExpression: {
+                    type: 'boolean',
+                  },
+                  AwaitExpression: {
+                    type: 'boolean',
+                  },
+                  NewExpression: {
+                    type: 'boolean',
+                  },
+                },
+                additionalProperties: false,
+              },
+            ],
           },
           offsetTernaryExpressionsOffsetCallExpressions: {
             type: 'boolean',
-            default: true,
           },
           ignoredNodes: {
             type: 'array',
             items: {
               type: 'string',
-              // @ts-expect-error Not sure the original intention
               not: {
+                type: 'string',
                 pattern: ':exit$',
               },
             },
           },
           ignoreComments: {
             type: 'boolean',
-            default: false,
           },
           tabLength: {
             type: 'number',
-            default: 4,
           },
         },
         additionalProperties: false,
+      },
+    ],
+    defaultOptions: [
+      // typescript docs and playground use 4 space indent
+      4,
+      {
+        // typescript docs indent the case from the switch
+        // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-1-8.html#example-4
+        SwitchCase: 1,
+        flatTernaryExpressions: false,
+        ignoredNodes: [],
       },
     ],
     messages: {
       wrongIndentation: 'Expected indentation of {{expected}} but found {{actual}}.',
     },
   },
-  defaultOptions: [
-    // typescript docs and playground use 4 space indent
-    4,
-    {
-      // typescript docs indent the case from the switch
-      // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-1-8.html#example-4
-      SwitchCase: 1,
-      flatTernaryExpressions: false,
-      ignoredNodes: [],
-    },
-  ],
   create(context, optionsWithDefaults) {
+    if (!isESTreeSourceCode(context.sourceCode)) {
+      return {}
+    }
+
     const DEFAULT_VARIABLE_INDENT = 1
     const DEFAULT_PARAMETER_INDENT = 1
     const DEFAULT_FUNCTION_BODY_INDENT = 1
     const DEFAULT_FUNCTION_RETURN_TYPE_INDENT = 1
+
+    warnDeprecatedOptions(context.options[1], 'offsetTernaryExpressionsOffsetCallExpressions', 'offsetTernaryExpressions.CallExpression' as any, 'indent')
 
     let indentType = 'space'
     let indentSize = 4
@@ -765,7 +782,8 @@ export default createRule<RuleOptions, MessageIds>({
       flatTernaryExpressions: false,
       ignoredNodes: [],
       ignoreComments: false,
-      offsetTernaryExpressions: false,
+      offsetTernaryExpressions: false as NonNullable<RuleOptions[1]>['offsetTernaryExpressions'],
+      // deprecated
       offsetTernaryExpressionsOffsetCallExpressions: true,
       tabLength: 4,
     }
@@ -1179,7 +1197,7 @@ export default createRule<RuleOptions, MessageIds>({
       addElementListIndent(elementList, openingBracket, closingBracket, options.ArrayExpression)
     }
 
-    function checkObjectLikeNode(node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.TSEnumDeclaration | Tree.TSTypeLiteral | Tree.TSMappedType, properties: ASTNode[]) {
+    function checkObjectLikeNode(node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.TSEnumDeclaration | Tree.TSTypeLiteral, properties: ASTNode[]) {
       const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
       const closingCurly = sourceCode.getTokenAfter(
         properties.length ? properties[properties.length - 1] : openingCurly,
@@ -1197,82 +1215,71 @@ export default createRule<RuleOptions, MessageIds>({
       //     foo > 0 ? bar :
       //     foo < 0 ? baz :
       //     /*else*/ qiz ;
-      if (!options.flatTernaryExpressions
-        || !isTokenOnSameLine(test, consequent)
-        || isOnFirstLineOfStatement(firstToken, node)
-      ) {
-        const questionMarkToken = sourceCode.getFirstTokenBetween(test, consequent, isQuestionToken)!
-        const colonToken = sourceCode.getFirstTokenBetween(consequent, alternate, isColonToken)!
+      if (options.flatTernaryExpressions && isTokenOnSameLine(test, consequent) && !isOnFirstLineOfStatement(firstToken, node))
+        return
 
-        const firstConsequentToken = sourceCode.getTokenAfter(questionMarkToken)!
-        const lastConsequentToken = sourceCode.getTokenBefore(colonToken)!
-        const firstAlternateToken = sourceCode.getTokenAfter(colonToken)!
+      const ternaryOptions: false | Partial<Record<NodeTypes, boolean>> = options.offsetTernaryExpressions === true
+        ? {
+            CallExpression: options.offsetTernaryExpressionsOffsetCallExpressions ?? true,
+            // for backward compatibility
+            AwaitExpression: options.offsetTernaryExpressionsOffsetCallExpressions ?? true,
+            NewExpression: true,
+          }
+        : options.offsetTernaryExpressions!
 
-        offsets.setDesiredOffset(questionMarkToken, firstToken, 1)
-        offsets.setDesiredOffset(colonToken, firstToken, 1)
-
+      function checkBranch(branch: ASTNode, branchFirstToken: Token) {
         let offset = 1
-        if (options.offsetTernaryExpressions) {
-          if (firstConsequentToken.type === 'Punctuator')
-            offset = 2
+        if (ternaryOptions) {
+          const branchType = skipChainExpression(branch).type
 
-          const consequentType = skipChainExpression(consequent).type
-          if (
-            options.offsetTernaryExpressionsOffsetCallExpressions
-            && (consequentType === 'CallExpression' || consequentType === 'AwaitExpression')
-          ) {
+          if (branchFirstToken.type === 'Punctuator' || ternaryOptions[branchType]) {
             offset = 2
           }
         }
 
         offsets.setDesiredOffset(
-          firstConsequentToken,
+          branchFirstToken,
           firstToken,
           offset,
         )
+      }
 
+      const questionMarkToken = sourceCode.getFirstTokenBetween(test, consequent, isQuestionToken)!
+      const colonToken = sourceCode.getFirstTokenBetween(consequent, alternate, isColonToken)!
+
+      const firstConsequentToken = sourceCode.getTokenAfter(questionMarkToken)!
+      const lastConsequentToken = sourceCode.getTokenBefore(colonToken)!
+      const firstAlternateToken = sourceCode.getTokenAfter(colonToken)!
+
+      offsets.setDesiredOffset(questionMarkToken, firstToken, 1)
+      offsets.setDesiredOffset(colonToken, firstToken, 1)
+
+      checkBranch(consequent, firstConsequentToken)
+
+      /**
+       * The alternate and the consequent should usually have the same indentation.
+       * If they share part of a line, align the alternate against the first token of the consequent.
+       * This allows the alternate to be indented correctly in cases like this:
+       * foo ? (
+       *   bar
+       * ) : ( // this '(' is aligned with the '(' above, so it's considered to be aligned with `foo`
+       *   baz // as a result, `baz` is offset by 1 rather than 2
+       * )
+       */
+      if (isTokenOnSameLine(lastConsequentToken, firstAlternateToken)) {
+        offsets.setDesiredOffset(firstAlternateToken, firstConsequentToken, 0)
+      }
+      else {
         /**
-         * The alternate and the consequent should usually have the same indentation.
-         * If they share part of a line, align the alternate against the first token of the consequent.
-         * This allows the alternate to be indented correctly in cases like this:
-         * foo ? (
-         *   bar
-         * ) : ( // this '(' is aligned with the '(' above, so it's considered to be aligned with `foo`
-         *   baz // as a result, `baz` is offset by 1 rather than 2
-         * )
+         * If the alternate and consequent do not share part of a line, offset the alternate from the first
+         * token of the conditional expression. For example:
+         * foo ? bar
+         *   : baz
+         *
+         * If `baz` were aligned with `bar` rather than being offset by 1 from `foo`, `baz` would end up
+         * having no expected indentation.
          */
-        if (isTokenOnSameLine(lastConsequentToken, firstAlternateToken)) {
-          offsets.setDesiredOffset(firstAlternateToken, firstConsequentToken, 0)
-        }
-        else {
-          let offset = 1
-          if (options.offsetTernaryExpressions) {
-            if (firstAlternateToken.type === 'Punctuator')
-              offset = 2
-
-            const alternateType = skipChainExpression(alternate).type
-            if (
-              options.offsetTernaryExpressionsOffsetCallExpressions
-              && (alternateType === 'CallExpression' || alternateType === 'AwaitExpression')
-            ) {
-              offset = 2
-            }
-          }
-          /**
-           * If the alternate and consequent do not share part of a line, offset the alternate from the first
-           * token of the conditional expression. For example:
-           * foo ? bar
-           *   : baz
-           *
-           * If `baz` were aligned with `bar` rather than being offset by 1 from `foo`, `baz` would end up
-           * having no expected indentation.
-           */
-          offsets.setDesiredOffset(
-            firstAlternateToken,
-            firstToken,
-            offset,
-          )
-        }
+        checkBranch(alternate, firstAlternateToken)
       }
     }
 
@@ -1417,27 +1424,6 @@ export default createRule<RuleOptions, MessageIds>({
         // TODO: ignore like `VariableDeclaration`
         offsets.setDesiredOffset(lastToken, keyLastToken, 1)
       }
-    }
-
-    // JSXText
-    function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
-      let src = context.sourceCode.getText(node, node.loc.start.column)
-      const lines = src.split('\n')
-      if (byLastLine)
-        src = lines[lines.length - 1]
-      else
-        src = lines[0]
-
-      const skip = excludeCommas ? ',' : ''
-
-      let regExp
-      if (indentType === 'space')
-        regExp = new RegExp(`^[ ${skip}]+`)
-      else
-        regExp = new RegExp(`^[\t${skip}]+`)
-
-      const indent = regExp.exec(src)
-      return indent ? indent[0].length : 0
     }
 
     const baseOffsetListeners: RuleListener = {
@@ -1815,7 +1801,7 @@ export default createRule<RuleOptions, MessageIds>({
           return
 
         const kind = node.kind === 'await using' ? 'using' : node.kind
-        let variableIndent = Object.prototype.hasOwnProperty.call(options.VariableDeclarator, kind)
+        let variableIndent = Object.hasOwn(options.VariableDeclarator, kind)
           ? options.VariableDeclarator[kind]
           : DEFAULT_VARIABLE_INDENT
         const alignFirstVariable = variableIndent === 'first'
@@ -1885,39 +1871,40 @@ export default createRule<RuleOptions, MessageIds>({
       JSXText(node) {
         if (!node.parent)
           return
-
         if (node.parent.type !== 'JSXElement' && node.parent.type !== 'JSXFragment')
           return
 
-        const value = node.value
-        // eslint-disable-next-line regexp/no-super-linear-backtracking, regexp/optimal-quantifier-concatenation
-        const regExp = indentType === 'space' ? /\n( *)[\t ]*\S/g : /\n(\t*)[\t ]*\S/g
+        const nodeIndentRegExp = new RegExp(`\n(${offsets._indentType}*)[\t ]*\\S`, 'g')
         const nodeIndentsPerLine = Array.from(
-          String(value).matchAll(regExp),
+          String(node.value).matchAll(nodeIndentRegExp),
           match => (match[1] ? match[1].length : 0),
         )
-        const hasFirstInLineNode = nodeIndentsPerLine.length > 0
-        const parentNodeIndent = getNodeIndent(node.parent)
-        const indent = parentNodeIndent + indentSize
-        if (
-          hasFirstInLineNode
-          && !nodeIndentsPerLine.every(actualIndent => actualIndent === indent)
-        ) {
-          nodeIndentsPerLine.forEach((nodeIndent) => {
-            context.report({
-              node,
-              messageId: 'wrongIndentation',
-              data: createErrorMessageData(indent, nodeIndent, nodeIndent),
-              fix(fixer) {
-                const indentChar = indentType === 'space' ? ' ' : '\t'
-                const indentStr = new Array(indent + 1).join(indentChar)
-                const regExp = /\n[\t ]*(\S)/g
-                const fixedText = node.raw.replace(regExp, (match, p1) => `\n${indentStr}${p1}`)
-                return fixer.replaceText(node, fixedText)
-              },
-            })
+
+        if (nodeIndentsPerLine.length === 0)
+          return
+
+        const parentIndentText = sourceCode.lines[node.parent.loc.start.line - 1].slice(0, node.parent.loc.start.column)
+        const parentIndent = new RegExp(`^[${offsets._indentType}]+`).exec(parentIndentText)
+        const parentIndentSize = parentIndent ? parentIndent[0].length : 0
+
+        const targetIndent = parentIndentSize + indentSize
+
+        nodeIndentsPerLine.forEach((nodeIndent) => {
+          if (nodeIndent === targetIndent)
+            return
+
+          context.report({
+            node,
+            messageId: 'wrongIndentation',
+            data: createErrorMessageData(targetIndent, nodeIndent, nodeIndent),
+            fix(fixer) {
+              const indentStr = new Array(targetIndent + 1).join(offsets._indentType)
+              const regExp = /\n[\t ]*(\S)/g
+              const fixedText = node.raw.replace(regExp, (match, p1) => `\n${indentStr}${p1}`)
+              return fixer.replaceText(node, fixedText)
+            },
           })
-        }
+        })
       },
 
       JSXAttribute(node) {
@@ -2041,40 +2028,11 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       TSMappedType(node) {
-        const squareBracketStart = sourceCode.getTokenBefore(
-          node.constraint || node.typeParameter,
-        )!
+        const startToken = sourceCode.getFirstToken(node, isOpeningBraceToken)!
+        const endToken = sourceCode.getLastToken(node, isClosingBraceToken)!
 
-        const properties: Tree.Property[] = [
-          {
-            parent: node as any,
-            type: AST_NODE_TYPES.Property,
-            key: node.key || node.typeParameter,
-            value: node.typeAnnotation as any,
-
-            // location data
-            range: [
-              squareBracketStart.range[0],
-              node.typeAnnotation
-                ? node.typeAnnotation.range[1]
-                : squareBracketStart.range[0],
-            ],
-            loc: {
-              start: squareBracketStart.loc.start,
-              end: node.typeAnnotation
-                ? node.typeAnnotation.loc.end
-                : squareBracketStart.loc.end,
-            },
-            kind: 'init',
-            computed: false,
-            method: false,
-            optional: false,
-            shorthand: false,
-          },
-        ]
-
-        // transform it to an ObjectExpression
-        checkObjectLikeNode(node, properties)
+        offsets.setDesiredOffsets([startToken.range[1], endToken.range[0]], startToken, 1)
+        offsets.setDesiredOffset(endToken, startToken, 0)
       },
 
       TSAsExpression(node) {
@@ -2084,26 +2042,7 @@ export default createRule<RuleOptions, MessageIds>({
       // TODO: TSSatisfiesExpression
 
       TSConditionalType(node) {
-        // transform it to a ConditionalExpression
-        checkConditionalNode(
-          node,
-          {
-            parent: node,
-            type: AST_NODE_TYPES.BinaryExpression,
-            operator: 'extends' as any,
-            left: node.checkType as any,
-            right: node.extendsType as any,
-
-            // location data
-            range: [node.checkType.range[0], node.extendsType.range[1]],
-            loc: {
-              start: node.checkType.loc.start,
-              end: node.extendsType.loc.end,
-            },
-          },
-          node.trueType,
-          node.falseType,
-        )
+        checkConditionalNode(node, node.extendsType, node.trueType, node.falseType)
       },
 
       TSImportEqualsDeclaration(node) {

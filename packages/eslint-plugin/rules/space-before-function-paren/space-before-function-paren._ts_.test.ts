@@ -1,9 +1,5 @@
-// this rule tests the spacing, which prettier will want to fix and break the tests
-/* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import { AST_NODE_TYPES } from '#utils/ast'
 import rule from './space-before-function-paren'
 
 run<RuleOptions, MessageIds>({
@@ -46,7 +42,6 @@ run<RuleOptions, MessageIds>({
       output: 'function foo<T extends () => {}> () {}',
       errors: [
         {
-          type: AST_NODE_TYPES.FunctionDeclaration,
           messageId: 'missingSpace',
           line: 1,
           column: 33,

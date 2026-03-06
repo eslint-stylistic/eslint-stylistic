@@ -1,4 +1,6 @@
 ---
+related_rules:
+  - dot-location
 ---
 
 # no-whitespace-before-property
@@ -24,7 +26,7 @@ Examples of **incorrect** code for this rule:
 
 ::: incorrect
 
-```js
+```ts
 /* eslint @stylistic/no-whitespace-before-property: "error" */
 
 foo [bar]
@@ -40,6 +42,12 @@ foo. bar()
 
 foo
   .bar(). baz()
+
+type Foo = Bar .Baz
+
+type Foo = Bar [Baz]
+
+type Foo = import('foo') .Bar
 ```
 
 :::
@@ -48,7 +56,7 @@ Examples of **correct** code for this rule:
 
 ::: correct
 
-```js
+```ts
 /* eslint @stylistic/no-whitespace-before-property: "error" */
 
 foo.bar
@@ -69,6 +77,12 @@ foo
 foo.
   bar().
   baz()
+
+type Foo = Bar.Baz
+
+type Foo = Bar[Baz]
+
+type Foo = import('foo').Bar
 ```
 
 :::

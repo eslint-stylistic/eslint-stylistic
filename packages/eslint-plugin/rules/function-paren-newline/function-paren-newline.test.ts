@@ -9,11 +9,11 @@ import { $, run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from './function-paren-newline'
 
-const LEFT_MISSING_ERROR: TestCaseError<MessageIds> = { messageId: 'expectedAfter', type: 'Punctuator' }
-const LEFT_UNEXPECTED_ERROR: TestCaseError<MessageIds> = { messageId: 'unexpectedAfter', type: 'Punctuator' }
-const RIGHT_MISSING_ERROR: TestCaseError<MessageIds> = { messageId: 'expectedBefore', type: 'Punctuator' }
-const RIGHT_UNEXPECTED_ERROR: TestCaseError<MessageIds> = { messageId: 'unexpectedBefore', type: 'Punctuator' }
-const EXPECTED_BETWEEN: TestCaseError<MessageIds> = { messageId: 'expectedBetween', type: 'Identifier' }
+const LEFT_MISSING_ERROR: TestCaseError<MessageIds> = { messageId: 'expectedAfter' }
+const LEFT_UNEXPECTED_ERROR: TestCaseError<MessageIds> = { messageId: 'unexpectedAfter' }
+const RIGHT_MISSING_ERROR: TestCaseError<MessageIds> = { messageId: 'expectedBefore' }
+const RIGHT_UNEXPECTED_ERROR: TestCaseError<MessageIds> = { messageId: 'unexpectedBefore' }
+const EXPECTED_BETWEEN: TestCaseError<MessageIds> = { messageId: 'expectedBetween' }
 
 run<RuleOptions, MessageIds>({
   name: 'function-paren-newline',

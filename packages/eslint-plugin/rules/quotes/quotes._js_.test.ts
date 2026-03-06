@@ -102,7 +102,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'Literal',
       }],
     },
     {
@@ -112,7 +111,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'singlequote' },
-        type: 'Literal',
       }],
     },
     {
@@ -125,7 +123,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'singlequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -138,7 +135,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'singlequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -147,7 +143,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'Literal',
       }],
     },
     {
@@ -158,13 +153,11 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'singlequote' },
-          type: 'Literal',
           column: 11,
         },
         {
           messageId: 'wrongQuotes',
           data: { description: 'singlequote' },
-          type: 'Literal',
           column: 31,
         },
       ],
@@ -176,7 +169,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'Literal',
       }],
     },
     {
@@ -189,7 +181,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -202,7 +193,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -215,7 +205,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'singlequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -225,7 +214,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'singlequote' },
-        type: 'Literal',
       }],
     },
     {
@@ -235,7 +223,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'Literal',
       }],
     },
     {
@@ -245,7 +232,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'Literal',
       }],
     },
     {
@@ -255,7 +241,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'singlequote' },
-        type: 'Literal',
       }],
     },
     {
@@ -265,7 +250,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'singlequote' },
-        type: 'Literal',
       }],
     },
     {
@@ -275,7 +259,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'Literal',
       }],
     },
     {
@@ -285,7 +268,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'Literal',
       }],
     },
     {
@@ -296,7 +278,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'backtick' },
-        type: 'Literal',
       }],
     },
     {
@@ -307,7 +288,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'backtick' },
-        type: 'Literal',
       }],
     },
     {
@@ -318,7 +298,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'backtick' },
-        type: 'Literal',
       }],
     },
     {
@@ -329,7 +308,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'backtick' },
-        type: 'Literal',
       }],
     },
     {
@@ -340,7 +318,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'backtick' },
-        type: 'Literal',
       }],
     },
 
@@ -352,7 +329,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'backtick' },
-        type: 'Literal',
       }],
     },
     {
@@ -362,7 +338,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'backtick' },
-        type: 'Literal',
       }],
     },
     {
@@ -372,7 +347,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'backtick' },
-        type: 'Literal',
       }],
     },
 
@@ -385,12 +359,10 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'backtick' },
-          type: 'Literal',
         },
         {
           messageId: 'wrongQuotes',
           data: { description: 'backtick' },
-          type: 'Literal',
         },
       ],
     },
@@ -402,12 +374,10 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'backtick' },
-          type: 'Literal',
         },
         {
           messageId: 'wrongQuotes',
           data: { description: 'backtick' },
-          type: 'Literal',
         },
       ],
     },
@@ -422,7 +392,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'singlequote' },
-          type: 'Literal',
         },
       ],
     },
@@ -435,7 +404,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'doublequote' },
-          type: 'Literal',
         },
       ],
     },
@@ -448,7 +416,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'backtick' },
-          type: 'Literal',
         },
       ],
     },
@@ -460,7 +427,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -469,7 +435,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -478,7 +443,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -487,7 +451,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -497,7 +460,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -507,7 +469,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
 
@@ -518,7 +479,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -527,7 +487,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -536,7 +495,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -545,7 +503,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
         line: 1,
         column: 1,
       }],
@@ -560,7 +517,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'singlequote' },
-          type: 'Literal',
         },
       ],
       parserOptions: { sourceType: 'script' },
@@ -573,7 +529,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'doublequote' },
-          type: 'Literal',
         },
       ],
       parserOptions: { sourceType: 'script' },
@@ -586,7 +541,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'backtick' },
-          type: 'Literal',
         },
       ],
     },
@@ -598,7 +552,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'backtick' },
-          type: 'Literal',
         },
       ],
       parserOptions: { sourceType: 'script' },
@@ -611,7 +564,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'backtick' },
-          type: 'Literal',
         },
       ],
       parserOptions: { sourceType: 'script' },
@@ -624,7 +576,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'backtick' },
-          type: 'Literal',
         },
       ],
       parserOptions: { sourceType: 'script' },
@@ -637,7 +588,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'backtick' },
-          type: 'Literal',
         },
       ],
       parserOptions: { sourceType: 'script' },
@@ -650,7 +600,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'backtick' },
-          type: 'Literal',
         },
       ],
       parserOptions: { sourceType: 'script' },
@@ -663,7 +612,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'backtick' },
-          type: 'Literal',
         },
       ],
       parserOptions: { sourceType: 'script' },
@@ -676,7 +624,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'backtick' },
-          type: 'Literal',
         },
       ],
       parserOptions: { sourceType: 'script' },
@@ -689,7 +636,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'backtick' },
-          type: 'Literal',
         },
       ],
       parserOptions: { sourceType: 'script' },
@@ -705,7 +651,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'doublequote' },
-          type: 'Literal',
         },
       ],
     },
@@ -718,7 +663,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'doublequote' },
-          type: 'Literal',
         },
       ],
     },
@@ -731,7 +675,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'singlequote' },
-          type: 'Literal',
         },
       ],
     },
@@ -744,7 +687,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'singlequote' },
-          type: 'Literal',
         },
       ],
     },
@@ -757,7 +699,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'backtick' },
-          type: 'Literal',
         },
       ],
     },
@@ -770,7 +711,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'wrongQuotes',
           data: { description: 'backtick' },
-          type: 'Literal',
         },
       ],
     },
@@ -782,7 +722,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -792,11 +731,9 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'backtick' },
-        type: 'Literal',
       }, {
         messageId: 'wrongQuotes',
         data: { description: 'backtick' },
-        type: 'Literal',
       }],
     },
     {
@@ -805,7 +742,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'Literal',
       }],
     },
     {
@@ -814,7 +750,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -823,7 +758,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -839,7 +773,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -855,7 +788,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
     {
@@ -871,7 +803,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
-        type: 'TemplateLiteral',
       }],
     },
   ],

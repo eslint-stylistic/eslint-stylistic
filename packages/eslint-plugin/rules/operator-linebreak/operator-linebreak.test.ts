@@ -382,7 +382,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtEnd',
         data: { operator: '+' },
-        type: 'BinaryExpression',
         line: 2,
         column: 1,
         endLine: 2,
@@ -395,7 +394,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtEnd',
         data: { operator: '+' },
-        type: 'BinaryExpression',
         line: 2,
         column: 2,
         endLine: 2,
@@ -408,7 +406,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'badLinebreak',
         data: { operator: '+' },
-        type: 'BinaryExpression',
         line: 2,
         column: 1,
         endLine: 2,
@@ -421,7 +418,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtEnd',
         data: { operator: '+' },
-        type: 'BinaryExpression',
         line: 2,
         column: 1,
         endLine: 2,
@@ -434,7 +430,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtEnd',
         data: { operator: '+' },
-        type: 'BinaryExpression',
         line: 2,
         column: 1,
         endLine: 2,
@@ -447,7 +442,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtEnd',
         data: { operator: '||' },
-        type: 'LogicalExpression',
         line: 2,
         column: 2,
         endLine: 2,
@@ -460,7 +454,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtEnd',
         data: { operator: '+=' },
-        type: 'AssignmentExpression',
         line: 2,
         column: 2,
         endLine: 2,
@@ -473,7 +466,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtEnd',
         data: { operator: '=' },
-        type: 'VariableDeclarator',
         line: 2,
         column: 2,
         endLine: 2,
@@ -486,7 +478,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'badLinebreak',
         data: { operator: '*' },
-        type: 'BinaryExpression',
         line: 2,
         column: 1,
         endLine: 2,
@@ -499,7 +490,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtBeginning',
         data: { operator: '?' },
-        type: 'ConditionalExpression',
         line: 1,
         column: 21,
         endLine: 1,
@@ -507,7 +497,6 @@ run<RuleOptions, MessageIds>({
       }, {
         messageId: 'operatorAtBeginning',
         data: { operator: ':' },
-        type: 'ConditionalExpression',
         line: 2,
         column: 6,
         endLine: 2,
@@ -522,7 +511,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtEnd',
         data: { operator: '?' },
-        type: 'ConditionalExpression',
         line: 2,
         column: 1,
         endLine: 2,
@@ -530,7 +518,6 @@ run<RuleOptions, MessageIds>({
       }, {
         messageId: 'operatorAtEnd',
         data: { operator: ':' },
-        type: 'ConditionalExpression',
         line: 3,
         column: 1,
         endLine: 3,
@@ -545,7 +532,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtBeginning',
         data: { operator: '+' },
-        type: 'BinaryExpression',
         line: 1,
         column: 3,
         endLine: 1,
@@ -559,7 +545,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtBeginning',
         data: { operator: '+' },
-        type: 'BinaryExpression',
         line: 1,
         column: 5,
         endLine: 1,
@@ -573,7 +558,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtBeginning',
         data: { operator: '||' },
-        type: 'LogicalExpression',
         line: 1,
         column: 3,
         endLine: 1,
@@ -587,7 +571,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtBeginning',
         data: { operator: '+=' },
-        type: 'AssignmentExpression',
         line: 1,
         column: 3,
         endLine: 1,
@@ -601,7 +584,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtBeginning',
         data: { operator: '=' },
-        type: 'VariableDeclarator',
         line: 1,
         column: 7,
         endLine: 1,
@@ -615,7 +597,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtBeginning',
         data: { operator: '?' },
-        type: 'ConditionalExpression',
         line: 1,
         column: 21,
         endLine: 1,
@@ -623,7 +604,6 @@ run<RuleOptions, MessageIds>({
       }, {
         messageId: 'operatorAtBeginning',
         data: { operator: ':' },
-        type: 'ConditionalExpression',
         line: 2,
         column: 6,
         endLine: 2,
@@ -638,7 +618,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '+' },
-        type: 'BinaryExpression',
         line: 1,
         column: 3,
         endLine: 1,
@@ -652,7 +631,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '+' },
-        type: 'BinaryExpression',
         line: 2,
         column: 1,
         endLine: 2,
@@ -666,7 +644,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '+' },
-        type: 'BinaryExpression',
         line: 1,
         column: 5,
         endLine: 1,
@@ -680,7 +657,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '+' },
-        type: 'BinaryExpression',
         line: 2,
         column: 1,
         endLine: 2,
@@ -694,7 +670,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '||' },
-        type: 'LogicalExpression',
         line: 1,
         column: 3,
         endLine: 1,
@@ -708,7 +683,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '||' },
-        type: 'LogicalExpression',
         line: 2,
         column: 2,
         endLine: 2,
@@ -722,7 +696,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '+=' },
-        type: 'AssignmentExpression',
         line: 1,
         column: 3,
         endLine: 1,
@@ -736,7 +709,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '+=' },
-        type: 'AssignmentExpression',
         line: 2,
         column: 1,
         endLine: 2,
@@ -750,7 +722,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '=' },
-        type: 'VariableDeclarator',
         line: 1,
         column: 7,
         endLine: 1,
@@ -764,7 +735,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '=' },
-        type: 'VariableDeclarator',
         line: 2,
         column: 2,
         endLine: 2,
@@ -778,7 +748,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '?' },
-        type: 'ConditionalExpression',
         line: 1,
         column: 21,
         endLine: 1,
@@ -786,7 +755,6 @@ run<RuleOptions, MessageIds>({
       }, {
         messageId: 'noLinebreak',
         data: { operator: ':' },
-        type: 'ConditionalExpression',
         line: 3,
         column: 1,
         endLine: 3,
@@ -800,7 +768,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'badLinebreak',
         data: { operator: '?' },
-        type: 'ConditionalExpression',
         line: 2,
         column: 1,
         endLine: 2,
@@ -808,7 +775,6 @@ run<RuleOptions, MessageIds>({
       }, {
         messageId: 'badLinebreak',
         data: { operator: ':' },
-        type: 'ConditionalExpression',
         line: 4,
         column: 1,
         endLine: 4,
@@ -821,7 +787,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'badLinebreak',
         data: { operator: '>>>' },
-        type: 'BinaryExpression',
         line: 2,
         column: 3,
         endLine: 2,
@@ -835,7 +800,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '+=' },
-        type: 'AssignmentExpression',
         line: 1,
         column: 5,
         endLine: 1,
@@ -849,7 +813,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'badLinebreak',
         data: { operator: ':' },
-        type: 'ConditionalExpression',
         line: 4,
         column: 1,
         endLine: 4,
@@ -865,7 +828,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtBeginning',
         data: { operator: '+' },
-        type: 'BinaryExpression',
         line: 1,
         column: 4,
         endLine: 1,
@@ -878,7 +840,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtEnd',
         data: { operator: '&&' },
-        type: 'LogicalExpression',
         line: 2,
         column: 1,
         endLine: 2,
@@ -891,7 +852,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'badLinebreak',
         data: { operator: '+' },
-        type: 'BinaryExpression',
         line: 2,
         column: 1,
         endLine: 2,
@@ -905,7 +865,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'badLinebreak',
         data: { operator: '+' },
-        type: 'BinaryExpression',
         line: 2,
         column: 1,
         endLine: 2,
@@ -918,7 +877,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtEnd',
         data: { operator: '+' },
-        type: 'BinaryExpression',
         line: 2,
         column: 1,
         endLine: 2,
@@ -932,7 +890,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtBeginning',
         data: { operator: '+' },
-        type: 'BinaryExpression',
         line: 1,
         column: 13,
         endLine: 1,
@@ -958,7 +915,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtEnd',
         data: { operator: '&&=' },
-        type: 'AssignmentExpression',
         line: 2,
         column: 3,
         endLine: 2,
@@ -973,7 +929,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtBeginning',
         data: { operator: '||=' },
-        type: 'AssignmentExpression',
         line: 1,
         column: 3,
         endLine: 1,
@@ -988,7 +943,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '??=' },
-        type: 'AssignmentExpression',
         line: 1,
         column: 4,
         endLine: 1,
@@ -1003,7 +957,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '&&=' },
-        type: 'AssignmentExpression',
         line: 2,
         column: 3,
         endLine: 2,
@@ -1018,7 +971,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtBeginning',
         data: { operator: '||=' },
-        type: 'AssignmentExpression',
         line: 1,
         column: 3,
         endLine: 1,
@@ -1033,7 +985,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtEnd',
         data: { operator: '??=' },
-        type: 'AssignmentExpression',
         line: 2,
         column: 1,
         endLine: 2,
@@ -1050,7 +1001,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtEnd',
         data: { operator: '=' },
-        type: 'PropertyDefinition',
         line: 2,
         column: 1,
         endLine: 2,
@@ -1065,7 +1015,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtBeginning',
         data: { operator: '=' },
-        type: 'PropertyDefinition',
         line: 1,
         column: 13,
         endLine: 1,
@@ -1080,7 +1029,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '=' },
-        type: 'PropertyDefinition',
         line: 1,
         column: 13,
         endLine: 1,
@@ -1095,7 +1043,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtEnd',
         data: { operator: '=' },
-        type: 'PropertyDefinition',
         line: 2,
         column: 1,
         endLine: 2,
@@ -1110,7 +1057,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtBeginning',
         data: { operator: '=' },
-        type: 'PropertyDefinition',
         line: 1,
         column: 15,
         endLine: 1,
@@ -1125,7 +1071,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '=' },
-        type: 'PropertyDefinition',
         line: 2,
         column: 2,
         endLine: 2,
@@ -1139,7 +1084,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtEnd',
         data: { operator: '=' },
-        type: 'AccessorProperty',
         line: 2,
         column: 1,
         endLine: 2,
@@ -1153,7 +1097,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtBeginning',
         data: { operator: '=' },
-        type: 'AccessorProperty',
         line: 1,
         column: 22,
         endLine: 1,
@@ -1167,7 +1110,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '=' },
-        type: 'AccessorProperty',
         line: 1,
         column: 22,
         endLine: 1,
@@ -1181,7 +1123,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtEnd',
         data: { operator: '=' },
-        type: 'AccessorProperty',
         line: 2,
         column: 1,
         endLine: 2,
@@ -1195,7 +1136,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operatorAtBeginning',
         data: { operator: '=' },
-        type: 'AccessorProperty',
         line: 1,
         column: 24,
         endLine: 1,
@@ -1209,7 +1149,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'noLinebreak',
         data: { operator: '=' },
-        type: 'AccessorProperty',
         line: 2,
         column: 2,
         endLine: 2,

@@ -1,8 +1,3 @@
-/**
- * @fileoverview Tests for jsx-quotes rule.
- * @author Mathias Schreck <https://github.com/lo1tuma>
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './jsx-quotes'
@@ -52,7 +47,7 @@ run<RuleOptions, MessageIds>({
       code: '<foo bar=\'baz\' />',
       output: '<foo bar="baz" />',
       errors: [
-        { messageId: 'unexpected', data: { description: 'singlequote' }, line: 1, column: 10, type: 'Literal' },
+        { messageId: 'unexpected', data: { description: 'singlequote' }, line: 1, column: 10 },
       ],
     },
     {
@@ -60,7 +55,7 @@ run<RuleOptions, MessageIds>({
       output: '<foo bar=\'baz\' />',
       options: ['prefer-single'],
       errors: [
-        { messageId: 'unexpected', data: { description: 'doublequote' }, line: 1, column: 10, type: 'Literal' },
+        { messageId: 'unexpected', data: { description: 'doublequote' }, line: 1, column: 10 },
       ],
     },
     {
@@ -68,14 +63,14 @@ run<RuleOptions, MessageIds>({
       output: '<foo bar=\'&quot;\' />',
       options: ['prefer-single'],
       errors: [
-        { messageId: 'unexpected', data: { description: 'doublequote' }, line: 1, column: 10, type: 'Literal' },
+        { messageId: 'unexpected', data: { description: 'doublequote' }, line: 1, column: 10 },
       ],
     },
     {
       code: '<foo bar=\'&#39;\' />',
       output: '<foo bar="&#39;" />',
       errors: [
-        { messageId: 'unexpected', data: { description: 'singlequote' }, line: 1, column: 10, type: 'Literal' },
+        { messageId: 'unexpected', data: { description: 'singlequote' }, line: 1, column: 10 },
       ],
     },
   ],

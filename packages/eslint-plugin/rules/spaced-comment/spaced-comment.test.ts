@@ -148,10 +148,6 @@ run<RuleOptions, MessageIds>({
       options: ['always', { markers: ['global'] }],
     },
     {
-      code: '/*eslint-env node*/',
-      options: ['always', { markers: ['eslint-env'] }],
-    },
-    {
       code: '/*eslint eqeqeq:0, curly: 2*/',
       options: ['always', { markers: ['eslint'] }],
     },
@@ -370,7 +366,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedSpaceAfter',
         data: { refChar: '//' },
-        type: 'Line',
       }],
     },
     {
@@ -380,7 +375,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedSpaceAfter',
         data: { refChar: '//' },
-        type: 'Line',
       }],
     },
     {
@@ -390,7 +384,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedSpaceAfter',
         data: { refChar: '//' },
-        type: 'Line',
       }],
     },
     {
@@ -408,7 +401,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedExceptionAfter',
         data: { refChar: '//*' },
-        type: 'Line',
       }],
     },
     {
@@ -421,12 +413,10 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'expectedExceptionAfter',
           data: { refChar: '//' },
-          type: 'Line',
         },
         {
           messageId: 'expectedExceptionAfter',
           data: { refChar: '//' },
-          type: 'Line',
         },
       ],
     },
@@ -453,7 +443,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedSpaceAfter',
         data: { refChar: '/*' },
-        type: 'Block',
       }],
     },
     {
@@ -465,7 +454,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedExceptionAfter',
         data: { refChar: '/*' },
-        type: 'Block',
       }],
     },
     {
@@ -475,7 +463,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedSpaceAfter',
         data: { refChar: '/*' },
-        type: 'Block',
       }],
     },
     {
@@ -485,7 +472,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedSpaceAfter',
         data: { refChar: '/*' },
-        type: 'Block',
       }],
     },
     {
@@ -495,7 +481,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedSpaceAfter',
         data: { refChar: '/*' },
-        type: 'Block',
       }],
     },
     {
@@ -505,7 +490,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedSpaceAfter',
         data: { refChar: '/*' },
-        type: 'Block',
       }],
     },
     {
@@ -515,7 +499,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedSpaceAfter',
         data: { refChar: '/*' },
-        type: 'Block',
       }],
     },
     {
@@ -525,8 +508,8 @@ run<RuleOptions, MessageIds>({
         block: { exceptions: ['-', '=', '*', '#', '!@#'] },
       }],
       errors: [
-        { messageId: 'expectedSpaceAfter', data: { refChar: '//' }, type: 'Line' },
-        { messageId: 'expectedSpaceAfter', data: { refChar: '//' }, type: 'Line' },
+        { messageId: 'expectedSpaceAfter', data: { refChar: '//' } },
+        { messageId: 'expectedSpaceAfter', data: { refChar: '//' } },
       ],
     },
     {
@@ -538,7 +521,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedSpaceAfter',
         data: { refChar: '/*' },
-        type: 'Block',
       }],
     },
     {
@@ -550,7 +532,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedSpaceAfter',
         data: { refChar: '//' },
-        type: 'Line',
       }],
     },
     {
@@ -560,7 +541,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedSpaceAfter',
         data: { refChar: '/*' },
-        type: 'Block',
       }],
     },
     {
@@ -570,7 +550,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedExceptionAfter',
         data: { refChar: '/*' },
-        type: 'Block',
       }],
     },
     {
@@ -580,13 +559,11 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedSpaceAfter',
         data: { refChar: '/*' },
-        type: 'Block',
         line: 4,
         column: 1,
       }, {
         messageId: 'expectedSpaceAfter',
         data: { refChar: '/*' },
-        type: 'Block',
         line: 4,
         column: 13,
       }],
@@ -600,7 +577,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedSpaceBefore',
         data: { refChar: '/**' },
-        type: 'Block',
       }],
     },
     {
@@ -610,7 +586,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedSpaceBefore',
         data: { refChar: '*/' },
-        type: 'Block',
       }],
     },
     {
@@ -620,7 +595,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedSpaceBefore',
         data: { refChar: '/**' },
-        type: 'Block',
       }],
     },
     {
@@ -630,7 +604,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedSpaceBefore',
         data: { refChar: '*/' },
-        type: 'Block',
       }],
     },
     {
@@ -640,7 +613,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedSpaceBefore',
         data: { refChar: '/**' },
-        type: 'Block',
       }],
     },
     {
@@ -650,7 +622,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedSpaceBefore',
         data: { refChar: '*/' },
-        type: 'Block',
       }],
     },
 
@@ -662,7 +633,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedSpaceAfter',
         data: { refChar: '//#endregion' },
-        type: 'Line',
       }],
     },
     {
@@ -672,7 +642,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedSpaceAfter',
         data: { refChar: '/*' },
-        type: 'Block',
       }],
     },
     {
@@ -682,7 +651,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'expectedSpaceAfter',
         data: { refChar: '/**' },
-        type: 'Block',
       }],
     },
     {
@@ -693,12 +661,10 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'expectedSpaceAfter',
           data: { refChar: '/**' },
-          type: 'Block',
         },
         {
           messageId: 'expectedSpaceBefore',
           data: { refChar: '*/' },
-          type: 'Block',
         },
       ],
     },
@@ -710,12 +676,10 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { refChar: '/*' },
-          type: 'Block',
         },
         {
           messageId: 'unexpectedSpaceBefore',
           data: { refChar: '*/' },
-          type: 'Block',
         },
       ],
     },

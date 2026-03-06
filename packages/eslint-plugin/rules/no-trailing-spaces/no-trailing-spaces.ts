@@ -2,8 +2,7 @@
  * @fileoverview Disallow trailing spaces at the end of lines.
  * @author Nodeca Team <https://github.com/nodeca>
  */
-
-import type { ASTNode, Tree } from '#types'
+import type { ASTNode, SourceCode, TextSourceCodeBase, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createGlobalLinebreakMatcher } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -12,37 +11,31 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'no-trailing-spaces',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow trailing whitespace at the end of lines',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'object',
         properties: {
           skipBlankLines: {
             type: 'boolean',
-            default: false,
           },
           ignoreComments: {
             type: 'boolean',
-            default: false,
           },
         },
         additionalProperties: false,
       },
     ],
-
+    defaultOptions: [{ skipBlankLines: false, ignoreComments: false }],
     messages: {
       trailingSpace: 'Trailing spaces not allowed.',
     },
   },
-
-  create(context) {
-    const sourceCode = context.sourceCode
+  create(context, [options]) {
+    const sourceCode = context.sourceCode as TextSourceCodeBase | SourceCode
 
     const BLANK_CLASS = '[ \t\u00A0\u2000-\u200B\u3000]'
     // eslint-disable-next-line regexp/no-obscure-range
@@ -50,9 +43,10 @@ export default createRule<RuleOptions, MessageIds>({
     // eslint-disable-next-line regexp/no-obscure-range
     const NONBLANK = `${BLANK_CLASS}+$`
 
-    const options = context.options[0] || {}
-    const skipBlankLines = options.skipBlankLines || false
-    const ignoreComments = options.ignoreComments || false
+    const {
+      skipBlankLines,
+      ignoreComments,
+    } = options!
 
     /**
      * Report the error message
@@ -99,7 +93,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     return {
 
-      Program: function checkTrailingSpaces(node) {
+      [context.sourceCode.ast.type || 'Program']: function checkTrailingSpaces(node) {
         /**
          * Let's hack. Since Espree does not return whitespace nodes,
          * fetch the source code and do matching via regexps.
@@ -109,7 +103,9 @@ export default createRule<RuleOptions, MessageIds>({
         const skipMatch = new RegExp(SKIP_BLANK, 'u')
         const lines = sourceCode.lines
         const linebreaks = sourceCode.getText().match(createGlobalLinebreakMatcher())
-        const comments = sourceCode.getAllComments()
+        const comments = 'getAllComments' in sourceCode
+          ? sourceCode.getAllComments()
+          : []
         const commentLineNumbers = getCommentLineNumbers(comments)
 
         let totalLength = 0
@@ -141,7 +137,9 @@ export default createRule<RuleOptions, MessageIds>({
 
             const rangeStart = totalLength + location.start.column
             const rangeEnd = totalLength + location.end.column
-            const containingNode = sourceCode.getNodeByRangeIndex(rangeStart)
+            const containingNode = 'getNodeByRangeIndex' in sourceCode
+              ? sourceCode.getNodeByRangeIndex(rangeStart)
+              : null
 
             if (containingNode && containingNode.type === 'TemplateElement'
               && rangeStart > containingNode.parent.range[0]
