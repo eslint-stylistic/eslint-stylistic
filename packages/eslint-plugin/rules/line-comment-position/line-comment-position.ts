@@ -1,7 +1,6 @@
 import type { MessageIds, RuleOptions } from './types'
 import { COMMENTS_IGNORE_PATTERN, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { warnDeprecatedOptions } from '#utils/index'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'line-comment-position',
@@ -27,9 +26,6 @@ export default createRule<RuleOptions, MessageIds>({
               ignorePattern: {
                 type: 'string',
               },
-              applyDefaultPatterns: {
-                type: 'boolean',
-              },
               applyDefaultIgnorePatterns: {
                 type: 'boolean',
               },
@@ -46,15 +42,10 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   create(context, [options]) {
-    if (typeof options !== 'string') {
-      warnDeprecatedOptions(options, 'applyDefaultPatterns', 'applyDefaultIgnorePatterns', 'line-comment-position')
-    }
-
     const {
       position = 'above',
       ignorePattern,
-      applyDefaultPatterns = true,
-      applyDefaultIgnorePatterns = applyDefaultPatterns,
+      applyDefaultIgnorePatterns = true,
     } = typeof options === 'string' ? { position: options } : options!
 
     const above = position === 'above'
