@@ -62,7 +62,10 @@ run<RuleOptions, MessageIds>({
     'function foo() {\n    return;\n}',
     'function foo() {\n    if (foo) {\n        return;\n    }\n}',
     { code: 'var foo = `hello     world`;', parserOptions: { ecmaVersion: 6 } },
-    '({ a:  b })',
+    {
+      code: '({ a:  b })',
+      options: [{ exceptions: { Property: true } }],
+    },
     {
       code: 'var  answer = 6 *  7;',
       options: [{ exceptions: { VariableDeclaration: true, BinaryExpression: true } }],
@@ -360,20 +363,11 @@ run<RuleOptions, MessageIds>({
       }],
     },
     {
-      code: '({ a:  6  * 7 })',
-      output: '({ a:  6 * 7 })',
+      code: '({ a: 6  * 7 })',
+      output: '({ a: 6 * 7 })',
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '*' },
-      }],
-    },
-    {
-      code: '({ a:   b })',
-      output: '({ a: b })',
-      options: [{ exceptions: { Property: false } }],
-      errors: [{
-        messageId: 'multipleSpaces',
-        data: { displayValue: 'b' },
       }],
     },
     {
@@ -625,25 +619,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: 'import foo from "./foo" with  { type:  "json" }',
-      output: 'import foo from "./foo" with { type:  "json" }',
-      errors: [{
-        messageId: 'multipleSpaces',
-        data: { displayValue: '{' },
-      }],
-    },
-    {
-      code: 'import foo from "./foo" with  { type:  "json" }',
       output: 'import foo from "./foo" with { type: "json" }',
-      options: [{ exceptions: { ImportAttribute: false } }],
       errors: [
-        {
-          messageId: 'multipleSpaces',
-          data: { displayValue: '{' },
-        },
-        {
-          messageId: 'multipleSpaces',
-          data: { displayValue: '"json"' },
-        },
+        { messageId: 'multipleSpaces', data: { displayValue: '{' } },
+        { messageId: 'multipleSpaces', data: { displayValue: '"json"' } },
       ],
     },
   ],

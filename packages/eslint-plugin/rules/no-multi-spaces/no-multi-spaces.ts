@@ -40,7 +40,6 @@ export default createRule<RuleOptions, MessageIds>({
       },
     ],
     defaultOptions: [{
-      exceptions: { Property: true, ImportAttribute: true },
       ignoreEOLComments: false,
       includeTabs: true,
     }],
@@ -56,7 +55,7 @@ export default createRule<RuleOptions, MessageIds>({
     } = options!
 
     const sourceCode = context.sourceCode
-    const hasExceptions = Object.keys(exceptions!).some(key => exceptions![key])
+    const hasExceptions = exceptions && Object.keys(exceptions).some(key => exceptions[key])
 
     const spacesRe = includeTabs ? /[ \t]{2}/ : / {2}/
 
@@ -106,7 +105,7 @@ export default createRule<RuleOptions, MessageIds>({
           if (hasExceptions) {
             const parentNode = sourceCode.getNodeByRangeIndex(rightToken.range[0] - 1)
 
-            if (parentNode && exceptions![parentNode.type])
+            if (parentNode && exceptions[parentNode.type])
               return
           }
 

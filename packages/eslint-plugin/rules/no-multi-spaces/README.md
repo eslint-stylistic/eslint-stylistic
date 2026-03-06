@@ -83,9 +83,9 @@ a ? b: c;
 
 This rule's configuration consists of an object with the following properties:
 
-- `"ignoreEOLComments": true` (defaults to `false`) ignores multiple spaces before comments that occur at the end of lines
-- `"exceptions": { "Property": true, "ImportAttribute": true }` (`"Property"` and `"ImportAttribute"` are the nodes specified by default) specifies nodes to ignore
-- `"includeTabs": false` (defaults to `true`) consider multiple tabs or spaces mixed with tabs as multiple spaces
+- [`"ignoreEOLComments"`](#ignoreEOLComments) (defaults to `false`) ignores multiple spaces before comments that occur at the end of lines
+- [`"exceptions"`](#exceptions) specifies nodes to ignore
+- [`"includeTabs"`](#includeTabs) (defaults to `true`) consider multiple tabs or spaces mixed with tabs as multiple spaces
 
 ### ignoreEOLComments
 
@@ -144,14 +144,16 @@ To avoid contradictions with other rules that require multiple spaces, this rule
 
 This option is an object that expects property names to be AST node types as defined by [ESTree](https://github.com/estree/estree). The easiest way to determine the node types for `exceptions` is to use [AST Explorer](https://ast-explorer.dev/) with the espree parser.
 
-The `Property` and `ImportAttribute` node types are ignored by default, because for the [key-spacing](key-spacing) rule some alignment options require multiple spaces in properties of object literals and import attributes.
+> [!TIP]
+>
+> Because for the [key-spacing](key-spacing) rule some alignment options require multiple spaces in properties of object literals and import attributes. You can ignore the `Property` and `ImportAttribute` to avoid the conflict.
 
-Examples of **correct** code for the default `"exceptions": { "Property": true, "ImportAttribute": true }` option:
+Examples of **incorrect** code for the default `"exceptions"` option:
 
-::: correct
+::: incorrect
 
 ```js
-/* eslint @stylistic/no-multi-spaces: "error" */
+/* eslint @stylistic/no-multi-spaces: ["error"] */
 /* eslint @stylistic/key-spacing: ["error", { align: "value" }] */
 
 var obj = {
@@ -162,12 +164,12 @@ var obj = {
 
 :::
 
-Examples of **incorrect** code for the `"exceptions": { "Property": false }` option:
+Examples of **correct** code for the `"exceptions": { "Property": true }` option:
 
-::: incorrect
+::: correct
 
 ```js
-/* eslint @stylistic/no-multi-spaces: ["error", { exceptions: { "Property": false } }] */
+/* eslint @stylistic/no-multi-spaces: ["error", { exceptions: { "Property": true } }] */
 /* eslint @stylistic/key-spacing: ["error", { align: "value" }] */
 
 var obj = {
