@@ -3,7 +3,7 @@ import fs from 'node:fs/promises'
 import { basename, join, posix, win32 } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { camelCase, pascalCase } from 'change-case'
-import fg from 'fast-glob'
+import { glob } from 'tinyglobby'
 import { customize } from '../../packages/eslint-plugin/configs/customize'
 import { GEN_HEADER, ROOT } from './meta'
 
@@ -12,7 +12,7 @@ const rulesInSharedConfig = new Set<string>(Object.keys(customize().rules!))
 export async function readPackages() {
   const RULES_DIR = './packages/eslint-plugin/rules/'
 
-  const ruleDirs = await fg('*', {
+  const ruleDirs = await glob('*', {
     cwd: RULES_DIR,
     onlyDirectories: true,
     absolute: true,

@@ -2,13 +2,13 @@ import { readFileSync } from 'node:fs'
 import { basename, dirname, join } from 'node:path'
 import { env } from 'node:process'
 import { codecovRollupPlugin } from '@codecov/rollup-plugin'
-import fg from 'fast-glob'
+import { globSync } from 'tinyglobby'
 import { defineConfig } from 'tsdown'
 
 export function createConfig(cwd: string) {
   const pkg = JSON.parse(readFileSync(join(cwd, 'package.json'), 'utf-8'))
 
-  const rulesEntry = fg.sync(
+  const rulesEntry = globSync(
     'rules/**/*.ts',
     {
       cwd,
