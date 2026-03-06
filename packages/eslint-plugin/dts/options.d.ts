@@ -1,3 +1,7 @@
+import type { UnprefixedRuleOptions } from './rule-options'
+
+type IndentRuleOptions = UnprefixedRuleOptions['indent']
+
 export interface StylisticCustomizeOptions {
   /**
    * The name of the registered plugin, used to prefix rule IDs
@@ -10,7 +14,7 @@ export interface StylisticCustomizeOptions {
    *
    * @default 2
    */
-  indent?: number | 'tab'
+  indent?: IndentRuleOptions[0] | IndentRuleOptions
   /**
    * Quote style
    * Similar to `singleQuote` option in Prettier

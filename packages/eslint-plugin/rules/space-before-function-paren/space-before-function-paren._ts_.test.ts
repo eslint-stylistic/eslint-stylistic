@@ -1,6 +1,3 @@
-// this rule tests the spacing, which prettier will want to fix and break the tests
-/* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './space-before-function-paren'

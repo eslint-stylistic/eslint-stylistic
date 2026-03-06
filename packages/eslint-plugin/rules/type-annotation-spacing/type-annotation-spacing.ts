@@ -1,45 +1,18 @@
-import type { ASTNode, Tree } from '#types'
+import type { Tree } from '#types'
+import type { MessageIds, RuleOptions, TypeAnnotationSpacingSchema0 } from './types'
 import {
   isClassOrTypeElement,
   isFunction,
   isFunctionOrFunctionType,
   isIdentifier,
   isNotOpeningParenToken,
-  isTSConstructorType,
-  isTSFunctionType,
   isVariableDeclarator,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
-interface WhitespaceRule {
-  readonly before?: boolean
-  readonly after?: boolean
-}
+type OverrideOptions = Required<Required<TypeAnnotationSpacingSchema0>['overrides']>
 
-interface WhitespaceOverride {
-  readonly colon?: WhitespaceRule
-  readonly arrow?: WhitespaceRule
-  readonly variable?: WhitespaceRule
-  readonly property?: WhitespaceRule
-  readonly parameter?: WhitespaceRule
-  readonly returnType?: WhitespaceRule
-}
-
-interface Config extends WhitespaceRule {
-  readonly overrides?: WhitespaceOverride
-}
-
-type WhitespaceRules = Required<WhitespaceOverride>
-
-type Options = [Config?]
-type MessageIds
-  = | 'expectedSpaceAfter'
-    | 'expectedSpaceBefore'
-    | 'unexpectedSpaceAfter'
-    | 'unexpectedSpaceBefore'
-    | 'unexpectedSpaceBetween'
-
-function createRules(options?: Config): WhitespaceRules {
+function createRules(options: TypeAnnotationSpacingSchema0 | undefined): OverrideOptions {
   const globals = {
     ...(options?.before !== undefined ? { before: options.before } : {}),
     ...(options?.after !== undefined ? { after: options.after } : {}),
@@ -50,15 +23,9 @@ function createRules(options?: Config): WhitespaceRules {
     ...globals,
     ...override?.colon,
   }
-  const arrow = {
-    ...{ before: true, after: true },
-    ...globals,
-    ...override?.arrow,
-  }
 
   return {
     colon,
-    arrow,
     variable: { ...colon, ...override?.variable },
     property: { ...colon, ...override?.property },
     parameter: { ...colon, ...override?.parameter },
@@ -67,9 +34,9 @@ function createRules(options?: Config): WhitespaceRules {
 }
 
 function getIdentifierRules(
-  rules: WhitespaceRules,
-  node: ASTNode | undefined,
-): WhitespaceRule {
+  rules: OverrideOptions,
+  node: Tree.Identifier,
+) {
   const scope = node?.parent
 
   if (isVariableDeclarator(scope))
@@ -81,14 +48,12 @@ function getIdentifierRules(
 }
 
 function getRules(
-  rules: WhitespaceRules,
+  rules: OverrideOptions,
   node: Tree.TypeNode,
-): WhitespaceRule {
+) {
   const scope = node?.parent?.parent
 
-  if (isTSFunctionType(scope) || isTSConstructorType(scope))
-    return rules.arrow
-  else if (isIdentifier(scope))
+  if (isIdentifier(scope))
     return getIdentifierRules(rules, scope)
   else if (isClassOrTypeElement(scope))
     return rules.property
@@ -98,7 +63,7 @@ function getRules(
   return rules.colon
 }
 
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'type-annotation-spacing',
   meta: {
     type: 'layout',
@@ -106,14 +71,6 @@ export default createRule<Options, MessageIds>({
       description: 'Require consistent spacing around type annotations',
     },
     fixable: 'whitespace',
-    messages: {
-      expectedSpaceAfter: 'Expected a space after the \'{{type}}\'.',
-      expectedSpaceBefore: 'Expected a space before the \'{{type}}\'.',
-      unexpectedSpaceAfter: 'Unexpected space after the \'{{type}}\'.',
-      unexpectedSpaceBefore: 'Unexpected space before the \'{{type}}\'.',
-      unexpectedSpaceBetween:
-        'Unexpected space between the \'{{previousToken}}\' and the \'{{type}}\'.',
-    },
     schema: [
       {
         $defs: {
@@ -134,7 +91,6 @@ export default createRule<Options, MessageIds>({
             type: 'object',
             properties: {
               colon: { $ref: '#/items/0/$defs/spacingConfig' },
-              arrow: { $ref: '#/items/0/$defs/spacingConfig' },
               variable: { $ref: '#/items/0/$defs/spacingConfig' },
               parameter: { $ref: '#/items/0/$defs/spacingConfig' },
               property: { $ref: '#/items/0/$defs/spacingConfig' },
@@ -146,14 +102,21 @@ export default createRule<Options, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [
+      // technically there is a default, but the overrides mean
+      // that if we apply them here, it will break the no override case.
+      {},
+    ],
+    messages: {
+      expectedSpaceAfter: 'Expected a space after the \'{{type}}\'.',
+      expectedSpaceBefore: 'Expected a space before the \'{{type}}\'.',
+      unexpectedSpaceAfter: 'Unexpected space after the \'{{type}}\'.',
+      unexpectedSpaceBefore: 'Unexpected space before the \'{{type}}\'.',
+      unexpectedSpaceBetween:
+        'Unexpected space between the \'{{previousToken}}\' and the \'{{type}}\'.',
+    },
   },
-  defaultOptions: [
-    // technically there is a default, but the overrides mean
-    // that if we apply them here, it will break the no override case.
-    {},
-  ],
   create(context, [options]) {
-    const punctuators = [':', '=>']
     const sourceCode = context.sourceCode
 
     const ruleSet = createRules(options)
@@ -165,19 +128,20 @@ export default createRule<Options, MessageIds>({
     function checkTypeAnnotationSpacing(
       typeAnnotation: Tree.TypeNode,
     ): void {
-      /** :, => */
+      /** : */
       const punctuatorTokenEnd = sourceCode.getTokenBefore(typeAnnotation, isNotOpeningParenToken)!
-      /** :, =>, ?() */
-      let punctuatorTokenStart = punctuatorTokenEnd
-      let previousToken = sourceCode.getTokenBefore(punctuatorTokenEnd)!
       let type = punctuatorTokenEnd.value
 
-      if (!punctuators.includes(type))
+      if (type !== ':')
         return
+
+      /** :, ?() */
+      let punctuatorTokenStart = punctuatorTokenEnd
+      let previousToken = sourceCode.getTokenBefore(punctuatorTokenEnd)!
 
       const { before, after } = getRules(ruleSet, typeAnnotation)
 
-      if (type === ':' && previousToken.value === '?') {
+      if (previousToken.value === '?') {
         // space between ? and :
         if (sourceCode.isSpaceBetween(previousToken, punctuatorTokenStart)) {
           context.report({

@@ -229,6 +229,7 @@ You can also specify different options for various node types:
 - `ExportNamedDeclaration`: named exports
 - `FunctionDeclaration`: parameters of function declarations
 - `FunctionExpression`: parameters of function expressions
+- `IfStatement`: condition of if statements
 - `ImportDeclaration`: named imports
 - `ImportAttributes`: import attributes
 - `NewExpression`: parameters of new expressions
@@ -262,6 +263,26 @@ let foo = { a: 1 };
 let bar = [1];
 let { a } = foo;
 let [b] = bar;
+```
+
+:::
+
+You can also set an override to `"off"` to disable checking for a specific bracket type or node type:
+
+::: correct
+
+```js
+/* eslint @stylistic/exp-list-style: ["error", {
+  "overrides": {
+    "IfStatement": "off",
+  }
+}] */
+
+if (node.callee.type !== 'Identifier'
+  || (node.callee.name !== 't' && node.callee.name !== 'n')
+) {
+  // ...
+}
 ```
 
 :::

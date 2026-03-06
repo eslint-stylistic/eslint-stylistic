@@ -1,24 +1,24 @@
-/**
- * @fileoverview Disallows or enforces spaces inside computed properties.
- * @author Jamund Ferguson
- */
-
 import type { ASTNode, RuleListener, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isClosingBracketToken, isOpeningBracketToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
+type SupportedNode
+  = | Tree.Property
+    | Tree.PropertyDefinition
+    | Tree.AccessorProperty
+    | Tree.MemberExpression
+    | Tree.MethodDefinition
+    | Tree.TSIndexedAccessType
+
 export default createRule<RuleOptions, MessageIds>({
   name: 'computed-property-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent spacing inside computed property brackets',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
@@ -29,13 +29,12 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           enforceForClassMembers: {
             type: 'boolean',
-            default: true,
           },
         },
         additionalProperties: false,
       },
     ],
-
+    defaultOptions: ['never', { enforceForClassMembers: true }],
     messages: {
       unexpectedSpaceBefore: 'There should be no space before \'{{tokenValue}}\'.',
       unexpectedSpaceAfter: 'There should be no space after \'{{tokenValue}}\'.',
@@ -44,11 +43,12 @@ export default createRule<RuleOptions, MessageIds>({
       missingSpaceAfter: 'A space is required after \'{{tokenValue}}\'.',
     },
   },
-
-  create(context) {
+  create(context, [style, options]) {
     const sourceCode = context.sourceCode
-    const propertyNameMustBeSpaced = context.options[0] === 'always' // default is "never"
-    const enforceForClassMembers = !context.options[1] || context.options[1].enforceForClassMembers
+    const propertyNameMustBeSpaced = style === 'always'
+    const {
+      enforceForClassMembers,
+    } = options!
 
     /**
      * Reports that there shouldn't be a space after the first token
@@ -138,12 +138,12 @@ export default createRule<RuleOptions, MessageIds>({
      * @param propertyName The property on the node to check for spacing
      * @returns A function that will check spacing on a node
      */
-    function checkSpacing<T extends NodeType, K = ExtractNodeKeys<T>>(propertyName: K) {
-      return function (node: NodeType) {
-        if (!node.computed)
+    function checkSpacing<T extends SupportedNode, K = ExtractNodeKeys<T>>(propertyName: K) {
+      return function (node: SupportedNode) {
+        if (node.type !== 'TSIndexedAccessType' && !node.computed)
           return
 
-        const property = node[propertyName as ExtractNodeKeys<typeof node>] as ASTNode
+        const property = node[propertyName as ExtractNodeKeys<typeof node>]
 
         const before = sourceCode.getTokenBefore(property, isOpeningBracketToken)!
         const first = sourceCode.getTokenAfter(before, { includeComments: true })!
@@ -174,16 +174,10 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    type NodeType
-      = | Tree.Property
-        | Tree.PropertyDefinition
-        | Tree.AccessorProperty
-        | Tree.MemberExpression
-        | Tree.MethodDefinition
-
     const listeners: RuleListener = {
       Property: checkSpacing<Tree.Property>('key'),
       MemberExpression: checkSpacing<Tree.MemberExpression>('property'),
+      TSIndexedAccessType: checkSpacing<Tree.TSIndexedAccessType>('indexType'),
     }
 
     if (enforceForClassMembers) {

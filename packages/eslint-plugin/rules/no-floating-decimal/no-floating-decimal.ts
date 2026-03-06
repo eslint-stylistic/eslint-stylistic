@@ -11,19 +11,16 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'no-floating-decimal',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow leading or trailing decimal points in numeric literals',
     },
-
-    schema: [],
     fixable: 'code',
+    schema: [],
     messages: {
       leading: 'A leading decimal point can be confused with a dot.',
       trailing: 'A trailing decimal point can be confused with a dot.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
 

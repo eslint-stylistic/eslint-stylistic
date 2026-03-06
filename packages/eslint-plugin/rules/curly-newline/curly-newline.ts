@@ -136,6 +136,8 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    // eslint-disable-next-line eslint-plugin/require-meta-default-options
+    defaultOptions: [],
     messages: {
       unexpectedLinebreakBeforeClosingBrace: 'Unexpected line break before this closing brace.',
       unexpectedLinebreakAfterOpeningBrace: 'Unexpected line break after this opening brace.',
@@ -143,10 +145,9 @@ export default createRule<RuleOptions, MessageIds>({
       expectedLinebreakAfterOpeningBrace: 'Expected a line break after this opening brace.',
     },
   },
-
-  create(context) {
+  create(context, [options]) {
     const sourceCode = context.sourceCode
-    const normalizedOptions = normalizeOptions(context.options[0])
+    const normalizedOptions = normalizeOptions(options)
 
     function check(
       node:

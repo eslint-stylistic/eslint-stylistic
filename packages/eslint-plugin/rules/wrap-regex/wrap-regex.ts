@@ -10,19 +10,15 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'wrap-regex',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require parenthesis around regex literals',
     },
-
-    schema: [],
     fixable: 'code',
-
+    schema: [],
     messages: {
       requireParens: 'Wrap the regexp literal in parens to disambiguate the slash.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
 

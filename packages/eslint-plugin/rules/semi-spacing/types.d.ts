@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: xFhyFoEh1o1FDsc1lLmqnkv2N_7daETiSMPKqLjqIvU */
+/* @checksum: 3k7x81bUhNowALO0QsesWewuOI702DO3M5ZJLiqAA6g */
 
 export interface SemiSpacingSchema0 {
   before?: boolean

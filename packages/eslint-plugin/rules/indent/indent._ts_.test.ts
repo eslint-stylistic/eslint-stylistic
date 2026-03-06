@@ -1,5 +1,3 @@
-// this rule tests the spacing, which prettier will want to fix and break the tests
-
 import type { InvalidTestCase, TestCaseError, TestCasesOptions, ValidTestCase } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
@@ -330,6 +328,11 @@ const individualNodeTests = [
       $`
         type Partial<T> = {
             [P in keyof T]: T[P];
+        }
+      `,
+      $`
+        type Partial<T> = {
+            readonly [P in keyof T]: T[P];
         }
       `,
       $`
