@@ -193,8 +193,7 @@ export default createRule<RuleOptions, MessageIds>({
               isOpeningParenToken(sourceCode.getLastToken(node, { skip: 1 })!)
               && isClosingParenToken(sourceCode.getLastToken(node)!)
               && node.callee.range[1] < node.range[1]
-            )
-          ) {
+            )) {
             // If the NewExpression does not have parens (e.g. `new Foo`), return null.
             return null
           }

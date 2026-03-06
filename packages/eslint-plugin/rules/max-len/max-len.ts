@@ -356,8 +356,7 @@ export default createRule<RuleOptions, MessageIds>({
           || ignoreUrls && URL_REGEXP.test(textToMeasure)
           || ignoreStrings && stringsByLine[lineNumber]
           || ignoreTemplateLiterals && templateLiteralsByLine[lineNumber]
-          || ignoreRegExpLiterals && regExpLiteralsByLine[lineNumber]
-        ) {
+          || ignoreRegExpLiterals && regExpLiteralsByLine[lineNumber]) {
           // ignore this line
           return
         }

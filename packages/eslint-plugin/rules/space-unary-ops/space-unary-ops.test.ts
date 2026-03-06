@@ -262,6 +262,34 @@ run<RuleOptions, MessageIds>({
       `,
       options: [{ nonwords: true }],
     },
+    {
+      code: $`
+        a !.b !.c
+        ! a.b.c
+      `,
+      options: [{ nonwords: false, overrides: { '!': true } }],
+    },
+    {
+      code: $`
+        a!.b!.c
+        ! a.b.c
+      `,
+      options: [{ nonwords: false, overrides: { 'ts-non-null': false, '!': true } }],
+    },
+    {
+      code: $`
+        a !.b !.c
+        !a.b.c
+      `,
+      options: [{ nonwords: false, overrides: { 'ts-non-null': true } }],
+    },
+    {
+      code: $`
+        a!.b!.c
+        ! a.b.c
+      `,
+      options: [{ nonwords: true, overrides: { 'ts-non-null': false } }],
+    },
   ],
 
   invalid: [
@@ -810,6 +838,22 @@ run<RuleOptions, MessageIds>({
       options: [{ nonwords: false }],
       errors: [
         { messageId: 'unexpectedBefore', data: { operator: '!' } },
+        { messageId: 'unexpectedBefore', data: { operator: '!' } },
+      ],
+    },
+    {
+      code: 'a!',
+      output: 'a !',
+      options: [{ nonwords: false, overrides: { 'ts-non-null': true } }],
+      errors: [
+        { messageId: 'requireBefore', data: { operator: '!' } },
+      ],
+    },
+    {
+      code: 'a !',
+      output: 'a!',
+      options: [{ nonwords: true, overrides: { 'ts-non-null': false } }],
+      errors: [
         { messageId: 'unexpectedBefore', data: { operator: '!' } },
       ],
     },

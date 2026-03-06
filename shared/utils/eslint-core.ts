@@ -27,3 +27,16 @@ export function hasLinesAndGetLocFromIndex(sourceCode: core.TextSourceCode): sou
     && Array.isArray((sourceCode as { lines?: unknown }).lines)
   )
 }
+
+/**
+ * Check the source code is ESTree compatible
+ * https://github.com/eslint/eslint/blob/04c21475b3004904948f02049f2888b401d82c78/lib/languages/js/source-code/source-code.js#L312-L316
+ */
+export function isESTreeSourceCode(sourceCode: unknown) {
+  return (
+    typeof sourceCode === 'object'
+    && sourceCode !== null
+    && 'isESTree' in sourceCode
+    && sourceCode.isESTree === true
+  )
+}

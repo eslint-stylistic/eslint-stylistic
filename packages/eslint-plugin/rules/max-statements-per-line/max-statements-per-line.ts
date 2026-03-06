@@ -121,8 +121,7 @@ export default createRule<RuleOptions, MessageIds>({
        */
       if (node.parent
         && SINGLE_CHILD_ALLOWED.test(node.parent.type)
-        && (!('alternate' in node.parent) || node.parent.alternate !== node)
-      ) {
+        && (!('alternate' in node.parent) || node.parent.alternate !== node)) {
         return
       }
 

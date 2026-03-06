@@ -351,7 +351,9 @@ export default createRule<RuleOptions, MessageIds>({
         case 'TSEnumBody': {
           const allTokens = sourceCode.getTokens(node)
           const openingToken = allTokens.find(token => isOpeningBraceToken(token))!
-          const closingToken = allTokens.findLast(token => isClosingBraceToken(token))!
+          const closingToken = (node.type === 'ObjectPattern' && node.typeAnnotation)
+            ? sourceCode.getTokenBefore(node.typeAnnotation)!
+            : allTokens.findLast(token => isClosingBraceToken(token))!
           return [openingToken, closingToken]
         }
         default:

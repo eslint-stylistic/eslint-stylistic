@@ -229,8 +229,7 @@ export default createRule<RuleOptions, MessageIds>({
         || t === 'ContinueStatement'
         || t === 'DebuggerStatement'
         || t === 'ImportDeclaration'
-        || t === 'ExportAllDeclaration'
-      ) {
+        || t === 'ExportAllDeclaration') {
         return false
       }
 
@@ -388,8 +387,7 @@ export default createRule<RuleOptions, MessageIds>({
         const parent = node.parent
 
         if ((parent.type !== 'ForStatement' || parent.init !== node)
-          && (!/^For(?:In|Of)Statement/u.test(parent.type) || (parent as Tree.ForInStatement).left !== node)
-        ) {
+          && (!/^For(?:In|Of)Statement/u.test(parent.type) || (parent as Tree.ForInStatement).left !== node)) {
           checkForSemicolon(node)
         }
       },

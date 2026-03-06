@@ -526,6 +526,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "jsx-props-style",
+        "ruleId": "@stylistic/exp-jsx-props-style",
+        "entry": "packages/eslint-plugin/rules/jsx-props-style/jsx-props-style.ts",
+        "docsEntry": "packages/eslint-plugin/rules/jsx-props-style/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce consistent line break styles for JSX props",
+            "experimental": true,
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "jsx-quotes",
         "ruleId": "@stylistic/jsx-quotes",
         "entry": "packages/eslint-plugin/rules/jsx-quotes/jsx-quotes.ts",

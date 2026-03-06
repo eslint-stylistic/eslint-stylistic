@@ -8,6 +8,7 @@ import type { ASTNode, JSONSchema, NodeTypes, RuleFunction, RuleListener, Source
 import type { MessageIds, RuleOptions } from './types'
 import { AST_NODE_TYPES, createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { isESTreeSourceCode } from '#utils/eslint-core'
 import { warnDeprecatedOptions } from '#utils/index'
 
 const KNOWN_NODES = new Set([
@@ -735,6 +736,10 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   create(context, optionsWithDefaults) {
+    if (!isESTreeSourceCode(context.sourceCode)) {
+      return {}
+    }
+
     const DEFAULT_VARIABLE_INDENT = 1
     const DEFAULT_PARAMETER_INDENT = 1
     const DEFAULT_FUNCTION_BODY_INDENT = 1

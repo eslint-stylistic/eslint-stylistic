@@ -1,5 +1,5 @@
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { run, skipBabel } from '#test'
 import { BABEL_ESLINT, babelParserOptions, invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-curly-brace-presence'
 
@@ -585,38 +585,6 @@ run<RuleOptions, MessageIds>({
         { messageId: 'unnecessaryCurly', line: 5 },
       ],
     },
-    { // require('@babel/eslint-parser/package.json').peerDependencies.eslint
-      // TODO: figure out how to make all other parsers work this well
-      code: `
-        <MyComponent>
-          {'foo'}
-          <div>
-            {'bar'}
-          </div>
-          {'baz'}
-          {'some-complicated-exp'}
-        </MyComponent>
-      `,
-      output: `
-        <MyComponent>
-          foo
-          <div>
-            bar
-          </div>
-          baz
-          some-complicated-exp
-        </MyComponent>
-      `,
-      parser: BABEL_ESLINT,
-      parserOptions: babelParserOptions({}, new Set()),
-      options: [{ children: 'never' }],
-      errors: [
-        { messageId: 'unnecessaryCurly', line: 3 },
-        { messageId: 'unnecessaryCurly', line: 5 },
-        { messageId: 'unnecessaryCurly', line: 7 },
-        { messageId: 'unnecessaryCurly', line: 8 },
-      ],
-    },
     {
       code: `<MyComponent prop='bar'>foo</MyComponent>`,
       output: '<MyComponent prop={"bar"}>foo</MyComponent>',
@@ -921,3 +889,45 @@ run<RuleOptions, MessageIds>({
     },
   ),
 })
+
+if (!skipBabel) {
+  run<RuleOptions, MessageIds>({
+    name: 'jsx-curly-brace-presence_babel',
+    rule,
+    valid: [],
+    invalid: [
+      { // require('@babel/eslint-parser/package.json').peerDependencies.eslint
+      // TODO: figure out how to make all other parsers work this well
+        code: `
+        <MyComponent>
+          {'foo'}
+          <div>
+            {'bar'}
+          </div>
+          {'baz'}
+          {'some-complicated-exp'}
+        </MyComponent>
+      `,
+        output: `
+        <MyComponent>
+          foo
+          <div>
+            bar
+          </div>
+          baz
+          some-complicated-exp
+        </MyComponent>
+      `,
+        parser: BABEL_ESLINT,
+        parserOptions: babelParserOptions({}, new Set()),
+        options: [{ children: 'never' }],
+        errors: [
+          { messageId: 'unnecessaryCurly', line: 3 },
+          { messageId: 'unnecessaryCurly', line: 5 },
+          { messageId: 'unnecessaryCurly', line: 7 },
+          { messageId: 'unnecessaryCurly', line: 8 },
+        ],
+      },
+    ],
+  })
+}
