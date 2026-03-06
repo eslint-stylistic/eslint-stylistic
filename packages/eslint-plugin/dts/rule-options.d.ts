@@ -31,7 +31,6 @@ import type { JsxEqualsSpacingRuleOptions } from '../rules/jsx-equals-spacing/ty
 import type { JsxFirstPropNewLineRuleOptions } from '../rules/jsx-first-prop-new-line/types'
 import type { JsxFunctionCallNewlineRuleOptions } from '../rules/jsx-function-call-newline/types'
 import type { JsxIndentPropsRuleOptions } from '../rules/jsx-indent-props/types'
-import type { JsxIndentRuleOptions } from '../rules/jsx-indent/types'
 import type { JsxMaxPropsPerLineRuleOptions } from '../rules/jsx-max-props-per-line/types'
 import type { JsxNewlineRuleOptions } from '../rules/jsx-newline/types'
 import type { JsxOneExpressionPerLineRuleOptions } from '../rules/jsx-one-expression-per-line/types'
@@ -249,11 +248,6 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/jsx-function-call-newline
    */
   '@stylistic/jsx-function-call-newline': JsxFunctionCallNewlineRuleOptions
-  /**
-   * Enforce JSX indentation. Deprecated, use `indent` rule instead.
-   * @see https://eslint.style/rules/jsx-indent
-   */
-  '@stylistic/jsx-indent': JsxIndentRuleOptions
   /**
    * Enforce props indentation in JSX
    * @see https://eslint.style/rules/jsx-indent-props
@@ -737,11 +731,6 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/jsx-function-call-newline
    */
   'jsx-function-call-newline': JsxFunctionCallNewlineRuleOptions
-  /**
-   * Enforce JSX indentation. Deprecated, use `indent` rule instead.
-   * @see https://eslint.style/rules/jsx-indent
-   */
-  'jsx-indent': JsxIndentRuleOptions
   /**
    * Enforce props indentation in JSX
    * @see https://eslint.style/rules/jsx-indent-props

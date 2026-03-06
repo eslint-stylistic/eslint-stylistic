@@ -22,21 +22,6 @@ catalogs:
     '@antfu/utils':
       specifier: ^9.3.0
       version: 9.3.0
-    '@eslint/core':
-      specifier: ^1.1.0
-      version: 1.1.0
-    '@eslint/css':
-      specifier: ^0.14.1
-      version: 0.14.1
-    '@eslint/markdown':
-      specifier: ^7.5.1
-      version: 7.5.1
-    '@eslint/plugin-kit':
-      specifier: ^0.6.0
-      version: 0.6.0
-    '@types/estraverse':
-      specifier: ^5.1.7
-      version: 5.1.7
     '@types/estree':
       specifier: ^1.0.8
       version: 1.0.8
@@ -168,9 +153,6 @@ catalogs:
     espree:
       specifier: ^10.4.0
       version: 10.4.0
-    estraverse:
-      specifier: ^5.3.0
-      version: 5.3.0
     picomatch:
       specifier: ^4.0.3
       version: 4.0.3
@@ -259,9 +241,6 @@ importers:
       '@stylistic/eslint-plugin':
         specifier: workspace:*
         version: link:packages/eslint-plugin
-      '@types/estraverse':
-        specifier: catalog:dev
-        version: 5.1.7
       '@types/estree':
         specifier: catalog:dev
         version: 1.0.8
@@ -313,9 +292,6 @@ importers:
       espree:
         specifier: catalog:prod
         version: 10.4.0
-      estraverse:
-        specifier: catalog:prod
-        version: 5.3.0
       execa:
         specifier: catalog:dev
         version: 9.6.1
@@ -449,9 +425,6 @@ importers:
       espree:
         specifier: catalog:prod
         version: 10.4.0
-      estraverse:
-        specifier: catalog:prod
-        version: 5.3.0
       picomatch:
         specifier: catalog:prod
         version: 4.0.3
@@ -1651,9 +1624,6 @@ packages:
 
   '@types/esrecurse@4.3.1':
     resolution: {integrity: sha512-xJBAbDifo5hpffDBuHl0Y8ywswbiAp/Wi7Y/GtAgSlZyIABppyurxVueOPE8LUQOxdlgi6Zqce7uoEpqNTeiUw==}
-
-  '@types/estraverse@5.1.7':
-    resolution: {integrity: sha512-JRVtdKYZz7VkNp7hMC/WKoiZ8DS3byw20ZGoMZ1R8eBrBPIY7iBaDAS1zcrnXQCwK44G4vbXkimeU7R0VLG8UQ==}
 
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
@@ -5109,10 +5079,6 @@ snapshots:
   '@types/deep-eql@4.0.2': {}
 
   '@types/esrecurse@4.3.1': {}
-
-  '@types/estraverse@5.1.7':
-    dependencies:
-      '@types/estree': 1.0.8
 
   '@types/estree@1.0.8': {}
 
