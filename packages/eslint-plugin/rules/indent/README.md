@@ -104,9 +104,6 @@ This rule has an object option:
   - `CallExpression`: Aligns with `offsetTernaryExpressions` by default.
   - `AwaitExpression`: Aligns with `offsetTernaryExpressions` by default.
   - `NewExpression`: Aligns with `offsetTernaryExpressions` by default.
-- ~~`"offsetTernaryExpressionsOffsetCallExpressions": true`~~ (`true` by default) handles an edge case for call expressions nested in ternary. It's only effective when `offsetTernaryExpressions` is set to `true`.
-  > [!WARNING]
-  > This option is **deprecated**, please use `offsetTernaryExpressions.CallExpression` instead.
 - `"assignmentOperator"` (default: 1) enforces indentation level for the assignment operator and value in variable/type declarations and assignment expressions when they are on different lines than the left side of the assignment (e.g. variable name). This can also be set to `"off"` to disable the checking.
 - `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
 - `"tabLength"` (default: 4) when using tabbed indentation, the indentation used to calculate the insertion value of the template string

@@ -9,7 +9,6 @@ import type { MessageIds, RuleOptions } from './types'
 import { AST_NODE_TYPES, createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { isESTreeSourceCode } from '#utils/eslint-core'
-import { warnDeprecatedOptions } from '#utils/index'
 
 const KNOWN_NODES = new Set([
   'AssignmentExpression',
@@ -697,9 +696,6 @@ export default createRule<RuleOptions, MessageIds>({
               },
             ],
           },
-          offsetTernaryExpressionsOffsetCallExpressions: {
-            type: 'boolean',
-          },
           ignoredNodes: {
             type: 'array',
             items: {
@@ -745,8 +741,6 @@ export default createRule<RuleOptions, MessageIds>({
     const DEFAULT_FUNCTION_BODY_INDENT = 1
     const DEFAULT_FUNCTION_RETURN_TYPE_INDENT = 1
 
-    warnDeprecatedOptions(context.options[1], 'offsetTernaryExpressionsOffsetCallExpressions', 'offsetTernaryExpressions.CallExpression' as any, 'indent')
-
     let indentType = 'space'
     let indentSize = 4
     const options = {
@@ -783,8 +777,6 @@ export default createRule<RuleOptions, MessageIds>({
       ignoredNodes: [],
       ignoreComments: false,
       offsetTernaryExpressions: false as NonNullable<RuleOptions[1]>['offsetTernaryExpressions'],
-      // deprecated
-      offsetTernaryExpressionsOffsetCallExpressions: true,
       tabLength: 4,
     }
 
@@ -1207,6 +1199,15 @@ export default createRule<RuleOptions, MessageIds>({
       addElementListIndent(properties, openingCurly, closingCurly, options.ObjectExpression)
     }
 
+    const ternaryOptions: false | Partial<Record<NodeTypes, boolean>> = options.offsetTernaryExpressions !== false
+      ? {
+          CallExpression: true,
+          AwaitExpression: true,
+          NewExpression: true,
+          ...options.offsetTernaryExpressions === true ? {} : options.offsetTernaryExpressions,
+        }
+      : false
+
     function checkConditionalNode(node: Tree.ConditionalExpression | Tree.TSConditionalType, test: ASTNode, consequent: ASTNode, alternate: ASTNode) {
       const firstToken = sourceCode.getFirstToken(node)!
 
@@ -1217,15 +1218,6 @@ export default createRule<RuleOptions, MessageIds>({
       //     /*else*/ qiz ;
       if (options.flatTernaryExpressions && isTokenOnSameLine(test, consequent) && !isOnFirstLineOfStatement(firstToken, node))
         return
-
-      const ternaryOptions: false | Partial<Record<NodeTypes, boolean>> = options.offsetTernaryExpressions === true
-        ? {
-            CallExpression: options.offsetTernaryExpressionsOffsetCallExpressions ?? true,
-            // for backward compatibility
-            AwaitExpression: options.offsetTernaryExpressionsOffsetCallExpressions ?? true,
-            NewExpression: true,
-          }
-        : options.offsetTernaryExpressions!
 
       function checkBranch(branch: ASTNode, branchFirstToken: Token) {
         let offset = 1
