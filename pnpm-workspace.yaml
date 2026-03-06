@@ -50,7 +50,7 @@ catalogs:
     tinyglobby: ^0.2.15
     tsx: ^4.21.0
     typescript: ^5.9.3
-    vite: ^7.3.1
+    vite: ^8.0.0-beta.16
     vue-tsc: ^3.2.5
   docs:
     '@iconify-json/carbon': ^1.2.19
@@ -62,12 +62,13 @@ catalogs:
     '@vueuse/core': ^14.2.1
     fuse.js: ^7.1.0
     markdown-it-container: ^4.0.0
+    oxc-minify: ^0.116.0
     shiki: ^4.0.1
     twoslash: ^0.3.6
     twoslash-eslint: ^0.3.6
     unocss: ^66.6.6
     unplugin-vue-components: ^31.0.0
-    vitepress: ^1.6.4
+    vitepress: ^2.0.0-alpha.16
     vue: ^3.5.29
   prod:
     '@eslint-community/eslint-utils': ^4.9.1
