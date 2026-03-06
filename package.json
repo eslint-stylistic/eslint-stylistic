@@ -1,7 +1,7 @@
 {
   "name": "@eslint-stylistic/monorepo",
   "type": "module",
-  "version": "5.9.0",
+  "version": "5.10.0",
   "private": true,
   "packageManager": "pnpm@10.30.0",
   "license": "MIT",
@@ -61,8 +61,8 @@
     "jsonc-eslint-parser": "catalog:dev",
     "lint-staged": "catalog:dev",
     "ohash": "catalog:dev",
+    "oxfmt": "catalog:dev",
     "picomatch": "catalog:prod",
-    "prettier": "catalog:dev",
     "semver": "catalog:dev",
     "simple-git-hooks": "catalog:dev",
     "taze": "catalog:dev",

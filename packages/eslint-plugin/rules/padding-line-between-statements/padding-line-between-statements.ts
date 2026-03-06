@@ -606,6 +606,10 @@ export default createRule<RuleOptions, MessageIds>({
             selector: {
               type: 'string',
             },
+            lineMode: {
+              type: 'string',
+              enum: ['any', 'singleline', 'multiline'],
+            },
           },
           required: ['selector'],
           additionalProperties: false,
@@ -720,10 +724,21 @@ export default createRule<RuleOptions, MessageIds>({
 
       if (isSelectorOption(type)) {
         const matchedNodes = selectorMatchedNodes.get(type.selector)
-        return Boolean(matchedNodes?.has(innerStatementNode))
-      }
+        if (!matchedNodes?.has(innerStatementNode))
+          return false
 
-      return StatementTypes[type].test(innerStatementNode, sourceCode)
+        const lineMode = type.lineMode
+
+        if (lineMode === 'singleline')
+          return isSingleLine(innerStatementNode)
+        else if (lineMode === 'multiline')
+          return !isSingleLine(innerStatementNode)
+
+        return true
+      }
+      else {
+        return StatementTypes[type].test(innerStatementNode, sourceCode)
+      }
     }
 
     /**

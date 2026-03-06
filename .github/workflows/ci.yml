@@ -57,7 +57,7 @@ jobs:
         run: nr build
 
       - name: Cache dist
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           retention-days: 3
           name: dist
@@ -92,7 +92,7 @@ jobs:
         run: nci
 
       - name: Restore dist cache
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: dist
           path: packages
@@ -133,7 +133,7 @@ jobs:
       - run: ni eslint@9 -D
 
       - name: Restore dist cache
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: dist
           path: packages

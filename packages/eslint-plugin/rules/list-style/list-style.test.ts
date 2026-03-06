@@ -87,6 +87,18 @@ run<RuleOptions, MessageIds>({
         },
       }],
     },
+    {
+      code: $`
+        if (node.callee.type !== 'Identifier'
+          || (node.callee.name !== 't' && node.callee.name !== 'n')
+        ) {}
+      `,
+      options: [{
+        overrides: {
+          IfStatement: 'off',
+        },
+      }],
+    },
     $`
       (Object.keys(options) as KeysOptions[])
       .forEach((key) => {
