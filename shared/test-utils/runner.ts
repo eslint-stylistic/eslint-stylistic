@@ -4,7 +4,7 @@ import eslintCss from '@eslint/css'
 import eslintMarkdown from '@eslint/markdown'
 import tsParser from '@typescript-eslint/parser'
 import { run as _run } from 'eslint-vitest-rule-tester'
-import jsonParser from 'jsonc-eslint-parser'
+import * as jsonParser from 'jsonc-eslint-parser'
 
 export * from 'eslint-vitest-rule-tester'
 
