@@ -35,7 +35,6 @@ import type { JsxMaxPropsPerLineRuleOptions } from '../rules/jsx-max-props-per-l
 import type { JsxNewlineRuleOptions } from '../rules/jsx-newline/types'
 import type { JsxOneExpressionPerLineRuleOptions } from '../rules/jsx-one-expression-per-line/types'
 import type { JsxPascalCaseRuleOptions } from '../rules/jsx-pascal-case/types'
-import type { JsxPropsNoMultiSpacesRuleOptions } from '../rules/jsx-props-no-multi-spaces/types'
 import type { JsxPropsStyleRuleOptions } from '../rules/jsx-props-style/types'
 import type { JsxQuotesRuleOptions } from '../rules/jsx-quotes/types'
 import type { JsxSelfClosingCompRuleOptions } from '../rules/jsx-self-closing-comp/types'
@@ -273,11 +272,6 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/jsx-pascal-case
    */
   '@stylistic/jsx-pascal-case': JsxPascalCaseRuleOptions
-  /**
-   * Disallow multiple spaces between inline JSX props. Deprecated, use `no-multi-spaces` rule instead.
-   * @see https://eslint.style/rules/jsx-props-no-multi-spaces
-   */
-  '@stylistic/jsx-props-no-multi-spaces': JsxPropsNoMultiSpacesRuleOptions
   /**
    * Enforce consistent line break styles for JSX props
    * @see https://eslint.style/rules/jsx-props-style
@@ -756,11 +750,6 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/jsx-pascal-case
    */
   'jsx-pascal-case': JsxPascalCaseRuleOptions
-  /**
-   * Disallow multiple spaces between inline JSX props. Deprecated, use `no-multi-spaces` rule instead.
-   * @see https://eslint.style/rules/jsx-props-no-multi-spaces
-   */
-  'jsx-props-no-multi-spaces': JsxPropsNoMultiSpacesRuleOptions
   /**
    * Enforce consistent line break styles for JSX props
    * @see https://eslint.style/rules/jsx-props-style

@@ -37,7 +37,6 @@ import jsxMaxPropsPerLine from './jsx-max-props-per-line/jsx-max-props-per-line'
 import jsxNewline from './jsx-newline/jsx-newline'
 import jsxOneExpressionPerLine from './jsx-one-expression-per-line/jsx-one-expression-per-line'
 import jsxPascalCase from './jsx-pascal-case/jsx-pascal-case'
-import jsxPropsNoMultiSpaces from './jsx-props-no-multi-spaces/jsx-props-no-multi-spaces'
 import jsxPropsStyle from './jsx-props-style/jsx-props-style'
 import jsxQuotes from './jsx-quotes/jsx-quotes'
 import jsxSelfClosingComp from './jsx-self-closing-comp/jsx-self-closing-comp'
@@ -135,7 +134,6 @@ export default {
   'jsx-newline': jsxNewline,
   'jsx-one-expression-per-line': jsxOneExpressionPerLine,
   'jsx-pascal-case': jsxPascalCase,
-  'jsx-props-no-multi-spaces': jsxPropsNoMultiSpaces,
   'exp-jsx-props-style': jsxPropsStyle,
   'jsx-quotes': jsxQuotes,
   'jsx-self-closing-comp': jsxSelfClosingComp,
