@@ -498,20 +498,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
-        "name": "jsx-props-no-multi-spaces",
-        "ruleId": "@stylistic/jsx-props-no-multi-spaces",
-        "entry": "packages/eslint-plugin/rules/jsx-props-no-multi-spaces/jsx-props-no-multi-spaces.ts",
-        "docsEntry": "packages/eslint-plugin/rules/jsx-props-no-multi-spaces/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Disallow multiple spaces between inline JSX props. Deprecated, use `no-multi-spaces` rule instead.",
-            "experimental": false,
-            "recommended": false
-          }
-        }
-      },
-      {
         "name": "jsx-props-style",
         "ruleId": "@stylistic/exp-jsx-props-style",
         "entry": "packages/eslint-plugin/rules/jsx-props-style/jsx-props-style.ts",
