@@ -192,6 +192,7 @@ class IndexMap {
    * @param maxKey The maximum key
    */
   constructor(maxKey: number) {
+    // Initializing the array with the maximum expected size avoids dynamic reallocations that could degrade performance.
     this._values = new Int32Array(maxKey + 1)
   }
 
