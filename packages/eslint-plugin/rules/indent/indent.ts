@@ -233,6 +233,36 @@ class IndexMap {
 }
 
 /**
+ * Stores offset descriptor payloads in parallel arrays.
+ * `IndexMap` keeps only dense descriptor ids, and this storage resolves each id back to its offset metadata.
+ */
+class OffsetDescriptorStorage {
+  _offsets: number[] = [0]
+  _fromTokens: Array<Token | null> = [null]
+  _forces: boolean[] = [false]
+
+  create(offset: number, from: Token | null | undefined, force: boolean) {
+    this._offsets.push(offset)
+    this._fromTokens.push(from ?? null)
+    this._forces.push(force)
+
+    return this._offsets.length - 1
+  }
+
+  getOffset(index: number) {
+    return this._offsets[index]
+  }
+
+  getFromToken(index: number) {
+    return this._fromTokens[index]
+  }
+
+  getForce(index: number) {
+    return this._forces[index]
+  }
+}
+
+/**
  * A helper class to get token-based info related to indentation
  */
 class TokenInfo {
@@ -283,32 +313,6 @@ class TokenInfo {
    */
   getTokenIndent(token: Token) {
     return this.sourceCode.text.slice(token.range[0] - token.loc.start.column, token.range[0])
-  }
-}
-
-class OffsetDescriptorStorage {
-  _offsets: number[] = [0]
-  _fromTokens: Array<Token | null> = [null]
-  _forces: boolean[] = [false]
-
-  create(offset: number, from: Token | null | undefined, force: boolean) {
-    this._offsets.push(offset)
-    this._fromTokens.push(from ?? null)
-    this._forces.push(force)
-
-    return this._offsets.length - 1
-  }
-
-  getOffset(index: number) {
-    return this._offsets[index]
-  }
-
-  getFromToken(index: number) {
-    return this._fromTokens[index]
-  }
-
-  getForce(index: number) {
-    return this._forces[index]
   }
 }
 
