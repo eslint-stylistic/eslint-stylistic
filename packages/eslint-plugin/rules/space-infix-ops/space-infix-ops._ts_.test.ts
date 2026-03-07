@@ -397,6 +397,7 @@ run<RuleOptions, MessageIds>({
         function bar(): string & number {}
       `,
     },
+    `type Foo<T extends { type: string } = never> = T`,
     {
       code: 'var foo: string|number = 123;',
       options: [{
