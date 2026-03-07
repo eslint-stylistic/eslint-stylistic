@@ -181,20 +181,18 @@ type Offset = 'first' | 'off' | number
  */
 
 /**
- * A mutable map that stores (key, value) pairs. The keys are numeric indices, and must be unique.
- * This is intended to be a generic wrapper around a map with non-negative integer keys, so that the underlying implementation
- * can easily be swapped out.
+ * A mutable map that stores descriptor ids keyed by numeric indices.
+ * The dense typed-array backing keeps the hot range-update path compact.
  */
-class IndexMap<T = any> {
-  _values: (T | undefined)[]
+class IndexMap {
+  _values: Int32Array
 
   /**
    * Creates an empty map
    * @param maxKey The maximum key
    */
   constructor(maxKey: number) {
-    // Initializing the array with the maximum expected size avoids dynamic reallocations that could degrade performance.
-    this._values = new Array(maxKey + 1)
+    this._values = new Int32Array(maxKey + 1)
   }
 
   /**
@@ -202,7 +200,7 @@ class IndexMap<T = any> {
    * @param key The entry's key
    * @param value The entry's value
    */
-  insert(key: number, value: T) {
+  insert(key: number, value: number) {
     this._values[key] = value
   }
 
@@ -211,15 +209,17 @@ class IndexMap<T = any> {
    * @param key The provided key
    * @returns The value of the found entry, or undefined if no such entry exists.
    */
-  findLastNotAfter(key: number): T | undefined {
+  findLastNotAfter(key: number): number {
     const values = this._values
 
     for (let index = key; index >= 0; index--) {
       const value = values[index]
 
-      if (value)
+      if (value !== 0)
         return value
     }
+
+    return 0
   }
 
   /**
@@ -228,7 +228,7 @@ class IndexMap<T = any> {
    * @param end The end of the range
    */
   deleteRange(start: number, end: number) {
-    this._values.fill(undefined, start, end)
+    this._values.fill(0, start, end)
   }
 }
 
@@ -286,6 +286,41 @@ class TokenInfo {
   }
 }
 
+class OffsetDescriptorStorage {
+  _offsets: Offset[] = [0]
+  _fromTokens: Array<Token | null> = [null]
+  _forces: boolean[] = [false]
+
+  create(offset: Offset, from: Token | null | undefined, force: boolean) {
+    this._offsets.push(offset)
+    this._fromTokens.push(from ?? null)
+    this._forces.push(force)
+
+    return this._offsets.length - 1
+  }
+
+  getOffset(index: number) {
+    return this._offsets[index]
+  }
+
+  getNumericOffset(index: number) {
+    const offset = this._offsets[index]
+
+    if (typeof offset !== 'number')
+      throw new TypeError(`Expected numeric offset descriptor at index ${index}`)
+
+    return offset
+  }
+
+  getFromToken(index: number) {
+    return this._fromTokens[index]
+  }
+
+  getForce(index: number) {
+    return this._forces[index]
+  }
+}
+
 /**
  * A class to store information on desired offsets of tokens from each other
  */
@@ -294,6 +329,7 @@ class OffsetStorage {
   _indentSize: number
   _indentType: string
   _indexMap: IndexMap
+  _descriptors: OffsetDescriptorStorage
   _lockedFirstTokens: WeakMap<Token, Token> = new WeakMap()
   _desiredIndentCache: WeakMap<Token, string> = new WeakMap()
   _ignoredTokens: WeakSet<Token> = new WeakSet()
@@ -310,10 +346,11 @@ class OffsetStorage {
     this._indentType = indentType
 
     this._indexMap = new IndexMap(maxIndex)
-    this._indexMap.insert(0, { offset: 0, from: null, force: false })
+    this._descriptors = new OffsetDescriptorStorage()
+    this._indexMap.insert(0, this._descriptors.create(0, null, false))
   }
 
-  _getOffsetDescriptor(token: Token) {
+  _getOffsetDescriptorIndex(token: Token) {
     return this._indexMap.findLastNotAfter(token.range[0])
   }
 
@@ -434,12 +471,12 @@ class OffsetStorage {
      * which is <= token.start. To make this operation fast, the nodes are stored in a map indexed by key.
      */
 
-    const descriptorToInsert = { offset, from: fromToken, force }
+    const descriptorToInsert = this._descriptors.create(offset, fromToken, force)
 
     const descriptorAfterRange = this._indexMap.findLastNotAfter(range[1])
 
     const fromTokenIsInRange = fromToken && fromToken.range[0] >= range[0] && fromToken.range[1] <= range[1]
-    const fromTokenDescriptor = fromTokenIsInRange && this._getOffsetDescriptor(fromToken)
+    const fromTokenDescriptor = fromTokenIsInRange ? this._getOffsetDescriptorIndex(fromToken) : 0
 
     // First, remove any existing nodes in the range from the map.
     this._indexMap.deleteRange(range[0] + 1, range[1])
@@ -493,7 +530,12 @@ class OffsetStorage {
         )
       }
       else {
-        const offsetInfo = this._getOffsetDescriptor(token)
+        const offsetDescriptorIndex = this._getOffsetDescriptorIndex(token)
+        const offsetInfo = {
+          from: this._descriptors.getFromToken(offsetDescriptorIndex),
+          force: this._descriptors.getForce(offsetDescriptorIndex),
+          offset: this._descriptors.getNumericOffset(offsetDescriptorIndex),
+        }
         const offset = (
           offsetInfo.from
           && offsetInfo.from.loc.start.line === token.loc.start.line
@@ -525,7 +567,7 @@ class OffsetStorage {
    * @returns The token that the given token depends on, or `null` if the given token is at the top level
    */
   getFirstDependency(token: Token) {
-    return this._getOffsetDescriptor(token).from
+    return this._descriptors.getFromToken(this._getOffsetDescriptorIndex(token))
   }
 }
 
@@ -1093,10 +1135,12 @@ export default createRule<RuleOptions, MessageIds>({
 
         // We only want to handle parens around expressions, so exclude parentheses that are in function parameters and function call arguments.
         if (!parameterParens.has(leftParen) && !parameterParens.has(rightParen)) {
-          const parenthesizedTokens = new Set(sourceCode.getTokensBetween(leftParen, rightParen))
+          const parenthesizedTokens: Set<Token> = new Set(sourceCode.getTokensBetween(leftParen, rightParen))
 
           parenthesizedTokens.forEach((token) => {
-            if (!parenthesizedTokens.has(offsets.getFirstDependency(token)))
+            const dependency = offsets.getFirstDependency(token)
+
+            if (!dependency || !parenthesizedTokens.has(dependency))
               offsets.setDesiredOffset(token, leftParen, 1)
           })
         }
@@ -1111,10 +1155,12 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node Unknown Node
      */
     function ignoreNode(node: ASTNode) {
-      const unknownNodeTokens = new Set(sourceCode.getTokens(node, { includeComments: true }))
+      const unknownNodeTokens: Set<Token> = new Set(sourceCode.getTokens(node, { includeComments: true }))
 
       unknownNodeTokens.forEach((token) => {
-        if (!unknownNodeTokens.has(offsets.getFirstDependency(token))) {
+        const dependency = offsets.getFirstDependency(token)
+
+        if (!dependency || !unknownNodeTokens.has(dependency)) {
           const firstTokenOfLine = tokenInfo.getFirstTokenOfLine(token)!
 
           if (token === firstTokenOfLine)
