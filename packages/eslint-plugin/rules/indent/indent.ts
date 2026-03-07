@@ -2105,7 +2105,7 @@ export default createRule<RuleOptions, MessageIds>({
         const firstToken = sourceCode.getFirstToken(node)
 
         // Ensure that the children of every node are indented at least as much as the first token.
-        if (firstToken && !ignoredNodeFirstTokens.has(firstToken) && node.loc.start.line !== node.loc.end.line)
+        if (firstToken && !ignoredNodeFirstTokens.has(firstToken) && isSingleLine(node))
           offsets.setDesiredOffsets(node.range, firstToken, 0)
       },
     }
