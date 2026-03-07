@@ -163,39 +163,39 @@ export default createRule<RuleOptions, MessageIds>({
           fix,
         })
       }
-        else if (style === 'before' && isTokenOnSameLine(leftToken, operatorToken)) {
-          context.report({
-            node,
-            loc: operatorToken.loc,
-            messageId: 'operatorAtBeginning',
-            data: {
-              operator,
-            },
-            fix,
-          })
-        }
-          else if (style === 'after' && isTokenOnSameLine(operatorToken, rightToken)) {
-            context.report({
-              node,
-              loc: operatorToken.loc,
-              messageId: 'operatorAtEnd',
-              data: {
-                operator,
-              },
-              fix,
-            })
-          }
-            else if (style === 'none') {
-              context.report({
-                node,
-                loc: operatorToken.loc,
-                messageId: 'noLinebreak',
-                data: {
-                  operator,
-                },
-                fix,
-              })
-            }
+      else if (style === 'before' && isTokenOnSameLine(leftToken, operatorToken)) {
+        context.report({
+          node,
+          loc: operatorToken.loc,
+          messageId: 'operatorAtBeginning',
+          data: {
+            operator,
+          },
+          fix,
+        })
+      }
+      else if (style === 'after' && isTokenOnSameLine(operatorToken, rightToken)) {
+        context.report({
+          node,
+          loc: operatorToken.loc,
+          messageId: 'operatorAtEnd',
+          data: {
+            operator,
+          },
+          fix,
+        })
+      }
+      else if (style === 'none') {
+        context.report({
+          node,
+          loc: operatorToken.loc,
+          messageId: 'noLinebreak',
+          data: {
+            operator,
+          },
+          fix,
+        })
+      }
     }
 
     /**

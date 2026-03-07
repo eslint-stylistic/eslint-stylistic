@@ -98,7 +98,7 @@ export default createRule<RuleOptions, MessageIds>({
         else if (value === 'never') {
           minProperties = Number.POSITIVE_INFINITY
         }
-          else {
+        else {
           multiline = Boolean(value.multiline)
           minProperties = value.minProperties || Number.POSITIVE_INFINITY
           consistent = Boolean(value.consistent)
@@ -184,17 +184,17 @@ export default createRule<RuleOptions, MessageIds>({
       else if (node.type === 'TSTypeLiteral') {
         objectProperties = node.members
       }
-        else if (node.type === 'TSInterfaceBody') {
-          objectProperties = node.body
-        }
-          else if (node.type === 'TSEnumBody') {
-            objectProperties = node.members
-          }
-            else {
-            // is ImportDeclaration or ExportNamedDeclaration
-            objectProperties = node.specifiers
-              .filter(s => s.type === 'ImportSpecifier' || s.type === 'ExportSpecifier')
-          }
+      else if (node.type === 'TSInterfaceBody') {
+        objectProperties = node.body
+      }
+      else if (node.type === 'TSEnumBody') {
+        objectProperties = node.members
+      }
+      else {
+        // is ImportDeclaration or ExportNamedDeclaration
+        objectProperties = node.specifiers
+          .filter(s => s.type === 'ImportSpecifier' || s.type === 'ExportSpecifier')
+      }
 
       return objectProperties.length >= options.minProperties
         || (

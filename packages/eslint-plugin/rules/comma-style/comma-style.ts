@@ -125,20 +125,20 @@ export default createRule<RuleOptions, MessageIds>({
           fix: getFixerFunction(styleType, tokenBeforeComma, commaToken, tokenAfterComma),
         })
       }
-        else if (style === 'first' && !isTokenOnSameLine(commaToken, tokenAfterComma)) {
-          context.report({
-            node: commaToken,
-            messageId: 'expectedCommaFirst',
-            fix: getFixerFunction(style, tokenBeforeComma, commaToken, tokenAfterComma),
-          })
-        }
-          else if (style === 'last' && isTokenOnSameLine(commaToken, tokenAfterComma)) {
-            context.report({
-              node: commaToken,
-              messageId: 'expectedCommaLast',
-              fix: getFixerFunction(style, tokenBeforeComma, commaToken, tokenAfterComma),
-            })
-          }
+      else if (style === 'first' && !isTokenOnSameLine(commaToken, tokenAfterComma)) {
+        context.report({
+          node: commaToken,
+          messageId: 'expectedCommaFirst',
+          fix: getFixerFunction(style, tokenBeforeComma, commaToken, tokenAfterComma),
+        })
+      }
+      else if (style === 'last' && isTokenOnSameLine(commaToken, tokenAfterComma)) {
+        context.report({
+          node: commaToken,
+          messageId: 'expectedCommaLast',
+          fix: getFixerFunction(style, tokenBeforeComma, commaToken, tokenAfterComma),
+        })
+      }
     }
 
     /**

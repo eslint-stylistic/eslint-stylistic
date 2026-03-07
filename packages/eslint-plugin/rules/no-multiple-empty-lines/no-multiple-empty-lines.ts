@@ -90,7 +90,7 @@ export default createRule<RuleOptions, MessageIds>({
               messageId = 'blankEndOfFile'
               maxAllowed = maxEOF
             }
-              else {
+            else {
               messageId = 'consecutiveBlank'
               maxAllowed = max
             }

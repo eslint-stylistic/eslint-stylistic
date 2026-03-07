@@ -239,19 +239,19 @@ function validateBeforeClosing(
         },
       })
     }
-      else if (option === 'proportional-always' && node.type === 'JSXOpeningElement' && adjacent !== (isSingleLine(node))) {
-        context.report({
-          node,
-          messageId: 'beforeCloseNeedSpace',
-          loc: {
-            start: leftToken.loc.end,
-            end: closingToken.loc.start,
-          },
-          fix(fixer) {
-            return fixer.insertTextBefore(closingToken, ' ')
-          },
-        })
-      }
+    else if (option === 'proportional-always' && node.type === 'JSXOpeningElement' && adjacent !== (isSingleLine(node))) {
+      context.report({
+        node,
+        messageId: 'beforeCloseNeedSpace',
+        loc: {
+          start: leftToken.loc.end,
+          end: closingToken.loc.start,
+        },
+        fix(fixer) {
+          return fixer.insertTextBefore(closingToken, ' ')
+        },
+      })
+    }
   }
 }
 

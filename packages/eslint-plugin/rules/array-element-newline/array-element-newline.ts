@@ -94,15 +94,15 @@ export default createRule<RuleOptions, MessageIds>({
       else if (option === 'never') {
         minItems = Number.POSITIVE_INFINITY
       }
-        else if (option === 'consistent') {
-          consistent = true
-          minItems = Number.POSITIVE_INFINITY
-        }
-          else {
-          consistent = Boolean(option.consistent)
-          multiline = Boolean(option.multiline)
-          minItems = option.minItems || Number.POSITIVE_INFINITY
-        }
+      else if (option === 'consistent') {
+        consistent = true
+        minItems = Number.POSITIVE_INFINITY
+      }
+      else {
+        consistent = Boolean(option.consistent)
+        multiline = Boolean(option.multiline)
+        minItems = option.minItems || Number.POSITIVE_INFINITY
+      }
 
       return { consistent, multiline, minItems }
     }

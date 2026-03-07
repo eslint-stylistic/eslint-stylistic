@@ -100,15 +100,15 @@ export default createRule<RuleOptions, MessageIds>({
       else if (option === 'always') {
         checkArguments(argumentNodes, checkers.missing)
       }
-        else if (option === 'consistent') {
-          const firstArgToken = sourceCode.getLastToken(argumentNodes[0])!
-          const secondArgToken = sourceCode.getFirstToken(argumentNodes[1])!
+      else if (option === 'consistent') {
+        const firstArgToken = sourceCode.getLastToken(argumentNodes[0])!
+        const secondArgToken = sourceCode.getFirstToken(argumentNodes[1])!
 
-          if (isTokenOnSameLine(firstArgToken, secondArgToken))
-            checkArguments(argumentNodes, checkers.unexpected)
-          else
-            checkArguments(argumentNodes, checkers.missing)
-        }
+        if (isTokenOnSameLine(firstArgToken, secondArgToken))
+          checkArguments(argumentNodes, checkers.unexpected)
+        else
+          checkArguments(argumentNodes, checkers.missing)
+      }
     }
 
     return {

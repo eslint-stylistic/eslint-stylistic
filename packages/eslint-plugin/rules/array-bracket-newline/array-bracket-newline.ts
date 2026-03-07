@@ -69,13 +69,13 @@ export default createRule<RuleOptions, MessageIds>({
         else if (option === 'always' || (typeof option !== 'string' && option.minItems === 0)) {
           minItems = 0
         }
-          else if (option === 'never') {
-            minItems = Number.POSITIVE_INFINITY
-          }
-            else {
-            multiline = Boolean(option.multiline)
-            minItems = option.minItems || Number.POSITIVE_INFINITY
-          }
+        else if (option === 'never') {
+          minItems = Number.POSITIVE_INFINITY
+        }
+        else {
+          multiline = Boolean(option.multiline)
+          minItems = option.minItems || Number.POSITIVE_INFINITY
+        }
       }
       else {
         consistent = false

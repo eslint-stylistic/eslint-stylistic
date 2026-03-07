@@ -41,7 +41,7 @@ export function deepMerge<T extends ObjectLike, S extends ObjectLike>(
     else if (firstHasKey) {
       acc[key] = firstValue
     }
-      else {
+    else {
       acc[key] = secondValue
     }
 

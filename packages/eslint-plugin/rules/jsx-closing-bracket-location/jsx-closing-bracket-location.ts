@@ -101,8 +101,8 @@ export default createRule<RuleOptions, MessageIds>({
       else if (tokens.opening.line === (tokens.lastProp as LastPropLocation).lastLine)
         location = 'after-props'
         // Else use configuration dependent on selfClosing property
-        else
-          location = tokens.selfClosing ? selfClosing : nonEmpty
+      else
+        location = tokens.selfClosing ? selfClosing : nonEmpty
 
       return location
     }
