@@ -57,8 +57,8 @@ function getRules(
     return getIdentifierRules(rules, scope)
   else if (isClassOrTypeElement(scope))
     return rules.property
-  else if (isFunction(scope))
-    return rules.returnType
+    else if (isFunction(scope))
+      return rules.returnType
 
   return rules.colon
 }

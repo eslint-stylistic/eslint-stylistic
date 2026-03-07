@@ -492,7 +492,7 @@ class OffsetStorage {
           + this._indentType.repeat(firstToken.loc.start.column - firstTokenOfLine.loc.start.column),
         )
       }
-      else {
+        else {
         const offsetInfo = this._getOffsetDescriptor(token)
         const offset = (
           offsetInfo.from
@@ -833,7 +833,7 @@ export default createRule<RuleOptions, MessageIds>({
       else if (actualTabs > 0) {
         foundStatement = indentType === 'tab' ? actualTabs : `${actualTabs} ${foundTabsWord}`
       }
-      else {
+        else {
         foundStatement = '0'
       }
       return {
@@ -1359,10 +1359,10 @@ export default createRule<RuleOptions, MessageIds>({
         blockIndentLevel = options.outerIIFEBody
       else if (node.parent && (node.parent.type === 'FunctionExpression' || node.parent.type === 'ArrowFunctionExpression'))
         blockIndentLevel = options.FunctionExpression.body
-      else if (node.parent && node.parent.type === 'FunctionDeclaration')
-        blockIndentLevel = options.FunctionDeclaration.body
-      else
-        blockIndentLevel = 1
+        else if (node.parent && node.parent.type === 'FunctionDeclaration')
+          blockIndentLevel = options.FunctionDeclaration.body
+          else
+            blockIndentLevel = 1
 
       /**
        * For blocks that aren't lone statements, ensure that the opening curly brace

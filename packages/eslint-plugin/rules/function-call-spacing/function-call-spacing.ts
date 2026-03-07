@@ -151,7 +151,7 @@ export default createRule<RuleOptions, MessageIds>({
           })
         }
       }
-      else {
+        else {
         if (!hasWhitespace) {
           context.report({
             node,

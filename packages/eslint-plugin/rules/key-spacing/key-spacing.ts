@@ -1081,7 +1081,7 @@ export default createRule<RuleOptions, MessageIds>({
             }
             unalignedElements.push(node)
           }
-          else {
+            else {
             currentAlignGroup = [node]
             alignGroups.push(currentAlignGroup)
           }

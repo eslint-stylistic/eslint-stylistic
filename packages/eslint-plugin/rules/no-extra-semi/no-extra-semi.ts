@@ -52,8 +52,8 @@ export default createRule<RuleOptions, MessageIds>({
            * https://github.com/eslint/eslint/issues/7928
            */
           ? fixer => new FixTracker(fixer, context.sourceCode)
-            .retainSurroundingTokens(nodeOrToken)
-            .remove(nodeOrToken)
+          .retainSurroundingTokens(nodeOrToken)
+          .remove(nodeOrToken)
           : null,
       })
     }

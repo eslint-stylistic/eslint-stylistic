@@ -142,14 +142,14 @@ export default createRule<RuleOptions, MessageIds>({
           requireSpace = alwaysClasses
           requireNoSpace = neverClasses
         }
-        else if (node.type === 'TSModuleBlock') {
-          requireSpace = alwaysModules
-          requireNoSpace = neverModules
-        }
-        else {
-          requireSpace = alwaysKeywords
-          requireNoSpace = neverKeywords
-        }
+          else if (node.type === 'TSModuleBlock') {
+            requireSpace = alwaysModules
+            requireNoSpace = neverModules
+          }
+            else {
+            requireSpace = alwaysKeywords
+            requireNoSpace = neverKeywords
+          }
 
         if (requireSpace && !hasSpace) {
           context.report({

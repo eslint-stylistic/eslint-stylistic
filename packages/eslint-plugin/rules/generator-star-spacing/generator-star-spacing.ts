@@ -187,8 +187,8 @@ export default createRule<RuleOptions, MessageIds>({
         kind = 'shorthand'
       else if (node.parent.type === 'MethodDefinition')
         kind = 'method'
-      else if (!node.id)
-        kind = 'anonymous'
+        else if (!node.id)
+          kind = 'anonymous'
 
       // Only check before when preceded by `function`|`static` keyword
       if (!((kind === 'method' || kind === 'shorthand') && starToken === sourceCode.getFirstToken(node.parent)))

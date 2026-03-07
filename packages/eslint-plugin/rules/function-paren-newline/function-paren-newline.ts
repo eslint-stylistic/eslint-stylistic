@@ -62,8 +62,8 @@ export default createRule<RuleOptions, MessageIds>({
       minItems = rawOption.minItems
     else if (rawOption === 'always')
       minItems = 0
-    else if (rawOption === 'never')
-      minItems = Infinity
+      else if (rawOption === 'never')
+        minItems = Infinity
 
     /**
      * Determines whether there should be newlines inside function parens
@@ -270,8 +270,8 @@ export default createRule<RuleOptions, MessageIds>({
           params = [node.source, ...node.options ? [node.options] : []]
         else if (isFunction(node))
           params = node.params
-        else
-          params = node.arguments
+          else
+            params = node.arguments
 
         if (parens) {
           validateParens(parens, params)

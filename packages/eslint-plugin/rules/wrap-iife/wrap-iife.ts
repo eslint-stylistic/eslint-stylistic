@@ -151,29 +151,29 @@ export default createRule<RuleOptions, MessageIds>({
             },
           })
         }
-        else if (style === 'outside' && !isCallExpressionWrapped) {
-          context.report({
-            node,
-            messageId: 'moveInvocation',
-            fix(fixer) {
+          else if (style === 'outside' && !isCallExpressionWrapped) {
+            context.report({
+              node,
+              messageId: 'moveInvocation',
+              fix(fixer) {
               /**
                * The inner function expression will always be wrapped at this point.
                * It's only necessary to replace the range between the end of the function expression
                * and the call expression. For example, in `(function(foo) {})(bar)`, the range `)(bar)`
                * should get replaced with `(bar))`.
                */
-              const parenAfter = sourceCode.getTokenAfter(innerNode)!
+                const parenAfter = sourceCode.getTokenAfter(innerNode)!
 
-              return fixer.replaceTextRange(
-                [
-                  parenAfter.range[0],
-                  node.range[1],
-                ],
-                `${sourceCode.getText().slice(parenAfter.range[1], node.range[1])})`,
-              )
-            },
-          })
-        }
+                return fixer.replaceTextRange(
+                  [
+                    parenAfter.range[0],
+                    node.range[1],
+                  ],
+                  `${sourceCode.getText().slice(parenAfter.range[1], node.range[1])})`,
+                )
+              },
+            })
+          }
       },
     }
   },

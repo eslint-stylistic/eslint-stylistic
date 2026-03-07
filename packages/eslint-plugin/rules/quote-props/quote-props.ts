@@ -166,14 +166,14 @@ export default createRule<RuleOptions, MessageIds>({
           fix: fixer => fixer.replaceText(key, getQuotedKey(key)),
         })
       }
-      else if (NUMBERS && isNumericLiteral(key)) {
-        context.report({
-          node,
-          messageId: 'unquotedNumericProperty',
-          data: { property: key.value },
-          fix: fixer => fixer.replaceText(key, getQuotedKey(key)),
-        })
-      }
+        else if (NUMBERS && isNumericLiteral(key)) {
+          context.report({
+            node,
+            messageId: 'unquotedNumericProperty',
+            data: { property: key.value },
+            fix: fixer => fixer.replaceText(key, getQuotedKey(key)),
+          })
+        }
     }
 
     /**
@@ -270,7 +270,7 @@ export default createRule<RuleOptions, MessageIds>({
           necessaryQuotes = true
           keywordKeyName = key.name
         }
-        else {
+          else {
           unquotedProps.push(property)
         }
       })
@@ -295,16 +295,16 @@ export default createRule<RuleOptions, MessageIds>({
           })
         })
       }
-      else if (quotedProps.length && unquotedProps.length) {
-        unquotedProps.forEach((property) => {
-          context.report({
-            node: property,
-            messageId: 'inconsistentlyQuotedProperty',
-            data: { key: (property.key as Tree.Identifier).name || (property.key as Tree.Literal).value },
-            fix: fixer => fixer.replaceText(property.key, getQuotedKey(property.key)),
+        else if (quotedProps.length && unquotedProps.length) {
+          unquotedProps.forEach((property) => {
+            context.report({
+              node: property,
+              messageId: 'inconsistentlyQuotedProperty',
+              data: { key: (property.key as Tree.Identifier).name || (property.key as Tree.Literal).value },
+              fix: fixer => fixer.replaceText(property.key, getQuotedKey(property.key)),
+            })
           })
-        })
-      }
+        }
     }
 
     return {

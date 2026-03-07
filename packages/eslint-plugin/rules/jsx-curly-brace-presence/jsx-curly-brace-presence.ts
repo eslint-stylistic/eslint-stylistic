@@ -175,7 +175,7 @@ export default createRule<RuleOptions, MessageIds>({
 
               textToReplace = sourceCode.getText(expression)
             }
-            else {
+              else {
               textToReplace = expression.type === 'TemplateLiteral'
                 ? (expression as Tree.TemplateLiteral).quasis[0].value.cooked : (expression as Tree.StringLiteral).value
             }
@@ -267,9 +267,9 @@ export default createRule<RuleOptions, MessageIds>({
         reportUnnecessaryCurly(JSXExpressionNode)
       }
 
-      else if (isJSX(expression)) {
-        reportUnnecessaryCurly(JSXExpressionNode)
-      }
+        else if (isJSX(expression)) {
+          reportUnnecessaryCurly(JSXExpressionNode)
+        }
     }
 
     function areRuleConditionsSatisfied(parent: Tree.StringLiteral | Tree.JSXText | Tree.JSXElement | Tree.JSXAttribute, ruleCondition: Extract<RuleOptions[0], string>) {

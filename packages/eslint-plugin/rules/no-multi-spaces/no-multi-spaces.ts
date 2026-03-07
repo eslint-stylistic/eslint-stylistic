@@ -116,8 +116,8 @@ export default createRule<RuleOptions, MessageIds>({
             displayValue = `/*${formatReportedCommentValue(rightToken)}*/`
           else if (rightToken.type === 'Line')
             displayValue = `//${formatReportedCommentValue(rightToken)}`
-          else
-            displayValue = rightToken.value
+            else
+              displayValue = rightToken.value
 
           context.report({
             node: rightToken,

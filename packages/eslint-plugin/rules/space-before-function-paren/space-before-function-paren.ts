@@ -119,9 +119,9 @@ export default createRule<RuleOptions, MessageIds>({
         return named
       }
       // `generator-star-spacing` should warn anonymous generators. E.g. `function* () {}`
-      else if (!node.generator) {
-        return anonymous
-      }
+        else if (!node.generator) {
+          return anonymous
+        }
 
       return 'ignore'
     }

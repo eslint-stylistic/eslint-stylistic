@@ -241,7 +241,7 @@ export default createRule<RuleOptions, MessageIds>({
           messageId = 'unexpectedComma'
         }
       }
-      else {
+        else {
         if (optsSemi) {
           missingDelimiter = true
           messageId = 'expectedSemi'

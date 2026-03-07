@@ -398,14 +398,14 @@ export default createRule<RuleOptions, MessageIds>({
               })
             }
           }
-          else if (isHashbangComment(token)) {
-            if (afterHashbangComment) {
-              checkForEmptyLine(token, {
-                after: afterHashbangComment,
-                before: false,
-              })
+            else if (isHashbangComment(token)) {
+              if (afterHashbangComment) {
+                checkForEmptyLine(token, {
+                  after: afterHashbangComment,
+                  before: false,
+                })
+              }
             }
-          }
         })
       },
     }

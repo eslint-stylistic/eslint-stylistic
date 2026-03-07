@@ -345,7 +345,7 @@ export default createRule<RuleOptions, MessageIds>({
             while (isTrailingComment(textToMeasure, lineNumber, comments[--lastIndex]))
               textToMeasure = stripTrailingComment(textToMeasure, comments[lastIndex])
           }
-          else {
+            else {
             textToMeasure = line
           }
         }
