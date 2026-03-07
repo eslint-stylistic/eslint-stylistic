@@ -2450,5 +2450,13 @@ run<RuleOptions, MessageIds>({
         },
       ],
     },
+    {
+      code: `type Foo<T extends { type: string }=never>=T`,
+      output: `type Foo<T extends { type: string } = never> = T`,
+      errors: [
+        { messageId: 'missingSpace', line: 1, column: 36 },
+        { messageId: 'missingSpace', line: 1, column: 43 },
+      ],
+    },
   ],
 })
