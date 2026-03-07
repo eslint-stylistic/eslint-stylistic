@@ -54,13 +54,11 @@
     "eslint-visitor-keys": "catalog:prod",
     "eslint-vitest-rule-tester": "catalog:test",
     "espree": "catalog:prod",
-    "execa": "catalog:dev",
-    "fast-glob": "catalog:dev",
     "gray-matter": "catalog:dev",
     "jiti": "catalog:dev",
     "json-schema-to-typescript-lite": "catalog:dev",
     "jsonc-eslint-parser": "catalog:dev",
-    "lint-staged": "catalog:dev",
+    "nano-staged": "catalog:dev",
     "ohash": "catalog:dev",
     "oxc-minify": "catalog:docs",
     "oxfmt": "catalog:dev",
@@ -68,6 +66,8 @@
     "semver": "catalog:dev",
     "simple-git-hooks": "catalog:dev",
     "taze": "catalog:dev",
+    "tinyexec": "catalog:dev",
+    "tinyglobby": "catalog:dev",
     "tsdown": "catalog:build",
     "tsx": "catalog:dev",
     "typescript": "catalog:dev",
@@ -85,9 +85,9 @@
     "vue-tsc": "catalog:dev"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged"
+    "pre-commit": "npx nano-staged"
   },
-  "lint-staged": {
+  "nano-staged": {
     "*": "eslint --fix"
   }
 }
