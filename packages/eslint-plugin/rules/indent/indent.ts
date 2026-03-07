@@ -165,7 +165,7 @@ const KNOWN_NODES = new Set([
   // AST_NODE_TYPES.TSUnionType,
 ])
 
-type Offset = 'first' | 'off' | number
+type ElementListOffset = 'first' | 'off' | number
 
 /*
  * General rule strategy:
@@ -287,11 +287,11 @@ class TokenInfo {
 }
 
 class OffsetDescriptorStorage {
-  _offsets: Offset[] = [0]
+  _offsets: number[] = [0]
   _fromTokens: Array<Token | null> = [null]
   _forces: boolean[] = [false]
 
-  create(offset: Offset, from: Token | null | undefined, force: boolean) {
+  create(offset: number, from: Token | null | undefined, force: boolean) {
     this._offsets.push(offset)
     this._fromTokens.push(from ?? null)
     this._forces.push(force)
@@ -301,15 +301,6 @@ class OffsetDescriptorStorage {
 
   getOffset(index: number) {
     return this._offsets[index]
-  }
-
-  getNumericOffset(index: number) {
-    const offset = this._offsets[index]
-
-    if (typeof offset !== 'number')
-      throw new TypeError(`Expected numeric offset descriptor at index ${index}`)
-
-    return offset
   }
 
   getFromToken(index: number) {
@@ -427,7 +418,7 @@ class OffsetStorage {
    * @param fromToken The token that `token` should be offset from
    * @param offset The desired indent level
    */
-  setDesiredOffset(token: Token | undefined | null, fromToken: Token | undefined | null, offset: Offset): void {
+  setDesiredOffset(token: Token | undefined | null, fromToken: Token | undefined | null, offset: number): void {
     if (token)
       this.setDesiredOffsets(token.range, fromToken, offset)
   }
@@ -456,7 +447,7 @@ class OffsetStorage {
    * @param offset The desired indent level
    * @param force `true` if this offset should not use the normal collapsing behavior. This should almost always be false.
    */
-  setDesiredOffsets(range: [number, number], fromToken: Token | null | undefined, offset: Offset, force = false) {
+  setDesiredOffsets(range: [number, number], fromToken: Token | null | undefined, offset: number, force = false) {
     /**
      * Offset ranges are stored as a collection of nodes, where each node maps a numeric key to an offset
      * descriptor. The tree for the example above would have the following nodes:
@@ -534,7 +525,7 @@ class OffsetStorage {
         const offsetInfo = {
           from: this._descriptors.getFromToken(offsetDescriptorIndex),
           force: this._descriptors.getForce(offsetDescriptorIndex),
-          offset: this._descriptors.getNumericOffset(offsetDescriptorIndex),
+          offset: this._descriptors.getOffset(offsetDescriptorIndex),
         }
         const offset = (
           offsetInfo.from
@@ -975,7 +966,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param endToken The end token of the list, e.g. ']'
      * @param offset The amount that the elements should be offset
      */
-    function addElementListIndent(elements: (ASTNode | null)[], startToken: Token, endToken: Token, offset: number | string) {
+    function addElementListIndent(elements: (ASTNode | null)[], startToken: Token, endToken: Token, offset: ElementListOffset) {
       /**
        * Gets the first token of a given element, including surrounding parentheses.
        * @param element A node in the `elements` list
@@ -1839,10 +1830,11 @@ export default createRule<RuleOptions, MessageIds>({
           return
 
         const kind = node.kind === 'await using' ? 'using' : node.kind
-        let variableIndent = Object.hasOwn(options.VariableDeclarator, kind)
+        const variableIndent = Object.hasOwn(options.VariableDeclarator, kind)
           ? options.VariableDeclarator[kind]
           : DEFAULT_VARIABLE_INDENT
         const alignFirstVariable = variableIndent === 'first'
+        let numericVariableIndent = alignFirstVariable ? DEFAULT_VARIABLE_INDENT : variableIndent
 
         const firstToken = sourceCode.getFirstToken(node)!
         const lastToken = sourceCode.getLastToken(node)!
@@ -1860,7 +1852,7 @@ export default createRule<RuleOptions, MessageIds>({
 
             const firstTokenOfFirstElement = sourceCode.getFirstToken(node.declarations[0])!
 
-            variableIndent = (tokenInfo.getTokenIndent(firstTokenOfFirstElement).length - tokenInfo.getTokenIndent(firstToken).length) / indentSize
+            numericVariableIndent = (tokenInfo.getTokenIndent(firstTokenOfFirstElement).length - tokenInfo.getTokenIndent(firstToken).length) / indentSize
           }
 
           /**
@@ -1882,13 +1874,10 @@ export default createRule<RuleOptions, MessageIds>({
            * on the same line as the start of the declaration, provided that there are declarators that
            * follow this one.
            */
-          offsets.setDesiredOffsets(node.range, firstToken, variableIndent, true)
+          offsets.setDesiredOffsets(node.range, firstToken, numericVariableIndent, true)
         }
         else {
-          if (alignFirstVariable)
-            variableIndent = DEFAULT_VARIABLE_INDENT
-
-          offsets.setDesiredOffsets(node.range, firstToken, variableIndent)
+          offsets.setDesiredOffsets(node.range, firstToken, numericVariableIndent)
         }
 
         if (isSemicolonToken(lastToken))
