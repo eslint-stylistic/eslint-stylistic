@@ -100,7 +100,7 @@ export default createRule<RuleOptions, MessageIds>({
       // Is always after the last prop if this one is on the same line as the opening bracket
       else if (tokens.opening.line === (tokens.lastProp as LastPropLocation).lastLine)
         location = 'after-props'
-        // Else use configuration dependent on selfClosing property
+      // Else use configuration dependent on selfClosing property
       else
         location = tokens.selfClosing ? selfClosing : nonEmpty
 
