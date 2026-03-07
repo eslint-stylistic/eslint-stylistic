@@ -1865,8 +1865,9 @@ export default createRule<RuleOptions, MessageIds>({
             )
 
             const firstTokenOfFirstElement = sourceCode.getFirstToken(node.declarations[0])!
+            const firstVariableIndentWidth = tokenInfo.getTokenIndent(firstTokenOfFirstElement).length - tokenInfo.getTokenIndent(firstToken).length
 
-            numericVariableIndent = (tokenInfo.getTokenIndent(firstTokenOfFirstElement).length - tokenInfo.getTokenIndent(firstToken).length) / indentSize
+            numericVariableIndent = indentSize === 0 ? 0 : firstVariableIndentWidth / indentSize
           }
 
           /**
