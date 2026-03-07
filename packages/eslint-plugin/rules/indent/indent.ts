@@ -942,6 +942,9 @@ export default createRule<RuleOptions, MessageIds>({
      * @param offset The amount that the elements should be offset
      */
     function addElementListIndent(elements: (ASTNode | null)[], startToken: Token, endToken: Token, offset: number | string) {
+      if (startToken.loc.end.line === endToken.loc.start.line)
+        return
+
       /**
        * Gets the first token of a given element, including surrounding parentheses.
        * @param element A node in the `elements` list
@@ -1098,6 +1101,9 @@ export default createRule<RuleOptions, MessageIds>({
       for (let i = parenPairs.length - 1; i >= 0; i--) {
         const leftParen = parenPairs[i].left!
         const rightParen = parenPairs[i].right!
+
+        if (leftParen.loc.end.line === rightParen.loc.start.line)
+          continue
 
         // We only want to handle parens around expressions, so exclude parentheses that are in function parameters and function call arguments.
         if (!parameterParens.has(leftParen) && !parameterParens.has(rightParen)) {
@@ -2107,7 +2113,7 @@ export default createRule<RuleOptions, MessageIds>({
         const firstToken = sourceCode.getFirstToken(node)
 
         // Ensure that the children of every node are indented at least as much as the first token.
-        if (firstToken && !ignoredNodeFirstTokens.has(firstToken))
+        if (firstToken && !ignoredNodeFirstTokens.has(firstToken) && node.loc.start.line !== node.loc.end.line)
           offsets.setDesiredOffsets(node.range, firstToken, 0)
       },
     }
