@@ -205,9 +205,10 @@ class IndexMap {
   }
 
   /**
-   * Finds the value of the entry with the largest key less than or equal to the provided key
+   * Finds the descriptor id of the entry with the largest key less than or equal to the provided key.
    * @param key The provided key
-   * @returns The value of the found entry, or undefined if no such entry exists.
+   * @returns The found descriptor id, or `0` when no later descriptor has been inserted for this key.
+   * `0` is the sentinel id for the top-level `{ offset: 0, from: null, force: false }` descriptor.
    */
   findLastNotAfter(key: number): number {
     const values = this._values
@@ -453,17 +454,18 @@ class OffsetStorage {
    */
   setDesiredOffsets(range: [number, number], fromToken: Token | null | undefined, offset: number, force = false) {
     /**
-     * Offset ranges are stored as a collection of nodes, where each node maps a numeric key to an offset
-     * descriptor. The tree for the example above would have the following nodes:
+     * Offset ranges are stored as a collection of nodes, where each node maps a numeric key to a descriptor id.
+     * Descriptor id `0` is the sentinel for the top-level `{ offset: 0, from: null, force: false }` descriptor.
+     * The tree for the example above would have the following nodes:
      *
-     * key: 0, value: { offset: 0, from: null }
-     * key: 15, value: { offset: 1, from: barToken }
-     * key: 30, value: { offset: 1, from: fooToken }
-     * key: 43, value: { offset: 2, from: barToken }
-     * key: 820, value: { offset: 1, from: bazToken }
+     * key: 0, value: 0
+     * key: 15, value: <descriptor id for { offset: 1, from: barToken }>
+     * key: 30, value: <descriptor id for { offset: 1, from: fooToken }>
+     * key: 43, value: <descriptor id for { offset: 2, from: barToken }>
+     * key: 820, value: <descriptor id for { offset: 1, from: bazToken }>
      *
-     * To find the offset descriptor for any given token, one needs to find the node with the largest key
-     * which is <= token.start. To make this operation fast, the nodes are stored in a map indexed by key.
+     * To find the descriptor id for any given token, one needs to find the node with the largest key
+     * which is <= token.start. To make this operation fast, the nodes are stored in a dense array indexed by key.
      */
 
     const descriptorToInsert = this._descriptors.create(offset, fromToken, force)
