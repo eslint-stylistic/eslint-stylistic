@@ -1094,7 +1094,7 @@ export default createRule<RuleOptions, MessageIds>({
         const leftParen = parenPairs[i].left!
         const rightParen = parenPairs[i].right!
 
-        if (leftParen.loc.end.line === rightParen.loc.start.line)
+        if (isTokenOnSameLine(leftParen, rightParen))
           continue
 
         // We only want to handle parens around expressions, so exclude parentheses that are in function parameters and function call arguments.
