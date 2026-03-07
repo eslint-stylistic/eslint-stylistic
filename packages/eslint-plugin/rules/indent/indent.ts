@@ -934,7 +934,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param offset The amount that the elements should be offset
      */
     function addElementListIndent(elements: (ASTNode | null)[], startToken: Token, endToken: Token, offset: number | string) {
-      if (startToken.loc.end.line === endToken.loc.start.line)
+      if (isTokenOnSameLine(startToken, endToken))
         return
 
       /**
