@@ -4,6 +4,10 @@ trustPolicy: no-downgrade
 trustPolicyExclude:
   # @babel/eslint-parser@7.28.6
   - semver@6.3.1
+  # @codecov/rollup-plugin@1.9.1
+  - '@octokit/plugin-paginate-rest@9.2.2'
+  - '@octokit/endpoint@9.0.6'
+  - undici@5.29.0
 
 packages:
   - docs
@@ -14,64 +18,63 @@ catalogs:
     '@codecov/rollup-plugin': ^1.9.1
     tsdown: ^0.20.3
   dev:
-    '@antfu/eslint-config': ^7.4.3
+    '@antfu/eslint-config': ^7.7.0
     '@antfu/eslint-define-config': 1.23.0-2
     '@antfu/utils': ^9.3.0
     '@eslint/core': ^1.1.0
     '@eslint/css': ^0.14.1
     '@eslint/markdown': ^7.5.1
     '@eslint/plugin-kit': ^0.6.0
-    '@types/estraverse': ^5.1.7
     '@types/estree': ^1.0.8
-    '@types/node': ^25.3.0
+    '@types/node': ^25.3.5
     '@types/picomatch': ^4.0.2
     '@types/semver': ^7.7.1
-    '@typescript-eslint/parser': ^8.56.0
-    '@typescript-eslint/utils': ^8.56.0
+    '@typescript-eslint/parser': ^8.56.1
+    '@typescript-eslint/utils': ^8.56.1
     change-case: ^5.4.4
     escape-string-regexp: ^5.0.0
-    eslint: ^10.0.0
-    eslint-plugin-eslint-plugin: ^7.3.1
-    eslint-plugin-format: ^1.4.0
+    eslint: ^10.0.2
+    eslint-plugin-eslint-plugin: ^7.3.2
+    eslint-plugin-format: ^2.0.1
     execa: ^9.6.1
     fast-glob: ^3.3.3
     gray-matter: ^4.0.3
     jiti: ^2.6.1
     json-schema-to-typescript-lite: ^15.0.0
-    jsonc-eslint-parser: ^2.4.2
-    lint-staged: ^16.2.7
+    jsonc-eslint-parser: ^3.1.0
+    lint-staged: ^16.3.2
     ohash: ^2.0.11
-    oxfmt: ^0.35.0
+    oxfmt: ^0.36.0
     semver: ^7.7.4
     simple-git-hooks: ^2.13.1
-    taze: ^19.9.2
+    taze: ^19.10.0
     tsx: ^4.21.0
     typescript: ^5.9.3
-    vite: ^7.3.1
-    vue-tsc: ^3.2.4
+    vite: ^8.0.0-beta.16
+    vue-tsc: ^3.2.5
   docs:
-    '@iconify-json/carbon': ^1.2.18
+    '@iconify-json/carbon': ^1.2.19
     '@iconify-json/ri': ^1.2.10
-    '@shikijs/transformers': ^3.22.0
-    '@shikijs/twoslash': ^3.22.0
-    '@shikijs/vitepress-twoslash': ^3.22.0
+    '@shikijs/transformers': ^4.0.1
+    '@shikijs/twoslash': ^4.0.1
+    '@shikijs/vitepress-twoslash': ^4.0.1
     '@types/markdown-it-container': ^4.0.0
     '@vueuse/core': ^14.2.1
     fuse.js: ^7.1.0
     markdown-it-container: ^4.0.0
-    shiki: ^3.22.0
+    oxc-minify: ^0.116.0
+    shiki: ^4.0.1
     twoslash: ^0.3.6
     twoslash-eslint: ^0.3.6
-    unocss: ^66.6.0
+    unocss: ^66.6.6
     unplugin-vue-components: ^31.0.0
-    vitepress: ^1.6.4
-    vue: ^3.5.28
+    vitepress: ^2.0.0-alpha.16
+    vue: ^3.5.29
   prod:
     '@eslint-community/eslint-utils': ^4.9.1
-    '@typescript-eslint/types': ^8.56.0
-    eslint-visitor-keys: ^4.2.1
-    espree: ^10.4.0
-    estraverse: ^5.3.0
+    '@typescript-eslint/types': ^8.56.1
+    eslint-visitor-keys: ^5.0.1
+    espree: ^11.1.1
     picomatch: ^4.0.3
   test:
     '@babel/eslint-parser': ^7.28.6

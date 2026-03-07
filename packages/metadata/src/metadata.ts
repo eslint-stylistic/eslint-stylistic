@@ -429,20 +429,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
-        "name": "jsx-indent",
-        "ruleId": "@stylistic/jsx-indent",
-        "entry": "packages/eslint-plugin/rules/jsx-indent/jsx-indent.ts",
-        "docsEntry": "packages/eslint-plugin/rules/jsx-indent/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Enforce JSX indentation. Deprecated, use `indent` rule instead.",
-            "experimental": false,
-            "recommended": false
-          }
-        }
-      },
-      {
         "name": "jsx-indent-props",
         "ruleId": "@stylistic/jsx-indent-props",
         "entry": "packages/eslint-plugin/rules/jsx-indent-props/jsx-indent-props.ts",
@@ -512,20 +498,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
-        "name": "jsx-props-no-multi-spaces",
-        "ruleId": "@stylistic/jsx-props-no-multi-spaces",
-        "entry": "packages/eslint-plugin/rules/jsx-props-no-multi-spaces/jsx-props-no-multi-spaces.ts",
-        "docsEntry": "packages/eslint-plugin/rules/jsx-props-no-multi-spaces/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Disallow multiple spaces between inline JSX props. Deprecated, use `no-multi-spaces` rule instead.",
-            "experimental": false,
-            "recommended": false
-          }
-        }
-      },
-      {
         "name": "jsx-props-style",
         "ruleId": "@stylistic/exp-jsx-props-style",
         "entry": "packages/eslint-plugin/rules/jsx-props-style/jsx-props-style.ts",
@@ -562,20 +534,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "code",
           "docs": {
             "description": "Disallow extra closing tags for components without children",
-            "experimental": false,
-            "recommended": false
-          }
-        }
-      },
-      {
-        "name": "jsx-sort-props",
-        "ruleId": "@stylistic/jsx-sort-props",
-        "entry": "packages/eslint-plugin/rules/jsx-sort-props/jsx-sort-props.ts",
-        "docsEntry": "packages/eslint-plugin/rules/jsx-sort-props/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Enforce props alphabetical sorting",
             "experimental": false,
             "recommended": false
           }

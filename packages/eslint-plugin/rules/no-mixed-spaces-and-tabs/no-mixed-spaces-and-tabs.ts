@@ -20,14 +20,11 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'string',
             enum: ['smart-tabs'],
           },
-          // TODO: remove it, it's not documented and deprecated
-          {
-            type: 'boolean',
-          },
         ],
       },
     ],
-    defaultOptions: [false],
+    // eslint-disable-next-line eslint-plugin/require-meta-default-options
+    defaultOptions: [],
     messages: {
       mixedSpacesAndTabs: 'Mixed spaces and tabs.',
     },
@@ -35,10 +32,9 @@ export default createRule<RuleOptions, MessageIds>({
   create(context, [style]) {
     const sourceCode = context.sourceCode
 
-    const smartTabs = typeof style === 'boolean' ? style : style === 'smart-tabs'
+    const smartTabs = style === 'smart-tabs'
 
     return {
-
       'Program:exit': function (node) {
         const lines = sourceCode.lines
         const comments = sourceCode.getAllComments()

@@ -2,7 +2,6 @@ import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { ES3_KEYWORDS, isNumericLiteral, isStringLiteral } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-// @ts-expect-error missing types
 import { tokenize } from 'espree'
 
 export default createRule<RuleOptions, MessageIds>({
