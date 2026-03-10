@@ -10,7 +10,6 @@
     "dev": "pnpm -r --parallel run dev",
     "lint": "eslint . --cache",
     "update": "tsx scripts/update.ts && pnpm run lint --fix",
-    "publish:ci": "tsx scripts/publish.ts",
     "test": "vitest -c vitest.config.unit.ts",
     "test:fixtures": "vitest -c vitest.config.fixtures.ts",
     "check": "pnpm run update && pnpm run build && pnpm run typecheck && pnpm run test --run",
@@ -18,7 +17,7 @@
     "prepare": "simple-git-hooks",
     "docs": "pnpm -C docs run docs:dev",
     "docs:build": "pnpm -C docs run docs:build",
-    "release": "npx bumpp -r",
+    "release": "bumpp -r",
     "play:lint": "pnpm -C playground run lint"
   },
   "devDependencies": {
@@ -46,6 +45,7 @@
     "@typescript-eslint/utils": "catalog:dev",
     "@vitest/coverage-v8": "catalog:test",
     "@vitest/ui": "catalog:test",
+    "bumpp": "catalog:dev",
     "change-case": "catalog:dev",
     "escape-string-regexp": "catalog:dev",
     "eslint": "catalog:dev",
