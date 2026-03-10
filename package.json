@@ -15,6 +15,7 @@
     "check": "pnpm run update && pnpm run build && pnpm run typecheck && pnpm run test --run",
     "typecheck": "vue-tsc --noEmit",
     "prepare": "simple-git-hooks",
+    "publish:ci": "tsx scripts/publish.ts",
     "docs": "pnpm -C docs run docs:dev",
     "docs:build": "pnpm -C docs run docs:build",
     "release": "bumpp -r",
