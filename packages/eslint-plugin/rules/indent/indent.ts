@@ -165,7 +165,7 @@ const KNOWN_NODES = new Set([
   // AST_NODE_TYPES.TSUnionType,
 ])
 
-type Offset = 'first' | 'off' | number
+type ElementListOffset = 'first' | 'off' | number
 
 /*
  * General rule strategy:
@@ -181,12 +181,11 @@ type Offset = 'first' | 'off' | number
  */
 
 /**
- * A mutable map that stores (key, value) pairs. The keys are numeric indices, and must be unique.
- * This is intended to be a generic wrapper around a map with non-negative integer keys, so that the underlying implementation
- * can easily be swapped out.
+ * A mutable map that stores descriptor ids keyed by numeric indices.
+ * The dense typed-array backing keeps the hot range-update path compact.
  */
-class IndexMap<T = any> {
-  _values: (T | undefined)[]
+class IndexMap {
+  _values: Int32Array
 
   /**
    * Creates an empty map
@@ -194,7 +193,7 @@ class IndexMap<T = any> {
    */
   constructor(maxKey: number) {
     // Initializing the array with the maximum expected size avoids dynamic reallocations that could degrade performance.
-    this._values = new Array(maxKey + 1)
+    this._values = new Int32Array(maxKey + 1)
   }
 
   /**
@@ -202,24 +201,27 @@ class IndexMap<T = any> {
    * @param key The entry's key
    * @param value The entry's value
    */
-  insert(key: number, value: T) {
+  insert(key: number, value: number) {
     this._values[key] = value
   }
 
   /**
-   * Finds the value of the entry with the largest key less than or equal to the provided key
+   * Finds the descriptor id of the entry with the largest key less than or equal to the provided key.
    * @param key The provided key
-   * @returns The value of the found entry, or undefined if no such entry exists.
+   * @returns The found descriptor id, or `0` when no descriptor has been inserted at or before this key.
+   * Actual descriptor ids start at `1`, so `0` can be used as the empty-slot sentinel in `_values`.
    */
-  findLastNotAfter(key: number): T | undefined {
+  findLastNotAfter(key: number): number {
     const values = this._values
 
     for (let index = key; index >= 0; index--) {
       const value = values[index]
 
-      if (value)
+      if (value !== 0)
         return value
     }
+
+    return 0
   }
 
   /**
@@ -228,7 +230,38 @@ class IndexMap<T = any> {
    * @param end The end of the range
    */
   deleteRange(start: number, end: number) {
-    this._values.fill(undefined, start, end)
+    this._values.fill(0, start, end)
+  }
+}
+
+/**
+ * Stores offset descriptor payloads in parallel arrays.
+ * `IndexMap` keeps only dense descriptor ids, and this storage resolves each id back to its offset metadata.
+ * Index `0` is reserved so real descriptor ids can start at `1`.
+ */
+class OffsetDescriptorStorage {
+  _offsets: number[] = [0]
+  _fromTokens: Array<Token | null> = [null]
+  _forces: boolean[] = [false]
+
+  create(offset: number, from: Token | null | undefined, force: boolean) {
+    this._offsets.push(offset)
+    this._fromTokens.push(from ?? null)
+    this._forces.push(force)
+
+    return this._offsets.length - 1
+  }
+
+  getOffset(index: number) {
+    return this._offsets[index]
+  }
+
+  getFromToken(index: number) {
+    return this._fromTokens[index]
+  }
+
+  getForce(index: number) {
+    return this._forces[index]
   }
 }
 
@@ -294,6 +327,7 @@ class OffsetStorage {
   _indentSize: number
   _indentType: string
   _indexMap: IndexMap
+  _descriptors: OffsetDescriptorStorage
   _lockedFirstTokens: WeakMap<Token, Token> = new WeakMap()
   _desiredIndentCache: WeakMap<Token, string> = new WeakMap()
   _ignoredTokens: WeakSet<Token> = new WeakSet()
@@ -310,10 +344,11 @@ class OffsetStorage {
     this._indentType = indentType
 
     this._indexMap = new IndexMap(maxIndex)
-    this._indexMap.insert(0, { offset: 0, from: null, force: false })
+    this._descriptors = new OffsetDescriptorStorage()
+    this._indexMap.insert(0, this._descriptors.create(0, null, false))
   }
 
-  _getOffsetDescriptor(token: Token) {
+  _getOffsetDescriptorIndex(token: Token) {
     return this._indexMap.findLastNotAfter(token.range[0])
   }
 
@@ -390,7 +425,7 @@ class OffsetStorage {
    * @param fromToken The token that `token` should be offset from
    * @param offset The desired indent level
    */
-  setDesiredOffset(token: Token | undefined | null, fromToken: Token | undefined | null, offset: Offset): void {
+  setDesiredOffset(token: Token | undefined | null, fromToken: Token | undefined | null, offset: number): void {
     if (token)
       this.setDesiredOffsets(token.range, fromToken, offset)
   }
@@ -419,27 +454,28 @@ class OffsetStorage {
    * @param offset The desired indent level
    * @param force `true` if this offset should not use the normal collapsing behavior. This should almost always be false.
    */
-  setDesiredOffsets(range: [number, number], fromToken: Token | null | undefined, offset: Offset, force = false) {
+  setDesiredOffsets(range: [number, number], fromToken: Token | null | undefined, offset: number, force = false) {
     /**
-     * Offset ranges are stored as a collection of nodes, where each node maps a numeric key to an offset
-     * descriptor. The tree for the example above would have the following nodes:
+     * Offset ranges are stored as a collection of nodes, where each node maps a numeric key to a descriptor id.
+     * Descriptor id `0` is the empty-slot sentinel; actual descriptor ids start at `1`.
+     * The tree for the example above would have the following nodes:
      *
-     * key: 0, value: { offset: 0, from: null }
-     * key: 15, value: { offset: 1, from: barToken }
-     * key: 30, value: { offset: 1, from: fooToken }
-     * key: 43, value: { offset: 2, from: barToken }
-     * key: 820, value: { offset: 1, from: bazToken }
+     * key: 0, value: 1
+     * key: 15, value: <descriptor id for { offset: 1, from: barToken }>
+     * key: 30, value: <descriptor id for { offset: 1, from: fooToken }>
+     * key: 43, value: <descriptor id for { offset: 2, from: barToken }>
+     * key: 820, value: <descriptor id for { offset: 1, from: bazToken }>
      *
-     * To find the offset descriptor for any given token, one needs to find the node with the largest key
-     * which is <= token.start. To make this operation fast, the nodes are stored in a map indexed by key.
+     * To find the descriptor id for any given token, one needs to find the node with the largest key
+     * which is <= token.start. To make this operation fast, the nodes are stored in a dense array indexed by key.
      */
 
-    const descriptorToInsert = { offset, from: fromToken, force }
+    const descriptorToInsert = this._descriptors.create(offset, fromToken, force)
 
     const descriptorAfterRange = this._indexMap.findLastNotAfter(range[1])
 
     const fromTokenIsInRange = fromToken && fromToken.range[0] >= range[0] && fromToken.range[1] <= range[1]
-    const fromTokenDescriptor = fromTokenIsInRange && this._getOffsetDescriptor(fromToken)
+    const fromTokenDescriptor = fromTokenIsInRange ? this._getOffsetDescriptorIndex(fromToken) : 0
 
     // First, remove any existing nodes in the range from the map.
     this._indexMap.deleteRange(range[0] + 1, range[1])
@@ -493,7 +529,12 @@ class OffsetStorage {
         )
       }
       else {
-        const offsetInfo = this._getOffsetDescriptor(token)
+        const offsetDescriptorIndex = this._getOffsetDescriptorIndex(token)
+        const offsetInfo = {
+          from: this._descriptors.getFromToken(offsetDescriptorIndex),
+          force: this._descriptors.getForce(offsetDescriptorIndex),
+          offset: this._descriptors.getOffset(offsetDescriptorIndex),
+        }
         const offset = (
           offsetInfo.from
           && offsetInfo.from.loc.start.line === token.loc.start.line
@@ -525,7 +566,7 @@ class OffsetStorage {
    * @returns The token that the given token depends on, or `null` if the given token is at the top level
    */
   getFirstDependency(token: Token) {
-    return this._getOffsetDescriptor(token).from
+    return this._descriptors.getFromToken(this._getOffsetDescriptorIndex(token))
   }
 }
 
@@ -933,7 +974,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param endToken The end token of the list, e.g. ']'
      * @param offset The amount that the elements should be offset
      */
-    function addElementListIndent(elements: (ASTNode | null)[], startToken: Token, endToken: Token, offset: number | string) {
+    function addElementListIndent(elements: (ASTNode | null)[], startToken: Token, endToken: Token, offset: ElementListOffset) {
       if (isTokenOnSameLine(startToken, endToken))
         return
 
@@ -1099,10 +1140,12 @@ export default createRule<RuleOptions, MessageIds>({
 
         // We only want to handle parens around expressions, so exclude parentheses that are in function parameters and function call arguments.
         if (!parameterParens.has(leftParen) && !parameterParens.has(rightParen)) {
-          const parenthesizedTokens = new Set(sourceCode.getTokensBetween(leftParen, rightParen))
+          const parenthesizedTokens: Set<Token> = new Set(sourceCode.getTokensBetween(leftParen, rightParen))
 
           parenthesizedTokens.forEach((token) => {
-            if (!parenthesizedTokens.has(offsets.getFirstDependency(token)))
+            const dependency = offsets.getFirstDependency(token)
+
+            if (!dependency || !parenthesizedTokens.has(dependency))
               offsets.setDesiredOffset(token, leftParen, 1)
           })
         }
@@ -1117,10 +1160,12 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node Unknown Node
      */
     function ignoreNode(node: ASTNode) {
-      const unknownNodeTokens = new Set(sourceCode.getTokens(node, { includeComments: true }))
+      const unknownNodeTokens: Set<Token> = new Set(sourceCode.getTokens(node, { includeComments: true }))
 
       unknownNodeTokens.forEach((token) => {
-        if (!unknownNodeTokens.has(offsets.getFirstDependency(token))) {
+        const dependency = offsets.getFirstDependency(token)
+
+        if (!dependency || !unknownNodeTokens.has(dependency)) {
           const firstTokenOfLine = tokenInfo.getFirstTokenOfLine(token)!
 
           if (token === firstTokenOfLine)
@@ -1799,10 +1844,11 @@ export default createRule<RuleOptions, MessageIds>({
           return
 
         const kind = node.kind === 'await using' ? 'using' : node.kind
-        let variableIndent = Object.hasOwn(options.VariableDeclarator, kind)
+        const variableIndent = Object.hasOwn(options.VariableDeclarator, kind)
           ? options.VariableDeclarator[kind]
           : DEFAULT_VARIABLE_INDENT
         const alignFirstVariable = variableIndent === 'first'
+        let numericVariableIndent = alignFirstVariable ? DEFAULT_VARIABLE_INDENT : variableIndent
 
         const firstToken = sourceCode.getFirstToken(node)!
         const lastToken = sourceCode.getLastToken(node)!
@@ -1819,8 +1865,9 @@ export default createRule<RuleOptions, MessageIds>({
             )
 
             const firstTokenOfFirstElement = sourceCode.getFirstToken(node.declarations[0])!
+            const firstVariableIndentWidth = tokenInfo.getTokenIndent(firstTokenOfFirstElement).length - tokenInfo.getTokenIndent(firstToken).length
 
-            variableIndent = (tokenInfo.getTokenIndent(firstTokenOfFirstElement).length - tokenInfo.getTokenIndent(firstToken).length) / indentSize
+            numericVariableIndent = indentSize === 0 ? 0 : firstVariableIndentWidth / indentSize
           }
 
           /**
@@ -1842,13 +1889,10 @@ export default createRule<RuleOptions, MessageIds>({
            * on the same line as the start of the declaration, provided that there are declarators that
            * follow this one.
            */
-          offsets.setDesiredOffsets(node.range, firstToken, variableIndent, true)
+          offsets.setDesiredOffsets(node.range, firstToken, numericVariableIndent, true)
         }
         else {
-          if (alignFirstVariable)
-            variableIndent = DEFAULT_VARIABLE_INDENT
-
-          offsets.setDesiredOffsets(node.range, firstToken, variableIndent)
+          offsets.setDesiredOffsets(node.range, firstToken, numericVariableIndent)
         }
 
         if (isSemicolonToken(lastToken))
