@@ -65,6 +65,7 @@
     "ohash": "catalog:dev",
     "oxc-minify": "catalog:docs",
     "oxfmt": "catalog:dev",
+    "oxlint": "catalog:test",
     "picomatch": "catalog:prod",
     "semver": "catalog:dev",
     "simple-git-hooks": "catalog:dev",

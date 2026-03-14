@@ -1,0 +1,63 @@
+import type { ExpectStatic } from 'vitest'
+import fs, { promises as fsp } from 'node:fs'
+import { join } from 'node:path'
+import fg from 'fast-glob'
+
+export interface RunFixtureTestOptions {
+  from: string
+  output: string
+  target: string
+  configWriter: (target: string) => Promise<void>
+  lintRunner: (target: string) => Promise<void>
+  ignoreFiles: string[]
+  copyFilter?: (src: string) => boolean
+}
+
+export async function runFixtureTest(
+  expect: ExpectStatic,
+  options: RunFixtureTestOptions,
+): Promise<void> {
+  const { from, output, target, configWriter, lintRunner, ignoreFiles, copyFilter } = options
+
+  await fsp.cp(from, target, {
+    recursive: true,
+    filter: (src) => {
+      if (src.includes('node_modules'))
+        return false
+      return copyFilter ? copyFilter(src) : true
+    },
+  })
+
+  await configWriter(target)
+
+  let error = null
+  try {
+    await lintRunner(target)
+  }
+  catch (e) {
+    error = e
+  }
+
+  const files = await fg('**/*', {
+    ignore: ['node_modules', ...ignoreFiles],
+    cwd: target,
+  })
+
+  await Promise.all(files.map(async (file) => {
+    const content = (await fsp.readFile(join(target, file), 'utf-8')).replace(/\r\n/g, '\n').trim()
+    const source = (await fsp.readFile(join(from, file), 'utf-8')).replace(/\r\n/g, '\n').trim()
+    const targetPath = join(output, file)
+
+    if (content === source) {
+      if (fs.existsSync(targetPath))
+        await fsp.unlink(targetPath)
+    }
+    else {
+      await expect.soft(content)
+        .toMatchFileSnapshot(targetPath)
+    }
+  }))
+
+  if (error)
+    throw error
+}
