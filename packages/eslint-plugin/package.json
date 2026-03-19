@@ -134,7 +134,16 @@
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
-    "eslint": "^9.0.0 || ^10.0.0"
+    "eslint": "^9.0.0 || ^10.0.0",
+    "oxlint": "^1.55.0"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    },
+    "oxlint": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@eslint-community/eslint-utils": "catalog:prod",
