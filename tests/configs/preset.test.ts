@@ -79,6 +79,11 @@ export default [
       },
     }
   },
+  {
+    linterOptions: {
+      reportUnusedDisableDirectives: false,
+    },
+  },
   ${
     typeof configs === 'string'
       ? `stylistic.configs['${configs}']`

@@ -13,13 +13,14 @@ export interface RunFixtureTestOptions {
   lintRunner: (target: string) => Promise<void>
   ignoreFiles: string[]
   copyFilter?: (src: string) => boolean
+  errorOutput?: string
 }
 
 export async function runFixtureTest(
   expect: ExpectStatic,
   options: RunFixtureTestOptions,
 ): Promise<void> {
-  const { from, output, target, configWriter, lintRunner, ignoreFiles, copyFilter } = options
+  const { from, output, target, configWriter, lintRunner, ignoreFiles, copyFilter, errorOutput } = options
 
   await fsp.cp(from, target, {
     recursive: true,
@@ -32,7 +33,7 @@ export async function runFixtureTest(
 
   await configWriter(target)
 
-  let error = null
+  let error: unknown = null
   try {
     await lintRunner(target)
   }
@@ -55,11 +56,24 @@ export async function runFixtureTest(
         await fsp.unlink(targetPath)
     }
     else {
-      await expect.soft(content)
-        .toMatchFileSnapshot(targetPath)
+      try {
+        await expect.soft(content)
+          .toMatchFileSnapshot(targetPath)
+        if (errorOutput) {
+          const errorPath = join(errorOutput, file)
+          if (fs.existsSync(errorPath))
+            fs.unlinkSync(errorPath)
+        }
+      }
+      catch {
+        if (errorOutput) {
+          const errorPath = join(errorOutput, file)
+          return await expect.soft(content).toMatchFileSnapshot(errorPath)
+        }
+      }
     }
   }))
 
-  if (error)
+  if (!errorOutput && error)
     throw error
 }

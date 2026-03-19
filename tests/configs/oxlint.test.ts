@@ -30,9 +30,9 @@ function runWithConfig(name: string, configs: StylisticCustomizeOptions | string
   it.concurrent(name, async ({ expect }) => {
     const from = resolve(fixturesDir, 'input')
     // TODO: switch to output to see diff
-    // 1. eslint-disable comment
-    // 2. The blank line in `tsx.tsx`: `jsx-one-expression-per-line` and `jsx-closing-tag-location` have conflict fixes.
-    const output = resolve(fixturesDir, 'output_oxlint', name)
+    // The blank line in `tsx.tsx`: `jsx-one-expression-per-line` and `jsx-closing-tag-location` have conflict fixes.
+    const output = resolve(fixturesDir, 'output', name)
+    const errorOutput = resolve(fixturesDir, 'output_oxlint', name)
     const target = resolve(targetDir, name)
 
     const rules = typeof configs === 'string'
@@ -42,6 +42,7 @@ function runWithConfig(name: string, configs: StylisticCustomizeOptions | string
     await runFixtureTest(expect, {
       from,
       output,
+      errorOutput,
       target,
       ignoreFiles: ['.oxlintrc.json'],
       copyFilter: src => !src.endsWith('.vue'),
