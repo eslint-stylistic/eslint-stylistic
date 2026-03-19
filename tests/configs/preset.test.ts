@@ -2,12 +2,10 @@ import type { StylisticCustomizeOptions } from '@stylistic/eslint-plugin'
 import type { Linter } from 'eslint'
 import { promises as fsp } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { execa } from 'execa'
 import { afterAll, beforeAll, it } from 'vitest'
-import { runFixtureTest } from '../_utils'
+import { fixturesDir, runFixtureTest } from './_utils'
 
-const fixturesDir = fileURLToPath(new URL('fixtures', import.meta.url))
 const targetDir = '_fixtures_eslint'
 
 beforeAll(async () => {

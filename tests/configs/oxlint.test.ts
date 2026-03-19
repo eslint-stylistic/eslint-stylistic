@@ -1,13 +1,11 @@
 import type { StylisticCustomizeOptions } from '@stylistic/eslint-plugin'
 import { promises as fsp } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import plugin from '@stylistic/eslint-plugin'
 import { execa } from 'execa'
 import { afterAll, beforeAll, it } from 'vitest'
-import { runFixtureTest } from '../_utils'
+import { fixturesDir, runFixtureTest } from './_utils'
 
-const fixturesDir = fileURLToPath(new URL('fixtures', import.meta.url))
 const targetDir = '_fixtures_oxlint'
 
 const MAX_FIX_PASSES = 5
@@ -31,7 +29,7 @@ runWithConfig('all', 'all')
 function runWithConfig(name: string, configs: StylisticCustomizeOptions | string) {
   it.concurrent(name, async ({ expect }) => {
     const from = resolve(fixturesDir, 'input')
-    const output = resolve(fixturesDir, 'output_oxlint', name)
+    const output = resolve(fixturesDir, 'output', name)
     const target = resolve(targetDir, name)
 
     const rules = typeof configs === 'string'

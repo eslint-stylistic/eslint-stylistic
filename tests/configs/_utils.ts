@@ -1,8 +1,10 @@
 import type { ExpectStatic } from 'vitest'
 import fs, { promises as fsp } from 'node:fs'
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import fg from 'fast-glob'
 
+export const fixturesDir = fileURLToPath(new URL('fixtures', import.meta.url))
 export interface RunFixtureTestOptions {
   from: string
   output: string
