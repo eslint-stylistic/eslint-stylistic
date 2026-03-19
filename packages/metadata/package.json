@@ -20,7 +20,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown --format cjs",
+    "build": "tsdown",
     "dev": "tsdown --watch",
     "prepublishOnly": "tsdown"
   }
