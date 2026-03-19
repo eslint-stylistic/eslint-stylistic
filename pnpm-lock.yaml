@@ -455,6 +455,9 @@ importers:
       espree:
         specifier: catalog:prod
         version: 11.1.1
+      oxlint:
+        specifier: ^1.55.0
+        version: 1.55.0
       picomatch:
         specifier: catalog:prod
         version: 4.0.3
