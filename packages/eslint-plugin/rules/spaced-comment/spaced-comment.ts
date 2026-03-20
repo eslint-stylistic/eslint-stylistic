@@ -5,6 +5,7 @@
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isHashbangComment, LINEBREAKS } from '#utils/ast'
+import { isTripleSlashReference } from '#utils/ast/comment'
 import { createRule } from '#utils/create-rule'
 import escapeRegExp from 'escape-string-regexp'
 
@@ -324,9 +325,7 @@ export default createRule<RuleOptions, MessageIds>({
       // Ignores empty comments and comments that consist only of a marker.
       if (node.value.length === 0 || rule.markers.has(node.value))
         return
-
-      // Ignores typescript triple-slash directive.
-      if (type === 'line' && (node.value.startsWith('/ <reference') || node.value.startsWith('/ <amd')))
+      if (isTripleSlashReference(node))
         return
 
       const beginMatch = rule.beginRegex.exec(node.value)
