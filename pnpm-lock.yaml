@@ -97,6 +97,9 @@ catalogs:
     oxfmt:
       specifier: ^0.36.0
       version: 0.36.0
+    oxlint:
+      specifier: ^1.55.0
+      version: 1.55.0
     semver:
       specifier: ^7.7.4
       version: 7.7.4
@@ -199,9 +202,6 @@ catalogs:
     eslint-vitest-rule-tester:
       specifier: ^3.1.0
       version: 3.1.0
-    oxlint:
-      specifier: ^1.55.0
-      version: 1.55.0
     vue-eslint-parser:
       specifier: ^10.4.0
       version: 10.4.0
@@ -347,7 +347,7 @@ importers:
         specifier: catalog:dev
         version: 0.36.0
       oxlint:
-        specifier: catalog:test
+        specifier: catalog:dev
         version: 1.55.0
       picomatch:
         specifier: catalog:prod
