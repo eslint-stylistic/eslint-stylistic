@@ -4,7 +4,7 @@ import { isClosingParenToken, isColonToken, isCommentToken, isFunction, isOpenin
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 import { latestEcmaVersion, tokenize } from 'espree'
 
-export const COMMENTS_IGNORE_PATTERN = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
+export const COMMENTS_IGNORE_PATTERN = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs|\/\s*<(?:reference|amd-))/u
 
 export const LINEBREAKS = /* @__PURE__ */ new Set(['\r\n', '\r', '\n', '\u2028', '\u2029'])
 

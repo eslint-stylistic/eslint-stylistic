@@ -430,6 +430,15 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['starred-block'],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/757#issuecomment-2784959442
+    {
+      code: $`
+        /// <reference types="vite/client" />
+        /// <reference path="./types.d.ts" />
+        /// <reference lib="es2020" />
+      `,
+      options: ['starred-block'],
+    },
   ],
 
   invalid: [
