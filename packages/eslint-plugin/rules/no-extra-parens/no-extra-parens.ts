@@ -744,13 +744,10 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function checkBinaryLogical(node: Tree.BinaryExpression | Tree.LogicalExpression) {
-      // makes the rule think it should skip the left or right
-      const isLeftTypeAssertion = isTypeAssertion(node.left)
-      const isRightTypeAssertion = isTypeAssertion(node.right)
-      if (isLeftTypeAssertion && isRightTypeAssertion)
-        return // ignore
-
       function shouldSkip(expression: ASTNode) {
+        if (isTypeAssertion(expression))
+          return !hasDoubleExcessParens(expression)
+
         return (
           IGNORE_NESTED_BINARY
           && (expression.type === 'BinaryExpression' || expression.type === 'LogicalExpression')

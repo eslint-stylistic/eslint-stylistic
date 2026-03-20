@@ -617,5 +617,13 @@ run<RuleOptions, MessageIds>({
         { messageId: 'unexpected' },
       ],
     },
+    {
+      code: '((a as A)) | ((b as B))',
+      output: '(a as A) | (b as B)',
+      errors: [
+        { messageId: 'unexpected' },
+        { messageId: 'unexpected' },
+      ],
+    },
   ],
 })
