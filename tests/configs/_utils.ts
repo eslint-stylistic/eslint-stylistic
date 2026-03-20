@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url'
 import fg from 'fast-glob'
 
 export const fixturesDir = fileURLToPath(new URL('fixtures', import.meta.url))
+
 export interface RunFixtureTestOptions {
   from: string
   output: string
@@ -15,6 +16,8 @@ export interface RunFixtureTestOptions {
   copyFilter?: (src: string) => boolean
   errorOutput?: string
 }
+
+const normalizeContent = (text: string) => text.replace(/\r\n/g, '\n').trim()
 
 export async function runFixtureTest(
   expect: ExpectStatic,
@@ -47,8 +50,8 @@ export async function runFixtureTest(
   })
 
   await Promise.all(files.map(async (file) => {
-    const content = (await fsp.readFile(join(target, file), 'utf-8')).replace(/\r\n/g, '\n').trim()
-    const source = (await fsp.readFile(join(from, file), 'utf-8')).replace(/\r\n/g, '\n').trim()
+    const content = normalizeContent(await fsp.readFile(join(target, file), 'utf-8'))
+    const source = normalizeContent(await fsp.readFile(join(from, file), 'utf-8'))
     const targetPath = join(output, file)
 
     if (content === source) {
@@ -65,11 +68,12 @@ export async function runFixtureTest(
             fs.unlinkSync(errorPath)
         }
       }
-      catch {
+      catch (err) {
         if (errorOutput) {
           const errorPath = join(errorOutput, file)
           return await expect.soft(content).toMatchFileSnapshot(errorPath)
         }
+        throw err
       }
     }
   }))
