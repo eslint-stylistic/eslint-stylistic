@@ -16,7 +16,7 @@ packages:
 catalogs:
   build:
     '@codecov/rollup-plugin': ^1.9.1
-    tsdown: ^0.20.3
+    tsdown: ^0.21.4
   dev:
     '@antfu/eslint-config': ^7.7.0
     '@antfu/eslint-define-config': 1.23.0-2

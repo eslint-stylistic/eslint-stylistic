@@ -3,7 +3,7 @@
  */
 
 import { generateDtsFromSchema } from './update/schema-to-ts'
-import { generateMetadata, readPackages, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
+import { generateMetadata, readPackages, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
 
 async function run() {
   const packages = await readPackages()
@@ -12,7 +12,6 @@ async function run() {
     await writeRulesIndex(pkg)
     await writeREADME(pkg)
     await writePackageDTS(pkg)
-    await updateExports(pkg)
   }
 
   await generateDtsFromSchema()
