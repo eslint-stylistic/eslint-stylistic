@@ -20,7 +20,7 @@ const rulesEntry = fg.sync(
 
 export default defineConfig([
   {
-    entry: ['src/index.ts'],
+    entry: './src/index.ts',
     dts: false,
     hash: false,
     minify: 'dce-only',
@@ -50,6 +50,7 @@ export default defineConfig([
       ],
     },
     outputOptions: {
+      comments: false,
       codeSplitting: {
         groups: [
           {
