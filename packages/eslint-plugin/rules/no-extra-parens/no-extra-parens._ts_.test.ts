@@ -365,6 +365,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['all', { ignoredNodes: ['TSTypeAliasDeclaration[typeAnnotation.type="TSIntersectionType"]'] }],
     },
+    `type Foo = (() => string)[]`,
+    `type Foo = (keyof T)[]`,
   ],
 
   invalid: [
@@ -487,6 +489,15 @@ run<RuleOptions, MessageIds>({
     {
       code: 'const x = [(b as string)]',
       output: 'const x = [b as string]',
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
+      ],
+    },
+    {
+      code: '((foo as Bar)).baz',
+      output: '(foo as Bar).baz',
       errors: [
         {
           messageId: 'unexpected',

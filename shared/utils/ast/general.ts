@@ -446,6 +446,7 @@ export function getPrecedence(node: ASTNode) {
     case 'AssignmentExpression':
     case 'ArrowFunctionExpression':
     case 'YieldExpression':
+    case 'TSFunctionType':
       return 1
 
     case 'TSAsExpression':
@@ -471,7 +472,6 @@ export function getPrecedence(node: ASTNode) {
       /* falls through */
 
     case 'BinaryExpression':
-
       switch (node.operator) {
         case '|':
           return 6
@@ -507,13 +507,20 @@ export function getPrecedence(node: ASTNode) {
 
         // no default
       }
-
       /* falls through */
 
     case 'TSUnionType':
       return 6
     case 'TSIntersectionType':
       return 8
+    case 'TSTypeOperator':
+      switch (node.operator) {
+        case 'keyof':
+          return 10
+
+        // no default
+      }
+      /* falls through */
 
     case 'UnaryExpression':
     case 'AwaitExpression':
@@ -529,10 +536,6 @@ export function getPrecedence(node: ASTNode) {
 
     case 'NewExpression':
       return 19
-
-    case 'TSImportType':
-    case 'TSArrayType':
-      return 20
 
     default:
       if (node.type in visitorKeys)

@@ -335,7 +335,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (isImmediateFunctionPrototypeMethodCall(node) && IGNORE_FUNCTION_PROTOTYPE_METHODS)
         return false
 
-      if (node.type === AST_NODE_TYPES.FunctionExpression || node.type === AST_NODE_TYPES.ArrowFunctionExpression)
+      if (node.type === 'FunctionExpression' || node.type === 'ArrowFunctionExpression')
         return true
 
       if (isTypeAssertion(node))
@@ -1180,17 +1180,15 @@ export default createRule<RuleOptions, MessageIds>({
       },
       'LogicalExpression': checkBinaryLogical,
       MemberExpression(node) {
-        const shouldAllowWrapOnce = isMemberExpInNewCallee(node)
-          && doesMemberExpressionContainCallExpression(node)
-        const nodeObjHasExcessParens = shouldAllowWrapOnce
-          ? hasDoubleExcessParens(node.object)
-          : hasExcessParens(node.object)
-            && !(
-              isImmediateFunctionPrototypeMethodCall(node.parent)
-              && 'callee' in node.parent && node.parent.callee === node
-              && IGNORE_FUNCTION_PROTOTYPE_METHODS
-            )
-            && !isTypeAssertion(node.object)
+        const isObjectTypeAssertion = isTypeAssertion(node.object)
+        const shouldAllowWrapOnce = isObjectTypeAssertion
+          || (isMemberExpInNewCallee(node) && doesMemberExpressionContainCallExpression(node))
+        const nodeObjHasExcessParens = shouldAllowWrapOnce ? hasDoubleExcessParens(node.object) : hasExcessParens(node.object)
+          && !(
+            isImmediateFunctionPrototypeMethodCall(node.parent)
+            && 'callee' in node.parent && node.parent.callee === node
+            && IGNORE_FUNCTION_PROTOTYPE_METHODS
+          )
 
         if (
           nodeObjHasExcessParens
@@ -1207,8 +1205,10 @@ export default createRule<RuleOptions, MessageIds>({
           report(node.object)
         }
 
-        if (nodeObjHasExcessParens
-          && node.object.type === 'CallExpression') {
+        if (
+          nodeObjHasExcessParens
+          && (isObjectTypeAssertion || node.object.type === 'CallExpression')
+        ) {
           report(node.object)
         }
 
