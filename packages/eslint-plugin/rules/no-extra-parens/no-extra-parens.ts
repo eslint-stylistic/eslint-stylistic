@@ -35,12 +35,10 @@ import { warnDeprecatedOptions } from '#utils/index'
  * x as foo
  * <foo>x
  * x satisfies foo
- * x!
  * ```
  */
 const isTypeAssertion = isNodeOfTypes([
   AST_NODE_TYPES.TSAsExpression,
-  AST_NODE_TYPES.TSNonNullExpression,
   AST_NODE_TYPES.TSSatisfiesExpression,
   AST_NODE_TYPES.TSTypeAssertion,
 ])
