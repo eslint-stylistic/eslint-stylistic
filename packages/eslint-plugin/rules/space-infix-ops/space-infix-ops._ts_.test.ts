@@ -397,6 +397,7 @@ run<RuleOptions, MessageIds>({
         function bar(): string & number {}
       `,
     },
+    `type Foo<T extends { type: string } = never> = T`,
     {
       code: 'var foo: string|number = 123;',
       options: [{
@@ -2447,6 +2448,14 @@ run<RuleOptions, MessageIds>({
           column: 44,
           line: 2,
         },
+      ],
+    },
+    {
+      code: `type Foo<T extends { type: string }=never>=T`,
+      output: `type Foo<T extends { type: string } = never> = T`,
+      errors: [
+        { messageId: 'missingSpace', line: 1, column: 36 },
+        { messageId: 'missingSpace', line: 1, column: 43 },
       ],
     },
   ],
