@@ -80,4 +80,4 @@ Also refer to [Migration Guide](/guide/migration#when-should-i-migrate).
 
 Rule docs show each rule's **native defaults** — how they behave without any configuration. However, our [`recommended`](/guide/config-presets#static-configurations) preset intentionally overrides some defaults for consistency. Use the [`all`](/guide/config-presets#enable-all-available-rules) preset if you want all native defaults.
 
-You can use [`@eslint/config-inspector`](https://npmx.dev/package/@eslint/config-inspector) to visualize your actual resolved configuration.
+You can use [`@eslint/config-inspector`](https://github.com/eslint/config-inspector) to visualize your actual resolved configuration.
