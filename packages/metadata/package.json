@@ -14,6 +14,10 @@
   "bugs": {
     "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
   },
+  "exports": {
+    ".": "./dist/index.cjs",
+    "./package.json": "./package.json"
+  },
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.cts",
   "files": [
