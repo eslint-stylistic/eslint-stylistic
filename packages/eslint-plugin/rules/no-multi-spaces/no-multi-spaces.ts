@@ -12,13 +12,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'no-multi-spaces',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow multiple spaces',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'object',
@@ -34,30 +31,33 @@ export default createRule<RuleOptions, MessageIds>({
           },
           ignoreEOLComments: {
             type: 'boolean',
-            default: false,
           },
           includeTabs: {
             type: 'boolean',
-            default: true,
           },
         },
         additionalProperties: false,
       },
     ],
-
+    defaultOptions: [{
+      ignoreEOLComments: false,
+      includeTabs: true,
+    }],
     messages: {
       multipleSpaces: 'Multiple spaces found before \'{{displayValue}}\'.',
     },
   },
+  create(context, [options]) {
+    const {
+      ignoreEOLComments,
+      exceptions,
+      includeTabs,
+    } = options!
 
-  create(context) {
     const sourceCode = context.sourceCode
-    const options = context.options[0] || {}
-    const ignoreEOLComments = options.ignoreEOLComments
-    const exceptions = Object.assign({ Property: true, ImportAttribute: true }, options.exceptions)
-    const hasExceptions = Object.keys(exceptions).some(key => exceptions[key])
+    const hasExceptions = exceptions && Object.keys(exceptions).some(key => exceptions[key])
 
-    const spacesRe = options.includeTabs === false ? / {2}/ : /[ \t]{2}/
+    const spacesRe = includeTabs ? /[ \t]{2}/ : / {2}/
 
     /**
      * Formats value of given comment token for error message by truncating its length.

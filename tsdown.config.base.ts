@@ -29,6 +29,12 @@ export function createConfig(cwd: string) {
       dts: false,
       hash: false,
       minify: 'dce-only',
+      fixedExtension: false,
+      inlineOnly: [
+        // https://github.com/eslint-stylistic/eslint-stylistic/pull/838
+        '@typescript-eslint/utils',
+        'escape-string-regexp',
+      ],
       outputOptions: {
         advancedChunks: {
           groups: [

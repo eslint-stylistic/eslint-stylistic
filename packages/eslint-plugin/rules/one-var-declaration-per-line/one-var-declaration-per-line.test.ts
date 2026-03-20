@@ -22,7 +22,6 @@ import rule from './one-var-declaration-per-line'
 function errorAt(line: number, column: number): TestCaseError<MessageIds> {
   return {
     messageId: 'expectVarOnNewline',
-    type: 'VariableDeclaration',
     line,
     column,
   }

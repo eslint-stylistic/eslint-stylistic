@@ -100,8 +100,11 @@ This rule has an object option:
 - `"ObjectExpression"` (default: 1) enforces indentation level for properties in objects. It can be set to the string `"first"`, indicating that all properties in the object should be aligned with the first property. This can also be set to `"off"` to disable checking for object properties.
 - `"ImportDeclaration"` (default: 1) enforces indentation level for import statements. It can be set to the string `"first"`, indicating that all imported members from a module should be aligned with the first member in the list. This can also be set to `"off"` to disable checking for imported module members.
 - `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
-- `"offsetTernaryExpressions": true` (`false` by default) requires indentation for values of ternary expressions.
-- `"offsetTernaryExpressionsOffsetCallExpressions": true` (`true` by default), handles an edge case for call expressions nested in ternary. It's only effective when `offsetTernaryExpressions` is set to `true`.
+- `"offsetTernaryExpressions": true` (`false` by default) requires indentation for values of ternary expressions. An optional configuration object can be provided to handle specific edge cases:
+  - `CallExpression`: Aligns with `offsetTernaryExpressions` by default.
+  - `AwaitExpression`: Aligns with `offsetTernaryExpressions` by default.
+  - `NewExpression`: Aligns with `offsetTernaryExpressions` by default.
+- `"assignmentOperator"` (default: 1) enforces indentation level for the assignment operator and value in variable/type declarations and assignment expressions when they are on different lines than the left side of the assignment (e.g. variable name). This can also be set to `"off"` to disable the checking.
 - `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
 - `"tabLength"` (default: 4) when using tabbed indentation, the indentation used to calculate the insertion value of the template string
 
@@ -1106,10 +1109,6 @@ condition
 
 :::
 
-### offsetTernaryExpressionsOffsetCallExpressions
-
-> This option is only effective when `offsetTernaryExpressions` is set to `true`.
-
 Since v2.12.0, we [introduced a fix](https://github.com/eslint-stylistic/eslint-stylistic/pull/625) to call expressions handling inside ternary. With the new version, the rule now expect the following code to be correct:
 
 ::: correct
@@ -1131,12 +1130,12 @@ condition
 
 :::
 
-Due to the new fix introduced changes to some existing codebase, we introduced this `offsetTernaryExpressionsOffsetCallExpressions` option to toggle the behaviors. It's set to `true` by default, where you can set it to `false` to use the previous behavior.
+Due to the new fix introduced changes to some existing codebase, we introduced `offsetTernaryExpressions.CallExpression` option to toggle the behaviors. It's set to `true` by default, where you can set it to `false` to use the previous behavior.
 
 ::: correct
 
 ```js
-/* eslint @stylistic/indent: ["error", 2, { "offsetTernaryExpressions": true, "offsetTernaryExpressionsOffsetCallExpressions": false }] */
+/* eslint @stylistic/indent: ["error", 2, { "offsetTernaryExpressions": { "CallExpression": false }}] */
 
 condition
   ? gerUser({
@@ -1148,6 +1147,62 @@ condition
       id: 'bar',
     })
     : undefined
+```
+
+:::
+
+### assignmentOperator
+
+Examples of **incorrect** code for this rule with the `{ "assignmentOperator": 1 }` option:
+
+::: incorrect
+
+```ts
+/* eslint @stylistic/indent: ["error", 2, { "assignmentOperator": 1 }] */
+
+let foo
+= 'bar';
+
+foo
+= 'baz';
+
+type Foo<
+  T =
+  string
+>
+= T;
+
+enum Bar {
+  A
+  = 1,
+}
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{ "assignmentOperator": 1 }` option:
+
+::: correct
+
+```ts
+/* eslint @stylistic/indent: ["error", 2, { "assignmentOperator": 1 }] */
+
+let foo =
+  'bar';
+
+foo
+  = 'baz';
+
+type Foo<
+  T =
+    string
+>
+  = T;
+
+enum Bar {
+  A
+    = 1,
+}
 ```
 
 :::

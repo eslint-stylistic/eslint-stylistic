@@ -4,10 +4,16 @@ Enforce line breaks before and after JSX elements when they are used as argument
 
 ## Rule Details
 
-This rule checks whether a line break is needed before and after all JSX elements that serve as function arguments. There are the possible configurations:
+This rule checks whether a line break is needed before and after all JSX elements that serve as function arguments.
+
+## Options
+
+There are the possible configurations:
 
 - `always`: Each JSX element as an argument has a line break before and after it.
 - `multiline`(default): Only line break are added before and after a JSX element when there is a newline present within the element itself.
+
+### always
 
 Examples of **incorrect** code for this rule, when configured with `"always"`:
 
@@ -62,6 +68,8 @@ fn(
 
 :::
 
+### multiline
+
 Examples of **incorrect** code for this rule, when configured with `"multiline"`:
 
 ::: incorrect
@@ -110,12 +118,6 @@ fn (
 ```
 
 :::
-
-## Rule Options
-
-```jsx
-"@stylistic/jsx-function-call-newline": "always" | "multiline"
-```
 
 ## When Not To Use It
 

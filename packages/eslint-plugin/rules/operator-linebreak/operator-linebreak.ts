@@ -5,18 +5,17 @@
 
 import type { ASTNode, ReportFixFunction, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { createGlobalLinebreakMatcher, isTokenOnSameLine } from '#utils/ast'
+import { AST_TOKEN_TYPES, createGlobalLinebreakMatcher, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'operator-linebreak',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent linebreak style for operators',
     },
-
+    fixable: 'code',
     schema: [
       {
         oneOf: [
@@ -43,9 +42,8 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
-    fixable: 'code',
-
+    // eslint-disable-next-line eslint-plugin/require-meta-default-options
+    defaultOptions: [],
     messages: {
       operatorAtBeginning: '\'{{operator}}\' should be placed at the beginning of the line.',
       operatorAtEnd: '\'{{operator}}\' should be placed at the end of the line.',
@@ -53,8 +51,8 @@ export default createRule<RuleOptions, MessageIds>({
       noLinebreak: 'There should be no line break before or after \'{{operator}}\'.',
     },
   },
-
   create(context) {
+    // TODO: `usedDefaultGlobal` break the `defaultOptions`. Fix it in v6
     const usedDefaultGlobal = !context.options[0]
     const globalStyle = context.options[0] || 'after'
     const options = context.options[1] || {}
@@ -78,18 +76,23 @@ export default createRule<RuleOptions, MessageIds>({
       return (fixer) => {
         const tokenBefore = sourceCode.getTokenBefore(operatorToken)!
         const tokenAfter = sourceCode.getTokenAfter(operatorToken)!
-        const textBefore = sourceCode.text.slice(tokenBefore.range[1], operatorToken.range[0])
-        const textAfter = sourceCode.text.slice(operatorToken.range[1], tokenAfter.range[0])
+        const tokenBeforeIncludingComments = sourceCode.getTokenBefore(operatorToken, { includeComments: true })
+        const tokenAfterIncludingComments = sourceCode.getTokenAfter(operatorToken, { includeComments: true })
+        const hasCommentBefore = tokenBeforeIncludingComments !== tokenBefore
+        const hasCommentAfter = tokenAfterIncludingComments !== tokenAfter
+        const hasBlockCommentBefore = hasCommentBefore && tokenBeforeIncludingComments?.type === AST_TOKEN_TYPES.Block
+        const hasBlockCommentAfter = hasCommentAfter && tokenAfterIncludingComments?.type === AST_TOKEN_TYPES.Block
+        const tokenBeforeForSwap = desiredStyle === 'after' && hasBlockCommentBefore ? tokenBeforeIncludingComments : tokenBefore
+        const tokenAfterForSwap = desiredStyle === 'before' && hasBlockCommentAfter ? tokenAfterIncludingComments : tokenAfter
+        const textBefore = sourceCode.text.slice(tokenBeforeForSwap.range[1], operatorToken.range[0])
+        const textAfter = sourceCode.text.slice(operatorToken.range[1], tokenAfterForSwap.range[0])
         const hasLinebreakBefore = !isTokenOnSameLine(tokenBefore, operatorToken)
         const hasLinebreakAfter = !isTokenOnSameLine(operatorToken, tokenAfter)
         let newTextBefore, newTextAfter
 
         if (hasLinebreakBefore !== hasLinebreakAfter && desiredStyle !== 'none') {
           // If there is a comment before and after the operator, don't do a fix.
-          if (
-            sourceCode.getTokenBefore(operatorToken, { includeComments: true }) !== tokenBefore
-            && sourceCode.getTokenAfter(operatorToken, { includeComments: true }) !== tokenAfter
-          ) {
+          if (hasCommentBefore && hasCommentAfter) {
             return null
           }
 
@@ -121,7 +124,7 @@ export default createRule<RuleOptions, MessageIds>({
           newTextAfter += ' '
         }
 
-        return fixer.replaceTextRange([tokenBefore.range[1], tokenAfter.range[0]], newTextBefore + operatorToken.value + newTextAfter)
+        return fixer.replaceTextRange([tokenBeforeForSwap.range[1], tokenAfterForSwap.range[0]], newTextBefore + operatorToken.value + newTextAfter)
       }
     }
 

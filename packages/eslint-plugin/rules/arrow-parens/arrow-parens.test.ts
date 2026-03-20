@@ -4,11 +4,9 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { $, run } from '#test'
+import { $, run, skipBabel } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from './arrow-parens'
-
-const type = 'ArrowFunctionExpression'
 
 run<RuleOptions, MessageIds>({
   name: 'arrow-parens',
@@ -37,8 +35,6 @@ run<RuleOptions, MessageIds>({
     { code: 'a.then((foo) => {});', options: ['always'] },
     { code: 'a.then((foo) => { if (true) {}; });', options: ['always'] },
     { code: 'a.then(async (foo) => { if (true) {}; });', options: ['always'], parserOptions: { ecmaVersion: 8 } },
-    { code: '(a: T) => a', options: ['always'], languageOptions: languageOptionsForBabelFlow },
-    { code: '(a): T => a', options: ['always'], languageOptions: languageOptionsForBabelFlow },
 
     // "as-needed"
     { code: '() => {}', options: ['as-needed'] },
@@ -55,9 +51,6 @@ run<RuleOptions, MessageIds>({
     { code: 'async a => a', options: ['as-needed'], parserOptions: { ecmaVersion: 8 } },
     { code: 'async ([a, b]) => {}', options: ['as-needed'], parserOptions: { ecmaVersion: 8 } },
     { code: 'async (a, b) => {}', options: ['as-needed'], parserOptions: { ecmaVersion: 8 } },
-    { code: '(a: T) => a', options: ['as-needed'], languageOptions: languageOptionsForBabelFlow },
-    { code: '(a?) => a', options: ['as-needed'], languageOptions: languageOptionsForBabelFlow },
-    { code: '(a): T => a', options: ['as-needed'], languageOptions: languageOptionsForBabelFlow },
 
     // "as-needed", { "requireForBlockBody": true }
     { code: '() => {}', options: ['as-needed', { requireForBlockBody: true }] },
@@ -75,8 +68,6 @@ run<RuleOptions, MessageIds>({
     { code: 'a => ({})', options: ['as-needed', { requireForBlockBody: true }] },
     { code: 'async a => ({})', options: ['as-needed', { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
     { code: 'async a => a', options: ['as-needed', { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
-    { code: '(a: T) => a', options: ['as-needed', { requireForBlockBody: true }], languageOptions: languageOptionsForBabelFlow },
-    { code: '(a): T => a', options: ['as-needed', { requireForBlockBody: true }], languageOptions: languageOptionsForBabelFlow },
     {
       code: 'const f = (/** @type {number} */a/**hello*/) => a + a;',
       options: ['as-needed'],
@@ -212,7 +203,6 @@ run<RuleOptions, MessageIds>({
         column: 1,
         endColumn: 2,
         messageId: 'expectedParens',
-        type,
       }],
     },
     {
@@ -223,7 +213,6 @@ run<RuleOptions, MessageIds>({
         column: 1,
         endColumn: 2,
         messageId: 'expectedParens',
-        type,
       }],
     },
     {
@@ -234,7 +223,6 @@ run<RuleOptions, MessageIds>({
         column: 1,
         endColumn: 2,
         messageId: 'expectedParens',
-        type,
       }],
     },
     {
@@ -245,7 +233,6 @@ run<RuleOptions, MessageIds>({
         column: 8,
         endColumn: 11,
         messageId: 'expectedParens',
-        type,
       }],
     },
     {
@@ -256,7 +243,6 @@ run<RuleOptions, MessageIds>({
         column: 8,
         endColumn: 11,
         messageId: 'expectedParens',
-        type,
       }],
     },
     {
@@ -267,7 +253,6 @@ run<RuleOptions, MessageIds>({
         column: 3,
         endColumn: 6,
         messageId: 'expectedParens',
-        type,
       }],
     },
     {
@@ -279,7 +264,6 @@ run<RuleOptions, MessageIds>({
         column: 9,
         endColumn: 12,
         messageId: 'expectedParens',
-        type,
       }],
     },
 
@@ -293,7 +277,6 @@ run<RuleOptions, MessageIds>({
         column: 2,
         endColumn: 3,
         messageId: 'unexpectedParens',
-        type,
       }],
     },
     {
@@ -305,7 +288,6 @@ run<RuleOptions, MessageIds>({
         column: 4,
         endColumn: 5,
         messageId: 'unexpectedParens',
-        type,
       }],
     },
     {
@@ -317,7 +299,6 @@ run<RuleOptions, MessageIds>({
         column: 1,
         endColumn: 2,
         messageId: 'unexpectedParens',
-        type,
       }],
     },
     {
@@ -330,7 +311,6 @@ run<RuleOptions, MessageIds>({
         column: 2,
         endColumn: 3,
         messageId: 'unexpectedParens',
-        type,
       }],
     },
     {
@@ -343,7 +323,6 @@ run<RuleOptions, MessageIds>({
         column: 8,
         endColumn: 9,
         messageId: 'unexpectedParens',
-        type,
       }],
     },
     {
@@ -356,7 +335,6 @@ run<RuleOptions, MessageIds>({
         column: 7,
         endColumn: 8,
         messageId: 'unexpectedParens',
-        type,
       }],
     },
     {
@@ -368,7 +346,6 @@ run<RuleOptions, MessageIds>({
         column: 9,
         endColumn: 10,
         messageId: 'unexpectedParens',
-        type,
       }],
     },
     {
@@ -380,7 +357,6 @@ run<RuleOptions, MessageIds>({
         column: 23,
         endColumn: 24,
         messageId: 'unexpectedParens',
-        type,
       }],
     },
 
@@ -394,7 +370,6 @@ run<RuleOptions, MessageIds>({
         column: 1,
         endColumn: 2,
         messageId: 'expectedParensBlock',
-        type,
       }],
     },
     {
@@ -406,7 +381,6 @@ run<RuleOptions, MessageIds>({
         column: 2,
         endColumn: 3,
         messageId: 'unexpectedParensInline',
-        type,
       }],
     },
     {
@@ -419,7 +393,6 @@ run<RuleOptions, MessageIds>({
         column: 7,
         endColumn: 8,
         messageId: 'expectedParensBlock',
-        type,
       }],
     },
     {
@@ -432,7 +405,6 @@ run<RuleOptions, MessageIds>({
         column: 8,
         endColumn: 9,
         messageId: 'unexpectedParensInline',
-        type,
       }],
     },
     {
@@ -445,7 +417,6 @@ run<RuleOptions, MessageIds>({
         column: 7,
         endColumn: 8,
         messageId: 'unexpectedParensInline',
-        type,
       }],
     },
     {
@@ -455,7 +426,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         line: 1,
         column: 33,
-        type,
         messageId: 'unexpectedParens',
         endLine: 1,
         endColumn: 34,
@@ -468,7 +438,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         line: 2,
         column: 2,
-        type,
         messageId: 'unexpectedParens',
         endLine: 2,
         endColumn: 3,
@@ -480,7 +449,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         line: 1,
         column: 16,
-        type: 'ArrowFunctionExpression',
         messageId: 'expectedParens',
         endLine: 1,
         endColumn: 17,
@@ -492,7 +460,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         line: 1,
         column: 11,
-        type: 'ArrowFunctionExpression',
         messageId: 'expectedParens',
         endLine: 1,
         endColumn: 12,
@@ -516,7 +483,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         line: 1,
         column: 13,
-        type: 'ArrowFunctionExpression',
         messageId: 'expectedParens',
         endLine: 1,
         endColumn: 14,
@@ -524,3 +490,20 @@ run<RuleOptions, MessageIds>({
     },
   ],
 })
+
+if (!skipBabel) {
+  run<RuleOptions, MessageIds>({
+    name: 'arrow-parens_babel',
+    rule,
+    valid: [
+      { code: '(a: T) => a', options: ['always'], languageOptions: languageOptionsForBabelFlow },
+      { code: '(a): T => a', options: ['always'], languageOptions: languageOptionsForBabelFlow },
+      { code: '(a: T) => a', options: ['as-needed'], languageOptions: languageOptionsForBabelFlow },
+      { code: '(a?) => a', options: ['as-needed'], languageOptions: languageOptionsForBabelFlow },
+      { code: '(a): T => a', options: ['as-needed'], languageOptions: languageOptionsForBabelFlow },
+      { code: '(a: T) => a', options: ['as-needed', { requireForBlockBody: true }], languageOptions: languageOptionsForBabelFlow },
+      { code: '(a): T => a', options: ['as-needed', { requireForBlockBody: true }], languageOptions: languageOptionsForBabelFlow },
+    ],
+    invalid: [],
+  })
+}

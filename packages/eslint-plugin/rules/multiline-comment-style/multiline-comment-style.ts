@@ -12,11 +12,9 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'multiline-comment-style',
   meta: {
     type: 'suggestion',
-
     docs: {
       description: 'Enforce a particular style for multiline comments',
     },
-
     fixable: 'whitespace',
     schema: {
       anyOf: [
@@ -54,6 +52,7 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
+    defaultOptions: ['starred-block'],
     messages: {
       expectedBlock: 'Expected a block comment instead of consecutive line comments.',
       expectedBareBlock: 'Expected a block comment without padding stars.',
@@ -64,13 +63,13 @@ export default createRule<RuleOptions, MessageIds>({
       expectedLines: 'Expected multiple line comments instead of a block comment.',
     },
   },
+  create(context, [style, options = {}]) {
+    const {
+      checkJSDoc,
+      checkExclamation,
+    } = options!
 
-  create(context) {
     const sourceCode = context.sourceCode
-    const option = context.options[0] || 'starred-block'
-    const params = context.options[1] || {}
-    const checkJSDoc = !!params.checkJSDoc
-    const checkExclamation = !!params.checkExclamation
 
     // ----------------------------------------------------------------------
     // Helpers
@@ -454,43 +453,39 @@ export default createRule<RuleOptions, MessageIds>({
 
     return {
       Program() {
-        const commentGroups: Tree.Comment[][] = []
-
-        sourceCode.getAllComments()
-          .forEach((comment, index, commentList) => {
-            if (isHashbangComment(comment))
-              return
-
-            if (COMMENTS_IGNORE_PATTERN.test(comment.value))
-              return
+        return sourceCode.getAllComments()
+          .filter((comment) => {
+            if (isHashbangComment(comment) || COMMENTS_IGNORE_PATTERN.test(comment.value))
+              return false
 
             const tokenBefore = sourceCode.getTokenBefore(comment, { includeComments: true })
 
-            if (tokenBefore && tokenBefore.loc.end.line >= comment.loc.start.line)
-              return
+            return !tokenBefore || tokenBefore.loc.end.line < comment.loc.start.line
+          })
+          .reduce((commentGroups: Tree.Comment[][], comment, index, commentList) => {
+            const tokenBefore = sourceCode.getTokenBefore(comment, { includeComments: true })
 
             if (
               comment.type === 'Line'
-              && index && commentList[index - 1].type === 'Line'
-              && tokenBefore && tokenBefore.loc.end.line === comment.loc.start.line - 1
+              && index
+              && commentList[index - 1].type === 'Line'
+              && tokenBefore
+              && tokenBefore.loc.end.line === comment.loc.start.line - 1
               && tokenBefore === commentList[index - 1]
             ) {
               commentGroups.at(-1)!.push(comment)
             }
-
             else {
               commentGroups.push([comment])
             }
 
             return commentGroups
-          })
-
-        commentGroups
+          }, [])
           .forEach((commentGroup) => {
             if (commentGroup.length === 1 && isSingleLine(commentGroup[0]))
               return
 
-            const check = commentGroupCheckers[option]
+            const check = commentGroupCheckers[style!]
 
             check(commentGroup)
           })

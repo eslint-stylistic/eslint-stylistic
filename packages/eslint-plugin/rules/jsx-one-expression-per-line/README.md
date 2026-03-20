@@ -112,7 +112,7 @@ Examples of **correct** code for this rule:
 
 :::
 
-## Rule Options
+## Options
 
 ```js
 ...

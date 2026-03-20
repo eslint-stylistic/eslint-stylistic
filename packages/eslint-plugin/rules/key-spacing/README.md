@@ -181,6 +181,8 @@ call({
 
 ### align
 
+#### value
+
 Examples of **incorrect** code for this rule with the `{ "align": "value" }` option:
 
 ::: incorrect
@@ -220,6 +222,8 @@ var obj = { a: "foo", longPropertyName: "bar" };
 
 :::
 
+#### colon
+
 Examples of **incorrect** code for this rule with the `{ "align": "colon" }` option:
 
 ::: incorrect
@@ -250,7 +254,7 @@ call({
 
 :::
 
-### align
+#### object option
 
 The `align` option can take additional configuration through the `beforeColon`, `afterColon`, `mode`, and `on` options.
 

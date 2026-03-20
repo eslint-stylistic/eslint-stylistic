@@ -2,7 +2,6 @@ import type { ASTNode, SourceCode, Token, Tree } from '#types'
 import type { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isClosingParenToken, isColonToken, isCommentToken, isFunction, isOpeningParenToken, isTokenOnSameLine, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
-// @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
 
 export const COMMENTS_IGNORE_PATTERN = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
@@ -25,16 +24,11 @@ export const OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN = /^(?:[^\\]|\\.)*\\(?:[1
 export const ASSIGNMENT_OPERATOR = ['=', '+=', '-=', '*=', '/=', '%=', '<<=', '>>=', '>>>=', '|=', '^=', '&=', '**=', '||=', '&&=', '??=']
 
 /**
- * A shared list of keywords.
+ * A shared list of ES3 keywords.
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#keywords
  */
-/// keep-sorted
-export const KEYWORDS = [
+export const ES3_KEYWORDS = [
   'abstract',
-  'arguments',
-  'as',
-  'async',
-  'await',
   'boolean',
   'break',
   'byte',
@@ -51,7 +45,6 @@ export const KEYWORDS = [
   'double',
   'else',
   'enum',
-  'eval',
   'export',
   'extends',
   'false',
@@ -59,9 +52,7 @@ export const KEYWORDS = [
   'finally',
   'float',
   'for',
-  'from',
   'function',
-  'get',
   'goto',
   'if',
   'implements',
@@ -70,18 +61,15 @@ export const KEYWORDS = [
   'instanceof',
   'int',
   'interface',
-  'let',
   'long',
   'native',
   'new',
   'null',
-  'of',
   'package',
   'private',
   'protected',
   'public',
   'return',
-  'set',
   'short',
   'static',
   'super',
@@ -93,14 +81,33 @@ export const KEYWORDS = [
   'transient',
   'true',
   'try',
-  'type',
   'typeof',
-  'using',
   'var',
   'void',
   'volatile',
   'while',
   'with',
+]
+
+/**
+ * A shared list of keywords.
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#keywords
+ */
+/// keep-sorted
+export const KEYWORDS = [
+  ...ES3_KEYWORDS,
+  'arguments',
+  'as',
+  'async',
+  'await',
+  'eval',
+  'from',
+  'get',
+  'let',
+  'of',
+  'set',
+  'type',
+  'using',
   'yield',
 ].concat([
   // TypeScript
@@ -306,7 +313,7 @@ export function isKeywordToken(token: Token | null | undefined): token is Tree.K
  * #!/usr/bin/env node
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#hashbang_comments
  */
-export function isHashbangComment(comment: Tree.Comment): Tree.Comment {
+export function isHashbangComment(comment: Tree.Comment): comment is Tree.Comment & { type: 'SheBang' | 'Hashbang' } {
   // @ts-expect-error 'Shebang' is not in the type definition
   // If a hashbang comment was passed as a token object from SourceCode,
   // its type will be "Shebang" because of the way ESLint itself handles hashbangs.
@@ -675,13 +682,13 @@ export function canTokensBeAdjacent(leftValue: Token | string, rightValue: Token
       return false
     }
 
-    const comments = tokens.comments
+    const comments = tokens.comments!
 
     leftToken = tokens[tokens.length - 1]
     if (comments.length) {
       const lastComment = comments[comments.length - 1]
 
-      if (!leftToken || lastComment.range[0] > leftToken.range[0])
+      if (!leftToken || lastComment.range![0] > leftToken.range![0])
         leftToken = lastComment
     }
   }
@@ -689,7 +696,7 @@ export function canTokensBeAdjacent(leftValue: Token | string, rightValue: Token
     leftToken = leftValue
   }
 
-  if (isHashbangComment(leftToken))
+  if (isHashbangComment(leftToken as Tree.Comment))
     return false
 
   let rightToken
@@ -704,13 +711,13 @@ export function canTokensBeAdjacent(leftValue: Token | string, rightValue: Token
       return false
     }
 
-    const comments = tokens.comments
+    const comments = tokens.comments!
 
     rightToken = tokens[0]
     if (comments.length) {
       const firstComment = comments[0]
 
-      if (!rightToken || firstComment.range[0] < rightToken.range[0])
+      if (!rightToken || firstComment.range![0] < rightToken.range![0])
         rightToken = firstComment
     }
   }
@@ -834,23 +841,6 @@ export function isSingleLine(node: ASTNode | Token) {
 }
 
 /**
- * Check whether comments exist between the given 2 tokens.
- * @param left The left token to check.
- * @param right The right token to check.
- * @returns `true` if comments exist between the given 2 tokens.
- */
-export function hasCommentsBetween(sourceCode: SourceCode, left: ASTNode | Token, right: ASTNode | Token) {
-  return sourceCode.getFirstTokenBetween(
-    left,
-    right,
-    {
-      includeComments: true,
-      filter: isCommentToken,
-    },
-  ) !== null
-}
-
-/**
  * Get comments exist between the given 2 tokens.
  * @param sourceCode The source code object to get tokens.
  * @param left The left token to check.
@@ -866,4 +856,11 @@ export function getCommentsBetween(sourceCode: SourceCode, left: ASTNode | Token
       filter: isCommentToken,
     },
   )
+}
+
+export function isJSDocComment(token: ASTNode | Token): token is Tree.BlockComment {
+  if (token.type !== 'Block')
+    return false
+
+  return token.value.startsWith('*')
 }

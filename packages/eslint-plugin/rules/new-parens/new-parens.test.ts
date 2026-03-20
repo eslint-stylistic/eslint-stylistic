@@ -9,8 +9,8 @@ import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from './new-parens'
 
-const error: TestCaseError<MessageIds> = { messageId: 'missing', type: 'NewExpression' }
-const neverError: TestCaseError<MessageIds> = { messageId: 'unnecessary', type: 'NewExpression' }
+const error: TestCaseError<MessageIds> = { messageId: 'missing' }
+const neverError: TestCaseError<MessageIds> = { messageId: 'unnecessary' }
 
 run<RuleOptions, MessageIds>({
   name: 'new-parens',

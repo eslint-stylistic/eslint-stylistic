@@ -303,12 +303,12 @@ run<RuleOptions, MessageIds>({
     {
       code: 'f ();',
       output: 'f();',
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'f (a, b);',
       output: 'f(a, b);',
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'f.b ();',
@@ -316,7 +316,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedWhitespace',
-          type: 'CallExpression',
           column: 4,
           line: 1,
           endColumn: 5,
@@ -330,7 +329,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedWhitespace',
-          type: 'CallExpression',
           column: 8,
           line: 1,
           endColumn: 9,
@@ -341,78 +339,78 @@ run<RuleOptions, MessageIds>({
     {
       code: 'f() ()',
       output: 'f()()',
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: '(function() {} ())',
       output: '(function() {}())',
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'var f = new Foo ()',
       output: 'var f = new Foo()',
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'NewExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'f ( (0) )',
       output: 'f( (0) )',
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'f(0) (1)',
       output: 'f(0)(1)',
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: '(f) (0)',
       output: '(f)(0)',
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'f ();\n t   ();',
       output: 'f();\n t();',
       errors: [
-        { messageId: 'unexpectedWhitespace', type: 'CallExpression' },
-        { messageId: 'unexpectedWhitespace', type: 'CallExpression' },
+        { messageId: 'unexpectedWhitespace' },
+        { messageId: 'unexpectedWhitespace' },
       ],
     },
     {
       code: 'import (source);',
       output: 'import(source);',
       parserOptions: { ecmaVersion: 2020 },
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'ImportExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
 
     {
       code: 'f\n();',
       output: 'f();',
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'f\r();',
       output: 'f();',
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'f\u2028();',
       output: 'f();',
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'f\u2029();',
       output: 'f();',
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'f\r\n();',
       output: 'f();',
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'import\n(source);',
       output: 'import(source);',
       parserOptions: { ecmaVersion: 2020 },
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'ImportExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
 
     // "never"
@@ -420,13 +418,13 @@ run<RuleOptions, MessageIds>({
       code: 'f ();',
       output: 'f();',
       options: ['never'],
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'f (a, b);',
       output: 'f(a, b);',
       options: ['never'],
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'f.b  ();',
@@ -435,7 +433,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedWhitespace',
-          type: 'CallExpression',
           column: 4,
           line: 1,
           endColumn: 6,
@@ -450,7 +447,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedWhitespace',
-          type: 'CallExpression',
           column: 8,
           line: 1,
           endColumn: 9,
@@ -462,45 +458,45 @@ run<RuleOptions, MessageIds>({
       code: 'f() ()',
       output: 'f()()',
       options: ['never'],
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: '(function() {} ())',
       output: '(function() {}())',
       options: ['never'],
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'var f = new Foo ()',
       output: 'var f = new Foo()',
       options: ['never'],
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'NewExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'f ( (0) )',
       output: 'f( (0) )',
       options: ['never'],
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'f(0) (1)',
       output: 'f(0)(1)',
       options: ['never'],
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: '(f) (0)',
       output: '(f)(0)',
       options: ['never'],
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
       code: 'f ();\n t   ();',
       output: 'f();\n t();',
       options: ['never'],
       errors: [
-        { messageId: 'unexpectedWhitespace', type: 'CallExpression' },
-        { messageId: 'unexpectedWhitespace', type: 'CallExpression' },
+        { messageId: 'unexpectedWhitespace' },
+        { messageId: 'unexpectedWhitespace' },
       ],
     },
     {
@@ -508,7 +504,7 @@ run<RuleOptions, MessageIds>({
       output: 'import(source);',
       options: ['never'],
       parserOptions: { ecmaVersion: 2020 },
-      errors: [{ messageId: 'unexpectedWhitespace', type: 'ImportExpression' }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
 
     {
@@ -518,7 +514,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedWhitespace',
-          type: 'CallExpression',
         },
       ],
     },
@@ -529,7 +524,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedWhitespace',
-          type: 'CallExpression',
         },
       ],
     },
@@ -540,7 +534,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedWhitespace',
-          type: 'CallExpression',
         },
       ],
     },
@@ -551,7 +544,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedWhitespace',
-          type: 'CallExpression',
         },
       ],
     },
@@ -561,25 +553,25 @@ run<RuleOptions, MessageIds>({
       code: 'f();',
       output: 'f ();',
       options: ['always'],
-      errors: [{ messageId: 'missing', type: 'CallExpression' }],
+      errors: [{ messageId: 'missing' }],
     },
     {
       code: 'f\n();',
       output: 'f ();',
       options: ['always'],
-      errors: [{ messageId: 'unexpectedNewline', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedNewline' }],
     },
     {
       code: 'f(a, b);',
       output: 'f (a, b);',
       options: ['always'],
-      errors: [{ messageId: 'missing', type: 'CallExpression' }],
+      errors: [{ messageId: 'missing' }],
     },
     {
       code: 'f\n(a, b);',
       output: 'f (a, b);',
       options: ['always'],
-      errors: [{ messageId: 'unexpectedNewline', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedNewline' }],
     },
     {
       code: 'f.b();',
@@ -588,7 +580,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missing',
-          type: 'CallExpression',
           column: 4,
           line: 1,
           endLine: 1,
@@ -603,7 +594,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedNewline',
-          type: 'CallExpression',
           column: 4,
           line: 1,
           endColumn: 1,
@@ -615,7 +605,7 @@ run<RuleOptions, MessageIds>({
       code: 'f.b().c ();',
       output: 'f.b ().c ();',
       options: ['always'],
-      errors: [{ messageId: 'missing', type: 'CallExpression', column: 4 }],
+      errors: [{ messageId: 'missing', column: 4 }],
     },
     {
       code: 'f.b\n().c ();',
@@ -624,7 +614,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedNewline',
-          type: 'CallExpression',
           column: 4,
           line: 1,
           endColumn: 1,
@@ -636,92 +625,92 @@ run<RuleOptions, MessageIds>({
       code: 'f() ()',
       output: 'f () ()',
       options: ['always'],
-      errors: [{ messageId: 'missing', type: 'CallExpression' }],
+      errors: [{ messageId: 'missing' }],
     },
     {
       code: 'f\n() ()',
       output: 'f () ()',
       options: ['always'],
-      errors: [{ messageId: 'unexpectedNewline', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedNewline' }],
     },
     {
       code: 'f\n()()',
       output: 'f () ()',
       options: ['always'],
       errors: [
-        { messageId: 'unexpectedNewline', type: 'CallExpression' },
-        { messageId: 'missing', type: 'CallExpression' },
+        { messageId: 'unexpectedNewline' },
+        { messageId: 'missing' },
       ],
     },
     {
       code: '(function() {}())',
       output: '(function() {} ())',
       options: ['always'],
-      errors: [{ messageId: 'missing', type: 'CallExpression' }],
+      errors: [{ messageId: 'missing' }],
     },
     {
       code: 'var f = new Foo()',
       output: 'var f = new Foo ()',
       options: ['always'],
-      errors: [{ messageId: 'missing', type: 'NewExpression' }],
+      errors: [{ messageId: 'missing' }],
     },
     {
       code: 'f( (0) )',
       output: 'f ( (0) )',
       options: ['always'],
-      errors: [{ messageId: 'missing', type: 'CallExpression' }],
+      errors: [{ messageId: 'missing' }],
     },
     {
       code: 'f(0) (1)',
       output: 'f (0) (1)',
       options: ['always'],
-      errors: [{ messageId: 'missing', type: 'CallExpression' }],
+      errors: [{ messageId: 'missing' }],
     },
     {
       code: '(f)(0)',
       output: '(f) (0)',
       options: ['always'],
-      errors: [{ messageId: 'missing', type: 'CallExpression' }],
+      errors: [{ messageId: 'missing' }],
     },
     {
       code: 'import(source);',
       output: 'import (source);',
       options: ['always'],
       parserOptions: { ecmaVersion: 2020 },
-      errors: [{ messageId: 'missing', type: 'ImportExpression' }],
+      errors: [{ messageId: 'missing' }],
     },
     {
       code: 'f();\n t();',
       output: 'f ();\n t ();',
       options: ['always'],
       errors: [
-        { messageId: 'missing', type: 'CallExpression' },
-        { messageId: 'missing', type: 'CallExpression' },
+        { messageId: 'missing' },
+        { messageId: 'missing' },
       ],
     },
     {
       code: 'f\r();',
       output: 'f ();',
       options: ['always'],
-      errors: [{ messageId: 'unexpectedNewline', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedNewline' }],
     },
     {
       code: 'f\u2028();',
       output: 'f ();',
       options: ['always'],
-      errors: [{ messageId: 'unexpectedNewline', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedNewline' }],
     },
     {
       code: 'f\u2029();',
       output: 'f ();',
       options: ['always'],
-      errors: [{ messageId: 'unexpectedNewline', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedNewline' }],
     },
     {
       code: 'f\r\n();',
       output: 'f ();',
       options: ['always'],
-      errors: [{ messageId: 'unexpectedNewline', type: 'CallExpression' }],
+      errors: [{ messageId: 'unexpectedNewline' }],
     },
 
     // "always", "allowNewlines": true
@@ -730,14 +719,14 @@ run<RuleOptions, MessageIds>({
       output: 'f ();',
       options: ['always', { allowNewlines: true }],
       errors: [
-        { messageId: 'missing', type: 'CallExpression' },
+        { messageId: 'missing' },
       ],
     },
     {
       code: 'f(a, b);',
       output: 'f (a, b);',
       options: ['always', { allowNewlines: true }],
-      errors: [{ messageId: 'missing', type: 'CallExpression' }],
+      errors: [{ messageId: 'missing' }],
     },
     {
       code: 'f.b();',
@@ -746,7 +735,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missing',
-          type: 'CallExpression',
           column: 4,
         },
       ],
@@ -755,51 +743,51 @@ run<RuleOptions, MessageIds>({
       code: 'f.b().c ();',
       output: 'f.b ().c ();',
       options: ['always', { allowNewlines: true }],
-      errors: [{ messageId: 'missing', type: 'CallExpression', column: 4 }],
+      errors: [{ messageId: 'missing', column: 4 }],
     },
     {
       code: 'f() ()',
       output: 'f () ()',
       options: ['always', { allowNewlines: true }],
-      errors: [{ messageId: 'missing', type: 'CallExpression' }],
+      errors: [{ messageId: 'missing' }],
     },
     {
       code: '(function() {}())',
       output: '(function() {} ())',
       options: ['always', { allowNewlines: true }],
-      errors: [{ messageId: 'missing', type: 'CallExpression' }],
+      errors: [{ messageId: 'missing' }],
     },
     {
       code: 'var f = new Foo()',
       output: 'var f = new Foo ()',
       options: ['always', { allowNewlines: true }],
-      errors: [{ messageId: 'missing', type: 'NewExpression' }],
+      errors: [{ messageId: 'missing' }],
     },
     {
       code: 'f( (0) )',
       output: 'f ( (0) )',
       options: ['always', { allowNewlines: true }],
-      errors: [{ messageId: 'missing', type: 'CallExpression' }],
+      errors: [{ messageId: 'missing' }],
     },
     {
       code: 'f(0) (1)',
       output: 'f (0) (1)',
       options: ['always', { allowNewlines: true }],
-      errors: [{ messageId: 'missing', type: 'CallExpression' }],
+      errors: [{ messageId: 'missing' }],
     },
     {
       code: '(f)(0)',
       output: '(f) (0)',
       options: ['always', { allowNewlines: true }],
-      errors: [{ messageId: 'missing', type: 'CallExpression' }],
+      errors: [{ messageId: 'missing' }],
     },
     {
       code: 'f();\n t();',
       output: 'f ();\n t ();',
       options: ['always', { allowNewlines: true }],
       errors: [
-        { messageId: 'missing', type: 'CallExpression' },
-        { messageId: 'missing', type: 'CallExpression' },
+        { messageId: 'missing' },
+        { messageId: 'missing' },
       ],
     },
     {
@@ -824,7 +812,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedWhitespace',
-          type: 'CallExpression',
           line: 1,
           column: 2,
           endLine: 1,
@@ -838,7 +825,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedWhitespace',
-          type: 'CallExpression',
           line: 1,
           column: 2,
           endLine: 2,
@@ -853,7 +839,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missing',
-          type: 'CallExpression',
           line: 1,
           column: 3,
           endLine: 1,
@@ -868,7 +853,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedNewline',
-          type: 'CallExpression',
           line: 1,
           column: 4,
           endLine: 2,

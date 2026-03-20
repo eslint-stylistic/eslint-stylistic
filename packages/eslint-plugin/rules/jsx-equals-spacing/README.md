@@ -6,7 +6,7 @@ Enforce or disallow spaces around equal signs in JSX attributes.
 
 This rule will enforce consistency of spacing around equal signs in JSX attributes, by requiring or disallowing one or more spaces before and after `=`.
 
-## Rule Options
+## Options
 
 There are two options for the rule:
 

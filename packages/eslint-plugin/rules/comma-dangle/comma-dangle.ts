@@ -1,5 +1,5 @@
 import type { EcmaVersion, Tree } from '#types'
-import type { MessageIds, RuleOptions, Value } from './types'
+import type { MessageIds, RuleOptions, ValueWithIgnore } from './types'
 import { AST_NODE_TYPES, getNextLocation, isCommaToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
@@ -32,7 +32,10 @@ type TargetASTNode
     | Tree.ExportAllDeclaration
     | Tree.TSEnumDeclaration
     | Tree.TSTypeParameterDeclaration
+    | Tree.TSTypeParameterInstantiation
     | Tree.TSTupleType
+    | Tree.TSDeclareFunction
+    | Tree.TSFunctionType
 
 type ItemASTNode = NonNullable<
   | Tree.ObjectLiteralElement
@@ -55,6 +58,7 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Require or disallow trailing commas',
     },
+    fixable: 'code',
     schema: {
       $defs: {
         value: {
@@ -94,13 +98,12 @@ export default createRule<RuleOptions, MessageIds>({
       ],
       additionalItems: false,
     },
-    fixable: 'code',
+    defaultOptions: ['never'],
     messages: {
       unexpected: 'Unexpected trailing comma.',
       missing: 'Missing trailing comma.',
     },
   },
-  defaultOptions: ['never'],
   create(context, [options]) {
     function normalizeOptions(options: Option = {}, ecmaVersion: EcmaVersion | 'latest' | undefined): NormalizedOptions {
       const DEFAULT_OPTION_VALUE = 'never'
@@ -133,10 +136,10 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    const ecmaVersion = context?.languageOptions?.ecmaVersion ?? context.parserOptions.ecmaVersion as EcmaVersion | undefined
+    const ecmaVersion = context.languageOptions?.ecmaVersion ?? context.parserOptions?.ecmaVersion as EcmaVersion | undefined
     const normalizedOptions = normalizeOptions(options, ecmaVersion)
 
-    const isTSX = context.parserOptions?.ecmaFeatures?.jsx
+    const isTSX = (context.languageOptions?.parserOptions?.ecmaFeatures?.jsx ?? context.parserOptions?.ecmaFeatures?.jsx)
       && context.filename?.endsWith('.tsx')
 
     const sourceCode = context.sourceCode
@@ -149,7 +152,7 @@ export default createRule<RuleOptions, MessageIds>({
       lastItem: ItemASTNode | null
     }
 
-    const predicate: Record<Value | 'ignore' | string, (info: VerifyInfo) => void> = {
+    const predicate: Record<ValueWithIgnore, (info: VerifyInfo) => void> = {
       'always': forceTrailingComma,
       'always-multiline': forceTrailingCommaIfMultiline,
       'only-multiline': allowTrailingCommaIfMultiline,
@@ -446,10 +449,28 @@ export default createRule<RuleOptions, MessageIds>({
           lastItem: last(node.params),
         })
       },
+      TSTypeParameterInstantiation(node) {
+        predicate.never({
+          node,
+          lastItem: last(node.params),
+        })
+      },
       TSTupleType(node) {
         predicate[normalizedOptions.tuples]({
           node,
           lastItem: last(node.elementTypes),
+        })
+      },
+      TSDeclareFunction(node) {
+        predicate[normalizedOptions.functions]({
+          node,
+          lastItem: last(node.params),
+        })
+      },
+      TSFunctionType(node) {
+        predicate[normalizedOptions.functions]({
+          node,
+          lastItem: last(node.params),
         })
       },
     }

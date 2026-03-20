@@ -28,7 +28,7 @@ firstName="John"
 
 :::
 
-## Rule Options
+## Options
 
 It takes an option as the second parameter which can either be the indent mode or an object to define further settings.
 The indent mode can be `"tab"` for tab-based indentation, a positive number for space indentations or `"first"` for aligning the first prop for each line with the tag's first prop.

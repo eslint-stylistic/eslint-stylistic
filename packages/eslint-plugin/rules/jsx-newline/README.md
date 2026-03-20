@@ -6,7 +6,7 @@ Require or prevent a new line after jsx elements and expressions
 
 This is a stylistic rule intended to make JSX code more readable by requiring or preventing lines between adjacent JSX elements and expressions.
 
-## Rule Options
+## Options
 
 ```json5
 ...
@@ -18,7 +18,7 @@ This is a stylistic rule intended to make JSX code more readable by requiring or
 - prevent: optional boolean. If `true` prevents empty lines between adjacent JSX elements and expressions. Defaults to `false`.
 - allowMultilines: optional boolean. If `true` and `prevent` is also equal to `true`, it allows newlines after multiline JSX elements and expressions. Defaults to `false`.
 
-## Examples
+### prevent
 
 Examples of **incorrect** code for this rule, when configured with `{ "prevent": false }`:
 
@@ -143,6 +143,8 @@ Examples of **correct** code for this rule, when configured with `{ "prevent": t
 ```
 
 :::
+
+### allowMultilines
 
 Examples of **incorrect** code for this rule, when configured with `{ "prevent": true, "allowMultilines": true }`:
 

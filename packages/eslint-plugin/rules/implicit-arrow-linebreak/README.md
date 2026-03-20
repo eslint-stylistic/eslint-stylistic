@@ -11,12 +11,14 @@ An arrow function body can contain an implicit return as an expression instead o
 
 This rule aims to enforce a consistent location for an arrow function containing an implicit return.
 
-### Options
+## Options
 
 This rule accepts a string option:
 
 - `"beside"` (default) disallows a newline before an arrow function body.
 - `"below"` requires a newline before an arrow function body.
+
+### beside
 
 Examples of **incorrect** code for this rule with the default `"beside"` option:
 
@@ -73,6 +75,8 @@ Examples of **correct** code for this rule with the default `"beside"` option:
 ```
 
 :::
+
+### below
 
 Examples of **incorrect** code for this rule with the `"below"` option:
 

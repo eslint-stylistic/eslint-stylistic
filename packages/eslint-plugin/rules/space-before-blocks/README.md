@@ -33,7 +33,7 @@ configure the cases separately. If any value in the configuration object is `"of
 
 The default is `"always"`.
 
-### "always"
+### always
 
 Examples of **incorrect** code for this rule with the "always" option:
 
@@ -101,7 +101,7 @@ namespace Foo {
 
 :::
 
-### "never"
+### never
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 

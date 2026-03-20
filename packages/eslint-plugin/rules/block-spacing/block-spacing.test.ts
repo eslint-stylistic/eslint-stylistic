@@ -73,100 +73,100 @@ run<RuleOptions, MessageIds>({
       output: '{ foo(); }',
       options: ['always'],
       errors: [
-        { type: 'BlockStatement', line: 1, column: 1, messageId: 'missing', data: { location: 'after', token: '{' } },
-        { type: 'BlockStatement', line: 1, column: 8, messageId: 'missing', data: { location: 'before', token: '}' } },
+        { line: 1, column: 1, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 8, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
       code: '{foo();}',
       output: '{ foo(); }',
       errors: [
-        { type: 'BlockStatement', line: 1, column: 1, messageId: 'missing', data: { location: 'after', token: '{' } },
-        { type: 'BlockStatement', line: 1, column: 8, messageId: 'missing', data: { location: 'before', token: '}' } },
+        { line: 1, column: 1, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 8, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
       code: '{ foo();}',
       output: '{ foo(); }',
       errors: [
-        { type: 'BlockStatement', line: 1, column: 9, messageId: 'missing', data: { location: 'before', token: '}' } },
+        { line: 1, column: 9, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
       code: '{foo(); }',
       output: '{ foo(); }',
       errors: [
-        { type: 'BlockStatement', line: 1, column: 1, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 1, messageId: 'missing', data: { location: 'after', token: '{' } },
       ],
     },
     {
       code: '{\nfoo();}',
       output: '{\nfoo(); }',
       errors: [
-        { type: 'BlockStatement', line: 2, column: 7, messageId: 'missing', data: { location: 'before', token: '}' } },
+        { line: 2, column: 7, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
       code: '{foo();\n}',
       output: '{ foo();\n}',
       errors: [
-        { type: 'BlockStatement', line: 1, column: 1, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 1, messageId: 'missing', data: { location: 'after', token: '{' } },
       ],
     },
     {
       code: 'if (a) {foo();}',
       output: 'if (a) { foo(); }',
       errors: [
-        { type: 'BlockStatement', line: 1, column: 8, messageId: 'missing', data: { location: 'after', token: '{' } },
-        { type: 'BlockStatement', line: 1, column: 15, messageId: 'missing', data: { location: 'before', token: '}' } },
+        { line: 1, column: 8, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 15, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
       code: 'if (a) {} else {foo();}',
       output: 'if (a) {} else { foo(); }',
       errors: [
-        { type: 'BlockStatement', line: 1, column: 16, messageId: 'missing', data: { location: 'after', token: '{' } },
-        { type: 'BlockStatement', line: 1, column: 23, messageId: 'missing', data: { location: 'before', token: '}' } },
+        { line: 1, column: 16, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 23, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
       code: 'switch (a) {case 0: foo();}',
       output: 'switch (a) { case 0: foo(); }',
       errors: [
-        { type: 'SwitchStatement', line: 1, column: 12, messageId: 'missing', data: { location: 'after', token: '{' } },
-        { type: 'SwitchStatement', line: 1, column: 27, messageId: 'missing', data: { location: 'before', token: '}' } },
+        { line: 1, column: 12, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 27, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
       code: 'while (a) {foo();}',
       output: 'while (a) { foo(); }',
       errors: [
-        { type: 'BlockStatement', line: 1, column: 11, messageId: 'missing', data: { location: 'after', token: '{' } },
-        { type: 'BlockStatement', line: 1, column: 18, messageId: 'missing', data: { location: 'before', token: '}' } },
+        { line: 1, column: 11, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 18, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
       code: 'do {foo();} while (a);',
       output: 'do { foo(); } while (a);',
       errors: [
-        { type: 'BlockStatement', line: 1, column: 4, messageId: 'missing', data: { location: 'after', token: '{' } },
-        { type: 'BlockStatement', line: 1, column: 11, messageId: 'missing', data: { location: 'before', token: '}' } },
+        { line: 1, column: 4, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 11, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
       code: 'for (;;) {foo();}',
       output: 'for (;;) { foo(); }',
       errors: [
-        { type: 'BlockStatement', line: 1, column: 10, messageId: 'missing', data: { location: 'after', token: '{' } },
-        { type: 'BlockStatement', line: 1, column: 17, messageId: 'missing', data: { location: 'before', token: '}' } },
+        { line: 1, column: 10, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 17, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
       code: 'for (var a in b) {foo();}',
       output: 'for (var a in b) { foo(); }',
       errors: [
-        { type: 'BlockStatement', line: 1, column: 18, messageId: 'missing', data: { location: 'after', token: '{' } },
-        { type: 'BlockStatement', line: 1, column: 25, messageId: 'missing', data: { location: 'before', token: '}' } },
+        { line: 1, column: 18, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 25, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
@@ -174,8 +174,8 @@ run<RuleOptions, MessageIds>({
       output: 'for (var a of b) { foo(); }',
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { type: 'BlockStatement', line: 1, column: 18, messageId: 'missing', data: { location: 'after', token: '{' } },
-        { type: 'BlockStatement', line: 1, column: 25, messageId: 'missing', data: { location: 'before', token: '}' } },
+        { line: 1, column: 18, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 25, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
@@ -183,7 +183,6 @@ run<RuleOptions, MessageIds>({
       output: 'try { foo(); } catch (e) { foo(); } finally { foo(); }',
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'missing',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -192,7 +191,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 6,
         },
         {
-          type: 'BlockStatement',
           messageId: 'missing',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -201,7 +199,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 13,
         },
         {
-          type: 'BlockStatement',
           messageId: 'missing',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -210,7 +207,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 25,
         },
         {
-          type: 'BlockStatement',
           messageId: 'missing',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -219,7 +215,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 32,
         },
         {
-          type: 'BlockStatement',
           messageId: 'missing',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -228,7 +223,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 42,
         },
         {
-          type: 'BlockStatement',
           messageId: 'missing',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -242,16 +236,16 @@ run<RuleOptions, MessageIds>({
       code: 'function foo() {bar();}',
       output: 'function foo() { bar(); }',
       errors: [
-        { type: 'BlockStatement', line: 1, column: 16, messageId: 'missing', data: { location: 'after', token: '{' } },
-        { type: 'BlockStatement', line: 1, column: 23, messageId: 'missing', data: { location: 'before', token: '}' } },
+        { line: 1, column: 16, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 23, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
       code: '(function() {bar();});',
       output: '(function() { bar(); });',
       errors: [
-        { type: 'BlockStatement', line: 1, column: 13, messageId: 'missing', data: { location: 'after', token: '{' } },
-        { type: 'BlockStatement', line: 1, column: 20, messageId: 'missing', data: { location: 'before', token: '}' } },
+        { line: 1, column: 13, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 20, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
@@ -259,8 +253,8 @@ run<RuleOptions, MessageIds>({
       output: '(() => { bar(); });',
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { type: 'BlockStatement', line: 1, column: 8, messageId: 'missing', data: { location: 'after', token: '{' } },
-        { type: 'BlockStatement', line: 1, column: 15, messageId: 'missing', data: { location: 'before', token: '}' } },
+        { line: 1, column: 8, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 15, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
@@ -268,8 +262,8 @@ run<RuleOptions, MessageIds>({
       output: 'if (a) { /* comment */ foo(); /* comment */ }',
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { type: 'BlockStatement', line: 1, column: 8, messageId: 'missing', data: { location: 'after', token: '{' } },
-        { type: 'BlockStatement', line: 1, column: 43, messageId: 'missing', data: { location: 'before', token: '}' } },
+        { line: 1, column: 8, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 43, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
@@ -278,7 +272,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'missing',
           data: {
             location: 'after',
@@ -299,7 +292,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 2022 },
       errors: [
         {
-          type: 'StaticBlock',
           messageId: 'missing',
           data: {
             location: 'after',
@@ -318,7 +310,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 2022 },
       errors: [
         {
-          type: 'StaticBlock',
           messageId: 'missing',
           data: {
             location: 'before',
@@ -337,7 +328,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 2022 },
       errors: [
         {
-          type: 'StaticBlock',
           messageId: 'missing',
           data: {
             location: 'after',
@@ -349,7 +339,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 19,
         },
         {
-          type: 'StaticBlock',
           messageId: 'missing',
           data: {
             location: 'before',
@@ -368,7 +357,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 2022 },
       errors: [
         {
-          type: 'StaticBlock',
           messageId: 'missing',
           data: {
             location: 'after',
@@ -380,7 +368,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 19,
         },
         {
-          type: 'StaticBlock',
           messageId: 'missing',
           data: {
             location: 'before',
@@ -399,7 +386,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 2022 },
       errors: [
         {
-          type: 'StaticBlock',
           messageId: 'missing',
           data: {
             location: 'after',
@@ -411,7 +397,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 19,
         },
         {
-          type: 'StaticBlock',
           messageId: 'missing',
           data: {
             location: 'before',
@@ -430,7 +415,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 2022 },
       errors: [
         {
-          type: 'StaticBlock',
           messageId: 'missing',
           data: {
             location: 'after',
@@ -442,7 +426,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 10,
         },
         {
-          type: 'StaticBlock',
           messageId: 'missing',
           data: {
             location: 'before',
@@ -464,7 +447,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -473,7 +455,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 3,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -489,7 +470,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: {
             location: 'after',
@@ -508,7 +488,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: {
             location: 'before',
@@ -527,7 +506,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: {
             location: 'before',
@@ -546,7 +524,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: {
             location: 'after',
@@ -565,7 +542,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -574,7 +550,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 10,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -590,7 +565,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -599,7 +573,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 18,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -615,7 +588,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'SwitchStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -624,7 +596,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 14,
         },
         {
-          type: 'SwitchStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -640,7 +611,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -649,7 +619,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 13,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -665,7 +634,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -674,7 +642,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 6,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -690,7 +657,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -699,7 +665,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 12,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -715,7 +680,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -724,7 +688,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 20,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -741,7 +704,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -750,7 +712,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 20,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -766,7 +727,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -775,7 +735,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 7,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -784,7 +743,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 14,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -793,7 +751,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 28,
         },
         {
-          type: 'BlockStatement',
           line: 1,
           column: 34,
           messageId: 'extra',
@@ -802,7 +759,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 35,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -811,7 +767,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 47,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -827,7 +782,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -836,7 +790,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 18,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -852,7 +805,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -861,7 +813,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 15,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -878,7 +829,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -887,7 +837,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 10,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -903,7 +852,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -912,7 +860,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 10,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -929,7 +876,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -946,7 +892,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -963,7 +908,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'after', token: '{' },
           line: 1,
@@ -972,7 +916,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 12,
         },
         {
-          type: 'BlockStatement',
           messageId: 'extra',
           data: { location: 'before', token: '}' },
           line: 1,
@@ -991,7 +934,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 2022 },
       errors: [
         {
-          type: 'StaticBlock',
           messageId: 'extra',
           data: {
             location: 'after',
@@ -1011,7 +953,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 2022 },
       errors: [
         {
-          type: 'StaticBlock',
           messageId: 'extra',
           data: {
             location: 'before',
@@ -1031,7 +972,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 2022 },
       errors: [
         {
-          type: 'StaticBlock',
           messageId: 'extra',
           data: {
             location: 'after',
@@ -1043,7 +983,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 20,
         },
         {
-          type: 'StaticBlock',
           messageId: 'extra',
           data: {
             location: 'before',
@@ -1063,7 +1002,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 2022 },
       errors: [
         {
-          type: 'StaticBlock',
           messageId: 'extra',
           data: {
             location: 'after',
@@ -1075,7 +1013,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 20,
         },
         {
-          type: 'StaticBlock',
           messageId: 'extra',
           data: {
             location: 'before',
@@ -1095,7 +1032,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 2022 },
       errors: [
         {
-          type: 'StaticBlock',
           messageId: 'extra',
           data: {
             location: 'after',
@@ -1107,7 +1043,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 20,
         },
         {
-          type: 'StaticBlock',
           messageId: 'extra',
           data: {
             location: 'before',
@@ -1127,7 +1062,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 2022 },
       errors: [
         {
-          type: 'StaticBlock',
           messageId: 'extra',
           data: {
             location: 'after',
@@ -1139,7 +1073,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 5,
         },
         {
-          type: 'StaticBlock',
           messageId: 'extra',
           data: {
             location: 'before',

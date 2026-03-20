@@ -1,7 +1,7 @@
 {
   "name": "@stylistic/eslint-plugin",
   "type": "module",
-  "version": "5.2.3",
+  "version": "6.0.0-beta.3",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
@@ -55,16 +55,14 @@
     "./rules/jsx-equals-spacing": "./dist/rules/jsx-equals-spacing.js",
     "./rules/jsx-first-prop-new-line": "./dist/rules/jsx-first-prop-new-line.js",
     "./rules/jsx-function-call-newline": "./dist/rules/jsx-function-call-newline.js",
-    "./rules/jsx-indent": "./dist/rules/jsx-indent.js",
     "./rules/jsx-indent-props": "./dist/rules/jsx-indent-props.js",
     "./rules/jsx-max-props-per-line": "./dist/rules/jsx-max-props-per-line.js",
     "./rules/jsx-newline": "./dist/rules/jsx-newline.js",
     "./rules/jsx-one-expression-per-line": "./dist/rules/jsx-one-expression-per-line.js",
     "./rules/jsx-pascal-case": "./dist/rules/jsx-pascal-case.js",
-    "./rules/jsx-props-no-multi-spaces": "./dist/rules/jsx-props-no-multi-spaces.js",
+    "./rules/jsx-props-style": "./dist/rules/jsx-props-style.js",
     "./rules/jsx-quotes": "./dist/rules/jsx-quotes.js",
     "./rules/jsx-self-closing-comp": "./dist/rules/jsx-self-closing-comp.js",
-    "./rules/jsx-sort-props": "./dist/rules/jsx-sort-props.js",
     "./rules/jsx-tag-spacing": "./dist/rules/jsx-tag-spacing.js",
     "./rules/jsx-wrap-multilines": "./dist/rules/jsx-wrap-multilines.js",
     "./rules/key-spacing": "./dist/rules/key-spacing.js",
@@ -73,6 +71,7 @@
     "./rules/linebreak-style": "./dist/rules/linebreak-style.js",
     "./rules/lines-around-comment": "./dist/rules/lines-around-comment.js",
     "./rules/lines-between-class-members": "./dist/rules/lines-between-class-members.js",
+    "./rules/list-style": "./dist/rules/list-style.js",
     "./rules/max-len": "./dist/rules/max-len.js",
     "./rules/max-statements-per-line": "./dist/rules/max-statements-per-line.js",
     "./rules/member-delimiter-style": "./dist/rules/member-delimiter-style.js",
@@ -127,7 +126,7 @@
     "dist"
   ],
   "engines": {
-    "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
+    "node": "^20.19.0 || ^22.13.0 || >=24"
   },
   "scripts": {
     "build": "tsdown",
@@ -135,14 +134,13 @@
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
-    "eslint": ">=9.0.0"
+    "eslint": "^9.0.0 || ^10.0.0"
   },
   "dependencies": {
     "@eslint-community/eslint-utils": "catalog:prod",
     "@typescript-eslint/types": "catalog:prod",
     "eslint-visitor-keys": "catalog:prod",
     "espree": "catalog:prod",
-    "estraverse": "catalog:prod",
     "picomatch": "catalog:prod"
   }
 }

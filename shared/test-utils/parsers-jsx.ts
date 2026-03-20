@@ -1,5 +1,6 @@
 /* eslint-disable antfu/no-top-level-await */
 import type { InvalidTestCaseBase, ValidTestCaseBase } from './runner'
+import { skipBabel as _skipBabel } from '#test'
 
 export interface InvalidTestCase<RuleOptions = any, MessageIds extends string = string> extends InvalidTestCaseBase<RuleOptions, MessageIds> {
   features?: string[]
@@ -141,7 +142,7 @@ function applyAllParsers<RuleOptions = any, MessageIds extends string = string>(
       || features.has('ts')
       || features.has('types')
       || features.has('fragment')
-    const skipBabel = features.has('no-babel')
+    const skipBabel = features.has('no-babel') || _skipBabel
     const skipNewBabel = skipBabel
       || features.has('no-babel-new')
       || features.has('flow')
@@ -191,5 +192,3 @@ export function valids<RuleOptions>(...tests: (ValidTestCase<RuleOptions> | Vali
 export function invalids<RuleOptions = any, MessageIds extends string = string>(...tests: (InvalidTestCase<RuleOptions, MessageIds> | InvalidTestCase<RuleOptions, MessageIds>[] | undefined | false)[]): InvalidTestCase<RuleOptions, MessageIds>[] {
   return applyAllParsers(tests.flat().filter(Boolean) as InvalidTestCase<RuleOptions, MessageIds>[])
 }
-
-export const skipDueToMultiErrorSorting = true

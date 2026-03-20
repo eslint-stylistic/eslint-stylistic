@@ -7,6 +7,7 @@ import type { JSONSchema, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { safeReplaceTextBetween } from '#utils/fix'
 
 type KeywordName = keyof NonNullable<NonNullable<RuleOptions['1']>['overrides']>
 
@@ -19,13 +20,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'nonblock-statement-body-position',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce the location of single-line statements',
     },
-
     fixable: 'whitespace',
-
     schema: [
       POSITION_SCHEMA,
       {
@@ -46,26 +44,14 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
+    defaultOptions: ['beside'],
     messages: {
       expectNoLinebreak: 'Expected no linebreak before this statement.',
       expectLinebreak: 'Expected a linebreak before this statement.',
     },
   },
-
-  create(context) {
+  create(context, [style, { overrides = {} } = {}]) {
     const sourceCode = context.sourceCode
-
-    /**
-     * Gets the applicable preference for a particular keyword
-     * @param keywordName The name of a keyword, e.g. 'if'
-     * @returns The applicable option for the keyword, e.g. 'beside'
-     */
-    function getOption(keywordName: KeywordName) {
-      return context.options[1] && context.options[1].overrides && context.options[1].overrides[keywordName]
-        || context.options[0]
-        || 'beside'
-    }
 
     /**
      * Validates the location of a single-line statement
@@ -73,7 +59,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param keywordName The applicable keyword name for the single-line statement
      */
     function validateStatement(node: Tree.Statement, keywordName: KeywordName) {
-      const option = getOption(keywordName)
+      const option = overrides[keywordName] ?? style
 
       if (node.type === 'BlockStatement' || option === 'any')
         return
@@ -93,12 +79,7 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           node,
           messageId: 'expectNoLinebreak',
-          fix(fixer) {
-            if (sourceCode.getText().slice(tokenBefore.range[1], node.range[0]).trim())
-              return null
-
-            return fixer.replaceTextRange([tokenBefore.range[1], node.range[0]], ' ')
-          },
+          fix: safeReplaceTextBetween(sourceCode, tokenBefore, node, ' '),
         })
       }
     }

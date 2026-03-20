@@ -12,7 +12,7 @@ You can pass in options to enforce the presence of curly braces on JSX props, ch
 
 **Note**: it is _highly recommended_ that you configure this rule with an object, and that you set "propElementValues" to "always". The ability to omit curly braces around prop values that are JSX elements is obscure, and intentionally undocumented, and should not be relied upon.
 
-## Rule Options
+## Options
 
 ```js
 ...

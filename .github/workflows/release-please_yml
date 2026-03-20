@@ -1,8 +1,8 @@
-name: Changelog
+name: Release
 
 permissions:
-  id-token: write
   contents: write
+  id-token: write
 
 on:
   push:
@@ -13,16 +13,19 @@ jobs:
   publish-npm:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: lts/*
+          registry-url: https://registry.npmjs.org
           cache: pnpm
-
+      - run: npm i -g npm@latest
+      - run: pnpm install
       - run: npx changelogithub
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - run: pnpm run publish:ci

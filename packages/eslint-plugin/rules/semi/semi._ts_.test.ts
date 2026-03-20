@@ -1,6 +1,3 @@
-// this rule tests the semis, which prettier will want to fix and break the tests
-/* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
-
 import type { InvalidTestCase, ValidTestCase } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'

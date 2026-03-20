@@ -1,6 +1,5 @@
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
-import { AST_TOKEN_TYPES } from '#utils/ast'
 import rule from './lines-around-comment'
 
 run<RuleOptions, MessageIds>({
@@ -391,7 +390,7 @@ interface A {
          */
         var a = 1;
       `,
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block }],
+      errors: [{ messageId: 'before' }],
     },
 
     // interface
@@ -415,7 +414,7 @@ interface A {
           allowInterfaceStart: true,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Line, line: 3 }],
+      errors: [{ messageId: 'before', line: 3 }],
     },
     {
       code: $`
@@ -439,7 +438,7 @@ interface A {
           allowInterfaceStart: true,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 3 }],
+      errors: [{ messageId: 'before', line: 3 }],
     },
     {
       code: $`
@@ -461,7 +460,7 @@ interface A {
           allowInterfaceStart: false,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Line, line: 2 }],
+      errors: [{ messageId: 'before', line: 2 }],
     },
     {
       code: $`
@@ -485,7 +484,7 @@ interface A {
           allowInterfaceStart: false,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 2 }],
+      errors: [{ messageId: 'before', line: 2 }],
     },
     {
       code: $`
@@ -507,7 +506,7 @@ interface A {
           allowInterfaceEnd: false,
         },
       ],
-      errors: [{ messageId: 'after', type: AST_TOKEN_TYPES.Line, line: 3 }],
+      errors: [{ messageId: 'after', line: 3 }],
     },
     {
       code: $`
@@ -532,7 +531,7 @@ interface A {
           allowInterfaceEnd: false,
         },
       ],
-      errors: [{ messageId: 'after', type: AST_TOKEN_TYPES.Block, line: 3 }],
+      errors: [{ messageId: 'after', line: 3 }],
     },
 
     // type
@@ -556,7 +555,7 @@ interface A {
           allowInterfaceStart: true,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Line, line: 3 }],
+      errors: [{ messageId: 'before', line: 3 }],
     },
     {
       code: $`
@@ -580,7 +579,7 @@ interface A {
           allowInterfaceStart: true,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 3 }],
+      errors: [{ messageId: 'before', line: 3 }],
     },
     {
       code: $`
@@ -602,7 +601,7 @@ interface A {
           allowInterfaceStart: false,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Line, line: 2 }],
+      errors: [{ messageId: 'before', line: 2 }],
     },
     {
       code: $`
@@ -626,7 +625,7 @@ interface A {
           allowInterfaceStart: false,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 2 }],
+      errors: [{ messageId: 'before', line: 2 }],
     },
     {
       code: $`
@@ -648,7 +647,7 @@ interface A {
           allowInterfaceEnd: false,
         },
       ],
-      errors: [{ messageId: 'after', type: AST_TOKEN_TYPES.Line, line: 3 }],
+      errors: [{ messageId: 'after', line: 3 }],
     },
     {
       code: $`
@@ -673,7 +672,7 @@ interface A {
           allowInterfaceEnd: false,
         },
       ],
-      errors: [{ messageId: 'after', type: AST_TOKEN_TYPES.Block, line: 3 }],
+      errors: [{ messageId: 'after', line: 3 }],
     },
 
     // Enum
@@ -697,7 +696,7 @@ interface A {
           allowEnumStart: true,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Line, line: 3 }],
+      errors: [{ messageId: 'before', line: 3 }],
     },
     {
       code: $`
@@ -721,7 +720,7 @@ interface A {
           allowEnumStart: true,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 3 }],
+      errors: [{ messageId: 'before', line: 3 }],
     },
     {
       code: $`
@@ -743,7 +742,7 @@ interface A {
           allowEnumStart: false,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Line, line: 2 }],
+      errors: [{ messageId: 'before', line: 2 }],
     },
     {
       code: $`
@@ -767,7 +766,7 @@ interface A {
           allowEnumStart: false,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 2 }],
+      errors: [{ messageId: 'before', line: 2 }],
     },
     {
       code: $`
@@ -789,7 +788,7 @@ interface A {
           allowEnumEnd: false,
         },
       ],
-      errors: [{ messageId: 'after', type: AST_TOKEN_TYPES.Line, line: 3 }],
+      errors: [{ messageId: 'after', line: 3 }],
     },
     {
       code: $`
@@ -814,7 +813,7 @@ interface A {
           allowEnumEnd: false,
         },
       ],
-      errors: [{ messageId: 'after', type: AST_TOKEN_TYPES.Block, line: 3 }],
+      errors: [{ messageId: 'after', line: 3 }],
     },
 
     // TS module
@@ -838,7 +837,7 @@ interface A {
           allowModuleStart: true,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Line, line: 3 }],
+      errors: [{ messageId: 'before', line: 3 }],
     },
     {
       code: $`
@@ -862,7 +861,7 @@ interface A {
           allowModuleStart: true,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 3 }],
+      errors: [{ messageId: 'before', line: 3 }],
     },
     {
       code: $`
@@ -884,7 +883,7 @@ interface A {
           allowModuleStart: false,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Line, line: 2 }],
+      errors: [{ messageId: 'before', line: 2 }],
     },
     {
       code: $`
@@ -908,7 +907,7 @@ interface A {
           allowModuleStart: false,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 2 }],
+      errors: [{ messageId: 'before', line: 2 }],
     },
     {
       code: $`
@@ -930,7 +929,7 @@ interface A {
           allowModuleEnd: false,
         },
       ],
-      errors: [{ messageId: 'after', type: AST_TOKEN_TYPES.Line, line: 3 }],
+      errors: [{ messageId: 'after', line: 3 }],
     },
     {
       code: $`
@@ -955,7 +954,7 @@ interface A {
           allowModuleEnd: false,
         },
       ],
-      errors: [{ messageId: 'after', type: AST_TOKEN_TYPES.Block, line: 3 }],
+      errors: [{ messageId: 'after', line: 3 }],
     },
 
     // multiple comments in one line
@@ -979,7 +978,7 @@ interface A {
           allowInterfaceEnd: false,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 3 }],
+      errors: [{ messageId: 'before', line: 3 }],
     },
     {
       code: $`
@@ -1001,7 +1000,7 @@ interface A {
           allowInterfaceEnd: false,
         },
       ],
-      errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 3 }],
+      errors: [{ messageId: 'before', line: 3 }],
     },
     {
       code: $`
@@ -1024,7 +1023,7 @@ interface A {
           allowInterfaceStart: false,
         },
       ],
-      errors: [{ messageId: 'after', type: AST_TOKEN_TYPES.Block, line: 2 }],
+      errors: [{ messageId: 'after', line: 2 }],
     },
     {
       code: $`
@@ -1047,7 +1046,7 @@ interface A {
           allowInterfaceStart: false,
         },
       ],
-      errors: [{ messageId: 'after', type: AST_TOKEN_TYPES.Line, line: 2 }],
+      errors: [{ messageId: 'after', line: 2 }],
     },
 
     // Hashbang comment
@@ -1055,7 +1054,7 @@ interface A {
       code: '#!foo\nvar a = 1;',
       output: '#!foo\n\nvar a = 1;',
       options: [{ afterHashbangComment: true }],
-      errors: [{ messageId: 'after', type: 'Shebang' }],
+      errors: [{ messageId: 'after' }],
     },
   ],
 })

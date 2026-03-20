@@ -47,6 +47,8 @@ Additionally, the rule accepts an optional object option with an `"overrides"` k
 - `"beside", { "overrides": { "while": "below" } }` requires all single-line statements to appear on the same line as their parent, unless the parent is a `while` statement, in which case the single-line statement must not be on the same line.
 - `"below", { "overrides": { "do": "any" } }` disallows all single-line statements from appearing on the same line as their parent, unless the parent is a `do-while` statement, in which case the position of the single-line statement is not enforced.
 
+### beside
+
 Examples of **incorrect** code for this rule with the default `"beside"` option:
 
 ::: incorrect
@@ -98,6 +100,8 @@ if (foo) { // block statements are always allowed with this rule
 
 :::
 
+### below
+
 Examples of **incorrect** code for this rule with the `"below"` option:
 
 ::: incorrect
@@ -147,6 +151,8 @@ if (foo) {
 ```
 
 :::
+
+### overrides
 
 Examples of **incorrect** code for this rule with the `"beside", { "overrides": { "while": "below" } }` rule:
 

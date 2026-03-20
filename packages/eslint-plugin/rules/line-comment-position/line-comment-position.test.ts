@@ -1,8 +1,3 @@
-/**
- * @fileoverview enforce position of line comments
- * @author Alberto Rodríguez
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './line-comment-position'
@@ -88,7 +83,6 @@ run<RuleOptions, MessageIds>({
       code: '1 + 1; // invalid comment',
       errors: [{
         messageId: 'above',
-        type: 'Line',
         line: 1,
         column: 8,
       }],
@@ -97,7 +91,6 @@ run<RuleOptions, MessageIds>({
       code: '1 + 1; // globalization is a word',
       errors: [{
         messageId: 'above',
-        type: 'Line',
         line: 1,
         column: 8,
       }],
@@ -107,27 +100,6 @@ run<RuleOptions, MessageIds>({
       options: [{ position: 'beside', applyDefaultIgnorePatterns: false }],
       errors: [{
         messageId: 'beside',
-        type: 'Line',
-        line: 1,
-        column: 1,
-      }],
-    },
-    { // deprecated option still works
-      code: '// jscs: disable\n1 + 1;',
-      options: [{ position: 'beside', applyDefaultPatterns: false }],
-      errors: [{
-        messageId: 'beside',
-        type: 'Line',
-        line: 1,
-        column: 1,
-      }],
-    },
-    { // new option name takes precedence
-      code: '// jscs: disable\n1 + 1;',
-      options: [{ position: 'beside', applyDefaultIgnorePatterns: false, applyDefaultPatterns: true }],
-      errors: [{
-        messageId: 'beside',
-        type: 'Line',
         line: 1,
         column: 1,
       }],
@@ -136,7 +108,6 @@ run<RuleOptions, MessageIds>({
       code: '1 + 1; // mentioning falls through',
       errors: [{
         messageId: 'above',
-        type: 'Line',
         line: 1,
         column: 8,
       }],
@@ -146,7 +117,6 @@ run<RuleOptions, MessageIds>({
       options: ['beside'],
       errors: [{
         messageId: 'beside',
-        type: 'Line',
         line: 1,
         column: 1,
       }],
@@ -156,7 +126,6 @@ run<RuleOptions, MessageIds>({
       options: [{ position: 'beside', ignorePattern: 'pragma' }],
       errors: [{
         messageId: 'beside',
-        type: 'Line',
         line: 2,
         column: 1,
       }],
@@ -166,7 +135,6 @@ run<RuleOptions, MessageIds>({
       options: [{ position: 'above', ignorePattern: 'linter' }],
       errors: [{
         messageId: 'above',
-        type: 'Line',
         line: 2,
         column: 8,
       }],

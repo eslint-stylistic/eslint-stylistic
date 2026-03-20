@@ -23,7 +23,7 @@ This rule optionally takes a second parameter in the form of an object, containi
 
 Note: conditions are checked by default in declarations or assignments.
 
-## Rule Options
+## Options
 
 Examples of **incorrect** code for this rule, when configured with `parens` or `parens-new-line`:
 

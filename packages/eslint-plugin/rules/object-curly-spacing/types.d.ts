@@ -1,12 +1,25 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 5jBQx_NI6I5_D6cOILI7Wf1xXwfkgn-4nuQzJBKuCok */
+/* @checksum: UTEs1ohmcRX1hRi7MRVKG3BcGHFGnBhlmwJanHNQJXQ */
 
 export type ObjectCurlySpacingSchema0 = 'always' | 'never'
 
 export interface ObjectCurlySpacingSchema1 {
   arraysInObjects?: boolean
   objectsInObjects?: boolean
+  overrides?: {
+    ObjectPattern?: 'always' | 'never'
+    ObjectExpression?: 'always' | 'never'
+    ImportDeclaration?: 'always' | 'never'
+    ImportAttributes?: 'always' | 'never'
+    ExportNamedDeclaration?: 'always' | 'never'
+    ExportAllDeclaration?: 'always' | 'never'
+    TSMappedType?: 'always' | 'never'
+    TSTypeLiteral?: 'always' | 'never'
+    TSInterfaceBody?: 'always' | 'never'
+    TSEnumBody?: 'always' | 'never'
+  }
+  emptyObjects?: 'ignore' | 'always' | 'never'
 }
 
 export type ObjectCurlySpacingRuleOptions = [
@@ -20,3 +33,5 @@ export type MessageIds
     | 'requireSpaceAfter'
     | 'unexpectedSpaceBefore'
     | 'unexpectedSpaceAfter'
+    | 'requiredSpaceInEmptyObject'
+    | 'unexpectedSpaceInEmptyObject'

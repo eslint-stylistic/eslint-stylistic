@@ -55,7 +55,7 @@ Each of the following options can be set to `"always"`, `"never"`, or `"ignore"`
 - `asyncArrow` is for async arrow function expressions (e.g. `async () => {}`).
 - `catch` is for catch clause with params (e.g. `catch (e) {}`).
 
-### "always"
+### always
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 
@@ -141,7 +141,7 @@ try {
 
 :::
 
-### "never"
+### never
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 

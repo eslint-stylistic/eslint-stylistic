@@ -4,7 +4,7 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { run, skipBabel } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from './array-bracket-spacing'
 
@@ -150,24 +150,6 @@ run<RuleOptions, MessageIds>({
     { code: 'var foo = [{\'bar\': \'baz\'}, 1,  5];', options: ['never'] },
     { code: 'var foo = [1, 5, {\'bar\': \'baz\'}];', options: ['never'] },
     { code: 'var obj = {\'foo\': [1, 2]}', options: ['never'] },
-
-    // destructuring with type annotation
-    {
-      code: '([ a, b ]: Array<any>) => {}',
-      options: ['always'],
-      languageOptions: {
-        ...languageOptionsForBabelFlow,
-        ecmaVersion: 6,
-      },
-    },
-    {
-      code: '([a, b]: Array< any >) => {}',
-      options: ['never'],
-      languageOptions: {
-        ...languageOptionsForBabelFlow,
-        ecmaVersion: 6,
-      },
-    },
   ],
 
   invalid: [
@@ -181,7 +163,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -201,7 +182,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -212,7 +192,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 36,
           endLine: 1,
@@ -230,7 +209,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
           endLine: 1,
@@ -241,7 +219,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 34,
           endLine: 1,
@@ -259,7 +236,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -270,7 +246,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 49,
           endLine: 1,
@@ -290,7 +265,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -301,7 +275,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 18,
           endLine: 1,
@@ -319,7 +292,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 17,
           endLine: 1,
@@ -337,7 +309,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
           endLine: 1,
@@ -348,7 +319,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 17,
           endLine: 1,
@@ -368,7 +338,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -386,7 +355,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 30,
           endLine: 1,
@@ -404,7 +372,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 33,
           endLine: 1,
@@ -422,7 +389,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -440,7 +406,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -451,7 +416,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 34,
           endLine: 1,
@@ -471,7 +435,6 @@ run<RuleOptions, MessageIds>({
         data: {
           tokenValue: '[',
         },
-        type: 'ArrayPattern',
         line: 1,
         column: 5,
         endLine: 1,
@@ -481,7 +444,6 @@ run<RuleOptions, MessageIds>({
         data: {
           tokenValue: ']',
         },
-        type: 'ArrayPattern',
         line: 1,
         column: 9,
         endLine: 1,
@@ -498,7 +460,6 @@ run<RuleOptions, MessageIds>({
         data: {
           tokenValue: '[',
         },
-        type: 'ArrayPattern',
         line: 1,
         column: 5,
         endLine: 1,
@@ -515,7 +476,6 @@ run<RuleOptions, MessageIds>({
         data: {
           tokenValue: '[',
         },
-        type: 'ArrayPattern',
         line: 1,
         column: 5,
         endLine: 1,
@@ -525,7 +485,6 @@ run<RuleOptions, MessageIds>({
         data: {
           tokenValue: ']',
         },
-        type: 'ArrayPattern',
         line: 1,
         column: 12,
         endLine: 1,
@@ -542,7 +501,6 @@ run<RuleOptions, MessageIds>({
         data: {
           tokenValue: ']',
         },
-        type: 'ArrayPattern',
         line: 1,
         column: 13,
         endLine: 1,
@@ -559,7 +517,6 @@ run<RuleOptions, MessageIds>({
         data: {
           tokenValue: '[',
         },
-        type: 'ArrayPattern',
         line: 1,
         column: 5,
         endLine: 1,
@@ -569,7 +526,6 @@ run<RuleOptions, MessageIds>({
         data: {
           tokenValue: ']',
         },
-        type: 'ArrayPattern',
         line: 1,
         column: 14,
         endLine: 1,
@@ -586,7 +542,6 @@ run<RuleOptions, MessageIds>({
         data: {
           tokenValue: '[',
         },
-        type: 'ArrayPattern',
         line: 1,
         column: 5,
         endLine: 1,
@@ -603,7 +558,6 @@ run<RuleOptions, MessageIds>({
         data: {
           tokenValue: '[',
         },
-        type: 'ArrayPattern',
         line: 1,
         column: 6,
         endLine: 1,
@@ -620,7 +574,6 @@ run<RuleOptions, MessageIds>({
         data: {
           tokenValue: '[',
         },
-        type: 'ArrayPattern',
         line: 1,
         column: 2,
         endLine: 1,
@@ -637,7 +590,6 @@ run<RuleOptions, MessageIds>({
         data: {
           tokenValue: ']',
         },
-        type: 'ArrayPattern',
         line: 1,
         column: 14,
         endLine: 1,
@@ -656,7 +608,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
           endLine: 1,
@@ -667,7 +618,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 29,
           endLine: 1,
@@ -685,7 +635,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -705,7 +654,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -725,7 +673,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
           endLine: 1,
@@ -736,7 +683,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 22,
           endLine: 1,
@@ -754,7 +700,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
           endLine: 1,
@@ -772,7 +717,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 23,
           endLine: 1,
@@ -792,7 +736,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -803,7 +746,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 23,
           endLine: 1,
@@ -821,7 +763,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 22,
           endLine: 1,
@@ -839,7 +780,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -857,7 +797,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -868,7 +807,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 14,
           endLine: 1,
@@ -886,7 +824,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 14,
           endLine: 1,
@@ -897,79 +834,10 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 25,
           endLine: 1,
           endColumn: 26,
-        },
-      ],
-    },
-
-    // destructuring with type annotation
-    {
-      code: '([ a, b ]: Array<any>) => {}',
-      output: '([a, b]: Array<any>) => {}',
-      options: ['never'],
-      languageOptions: {
-        ...languageOptionsForBabelFlow,
-        ecmaVersion: 6,
-      },
-      errors: [
-        {
-          messageId: 'unexpectedSpaceAfter',
-          data: {
-            tokenValue: '[',
-          },
-          type: 'ArrayPattern',
-          line: 1,
-          column: 3,
-          endLine: 1,
-          endColumn: 4,
-        },
-        {
-          messageId: 'unexpectedSpaceBefore',
-          data: {
-            tokenValue: ']',
-          },
-          type: 'ArrayPattern',
-          line: 1,
-          column: 8,
-          endLine: 1,
-          endColumn: 9,
-        },
-      ],
-    },
-    {
-      code: '([a, b]: Array< any >) => {}',
-      output: '([ a, b ]: Array< any >) => {}',
-      options: ['always'],
-      languageOptions: {
-        ...languageOptionsForBabelFlow,
-        ecmaVersion: 6,
-      },
-      errors: [
-        {
-          messageId: 'missingSpaceAfter',
-          data: {
-            tokenValue: '[',
-          },
-          type: 'ArrayPattern',
-          line: 1,
-          column: 2,
-          endLine: 1,
-          endColumn: 3,
-        },
-        {
-          messageId: 'missingSpaceBefore',
-          data: {
-            tokenValue: ']',
-          },
-          type: 'ArrayPattern',
-          line: 1,
-          column: 7,
-          endLine: 1,
-          endColumn: 8,
         },
       ],
     },
@@ -985,7 +853,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -996,7 +863,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 18,
           endLine: 1,
@@ -1017,7 +883,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayPattern',
           line: 1,
           column: 14,
           endLine: 1,
@@ -1028,7 +893,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayPattern',
           line: 1,
           column: 21,
           endLine: 1,
@@ -1046,7 +910,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -1057,7 +920,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 2,
           column: 5,
           endLine: 2,
@@ -1075,7 +937,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -1086,7 +947,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: '[',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 18,
           endLine: 1,
@@ -1097,7 +957,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 23,
           endLine: 1,
@@ -1108,7 +967,6 @@ run<RuleOptions, MessageIds>({
           data: {
             tokenValue: ']',
           },
-          type: 'ArrayExpression',
           line: 1,
           column: 26,
           endLine: 1,
@@ -1118,3 +976,94 @@ run<RuleOptions, MessageIds>({
     },
   ],
 })
+
+if (!skipBabel) {
+  run<RuleOptions, MessageIds>({
+    name: 'array-bracket-spacing_babel',
+    rule,
+    valid: [
+      // destructuring with type annotation
+      {
+        code: '([ a, b ]: Array<any>) => {}',
+        options: ['always'],
+        languageOptions: {
+          ...languageOptionsForBabelFlow,
+          ecmaVersion: 6,
+        },
+      },
+      {
+        code: '([a, b]: Array< any >) => {}',
+        options: ['never'],
+        languageOptions: {
+          ...languageOptionsForBabelFlow,
+          ecmaVersion: 6,
+        },
+      },
+    ],
+    invalid: [
+      // destructuring with type annotation
+      {
+        code: '([ a, b ]: Array<any>) => {}',
+        output: '([a, b]: Array<any>) => {}',
+        options: ['never'],
+        languageOptions: {
+          ...languageOptionsForBabelFlow,
+          ecmaVersion: 6,
+        },
+        errors: [
+          {
+            messageId: 'unexpectedSpaceAfter',
+            data: {
+              tokenValue: '[',
+            },
+            line: 1,
+            column: 3,
+            endLine: 1,
+            endColumn: 4,
+          },
+          {
+            messageId: 'unexpectedSpaceBefore',
+            data: {
+              tokenValue: ']',
+            },
+            line: 1,
+            column: 8,
+            endLine: 1,
+            endColumn: 9,
+          },
+        ],
+      },
+      {
+        code: '([a, b]: Array< any >) => {}',
+        output: '([ a, b ]: Array< any >) => {}',
+        options: ['always'],
+        languageOptions: {
+          ...languageOptionsForBabelFlow,
+          ecmaVersion: 6,
+        },
+        errors: [
+          {
+            messageId: 'missingSpaceAfter',
+            data: {
+              tokenValue: '[',
+            },
+            line: 1,
+            column: 2,
+            endLine: 1,
+            endColumn: 3,
+          },
+          {
+            messageId: 'missingSpaceBefore',
+            data: {
+              tokenValue: ']',
+            },
+            line: 1,
+            column: 7,
+            endLine: 1,
+            endColumn: 8,
+          },
+        ],
+      },
+    ],
+  })
+}

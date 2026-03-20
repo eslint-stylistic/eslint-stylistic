@@ -13,34 +13,26 @@ type Rules = Partial<{
  * A factory function to customize the recommended config
  */
 export function customize(options: StylisticCustomizeOptions = {}): Linter.Config {
+  const defaultPluginName = plugin.meta.namespace
+
   const {
     arrowParens = false,
     blockSpacing = true,
     braceStyle = 'stroustrup',
     commaDangle = 'always-multiline',
+    experimental: enableExperimentalRules = false,
     indent = 2,
     jsx = true,
-    pluginName = '@stylistic',
+    pluginName = defaultPluginName,
     quoteProps = 'consistent-as-needed',
     quotes = 'single',
     semi = false,
     severity = 'error',
   } = options
 
-  let rules: Rules = {
-    '@stylistic/array-bracket-spacing': [severity, 'never'],
-    '@stylistic/arrow-parens': [severity, arrowParens ? 'always' : 'as-needed', { requireForBlockBody: true }],
-    '@stylistic/arrow-spacing': [severity, { after: true, before: true }],
-    '@stylistic/block-spacing': [severity, blockSpacing ? 'always' : 'never'],
-    '@stylistic/brace-style': [severity, braceStyle, { allowSingleLine: true }],
-    '@stylistic/comma-dangle': [severity, commaDangle],
-    '@stylistic/comma-spacing': [severity, { after: true, before: false }],
-    '@stylistic/comma-style': [severity, 'last'],
-    '@stylistic/computed-property-spacing': [severity, 'never', { enforceForClassMembers: true }],
-    '@stylistic/dot-location': [severity, 'property'],
-    '@stylistic/eol-last': severity,
-    '@stylistic/generator-star-spacing': [severity, { after: true, before: false }],
-    '@stylistic/indent': [severity, indent, {
+  const [
+    indentLevel = 2,
+    indentOptions = {
       ArrayExpression: 1,
       CallExpression: { arguments: 1 },
       flatTernaryExpressions: false,
@@ -57,10 +49,26 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
       offsetTernaryExpressions: true,
       outerIIFEBody: 1,
       SwitchCase: 1,
-      tabLength: indent === 'tab' ? 4 : indent,
+      tabLength: indentLevel === 'tab' ? 4 : indentLevel,
       VariableDeclarator: 1,
-    }],
-    '@stylistic/indent-binary-ops': [severity, indent],
+    } satisfies RuleOptions['@stylistic/indent'][1],
+  ] = Array.isArray(indent) ? indent : [indent]
+
+  let rules: Rules = {
+    '@stylistic/array-bracket-spacing': [severity, 'never'],
+    '@stylistic/arrow-parens': [severity, arrowParens ? 'always' : 'as-needed', { requireForBlockBody: true }],
+    '@stylistic/arrow-spacing': [severity, { after: true, before: true }],
+    '@stylistic/block-spacing': [severity, blockSpacing ? 'always' : 'never'],
+    '@stylistic/brace-style': [severity, braceStyle, { allowSingleLine: true }],
+    '@stylistic/comma-dangle': [severity, commaDangle],
+    '@stylistic/comma-spacing': [severity, { after: true, before: false }],
+    '@stylistic/comma-style': [severity, 'last'],
+    '@stylistic/computed-property-spacing': [severity, 'never', { enforceForClassMembers: true }],
+    '@stylistic/dot-location': [severity, 'property'],
+    '@stylistic/eol-last': severity,
+    '@stylistic/generator-star-spacing': [severity, { after: true, before: false }],
+    '@stylistic/indent': [severity, indentLevel, indentOptions],
+    '@stylistic/indent-binary-ops': [severity, indentLevel],
     '@stylistic/key-spacing': [severity, { afterColon: true, beforeColon: false }],
     '@stylistic/keyword-spacing': [severity, { after: true, before: true }],
     '@stylistic/lines-between-class-members': [severity, 'always', { exceptAfterSingleLine: true }],
@@ -98,7 +106,7 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
     '@stylistic/no-mixed-spaces-and-tabs': severity,
     '@stylistic/no-multi-spaces': severity,
     '@stylistic/no-multiple-empty-lines': [severity, { max: 1, maxBOF: 0, maxEOF: 0 }],
-    '@stylistic/no-tabs': indent === 'tab' ? 'off' : severity,
+    '@stylistic/no-tabs': indentLevel === 'tab' ? 'off' : severity,
     '@stylistic/no-trailing-spaces': severity,
     '@stylistic/no-whitespace-before-property': severity,
     '@stylistic/object-curly-spacing': [severity, 'always'],
@@ -143,7 +151,7 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
           '@stylistic/jsx-equals-spacing': severity,
           '@stylistic/jsx-first-prop-new-line': severity,
           '@stylistic/jsx-function-call-newline': [severity, 'multiline'],
-          '@stylistic/jsx-indent-props': [severity, indent],
+          '@stylistic/jsx-indent-props': [severity, indentLevel],
           '@stylistic/jsx-max-props-per-line': [severity, { maximum: 1, when: 'multiline' }],
           '@stylistic/jsx-one-expression-per-line': [severity, { allow: 'single-child' }],
           '@stylistic/jsx-quotes': severity,
@@ -173,8 +181,31 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
       : {},
   }
 
-  if (pluginName !== '@stylistic') {
-    const regex = /^@stylistic\//
+  if (enableExperimentalRules) {
+    rules = {
+      ...rules,
+      '@stylistic/array-bracket-newline': 'off',
+      '@stylistic/array-bracket-spacing': 'off',
+      '@stylistic/array-element-newline': 'off',
+      '@stylistic/exp-list-style': severity,
+      '@stylistic/function-call-argument-newline': 'off',
+      '@stylistic/function-paren-newline': 'off',
+      '@stylistic/object-curly-newline': 'off',
+      '@stylistic/object-curly-spacing': 'off',
+      '@stylistic/object-property-newline': 'off',
+      ...jsx
+        ? {
+            '@stylistic/exp-jsx-props-style': severity,
+            '@stylistic/jsx-first-prop-new-line': 'off',
+            '@stylistic/jsx-function-call-newline': 'off',
+            '@stylistic/jsx-max-props-per-line': 'off',
+          }
+        : {},
+    }
+  }
+
+  if (pluginName !== defaultPluginName) {
+    const regex = new RegExp(`^${defaultPluginName}/`)
     rules = Object.fromEntries(
       Object.entries(rules!)
         .map(([ruleName, ruleConfig]) => [

@@ -1,6 +1,3 @@
-// this rule tests spacing, which prettier will want to fix and break the tests
-/* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './space-infix-ops'
@@ -400,6 +397,7 @@ run<RuleOptions, MessageIds>({
         function bar(): string & number {}
       `,
     },
+    `type Foo<T extends { type: string } = never> = T`,
     {
       code: 'var foo: string|number = 123;',
       options: [{
@@ -1822,6 +1820,13 @@ run<RuleOptions, MessageIds>({
       ],
     },
     {
+      code: 'type Foo<T=number> = T',
+      output: 'type Foo<T = number> = T',
+      errors: [
+        { messageId: 'missingSpace', line: 1, column: 11 },
+      ],
+    },
+    {
       code: `
         class Test {
           value: string |number;
@@ -2443,6 +2448,14 @@ run<RuleOptions, MessageIds>({
           column: 44,
           line: 2,
         },
+      ],
+    },
+    {
+      code: `type Foo<T extends { type: string }=never>=T`,
+      output: `type Foo<T extends { type: string } = never> = T`,
+      errors: [
+        { messageId: 'missingSpace', line: 1, column: 36 },
+        { messageId: 'missingSpace', line: 1, column: 43 },
       ],
     },
   ],

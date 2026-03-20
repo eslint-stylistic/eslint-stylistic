@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: Iph3S7513_5cIDMb2Ag2FcQGNYbVNDvkPA67EVsE4Js */
+/* @checksum: PAv-IdLBmv_6OyUndzkaZnAKD3l_SSH4R8zgF9KLk2E */
 
 export type ArrowParensSchema0 = 'always' | 'as-needed'
 

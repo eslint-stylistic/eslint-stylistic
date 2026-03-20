@@ -25,7 +25,7 @@ The `position` option has two settings:
 - `above` (default) enforces line comments only above code, in its own line.
 - `beside` enforces line comments only at the end of code lines.
 
-#### position: above
+#### above
 
 Examples of **incorrect** code for the `{ "position": "above" }` option:
 
@@ -52,7 +52,7 @@ Examples of **correct** code for the `{ "position": "above" }` option:
 
 :::
 
-#### position: beside
+#### beside
 
 Examples of **incorrect** code for the `{ "position": "beside" }` option:
 
@@ -134,8 +134,6 @@ Examples of **correct** code for the `{ "applyDefaultIgnorePatterns": false }` o
 ```
 
 :::
-
-**Deprecated:** the object property `applyDefaultPatterns` is deprecated. Please use the property `applyDefaultIgnorePatterns` instead.
 
 ## When Not To Use It
 

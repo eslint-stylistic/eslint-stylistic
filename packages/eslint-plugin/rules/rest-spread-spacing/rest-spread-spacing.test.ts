@@ -55,7 +55,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 8,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -68,7 +67,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 9,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -81,7 +79,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 8,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -94,7 +91,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 10,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -107,7 +103,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 1,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -120,7 +115,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 5,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -133,7 +127,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 2,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -147,7 +140,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 8,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -161,7 +153,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 8,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -175,7 +166,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 1,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -189,7 +179,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 7,
         messageId: 'expectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -202,7 +191,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 8,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -215,7 +203,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 8,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -229,7 +216,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 7,
         messageId: 'expectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -243,7 +229,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 7,
         messageId: 'expectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -256,7 +241,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 6,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -269,7 +253,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 6,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -282,7 +265,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 1,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -296,7 +278,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 6,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -310,7 +291,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 6,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -324,7 +304,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 1,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -338,7 +317,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 5,
         messageId: 'expectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -351,7 +329,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 6,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -364,7 +341,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 6,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -378,7 +354,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 5,
         messageId: 'expectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -392,7 +367,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 5,
         messageId: 'expectedWhitespace',
         data: { type: 'spread' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -405,7 +379,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 16,
         messageId: 'unexpectedWhitespace',
         data: { type: 'rest' },
-        type: 'RestElement',
       }],
     },
     {
@@ -418,7 +391,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 16,
         messageId: 'unexpectedWhitespace',
         data: { type: 'rest' },
-        type: 'RestElement',
       }],
     },
     {
@@ -431,7 +403,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 1,
         messageId: 'unexpectedWhitespace',
         data: { type: 'rest' },
-        type: 'RestElement',
       }],
     },
     {
@@ -445,7 +416,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 16,
         messageId: 'unexpectedWhitespace',
         data: { type: 'rest' },
-        type: 'RestElement',
       }],
     },
     {
@@ -459,7 +429,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 16,
         messageId: 'unexpectedWhitespace',
         data: { type: 'rest' },
-        type: 'RestElement',
       }],
     },
     {
@@ -473,7 +442,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 1,
         messageId: 'unexpectedWhitespace',
         data: { type: 'rest' },
-        type: 'RestElement',
       }],
     },
     {
@@ -487,7 +455,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 15,
         messageId: 'expectedWhitespace',
         data: { type: 'rest' },
-        type: 'RestElement',
       }],
     },
     {
@@ -501,7 +468,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 21,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread property' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -515,7 +481,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 21,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread property' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -529,7 +494,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 1,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread property' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -544,7 +508,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 21,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread property' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -559,7 +522,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 21,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread property' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -574,7 +536,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 1,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread property' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -589,7 +550,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 20,
         messageId: 'expectedWhitespace',
         data: { type: 'spread property' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -604,7 +564,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 21,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread property' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -619,7 +578,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 21,
         messageId: 'unexpectedWhitespace',
         data: { type: 'spread property' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -634,7 +592,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 20,
         messageId: 'expectedWhitespace',
         data: { type: 'spread property' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -649,7 +606,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 20,
         messageId: 'expectedWhitespace',
         data: { type: 'spread property' },
-        type: 'SpreadElement',
       }],
     },
     {
@@ -663,7 +619,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 17,
         messageId: 'unexpectedWhitespace',
         data: { type: 'rest property' },
-        type: 'RestElement',
       }],
     },
     {
@@ -677,7 +632,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 17,
         messageId: 'unexpectedWhitespace',
         data: { type: 'rest property' },
-        type: 'RestElement',
       }],
     },
     {
@@ -691,7 +645,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 1,
         messageId: 'unexpectedWhitespace',
         data: { type: 'rest property' },
-        type: 'RestElement',
       }],
     },
     {
@@ -706,7 +659,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 17,
         messageId: 'unexpectedWhitespace',
         data: { type: 'rest property' },
-        type: 'RestElement',
       }],
     },
     {
@@ -721,7 +673,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 17,
         messageId: 'unexpectedWhitespace',
         data: { type: 'rest property' },
-        type: 'RestElement',
       }],
     },
     {
@@ -736,7 +687,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 1,
         messageId: 'unexpectedWhitespace',
         data: { type: 'rest property' },
-        type: 'RestElement',
       }],
     },
     {
@@ -751,7 +701,6 @@ run<RuleOptions, MessageIds>({
         endColumn: 16,
         messageId: 'expectedWhitespace',
         data: { type: 'rest property' },
-        type: 'RestElement',
       }],
     },
   ],

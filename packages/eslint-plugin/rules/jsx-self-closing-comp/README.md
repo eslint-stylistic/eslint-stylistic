@@ -44,7 +44,7 @@ var HelloSpace = <Hello>{' '}</Hello>;
 
 :::
 
-## Rule Options
+## Options
 
 The rule can take one argument to select types of tags, which should be self-closed when this is possible. By default custom components tags and html tags should be self-closed.
 

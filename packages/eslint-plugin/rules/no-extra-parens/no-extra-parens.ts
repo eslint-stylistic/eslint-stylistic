@@ -1,5 +1,3 @@
-// any is required to work around manipulating the AST in weird ways
-
 import type { ASTNode, RuleFunction, RuleListener, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
@@ -9,6 +7,7 @@ import {
   getStaticPropertyName,
   isClosingParenToken,
   isDecimalInteger,
+  isJSDocComment,
   isKeywordToken,
   isMixedLogicalAndCoalesceExpressions,
   isNodeOfTypes,
@@ -22,10 +21,29 @@ import {
   isSingleLine,
   isTokenOnSameLine,
   isTopLevelExpressionStatement,
-  isTypeAssertion,
   skipChainExpression,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { warnDeprecatedOptions } from '#utils/index'
+
+/**
+ * extends from https://github.com/typescript-eslint/typescript-eslint/blob/bd9e490eb76705ed4dec2f3f705eb18e4fe313e0/packages/utils/src/ast-utils/predicates.ts#L57
+ *
+ * Checks if a node is a type assertion:
+ *
+ * ``` ts
+ * x as foo
+ * <foo>x
+ * x satisfies foo
+ * x!
+ * ```
+ */
+const isTypeAssertion = isNodeOfTypes([
+  AST_NODE_TYPES.TSAsExpression,
+  AST_NODE_TYPES.TSNonNullExpression,
+  AST_NODE_TYPES.TSSatisfiesExpression,
+  AST_NODE_TYPES.TSTypeAssertion,
+])
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-parens',
@@ -63,13 +81,15 @@ export default createRule<RuleOptions, MessageIds>({
                 nestedBinaryExpressions: { type: 'boolean' },
                 returnAssign: { type: 'boolean' },
                 ignoreJSX: { type: 'string', enum: ['none', 'all', 'single-line', 'multi-line'] },
+                /** @deprecated */
                 enforceForArrowConditionals: { type: 'boolean' },
                 enforceForSequenceExpressions: { type: 'boolean' },
+                /** @deprecated */
                 enforceForNewInMemberExpressions: { type: 'boolean' },
                 enforceForFunctionPrototypeMethods: { type: 'boolean' },
                 allowParensAfterCommentPattern: { type: 'string' },
                 nestedConditionalExpressions: { type: 'boolean' },
-                // TODO: Deprecate options that can be simply defined using ignoredNodes.
+                /** @deprecated */
                 allowNodesInSpreadElement: {
                   type: 'object',
                   properties: {
@@ -98,11 +118,11 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
+    defaultOptions: ['all'],
     messages: {
       unexpected: 'Unnecessary parentheses around expression.',
     },
   },
-  defaultOptions: ['all'],
   create(context, [nodes, options]) {
     const sourceCode = context.sourceCode
 
@@ -114,14 +134,24 @@ export default createRule<RuleOptions, MessageIds>({
     const IGNORE_NESTED_BINARY = ALL_NODES && options?.nestedBinaryExpressions === false
     const EXCEPT_RETURN_ASSIGN = ALL_NODES && options?.returnAssign === false
     const IGNORE_JSX = ALL_NODES && options?.ignoreJSX
+    /** @deprecated */
     const IGNORE_ARROW_CONDITIONALS = ALL_NODES && options?.enforceForArrowConditionals === false
     const IGNORE_SEQUENCE_EXPRESSIONS = ALL_NODES && options?.enforceForSequenceExpressions === false
+    /** @deprecated */
     const IGNORE_NEW_IN_MEMBER_EXPR = ALL_NODES && options?.enforceForNewInMemberExpressions === false
     const IGNORE_FUNCTION_PROTOTYPE_METHODS = ALL_NODES && options?.enforceForFunctionPrototypeMethods === false
     const ALLOW_PARENS_AFTER_COMMENT_PATTERN = ALL_NODES && options?.allowParensAfterCommentPattern
     const ALLOW_NESTED_TERNARY = ALL_NODES && options?.nestedConditionalExpressions === false
-    const ALLOW_NODES_IN_SPREAD = ALL_NODES && context.options[1]
-      && new Set(Object.entries(context.options[1].allowNodesInSpreadElement || {}).filter(([_, value]) => value).map(([key]) => key))
+    /** @deprecated */
+    const ALLOW_NODES_IN_SPREAD = ALL_NODES && options
+      && new Set(Object.entries(options.allowNodesInSpreadElement || {}).filter(([_, value]) => value).map(([key]) => key))
+
+    warnDeprecatedOptions(
+      options,
+      ['enforceForArrowConditionals', 'enforceForNewInMemberExpressions', 'allowNodesInSpreadElement'],
+      'ignoredNodes',
+      'no-extra-parens',
+    )
 
     // @ts-expect-error other properties are not used
     const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' })
@@ -149,10 +179,8 @@ export default createRule<RuleOptions, MessageIds>({
       while (currentNode !== ancestor) {
         currentNode = currentNode.parent
 
-        /* c8 ignore start */
         if (currentNode === null || currentNode === undefined)
           throw new Error('Nodes are not in the ancestor-descendant relationship.')
-        /* c8 ignore stop */
 
         path.push(currentNode)
       }
@@ -625,13 +653,36 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
+     * Checks if the parentheses are allowed by a preceding comment directive,
+     * such as a JSDoc `@type` cast or a user-specified comment pattern.
+     */
+    function isAllowedByCommentDirective(leftParenToken: Token) {
+      const comments = sourceCode.getCommentsBefore(leftParenToken)
+      if (comments.length === 0)
+        return false
+
+      const lastComment = comments.at(-1)!
+
+      if (isJSDocComment(lastComment) && /@type\s*\{[^}]+\}/.test(lastComment.value))
+        return true
+
+      if (ALLOW_PARENS_AFTER_COMMENT_PATTERN) {
+        const ignorePattern = new RegExp(ALLOW_PARENS_AFTER_COMMENT_PATTERN, 'u')
+        if (ignorePattern.test(lastComment.value))
+          return true
+      }
+
+      return false
+    }
+
+    /**
      * Report the node
      * @param node node to evaluate
      * @private
      */
     function report(node: ASTNode) {
-      const leftParenToken = sourceCode.getTokenBefore(node)!
-      const rightParenToken = sourceCode.getTokenAfter(node)!
+      let leftParenToken = sourceCode.getTokenBefore(node)!
+      let rightParenToken = sourceCode.getTokenAfter(node)!
 
       if (!isParenthesisedTwice(node)) {
         if (tokensToIgnore.has(sourceCode.getFirstToken(node)!))
@@ -639,19 +690,15 @@ export default createRule<RuleOptions, MessageIds>({
 
         if (isIIFE(node) && !('callee' in node && isParenthesised(node.callee)))
           return
+      }
 
-        if (ALLOW_PARENS_AFTER_COMMENT_PATTERN) {
-          const commentsBeforeLeftParenToken = sourceCode.getCommentsBefore(leftParenToken)
-          const totalCommentsBeforeLeftParenTokenCount = commentsBeforeLeftParenToken.length
-          const ignorePattern = new RegExp(ALLOW_PARENS_AFTER_COMMENT_PATTERN, 'u')
-
-          if (
-            totalCommentsBeforeLeftParenTokenCount > 0
-            && ignorePattern.test(commentsBeforeLeftParenToken[totalCommentsBeforeLeftParenTokenCount - 1].value)
-          ) {
-            return
-          }
-        }
+      let parenLayers = 2
+      while (isAllowedByCommentDirective(leftParenToken)) {
+        if (!isParenthesizedRaw(parenLayers, node, sourceCode))
+          return
+        leftParenToken = sourceCode.getTokenBefore(leftParenToken, isOpeningParenToken)!
+        rightParenToken = sourceCode.getTokenAfter(rightParenToken, isClosingParenToken)!
+        parenLayers++
       }
 
       /**
@@ -665,12 +712,10 @@ export default createRule<RuleOptions, MessageIds>({
           messageId: 'unexpected',
           fix: isFixable(node)
             ? (fixer) => {
-                const parenthesizedSource = sourceCode.text.slice(leftParenToken.range[1], rightParenToken.range[0])
-
-                return fixer.replaceTextRange([
-                  leftParenToken.range[0],
-                  rightParenToken.range[1],
-                ], (requiresLeadingSpace(node) ? ' ' : '') + parenthesizedSource + (requiresTrailingSpace(node) ? ' ' : ''))
+                return [
+                  fixer.replaceText(leftParenToken, requiresLeadingSpace(node) ? ' ' : ''),
+                  fixer.replaceText(rightParenToken, requiresTrailingSpace(node) ? ' ' : ''),
+                ]
               }
             : null,
         })
@@ -815,24 +860,6 @@ export default createRule<RuleOptions, MessageIds>({
         })
       }
 
-      if (
-        node.typeArguments
-        && node.arguments.length === 1
-        // is there any opening parenthesis in type arguments
-        && sourceCode.getTokenAfter(node.callee, isOpeningParenToken)
-        !== sourceCode.getTokenBefore(node.arguments[0], isOpeningParenToken)
-      ) {
-        return rule({
-          ...node,
-          arguments: [
-            {
-              ...node.arguments[0],
-              type: AST_NODE_TYPES.SequenceExpression as any,
-            },
-          ],
-        })
-      }
-
       return rule(node)
     }
 
@@ -934,10 +961,11 @@ export default createRule<RuleOptions, MessageIds>({
     const baseListeners: RuleListener = {
       ArrayExpression(node) {
         node.elements
-          .map(element =>
-            isTypeAssertion(element)
-              ? { ...element, type: AST_NODE_TYPES.FunctionExpression as any }
-              : element,
+          .map(
+            element =>
+              isTypeAssertion(element)
+                ? { ...element, type: AST_NODE_TYPES.FunctionExpression as any }
+                : element,
           )
           .forEach((ele) => {
             if (!!ele && hasExcessParensWithPrecedence(ele, PRECEDENCE_OF_ASSIGNMENT_EXPR))
@@ -1058,14 +1086,16 @@ export default createRule<RuleOptions, MessageIds>({
           if (
             !(EXCEPT_COND_TERNARY && availableTypes.has(node.consequent.type))
             && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.consequent.type))
-            && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
+            && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          ) {
             report(node.consequent)
           }
 
           if (
             !(EXCEPT_COND_TERNARY && availableTypes.has(node.alternate.type))
             && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.alternate.type))
-            && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
+            && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          ) {
             report(node.alternate)
           }
         }
@@ -1291,8 +1321,7 @@ export default createRule<RuleOptions, MessageIds>({
           }
 
           if (nodeObjHasExcessParens
-            && node.object.type === 'CallExpression'
-          ) {
+            && node.object.type === 'CallExpression') {
             report(node.object)
           }
 
@@ -1305,8 +1334,7 @@ export default createRule<RuleOptions, MessageIds>({
 
           if (nodeObjHasExcessParens
             && node.optional
-            && node.object.type === 'ChainExpression'
-          ) {
+            && node.object.type === 'ChainExpression') {
             report(node.object)
           }
 

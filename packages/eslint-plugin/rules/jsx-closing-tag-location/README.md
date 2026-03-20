@@ -39,7 +39,7 @@ Examples of **correct** code for this rule:
 
 :::
 
-## Rule Options
+## Options
 
 There is one way to configure this rule.
 

@@ -4,13 +4,19 @@ Enforce proper position of the first property in JSX.
 
 ## Rule Details
 
-This rule checks whether the first property of all JSX elements is correctly placed. There are the possible configurations:
+This rule checks whether the first property of all JSX elements is correctly placed.
+
+## Options
+
+There are the possible configurations:
 
 - `always`: The first property should always be placed on a new line.
 - `never` : The first property should never be placed on a new line, e.g. should always be on the same line as the Component opening tag.
 - `multiline`: The first property should always be placed on a new line when the JSX tag takes up multiple lines.
 - `multiprop`: The first property should never be placed on a new line unless there are multiple properties.
 - `multiline-multiprop`: The first property should always be placed on a new line if the JSX tag takes up multiple lines and there are multiple properties. This is the `default` value.
+
+### always
 
 Examples of **incorrect** code for this rule, when configured with `"always"`:
 
@@ -45,6 +51,8 @@ Examples of **correct** code for this rule, when configured with `"always"`:
 
 :::
 
+### never
+
 Examples of **incorrect** code for this rule, when configured with `"never"`:
 
 ::: incorrect
@@ -77,6 +85,8 @@ Examples of **correct** code for this rule, when configured with `"never"`:
 ```
 
 :::
+
+### multiline
 
 Examples of **incorrect** code for this rule, when configured with `"multiline"`:
 
@@ -111,6 +121,8 @@ Examples of **correct** code for this rule, when configured with `"multiline"`:
 
 :::
 
+### multiline-multiprop
+
 Examples of **incorrect** code for this rule, when configured with `"multiline-multiprop"`:
 
 ::: incorrect
@@ -143,12 +155,6 @@ Examples of **correct** code for this rule, when configured with `"multiline-mul
 ```
 
 :::
-
-## Rule Options
-
-```jsx
-"@stylistic/jsx-first-prop-new-line": `"always" | "never" | "multiline" | "multiprop" | "multiline-multiprop"`
-```
 
 ## When Not To Use It
 

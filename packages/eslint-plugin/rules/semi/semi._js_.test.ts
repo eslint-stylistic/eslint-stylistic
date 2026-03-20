@@ -615,7 +615,6 @@ run<RuleOptions, MessageIds>({
       output: 'import * as utils from \'./utils\';',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ImportDeclaration',
         line: 1,
         column: 33,
       }],
@@ -625,7 +624,6 @@ run<RuleOptions, MessageIds>({
       output: 'import { square, diag } from \'lib\';',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ImportDeclaration',
         line: 1,
         column: 35,
       }],
@@ -635,7 +633,6 @@ run<RuleOptions, MessageIds>({
       output: 'import { default as foo } from \'lib\';',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ImportDeclaration',
         line: 1,
         column: 37,
       }],
@@ -645,7 +642,6 @@ run<RuleOptions, MessageIds>({
       output: 'import \'src/mylib\';',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ImportDeclaration',
         line: 1,
         column: 19,
       }],
@@ -655,7 +651,6 @@ run<RuleOptions, MessageIds>({
       output: 'import theDefault, { named1, named2 } from \'src/mylib\';',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ImportDeclaration',
         line: 1,
         column: 55,
       }],
@@ -665,7 +660,6 @@ run<RuleOptions, MessageIds>({
       output: 'function foo() { return []; }',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ReturnStatement',
         line: 1,
         column: 27,
         endLine: 1,
@@ -677,7 +671,6 @@ run<RuleOptions, MessageIds>({
       output: 'while(true) { break; }',
       errors: [{
         messageId: 'missingSemi',
-        type: 'BreakStatement',
         line: 1,
         column: 20,
         endLine: 1,
@@ -689,7 +682,6 @@ run<RuleOptions, MessageIds>({
       output: 'while(true) { continue; }',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ContinueStatement',
         line: 1,
         column: 23,
         endLine: 1,
@@ -702,7 +694,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'missingSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 10,
       }],
@@ -712,7 +703,6 @@ run<RuleOptions, MessageIds>({
       output: 'var x = 5;',
       errors: [{
         messageId: 'missingSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 10,
       }],
@@ -722,7 +712,6 @@ run<RuleOptions, MessageIds>({
       output: 'var x = 5, y;',
       errors: [{
         messageId: 'missingSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 13,
       }],
@@ -732,7 +721,6 @@ run<RuleOptions, MessageIds>({
       output: 'debugger;',
       errors: [{
         messageId: 'missingSemi',
-        type: 'DebuggerStatement',
         line: 1,
         column: 9,
       }],
@@ -742,7 +730,6 @@ run<RuleOptions, MessageIds>({
       output: 'foo();',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExpressionStatement',
         line: 1,
         column: 6,
       }],
@@ -752,7 +739,6 @@ run<RuleOptions, MessageIds>({
       output: 'foo();\n',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExpressionStatement',
         line: 1,
         column: 6,
         endLine: 2,
@@ -764,7 +750,6 @@ run<RuleOptions, MessageIds>({
       output: 'foo();\r\n',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExpressionStatement',
         line: 1,
         column: 6,
         endLine: 2,
@@ -776,7 +761,6 @@ run<RuleOptions, MessageIds>({
       output: 'foo();\nbar();',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExpressionStatement',
         line: 1,
         column: 6,
         endLine: 2,
@@ -788,7 +772,6 @@ run<RuleOptions, MessageIds>({
       output: 'foo();\r\nbar();',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExpressionStatement',
         line: 1,
         column: 6,
         endLine: 2,
@@ -800,7 +783,6 @@ run<RuleOptions, MessageIds>({
       output: 'for (var a in b) var i; ',
       errors: [{
         messageId: 'missingSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 23,
         endLine: 1,
@@ -812,7 +794,6 @@ run<RuleOptions, MessageIds>({
       output: 'for (;;){var i;}',
       errors: [{
         messageId: 'missingSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 15,
         endLine: 1,
@@ -824,7 +805,6 @@ run<RuleOptions, MessageIds>({
       output: 'for (;;) var i; ',
       errors: [{
         messageId: 'missingSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 15,
         endLine: 1,
@@ -836,7 +816,6 @@ run<RuleOptions, MessageIds>({
       output: 'for (var j;;) {var i;}',
       errors: [{
         messageId: 'missingSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 21,
         endLine: 1,
@@ -848,7 +827,6 @@ run<RuleOptions, MessageIds>({
       output: 'var foo = {\n bar: baz\n};',
       errors: [{
         messageId: 'missingSemi',
-        type: 'VariableDeclaration',
         line: 3,
         column: 2,
       }],
@@ -858,7 +836,6 @@ run<RuleOptions, MessageIds>({
       output: 'var foo;\nvar bar;',
       errors: [{
         messageId: 'missingSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 8,
         endLine: 2,
@@ -870,7 +847,6 @@ run<RuleOptions, MessageIds>({
       output: 'throw new Error(\'foo\');',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ThrowStatement',
         line: 1,
         column: 23,
       }],
@@ -880,7 +856,6 @@ run<RuleOptions, MessageIds>({
       output: 'do{}while(true);',
       errors: [{
         messageId: 'missingSemi',
-        type: 'DoWhileStatement',
         line: 1,
         column: 16,
       }],
@@ -925,7 +900,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'ThrowStatement',
         line: 1,
         column: 23,
         endLine: 1,
@@ -938,7 +912,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'ReturnStatement',
         line: 1,
         column: 27,
         endLine: 1,
@@ -951,7 +924,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'BreakStatement',
         line: 1,
         column: 20,
         endLine: 1,
@@ -964,7 +936,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'ContinueStatement',
         line: 1,
         column: 23,
         endLine: 1,
@@ -978,7 +949,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'extraSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 10,
         endLine: 1,
@@ -991,7 +961,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 10,
         endLine: 1,
@@ -1004,7 +973,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 13,
         endLine: 1,
@@ -1017,7 +985,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'DebuggerStatement',
         line: 1,
         column: 9,
         endLine: 1,
@@ -1030,7 +997,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'ExpressionStatement',
         line: 1,
         column: 6,
         endLine: 1,
@@ -1043,7 +1009,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 23,
         endLine: 1,
@@ -1056,7 +1021,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 15,
         endLine: 1,
@@ -1069,7 +1033,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 15,
         endLine: 1,
@@ -1082,7 +1045,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 21,
         endLine: 1,
@@ -1095,7 +1057,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'VariableDeclaration',
         line: 3,
         column: 2,
         endLine: 3,
@@ -1108,7 +1069,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'ImportDeclaration',
         line: 1,
         column: 55,
         endLine: 1,
@@ -1121,7 +1081,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'DoWhileStatement',
         line: 1,
         column: 16,
         endLine: 1,
@@ -1133,7 +1092,6 @@ run<RuleOptions, MessageIds>({
       output: 'class C { static { foo(); } }',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExpressionStatement',
         line: 1,
         column: 25,
         endLine: 1,
@@ -1146,7 +1104,6 @@ run<RuleOptions, MessageIds>({
       options: ['always'],
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExpressionStatement',
         line: 1,
         column: 25,
         endLine: 1,
@@ -1158,7 +1115,6 @@ run<RuleOptions, MessageIds>({
       output: 'class C { static { foo(); bar(); } }',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExpressionStatement',
         line: 1,
         column: 32,
         endLine: 1,
@@ -1170,7 +1126,6 @@ run<RuleOptions, MessageIds>({
       output: 'class C { static { foo();\nbar(); } }',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExpressionStatement',
         line: 1,
         column: 25,
         endLine: 2,
@@ -1182,7 +1137,6 @@ run<RuleOptions, MessageIds>({
       output: 'class C { static { foo(); bar();\nbaz(); } }',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExpressionStatement',
         line: 1,
         column: 32,
         endLine: 2,
@@ -1195,7 +1149,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'ExpressionStatement',
         line: 1,
         column: 25,
         endLine: 1,
@@ -1208,7 +1161,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'ExpressionStatement',
         line: 1,
         column: 25,
         endLine: 1,
@@ -1221,7 +1173,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'ExpressionStatement',
         line: 2,
         column: 6,
         endLine: 2,
@@ -1234,7 +1185,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'ExpressionStatement',
         line: 2,
         column: 6,
         endLine: 2,
@@ -1247,7 +1197,6 @@ run<RuleOptions, MessageIds>({
       options: ['never', { beforeStatementContinuationChars: 'always' }],
       errors: [{
         messageId: 'missingSemi',
-        type: 'DoWhileStatement',
         line: 1,
         column: 36,
         endLine: 2,
@@ -1260,7 +1209,6 @@ run<RuleOptions, MessageIds>({
       options: ['never', { beforeStatementContinuationChars: 'never' }],
       errors: [{
         messageId: 'extraSemi',
-        type: 'DoWhileStatement',
         line: 2,
         column: 2,
         endLine: 2,
@@ -1472,7 +1420,6 @@ run<RuleOptions, MessageIds>({
       output: 'export * from \'foo\';',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExportAllDeclaration',
         line: 1,
         column: 20,
       }],
@@ -1482,7 +1429,6 @@ run<RuleOptions, MessageIds>({
       output: 'export { foo } from \'foo\';',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExportNamedDeclaration',
         line: 1,
         column: 26,
       }],
@@ -1492,7 +1438,6 @@ run<RuleOptions, MessageIds>({
       output: 'var foo = 0;export { foo };',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExportNamedDeclaration',
         line: 1,
         column: 27,
       }],
@@ -1502,7 +1447,6 @@ run<RuleOptions, MessageIds>({
       output: 'export var foo;',
       errors: [{
         messageId: 'missingSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 15,
       }],
@@ -1512,7 +1456,6 @@ run<RuleOptions, MessageIds>({
       output: 'export let foo;',
       errors: [{
         messageId: 'missingSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 15,
       }],
@@ -1522,7 +1465,6 @@ run<RuleOptions, MessageIds>({
       output: 'export const FOO = 42;',
       errors: [{
         messageId: 'missingSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 22,
       }],
@@ -1532,7 +1474,6 @@ run<RuleOptions, MessageIds>({
       output: 'export default foo || bar;',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExportDefaultDeclaration',
         line: 1,
         column: 26,
       }],
@@ -1542,7 +1483,6 @@ run<RuleOptions, MessageIds>({
       output: 'export default (foo) => foo.bar();',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExportDefaultDeclaration',
         line: 1,
         column: 34,
       }],
@@ -1552,7 +1492,6 @@ run<RuleOptions, MessageIds>({
       output: 'export default foo = 42;',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExportDefaultDeclaration',
         line: 1,
         column: 24,
       }],
@@ -1562,7 +1501,6 @@ run<RuleOptions, MessageIds>({
       output: 'export default foo += 42;',
       errors: [{
         messageId: 'missingSemi',
-        type: 'ExportDefaultDeclaration',
         line: 1,
         column: 25,
       }],
@@ -1575,7 +1513,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'ExportAllDeclaration',
         line: 1,
         column: 20,
         endLine: 1,
@@ -1588,7 +1525,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'ExportNamedDeclaration',
         line: 1,
         column: 26,
         endLine: 1,
@@ -1601,7 +1537,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'ExportNamedDeclaration',
         line: 1,
         column: 27,
         endLine: 1,
@@ -1614,7 +1549,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 15,
         endLine: 1,
@@ -1627,7 +1561,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 15,
         endLine: 1,
@@ -1640,7 +1573,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'VariableDeclaration',
         line: 1,
         column: 22,
         endLine: 1,
@@ -1653,7 +1585,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'ExportDefaultDeclaration',
         line: 1,
         column: 26,
         endLine: 1,
@@ -1666,7 +1597,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'ExportDefaultDeclaration',
         line: 1,
         column: 34,
         endLine: 1,
@@ -1679,7 +1609,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'ExportDefaultDeclaration',
         line: 1,
         column: 24,
         endLine: 1,
@@ -1692,7 +1621,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
-        type: 'ExportDefaultDeclaration',
         line: 1,
         column: 25,
         endLine: 1,

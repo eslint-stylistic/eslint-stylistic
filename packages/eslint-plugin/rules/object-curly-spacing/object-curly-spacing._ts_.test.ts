@@ -1,9 +1,5 @@
-// this rule tests the position of braces, which prettier will want to fix and break the tests
-/* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import { AST_NODE_TYPES } from '#utils/ast'
 import rule from './object-curly-spacing'
 
 run<RuleOptions, MessageIds>({
@@ -326,6 +322,67 @@ run<RuleOptions, MessageIds>({
       code: `export * from 'package.json' with {type: 'json'}`,
       options: ['never'],
     },
+    {
+      code: `import {name, version} from 'package.json' with { type: 'json' }`,
+      options: ['never', {
+        overrides: {
+          ImportAttributes: 'always',
+        },
+      }],
+    },
+
+    {
+      code: 'const x:{/* comment */}',
+      options: ['never', { emptyObjects: 'always' }],
+    },
+    {
+      code: 'const x:{  /* comment */  }',
+      options: ['never', { emptyObjects: 'never' }],
+    },
+    {
+      code: 'const x:{}',
+      options: ['never', { emptyObjects: 'never' }],
+    },
+    {
+      code: 'const x:{ }',
+      options: ['never', { emptyObjects: 'always' }],
+    },
+    {
+      code: 'const x:{f: {}}',
+      options: ['never', { emptyObjects: 'never' }],
+    },
+    {
+      code: 'const x:{f: { }}',
+      options: ['never', { emptyObjects: 'always' }],
+    },
+    {
+      code: 'interface x {}',
+      options: ['never', { emptyObjects: 'never' }],
+    },
+    {
+      code: 'interface x { }',
+      options: ['never', { emptyObjects: 'always' }],
+    },
+    {
+      code: 'interface x { /* comment */ \n foo: string \n}',
+      options: ['never', { emptyObjects: 'never' }],
+    },
+    {
+      code: 'import {} from "package.json" with {}',
+      options: ['never', { emptyObjects: 'never' }],
+    },
+    {
+      code: 'import { } from "package.json" with { }',
+      options: ['never', { emptyObjects: 'always' }],
+    },
+    {
+      code: 'enum Foo {}',
+      options: ['never', { emptyObjects: 'never' }],
+    },
+    {
+      code: 'enum Foo { }',
+      options: ['never', { emptyObjects: 'always' }],
+    },
   ],
 
   invalid: [
@@ -338,7 +395,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: AST_NODE_TYPES.ObjectPattern,
           line: 1,
           column: 20,
           endLine: 1,
@@ -502,6 +558,174 @@ run<RuleOptions, MessageIds>({
       errors: [
         { messageId: 'unexpectedSpaceAfter' },
         { messageId: 'unexpectedSpaceBefore' },
+      ],
+    },
+    {
+      code: `import {name, version} from 'package.json' with { type: 'json' }`,
+      output: `import { name, version } from 'package.json' with {type: 'json'}`,
+      options: ['always', {
+        overrides: {
+          ImportAttributes: 'never',
+        },
+      }],
+      errors: [
+        { messageId: 'requireSpaceAfter' },
+        { messageId: 'requireSpaceBefore' },
+        { messageId: 'unexpectedSpaceAfter' },
+        { messageId: 'unexpectedSpaceBefore' },
+      ],
+    },
+    {
+      code: 'import { } from "package.json" with { }',
+      output: 'import {} from "package.json" with {}',
+      options: ['never', { emptyObjects: 'never' }],
+      errors: [
+        {
+          messageId: 'unexpectedSpaceInEmptyObject',
+          data: { node: 'ImportDeclaration' },
+          line: 1,
+          column: 9,
+          endLine: 1,
+          endColumn: 10,
+        },
+        {
+          messageId: 'unexpectedSpaceInEmptyObject',
+          data: { node: 'ImportAttributes' },
+          line: 1,
+          column: 38,
+          endLine: 1,
+          endColumn: 39,
+        },
+      ],
+    },
+    {
+      code: 'enum Foo {}',
+      output: 'enum Foo { }',
+      options: ['never', { emptyObjects: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'TSEnumBody' },
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 11,
+        },
+      ],
+    },
+    {
+      code: 'const x:{f: {}}',
+      output: 'const x:{f: { }}',
+      options: ['never', { emptyObjects: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'TSTypeLiteral' },
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 14,
+        },
+      ],
+    },
+    {
+      code: 'interface x {    }',
+      output: 'interface x {}',
+      options: ['never', { emptyObjects: 'never' }],
+      errors: [
+        {
+          messageId: 'unexpectedSpaceInEmptyObject',
+          data: { node: 'TSInterfaceBody' },
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 18,
+        },
+      ],
+    },
+    {
+      code: 'export {   } from "package.json" with {   }',
+      output: 'export {} from "package.json" with {}',
+      options: ['never', { emptyObjects: 'never' }],
+      errors: [
+        {
+          messageId: 'unexpectedSpaceInEmptyObject',
+          data: { node: 'ExportNamedDeclaration' },
+          line: 1,
+          column: 9,
+          endLine: 1,
+          endColumn: 12,
+        },
+        {
+          messageId: 'unexpectedSpaceInEmptyObject',
+          data: { node: 'ImportAttributes' },
+          line: 1,
+          column: 40,
+          endLine: 1,
+          endColumn: 43,
+        },
+      ],
+    },
+    {
+      code: 'import {   } from "package.json" with {   }',
+      output: 'import { } from "package.json" with { }',
+      options: ['never', { emptyObjects: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'ImportDeclaration' },
+          line: 1,
+          column: 9,
+          endLine: 1,
+          endColumn: 12,
+        },
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'ImportAttributes' },
+          line: 1,
+          column: 40,
+          endLine: 1,
+          endColumn: 43,
+        },
+      ],
+    },
+    {
+      code: 'enum Foo {   }',
+      output: 'enum Foo { }',
+      options: ['never', { emptyObjects: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'TSEnumBody' },
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 14,
+        },
+      ],
+    },
+    {
+      code: 'const x:{f: {   }}',
+      output: 'const x:{f: { }}',
+      options: ['never', { emptyObjects: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'TSTypeLiteral' },
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 17,
+        },
+      ],
+    },
+    {
+      code: 'const foo = ({str}: { str: string }) => null',
+      output: 'const foo = ({ str }: { str: string }) => null',
+      options: ['always'],
+      errors: [
+        { messageId: 'requireSpaceAfter' },
+        { messageId: 'requireSpaceBefore' },
       ],
     },
   ],

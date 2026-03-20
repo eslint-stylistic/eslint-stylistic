@@ -17,13 +17,13 @@ jobs:
   typecheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
 
       - name: Set node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: lts/*
           cache: pnpm
@@ -37,28 +37,14 @@ jobs:
       - name: Typecheck
         run: nr typecheck
 
-  test:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        node: [lts/*]
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        include:
-          - node: 18.x
-            os: ubuntu-latest
-      fail-fast: false
-
+  build:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Set node ${{ matrix.node }}
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: ${{ matrix.node }}
+          node-version: lts/*
           cache: pnpm
 
       - name: Setup
@@ -69,6 +55,47 @@ jobs:
 
       - name: Build
         run: nr build
+
+      - name: Cache dist
+        uses: actions/upload-artifact@v7
+        with:
+          retention-days: 3
+          name: dist
+          path: packages/*/dist
+
+  test:
+    runs-on: ${{ matrix.os }}
+    needs:
+      - build
+    strategy:
+      matrix:
+        node: [lts/*]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - node: 20.x
+            os: ubuntu-latest
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - name: Set node ${{ matrix.node }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node }}
+          cache: pnpm
+
+      - name: Setup
+        run: npm i -g @antfu/ni
+
+      - name: Install
+        run: nci
+
+      - name: Restore dist cache
+        uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: packages
 
       - name: Test
         run: nr test
@@ -83,6 +110,36 @@ jobs:
         if: ${{ matrix.node == 'lts/*' && matrix.os == 'ubuntu-latest' }}
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Fixtures
+        run: nr test:fixtures
+
+  test-eslint9:
+    runs-on: ubuntu-slim
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - name: Setup
+        run: npm i -g @antfu/ni
+
+      - name: Install
+        run: nci
+
+      - run: ni eslint@9 -D
+
+      - name: Restore dist cache
+        uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: packages
+
+      - name: Test
+        run: nr test
 
       - name: Fixtures
         run: nr test:fixtures

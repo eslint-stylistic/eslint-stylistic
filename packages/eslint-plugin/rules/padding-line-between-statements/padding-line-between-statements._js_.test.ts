@@ -31,6 +31,31 @@ run<RuleOptions, MessageIds>({
     },
 
     // ----------------------------------------------------------------------
+    // selector matcher
+    // ----------------------------------------------------------------------
+
+    {
+      code: 'function foo() {}\n\nfunction bar() {}',
+      options: [
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: { selector: 'FunctionDeclaration[id.name="bar"]' },
+        },
+      ],
+    },
+    {
+      code: 'foo()\n\nbar()',
+      options: [
+        {
+          blankLine: 'always',
+          prev: { selector: 'ExpressionStatement[expression.callee.name="foo"]' },
+          next: '*',
+        },
+      ],
+    },
+
+    // ----------------------------------------------------------------------
     // wildcard
     // ----------------------------------------------------------------------
 
@@ -2899,6 +2924,70 @@ run<RuleOptions, MessageIds>({
     },
   ],
   invalid: [
+    // ----------------------------------------------------------------------
+    // selector matcher
+    // ----------------------------------------------------------------------
+
+    {
+      code: 'function foo() {}\nfunction bar() {}',
+      output: 'function foo() {}\n\nfunction bar() {}',
+      options: [
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: { selector: 'FunctionDeclaration[id.name="bar"]' },
+        },
+      ],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'foo()\n\nbar()',
+      output: 'foo()\nbar()',
+      options: [
+        {
+          blankLine: 'never',
+          prev: { selector: 'ExpressionStatement[expression.callee.name="foo"]' },
+          next: { selector: 'ExpressionStatement[expression.callee.name="bar"]' },
+        },
+      ],
+      errors: [{ messageId: 'unexpectedBlankLine' }],
+    },
+    {
+      code: 'foo()\n\nbar()',
+      output: 'foo()\nbar()',
+      options: [
+        {
+          blankLine: 'never',
+          prev: { selector: 'ExpressionStatement[expression.callee.name="foo"]', lineMode: 'singleline' },
+          next: '*',
+        },
+      ],
+      errors: [{ messageId: 'unexpectedBlankLine' }],
+    },
+    {
+      code: $`
+        foo()
+        if (a) {
+          bar()
+        }
+      `,
+      output: $`
+        foo()
+        
+        if (a) {
+          bar()
+        }
+      `,
+      options: [
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: { selector: 'IfStatement', lineMode: 'multiline' },
+        },
+      ],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+
     // ----------------------------------------------------------------------
     // wildcard
     // ----------------------------------------------------------------------

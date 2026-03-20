@@ -8,7 +8,7 @@ Enforce or forbid spaces after the opening bracket, before the closing bracket, 
 
 This rule checks the whitespace inside and surrounding the JSX syntactic elements.
 
-## Rule Options
+## Options
 
 This rule takes one argument, an object with 4 possible keys: `closingSlash`, `beforeSelfClosing`, `afterOpening`, and `beforeClosing`. Each key can receive the value `"allow"` to disable that specific check.
 

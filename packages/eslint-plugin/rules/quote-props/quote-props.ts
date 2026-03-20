@@ -1,8 +1,7 @@
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { KEYWORDS as _KEYWORDS, isNumericLiteral, isStringLiteral } from '#utils/ast'
+import { ES3_KEYWORDS, isNumericLiteral, isStringLiteral } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-// @ts-expect-error missing types
 import { tokenize } from 'espree'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -54,6 +53,7 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
+    defaultOptions: ['always'],
     messages: {
       requireQuotesDueToReservedWord: 'Properties should be quoted as \'{{property}}\' is a reserved word.',
       inconsistentlyQuotedProperty: 'Inconsistently quoted property \'{{key}}\' found.',
@@ -64,12 +64,12 @@ export default createRule<RuleOptions, MessageIds>({
       redundantQuoting: 'Properties shouldn\'t be quoted as all quotes are redundant.',
     },
   },
-  defaultOptions: ['always'],
-  create(context) {
-    const MODE = context.options[0]
-    const KEYWORDS = (context.options[1] && context.options[1].keywords)!
-    const CHECK_UNNECESSARY = !context.options[1] || context.options[1].unnecessary !== false
-    const NUMBERS = (context.options[1] && context.options[1].numbers)!
+  create(context, [MODE, options = {}]) {
+    const {
+      keywords: KEYWORDS = false,
+      unnecessary: CHECK_UNNECESSARY = true,
+      numbers: NUMBERS = false,
+    } = options
 
     const sourceCode = context.sourceCode
 
@@ -79,7 +79,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns `true` if it is an ES3 token.
      */
     function isKeyword(tokenStr: string): boolean {
-      return _KEYWORDS.includes(tokenStr)
+      return ES3_KEYWORDS.includes(tokenStr)
     }
 
     /**
@@ -205,12 +205,13 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function checkConsistencyForObject(properties: Tree.ObjectLiteralElement[], checkQuotesRedundancy: boolean): void {
       checkConsistency(
-        properties.filter((property): property is Tree.PropertyNonComputedName =>
-          property.type !== 'SpreadElement'
-          // When called from `quote-props._ts_.ts`, it may be a `TypeElement`.
-          // Therefore, we need to check whether the `key` exists.
-          && property.key
-          && !property.method && !property.computed && !property.shorthand,
+        properties.filter(
+          (property): property is Tree.PropertyNonComputedName =>
+            property.type !== 'SpreadElement'
+            // When called from `quote-props._ts_.ts`, it may be a `TypeElement`.
+            // Therefore, we need to check whether the `key` exists.
+            && property.key
+            && !property.method && !property.computed && !property.shorthand,
         ),
         checkQuotesRedundancy,
       )

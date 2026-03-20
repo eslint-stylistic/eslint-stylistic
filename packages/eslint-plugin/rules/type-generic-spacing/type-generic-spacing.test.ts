@@ -6,16 +6,10 @@ run<RuleOptions, MessageIds>({
   name: 'type-generic-spacing',
   rule,
   valid: [
-    'const foo: Foo<> = {}',
-    'type Foo<> = {}',
-    'interface Foo<> {}',
-    'class Foo<> {}',
-    'function foo<>(): void {}',
     'const foo: Array<number> = []',
     'type Foo<T = true> = T',
     'type Foo<T extends true = true> = T',
-    'type Foo<T = (true)> = T',
-    'type Foo<T extends (true) = (true)> = T',
+    'type Foo = new <T>(name: T) => void',
     $`
       type Foo<
         T = true,
@@ -35,19 +29,13 @@ run<RuleOptions, MessageIds>({
     `,
     $`
       interface Log {
-          <T>(name: T): void
-        }
+        <T>(name: T): void
+      }
     `,
     $`
       interface Foo {
-          foo?: <T>(name: T) => void
-        }
-    `,
-    $`
-      type Foo<
-        T = true,
-        K = false,
-      > = T
+        foo?: <T>(name: T) => void
+      }
     `,
     `const toSortedImplementation = Array.prototype.toSorted || function <T>(name: T): void {}`,
     `const foo = class <T> { value: T; }`,
@@ -61,12 +49,7 @@ run<RuleOptions, MessageIds>({
     ['type Foo< T > = T', 'type Foo<T> = T', 2],
     ['function foo< T >() {}', 'function foo<T>() {}', 2],
     ['type Foo< T = true    > = T', 'type Foo<T = true> = T', 2],
-    ['type Foo<T=true> = T', 'type Foo<T = true> = T'],
-    ['type Foo<T=(true)> = T', 'type Foo<T = (true)> = T'],
-    ['type Foo<T extends (true)=(true)> = T', 'type Foo<T extends (true) = (true)> = T'],
-    ['type Foo<T,K> = T', 'type Foo<T, K> = T'],
-    ['type Foo< T,K   > = T', 'type Foo<T, K> = T', 3],
-    ['type Foo<T=false,K=1|2> = T', 'type Foo<T = false, K = 1|2> = T', 3],
+    ['type Foo< T, K   > = T', 'type Foo<T, K> = T', 2],
     ['function foo <T>() {}', 'function foo<T>() {}'],
     ['function foo< T >() {}', 'function foo<T>() {}', 2],
     [

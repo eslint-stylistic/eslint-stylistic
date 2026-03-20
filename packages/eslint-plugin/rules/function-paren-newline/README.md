@@ -9,7 +9,7 @@ Many style guides require or disallow newlines inside of function parentheses.
 
 This rule enforces consistent line breaks inside parentheses of function parameters or arguments.
 
-### Options
+## Options
 
 This rule has a single option, which can either be a string or an object.
 
@@ -37,6 +37,8 @@ Example configurations:
   }
 }
 ```
+
+### always
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
@@ -84,6 +86,8 @@ foo(
 ```
 
 :::
+
+### never
 
 Examples of **incorrect** code for this rule with the `"never"` option:
 
@@ -137,6 +141,8 @@ foo(bar,
 ```
 
 :::
+
+### multiline
 
 Examples of **incorrect** code for this rule with the default `"multiline"` option:
 
@@ -200,6 +206,8 @@ foo(function() {
 
 :::
 
+### consistent
+
 Examples of **incorrect** code for this rule with the `"consistent"` option:
 
 ::: incorrect
@@ -261,6 +269,8 @@ foo(
 
 :::
 
+### multiline-arguments
+
 Examples of **incorrect** code for this rule with the `"multiline-arguments"` option:
 
 ::: incorrect
@@ -318,6 +328,8 @@ foo(
 ```
 
 :::
+
+### minItems
 
 Examples of **incorrect** code for this rule with the `{ "minItems": 3 }` option:
 

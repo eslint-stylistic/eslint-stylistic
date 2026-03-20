@@ -31,15 +31,13 @@ import type { JsxEqualsSpacingRuleOptions } from '../rules/jsx-equals-spacing/ty
 import type { JsxFirstPropNewLineRuleOptions } from '../rules/jsx-first-prop-new-line/types'
 import type { JsxFunctionCallNewlineRuleOptions } from '../rules/jsx-function-call-newline/types'
 import type { JsxIndentPropsRuleOptions } from '../rules/jsx-indent-props/types'
-import type { JsxIndentRuleOptions } from '../rules/jsx-indent/types'
 import type { JsxMaxPropsPerLineRuleOptions } from '../rules/jsx-max-props-per-line/types'
 import type { JsxNewlineRuleOptions } from '../rules/jsx-newline/types'
 import type { JsxOneExpressionPerLineRuleOptions } from '../rules/jsx-one-expression-per-line/types'
 import type { JsxPascalCaseRuleOptions } from '../rules/jsx-pascal-case/types'
-import type { JsxPropsNoMultiSpacesRuleOptions } from '../rules/jsx-props-no-multi-spaces/types'
+import type { JsxPropsStyleRuleOptions } from '../rules/jsx-props-style/types'
 import type { JsxQuotesRuleOptions } from '../rules/jsx-quotes/types'
 import type { JsxSelfClosingCompRuleOptions } from '../rules/jsx-self-closing-comp/types'
-import type { JsxSortPropsRuleOptions } from '../rules/jsx-sort-props/types'
 import type { JsxTagSpacingRuleOptions } from '../rules/jsx-tag-spacing/types'
 import type { JsxWrapMultilinesRuleOptions } from '../rules/jsx-wrap-multilines/types'
 import type { KeySpacingRuleOptions } from '../rules/key-spacing/types'
@@ -48,6 +46,7 @@ import type { LineCommentPositionRuleOptions } from '../rules/line-comment-posit
 import type { LinebreakStyleRuleOptions } from '../rules/linebreak-style/types'
 import type { LinesAroundCommentRuleOptions } from '../rules/lines-around-comment/types'
 import type { LinesBetweenClassMembersRuleOptions } from '../rules/lines-between-class-members/types'
+import type { ListStyleRuleOptions } from '../rules/list-style/types'
 import type { MaxLenRuleOptions } from '../rules/max-len/types'
 import type { MaxStatementsPerLineRuleOptions } from '../rules/max-statements-per-line/types'
 import type { MemberDelimiterStyleRuleOptions } from '../rules/member-delimiter-style/types'
@@ -248,11 +247,6 @@ export interface RuleOptions {
    */
   '@stylistic/jsx-function-call-newline': JsxFunctionCallNewlineRuleOptions
   /**
-   * Enforce JSX indentation. Deprecated, use `indent` rule instead.
-   * @see https://eslint.style/rules/jsx-indent
-   */
-  '@stylistic/jsx-indent': JsxIndentRuleOptions
-  /**
    * Enforce props indentation in JSX
    * @see https://eslint.style/rules/jsx-indent-props
    */
@@ -278,10 +272,10 @@ export interface RuleOptions {
    */
   '@stylistic/jsx-pascal-case': JsxPascalCaseRuleOptions
   /**
-   * Disallow multiple spaces between inline JSX props. Deprecated, use `no-multi-spaces` rule instead.
-   * @see https://eslint.style/rules/jsx-props-no-multi-spaces
+   * Enforce consistent line break styles for JSX props
+   * @see https://eslint.style/rules/jsx-props-style
    */
-  '@stylistic/jsx-props-no-multi-spaces': JsxPropsNoMultiSpacesRuleOptions
+  '@stylistic/exp-jsx-props-style': JsxPropsStyleRuleOptions
   /**
    * Enforce the consistent use of either double or single quotes in JSX attributes
    * @see https://eslint.style/rules/jsx-quotes
@@ -292,11 +286,6 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/jsx-self-closing-comp
    */
   '@stylistic/jsx-self-closing-comp': JsxSelfClosingCompRuleOptions
-  /**
-   * Enforce props alphabetical sorting
-   * @see https://eslint.style/rules/jsx-sort-props
-   */
-  '@stylistic/jsx-sort-props': JsxSortPropsRuleOptions
   /**
    * Enforce whitespace in and around the JSX opening and closing brackets
    * @see https://eslint.style/rules/jsx-tag-spacing
@@ -337,6 +326,11 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/lines-between-class-members
    */
   '@stylistic/lines-between-class-members': LinesBetweenClassMembersRuleOptions
+  /**
+   * Enforce consistent spacing and line break styles inside brackets.
+   * @see https://eslint.style/rules/list-style
+   */
+  '@stylistic/exp-list-style': ListStyleRuleOptions
   /**
    * Enforce a maximum line length
    * @see https://eslint.style/rules/max-len
@@ -726,11 +720,6 @@ export interface UnprefixedRuleOptions {
    */
   'jsx-function-call-newline': JsxFunctionCallNewlineRuleOptions
   /**
-   * Enforce JSX indentation. Deprecated, use `indent` rule instead.
-   * @see https://eslint.style/rules/jsx-indent
-   */
-  'jsx-indent': JsxIndentRuleOptions
-  /**
    * Enforce props indentation in JSX
    * @see https://eslint.style/rules/jsx-indent-props
    */
@@ -756,10 +745,10 @@ export interface UnprefixedRuleOptions {
    */
   'jsx-pascal-case': JsxPascalCaseRuleOptions
   /**
-   * Disallow multiple spaces between inline JSX props. Deprecated, use `no-multi-spaces` rule instead.
-   * @see https://eslint.style/rules/jsx-props-no-multi-spaces
+   * Enforce consistent line break styles for JSX props
+   * @see https://eslint.style/rules/jsx-props-style
    */
-  'jsx-props-no-multi-spaces': JsxPropsNoMultiSpacesRuleOptions
+  'exp-jsx-props-style': JsxPropsStyleRuleOptions
   /**
    * Enforce the consistent use of either double or single quotes in JSX attributes
    * @see https://eslint.style/rules/jsx-quotes
@@ -770,11 +759,6 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/jsx-self-closing-comp
    */
   'jsx-self-closing-comp': JsxSelfClosingCompRuleOptions
-  /**
-   * Enforce props alphabetical sorting
-   * @see https://eslint.style/rules/jsx-sort-props
-   */
-  'jsx-sort-props': JsxSortPropsRuleOptions
   /**
    * Enforce whitespace in and around the JSX opening and closing brackets
    * @see https://eslint.style/rules/jsx-tag-spacing
@@ -815,6 +799,11 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/lines-between-class-members
    */
   'lines-between-class-members': LinesBetweenClassMembersRuleOptions
+  /**
+   * Enforce consistent spacing and line break styles inside brackets.
+   * @see https://eslint.style/rules/list-style
+   */
+  'exp-list-style': ListStyleRuleOptions
   /**
    * Enforce a maximum line length
    * @see https://eslint.style/rules/max-len

@@ -1,7 +1,10 @@
 import type { AST_NODE_TYPES } from '#utils/ast'
+import type { TextSourceCodeBase } from '@eslint/plugin-kit'
 import type { TSESTree } from '@typescript-eslint/utils'
 import type { AST } from 'eslint'
 import type * as ESTree from 'estree'
+
+export type { TextSourceCodeBase }
 
 // TypeScript Enabled Types (recommended, should be used in most cases)
 export type ASTNode = TSESTree.Node
@@ -17,6 +20,7 @@ export type {
   ReportDescriptor,
   ReportFixFunction,
   RuleContext,
+  RuleFix,
   RuleFixer,
   RuleFunction,
   RuleListener,
@@ -29,3 +33,5 @@ export type {
 export type ESToken = AST.Token
 export type ESNode = ESTree.Node
 export { ESTree }
+
+export type Arrayable<T> = T | T[]

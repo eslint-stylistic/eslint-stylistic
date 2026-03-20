@@ -6,7 +6,7 @@ import { pascalCase } from 'change-case'
 import fg from 'fast-glob'
 import { compile } from 'json-schema-to-typescript-lite'
 import { hash } from 'ohash'
-import { format } from 'prettier'
+import { format } from 'oxfmt'
 import { GEN_HEADER } from './meta'
 
 const VERSION = 'v1'
@@ -74,12 +74,12 @@ async function getDts(ruleFile: string, name: string) {
     '',
   ]
 
-  const formatted = await format(lines.join('\n'), {
+  const formatted = await format('temp.ts', lines.join('\n'), {
     parser: 'typescript',
     printWidth: 60,
     singleQuote: true,
     semi: false,
   })
 
-  return formatted
+  return formatted.code
 }

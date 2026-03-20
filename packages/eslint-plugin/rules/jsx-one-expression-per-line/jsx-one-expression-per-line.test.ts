@@ -1,10 +1,5 @@
-/**
- * @fileoverview Limit to one expression per line in JSX
- * @author Mark Ivan Allen <Vydia.com>
- */
-
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { $, run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-one-expression-per-line'
 
@@ -336,6 +331,24 @@ foo
           messageId: 'moveToNewLine',
           data: { descriptor: 'foo' },
         },
+      ],
+    },
+    {
+      code: $`
+        <App
+          foo
+        >bar
+        </App>
+      `,
+      output: $`
+        <App
+          foo
+        >
+        bar
+        </App>
+      `,
+      errors: [
+        { messageId: 'moveToNewLine' },
       ],
     },
     {
@@ -1703,14 +1716,14 @@ Go to page 2
       options: [{ allow: 'single-line' }],
     },
     {
-      code: `
-<div><span>foo</span>
-</div>
+      code: $`
+        <div><span>foo</span>
+        </div>
       `,
-      output: `
-<div>
-<span>foo</span>
-</div>
+      output: $`
+        <div>
+        <span>foo</span>
+        </div>
       `,
       options: [{ allow: 'single-line' }],
       errors: [
@@ -1718,6 +1731,45 @@ Go to page 2
           messageId: 'moveToNewLine',
           data: { descriptor: 'span' },
         },
+      ],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/869
+    {
+      code: $`
+        <App
+          foo
+        >Up to {percent}% Off
+        </App>
+      `,
+      output: $`
+        <App
+          foo
+        >
+        Up to {percent}% Off
+        </App>
+      `,
+      options: [{ allow: 'single-line' }],
+      errors: [
+        { messageId: 'moveToNewLine' },
+      ],
+    },
+    {
+      code: $`
+        <App
+          foo
+        >
+          Up to {percent}% Off</App>
+      `,
+      output: $`
+        <App
+          foo
+        >
+          Up to {percent}% Off
+        </App>
+      `,
+      options: [{ allow: 'single-line' }],
+      errors: [
+        { messageId: 'moveToNewLine' },
       ],
     },
   ),

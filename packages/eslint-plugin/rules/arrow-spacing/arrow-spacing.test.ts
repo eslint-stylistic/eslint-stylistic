@@ -1,9 +1,3 @@
-/**
- * @fileoverview Tests for arrow-spacing
- * @author Jxck
- */
-//
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './arrow-spacing'
@@ -75,6 +69,16 @@ run<RuleOptions, MessageIds>({
     '(a) =>\n{}',
     '(a) =>\r\n{}',
     '(a) =>\n    0',
+    // TSFunctionType
+    'type Foo = () => void',
+    {
+      code: 'type Foo = ()=>void',
+      options: [
+        { after: false, before: false },
+      ],
+    },
+    // TSConstructorType
+    'type T = new () => P',
   ],
   invalid: [
     {
@@ -82,8 +86,8 @@ run<RuleOptions, MessageIds>({
       output: 'a => a',
       options: [{ after: true, before: true }],
       errors: [
-        { column: 1, line: 1, type: 'Identifier', messageId: 'expectedBefore' },
-        { column: 4, line: 1, type: 'Identifier', messageId: 'expectedAfter' },
+        { column: 1, line: 1, messageId: 'expectedBefore' },
+        { column: 4, line: 1, messageId: 'expectedAfter' },
       ],
     },
     {
@@ -91,8 +95,8 @@ run<RuleOptions, MessageIds>({
       output: '() => {}',
       options: [{ after: true, before: true }],
       errors: [
-        { column: 2, line: 1, type: 'Punctuator', messageId: 'expectedBefore' },
-        { column: 5, line: 1, type: 'Punctuator', messageId: 'expectedAfter' },
+        { column: 2, line: 1, messageId: 'expectedBefore' },
+        { column: 5, line: 1, messageId: 'expectedAfter' },
       ],
     },
     {
@@ -100,8 +104,8 @@ run<RuleOptions, MessageIds>({
       output: '(a) => {}',
       options: [{ after: true, before: true }],
       errors: [
-        { column: 3, line: 1, type: 'Punctuator', messageId: 'expectedBefore' },
-        { column: 6, line: 1, type: 'Punctuator', messageId: 'expectedAfter' },
+        { column: 3, line: 1, messageId: 'expectedBefore' },
+        { column: 6, line: 1, messageId: 'expectedAfter' },
       ],
     },
     {
@@ -109,8 +113,8 @@ run<RuleOptions, MessageIds>({
       output: 'a =>a',
       options: [{ after: false, before: true }],
       errors: [
-        { column: 1, line: 1, type: 'Identifier', messageId: 'expectedBefore' },
-        { column: 5, line: 1, type: 'Identifier', messageId: 'unexpectedAfter' },
+        { column: 1, line: 1, messageId: 'expectedBefore' },
+        { column: 5, line: 1, messageId: 'unexpectedAfter' },
       ],
     },
     {
@@ -118,8 +122,8 @@ run<RuleOptions, MessageIds>({
       output: '() =>{}',
       options: [{ after: false, before: true }],
       errors: [
-        { column: 2, line: 1, type: 'Punctuator', messageId: 'expectedBefore' },
-        { column: 6, line: 1, type: 'Punctuator', messageId: 'unexpectedAfter' },
+        { column: 2, line: 1, messageId: 'expectedBefore' },
+        { column: 6, line: 1, messageId: 'unexpectedAfter' },
       ],
     },
     {
@@ -127,8 +131,8 @@ run<RuleOptions, MessageIds>({
       output: '(a) =>{}',
       options: [{ after: false, before: true }],
       errors: [
-        { column: 3, line: 1, type: 'Punctuator', messageId: 'expectedBefore' },
-        { column: 7, line: 1, type: 'Punctuator', messageId: 'unexpectedAfter' },
+        { column: 3, line: 1, messageId: 'expectedBefore' },
+        { column: 7, line: 1, messageId: 'unexpectedAfter' },
       ],
     },
     {
@@ -136,8 +140,8 @@ run<RuleOptions, MessageIds>({
       output: 'a =>a',
       options: [{ after: false, before: true }],
       errors: [
-        { column: 1, line: 1, type: 'Identifier', messageId: 'expectedBefore' },
-        { column: 6, line: 1, type: 'Identifier', messageId: 'unexpectedAfter' },
+        { column: 1, line: 1, messageId: 'expectedBefore' },
+        { column: 6, line: 1, messageId: 'unexpectedAfter' },
       ],
     },
     {
@@ -145,8 +149,8 @@ run<RuleOptions, MessageIds>({
       output: '() =>{}',
       options: [{ after: false, before: true }],
       errors: [
-        { column: 2, line: 1, type: 'Punctuator', messageId: 'expectedBefore' },
-        { column: 7, line: 1, type: 'Punctuator', messageId: 'unexpectedAfter' },
+        { column: 2, line: 1, messageId: 'expectedBefore' },
+        { column: 7, line: 1, messageId: 'unexpectedAfter' },
       ],
     },
     {
@@ -154,8 +158,8 @@ run<RuleOptions, MessageIds>({
       output: '(a) =>{}',
       options: [{ after: false, before: true }],
       errors: [
-        { column: 3, line: 1, type: 'Punctuator', messageId: 'expectedBefore' },
-        { column: 8, line: 1, type: 'Punctuator', messageId: 'unexpectedAfter' },
+        { column: 3, line: 1, messageId: 'expectedBefore' },
+        { column: 8, line: 1, messageId: 'unexpectedAfter' },
       ],
     },
     {
@@ -163,8 +167,8 @@ run<RuleOptions, MessageIds>({
       output: 'a=> a',
       options: [{ after: true, before: false }],
       errors: [
-        { column: 1, line: 1, type: 'Identifier', messageId: 'unexpectedBefore' },
-        { column: 5, line: 1, type: 'Identifier', messageId: 'expectedAfter' },
+        { column: 1, line: 1, messageId: 'unexpectedBefore' },
+        { column: 5, line: 1, messageId: 'expectedAfter' },
       ],
     },
     {
@@ -172,8 +176,8 @@ run<RuleOptions, MessageIds>({
       output: '()=> {}',
       options: [{ after: true, before: false }],
       errors: [
-        { column: 2, line: 1, type: 'Punctuator', messageId: 'unexpectedBefore' },
-        { column: 6, line: 1, type: 'Punctuator', messageId: 'expectedAfter' },
+        { column: 2, line: 1, messageId: 'unexpectedBefore' },
+        { column: 6, line: 1, messageId: 'expectedAfter' },
       ],
     },
     {
@@ -181,8 +185,8 @@ run<RuleOptions, MessageIds>({
       output: '(a)=> {}',
       options: [{ after: true, before: false }],
       errors: [
-        { column: 3, line: 1, type: 'Punctuator', messageId: 'unexpectedBefore' },
-        { column: 7, line: 1, type: 'Punctuator', messageId: 'expectedAfter' },
+        { column: 3, line: 1, messageId: 'unexpectedBefore' },
+        { column: 7, line: 1, messageId: 'expectedAfter' },
       ],
     },
     {
@@ -190,8 +194,8 @@ run<RuleOptions, MessageIds>({
       output: 'a=> a',
       options: [{ after: true, before: false }],
       errors: [
-        { column: 1, line: 1, type: 'Identifier', messageId: 'unexpectedBefore' },
-        { column: 6, line: 1, type: 'Identifier', messageId: 'expectedAfter' },
+        { column: 1, line: 1, messageId: 'unexpectedBefore' },
+        { column: 6, line: 1, messageId: 'expectedAfter' },
       ],
     },
     {
@@ -199,8 +203,8 @@ run<RuleOptions, MessageIds>({
       output: '()=> {}',
       options: [{ after: true, before: false }],
       errors: [
-        { column: 2, line: 1, type: 'Punctuator', messageId: 'unexpectedBefore' },
-        { column: 7, line: 1, type: 'Punctuator', messageId: 'expectedAfter' },
+        { column: 2, line: 1, messageId: 'unexpectedBefore' },
+        { column: 7, line: 1, messageId: 'expectedAfter' },
       ],
     },
     {
@@ -208,8 +212,8 @@ run<RuleOptions, MessageIds>({
       output: '(a)=> {}',
       options: [{ after: true, before: false }],
       errors: [
-        { column: 3, line: 1, type: 'Punctuator', messageId: 'unexpectedBefore' },
-        { column: 8, line: 1, type: 'Punctuator', messageId: 'expectedAfter' },
+        { column: 3, line: 1, messageId: 'unexpectedBefore' },
+        { column: 8, line: 1, messageId: 'expectedAfter' },
       ],
     },
     {
@@ -217,8 +221,8 @@ run<RuleOptions, MessageIds>({
       output: 'a=>a',
       options: [{ after: false, before: false }],
       errors: [
-        { column: 1, line: 1, type: 'Identifier', messageId: 'unexpectedBefore' },
-        { column: 6, line: 1, type: 'Identifier', messageId: 'unexpectedAfter' },
+        { column: 1, line: 1, messageId: 'unexpectedBefore' },
+        { column: 6, line: 1, messageId: 'unexpectedAfter' },
       ],
     },
     {
@@ -226,8 +230,8 @@ run<RuleOptions, MessageIds>({
       output: '()=>{}',
       options: [{ after: false, before: false }],
       errors: [
-        { column: 2, line: 1, type: 'Punctuator', messageId: 'unexpectedBefore' },
-        { column: 7, line: 1, type: 'Punctuator', messageId: 'unexpectedAfter' },
+        { column: 2, line: 1, messageId: 'unexpectedBefore' },
+        { column: 7, line: 1, messageId: 'unexpectedAfter' },
       ],
     },
     {
@@ -235,8 +239,8 @@ run<RuleOptions, MessageIds>({
       output: '(a)=>{}',
       options: [{ after: false, before: false }],
       errors: [
-        { column: 3, line: 1, type: 'Punctuator', messageId: 'unexpectedBefore' },
-        { column: 8, line: 1, type: 'Punctuator', messageId: 'unexpectedAfter' },
+        { column: 3, line: 1, messageId: 'unexpectedBefore' },
+        { column: 8, line: 1, messageId: 'unexpectedAfter' },
       ],
     },
     {
@@ -244,8 +248,8 @@ run<RuleOptions, MessageIds>({
       output: 'a=>a',
       options: [{ after: false, before: false }],
       errors: [
-        { column: 1, line: 1, type: 'Identifier', messageId: 'unexpectedBefore' },
-        { column: 8, line: 1, type: 'Identifier', messageId: 'unexpectedAfter' },
+        { column: 1, line: 1, messageId: 'unexpectedBefore' },
+        { column: 8, line: 1, messageId: 'unexpectedAfter' },
       ],
     },
     {
@@ -253,8 +257,8 @@ run<RuleOptions, MessageIds>({
       output: '()=>{}',
       options: [{ after: false, before: false }],
       errors: [
-        { column: 2, line: 1, type: 'Punctuator', messageId: 'unexpectedBefore' },
-        { column: 9, line: 1, type: 'Punctuator', messageId: 'unexpectedAfter' },
+        { column: 2, line: 1, messageId: 'unexpectedBefore' },
+        { column: 9, line: 1, messageId: 'unexpectedAfter' },
       ],
     },
     {
@@ -262,8 +266,8 @@ run<RuleOptions, MessageIds>({
       output: '(a)=>{}',
       options: [{ after: false, before: false }],
       errors: [
-        { column: 3, line: 1, type: 'Punctuator', messageId: 'unexpectedBefore' },
-        { column: 10, line: 1, type: 'Punctuator', messageId: 'unexpectedAfter' },
+        { column: 3, line: 1, messageId: 'unexpectedBefore' },
+        { column: 10, line: 1, messageId: 'unexpectedAfter' },
       ],
     },
     {
@@ -271,7 +275,36 @@ run<RuleOptions, MessageIds>({
       output: '(a)  =>{}',
       options: [{ after: false }],
       errors: [
-        { column: 1, line: 2, type: 'Punctuator', messageId: 'unexpectedAfter' },
+        { column: 1, line: 2, messageId: 'unexpectedAfter' },
+      ],
+    },
+
+    // TSFunctionType
+    {
+      code: 'type Foo = ()=>void',
+      output: 'type Foo = () => void',
+      errors: [
+        { column: 13, line: 1, messageId: 'expectedBefore' },
+        { column: 16, line: 1, messageId: 'expectedAfter' },
+      ],
+    },
+    {
+      code: 'type Foo = () =>\nvoid',
+      output: 'type Foo = ()=>void',
+      options: [{ after: false, before: false }],
+      errors: [
+        { column: 13, line: 1, messageId: 'unexpectedBefore' },
+        { column: 1, line: 2, messageId: 'unexpectedAfter' },
+      ],
+    },
+
+    // TSConstructorType
+    {
+      code: 'type T = new ()=>P',
+      output: 'type T = new () => P',
+      errors: [
+        { column: 15, line: 1, messageId: 'expectedBefore' },
+        { column: 18, line: 1, messageId: 'expectedAfter' },
       ],
     },
 

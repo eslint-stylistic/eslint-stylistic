@@ -42,7 +42,7 @@ Examples of **correct** code for this rule:
 
 :::
 
-## Rule Options
+## Options
 
 There are two ways to configure this rule.
 

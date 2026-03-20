@@ -11,11 +11,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'multiline-ternary',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce newlines between operands of ternary expressions',
     },
-
+    fixable: 'whitespace',
     schema: [
       {
         type: 'string',
@@ -26,28 +25,27 @@ export default createRule<RuleOptions, MessageIds>({
         properties: {
           ignoreJSX: {
             type: 'boolean',
-            default: false,
           },
         },
         additionalProperties: false,
       },
     ],
-
+    defaultOptions: ['always'],
     messages: {
       expectedTestCons: 'Expected newline between test and consequent of ternary expression.',
       expectedConsAlt: 'Expected newline between consequent and alternate of ternary expression.',
       unexpectedTestCons: 'Unexpected newline between test and consequent of ternary expression.',
       unexpectedConsAlt: 'Unexpected newline between consequent and alternate of ternary expression.',
     },
-
-    fixable: 'whitespace',
   },
+  create(context, [style, options = {}]) {
+    const multiline = style !== 'never'
+    const allowSingleLine = style === 'always-multiline'
+    const {
+      ignoreJSX,
+    } = options!
 
-  create(context) {
     const sourceCode = context.sourceCode
-    const multiline = context.options[0] !== 'never'
-    const allowSingleLine = context.options[0] === 'always-multiline'
-    const IGNORE_JSX = context.options[1] && context.options[1].ignoreJSX
 
     return {
       ConditionalExpression(node) {
@@ -65,7 +63,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         const hasComments = !!sourceCode.getCommentsInside(node).length
 
-        if (IGNORE_JSX) {
+        if (ignoreJSX) {
           if (node.parent.type === 'JSXElement'
             || node.parent.type === 'JSXFragment'
             || node.parent.type === 'JSXExpressionContainer') {

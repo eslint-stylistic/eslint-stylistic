@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: wbNFs2RpRE2ZZAwg4V1y8QW_1E3PTzMG1SGw_mR7PGI */
+/* @checksum: 6CTfcIykfag9YtcuxXQXFuQ_7ZcIKi64z2UVt4X6lPI */
 
 export type ComputedPropertySpacingSchema0
   = | 'always'
