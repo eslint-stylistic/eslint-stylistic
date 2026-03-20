@@ -29,9 +29,8 @@ runWithConfig('all', 'all')
 function runWithConfig(name: string, configs: StylisticCustomizeOptions | string) {
   it.concurrent(name, async ({ expect }) => {
     const from = resolve(fixturesDir, 'input')
-    // TODO: switch to output to see diff
-    // The blank line in `tsx.tsx`: `jsx-one-expression-per-line` and `jsx-closing-tag-location` have conflict fixes.
     const output = resolve(fixturesDir, 'output', name)
+    // TODO: The blank line in `tsx.tsx`: `jsx-one-expression-per-line` and `jsx-closing-tag-location` have conflict fixes.
     const errorOutput = resolve(fixturesDir, 'output_oxlint', name)
     const target = resolve(targetDir, name)
 
