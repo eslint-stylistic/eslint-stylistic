@@ -270,6 +270,13 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
+        type A = Foo
+          & /* comment */ Bar.Baz;
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
         type A = Foo &
           Bar &
           {};
@@ -897,6 +904,18 @@ run<RuleOptions, MessageIds>({
       }],
     },
     {
+      code: 'foo /* keep-left */\n+ bar',
+      output: 'foo /* keep-left */ +\nbar',
+      errors: [{
+        messageId: 'operatorAtEnd',
+        data: { operator: '+' },
+        line: 2,
+        column: 1,
+        endLine: 2,
+        endColumn: 2,
+      }],
+    },
+    {
       code: 'foo ??\n bar',
       output: 'foo\n ?? bar',
       options: ['after', { overrides: { '??': 'before' } }],
@@ -1336,6 +1355,20 @@ run<RuleOptions, MessageIds>({
       options: ['before'],
       errors: [
         { messageId: 'operatorAtBeginning' },
+        { messageId: 'operatorAtBeginning' },
+      ],
+    },
+    {
+      code: $`
+        type A = Foo &
+          /* comment */ Bar.Baz;
+      `,
+      output: $`
+        type A = Foo
+          & /* comment */ Bar.Baz;
+      `,
+      options: ['before'],
+      errors: [
         { messageId: 'operatorAtBeginning' },
       ],
     },
