@@ -447,6 +447,7 @@ export function getPrecedence(node: ASTNode) {
     case 'ArrowFunctionExpression':
     case 'YieldExpression':
     case 'TSFunctionType':
+    case 'TSConstructorType':
       return 1
 
     case 'TSAsExpression':

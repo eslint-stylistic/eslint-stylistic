@@ -366,6 +366,7 @@ run<RuleOptions, MessageIds>({
       options: ['all', { ignoredNodes: ['TSTypeAliasDeclaration[typeAnnotation.type="TSIntersectionType"]'] }],
     },
     `type Foo = (() => string)[]`,
+    `type Foo = (new () => string)[]`,
     `type Foo = (keyof T)[]`,
   ],
 
