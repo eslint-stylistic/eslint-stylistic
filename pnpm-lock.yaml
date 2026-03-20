@@ -165,9 +165,9 @@ catalogs:
     '@typescript-eslint/types':
       specifier: ^8.56.1
       version: 8.56.1
-    eslint-visitor-keys:
-      specifier: ^5.0.1
-      version: 5.0.1
+    '@typescript-eslint/visitor-keys':
+      specifier: ^8.56.1
+      version: 8.56.1
     espree:
       specifier: ^11.1.1
       version: 11.1.1
@@ -280,6 +280,9 @@ importers:
       '@typescript-eslint/utils':
         specifier: catalog:dev
         version: 8.56.1(eslint@10.0.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/visitor-keys':
+        specifier: catalog:prod
+        version: 8.56.1
       '@vitest/coverage-v8':
         specifier: catalog:test
         version: 4.0.18(vitest@4.0.18)
@@ -304,9 +307,6 @@ importers:
       eslint-plugin-format:
         specifier: catalog:dev
         version: 2.0.1(eslint@10.0.2(jiti@2.6.1))
-      eslint-visitor-keys:
-        specifier: catalog:prod
-        version: 5.0.1
       eslint-vitest-rule-tester:
         specifier: catalog:test
         version: 3.1.0(eslint@10.0.2(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.18)
@@ -440,12 +440,12 @@ importers:
       '@typescript-eslint/types':
         specifier: catalog:prod
         version: 8.56.1
+      '@typescript-eslint/visitor-keys':
+        specifier: catalog:prod
+        version: 8.56.1
       eslint:
         specifier: ^9.0.0 || ^10.0.0
         version: 10.0.2(jiti@2.6.1)
-      eslint-visitor-keys:
-        specifier: catalog:prod
-        version: 5.0.1
       espree:
         specifier: catalog:prod
         version: 11.1.1
