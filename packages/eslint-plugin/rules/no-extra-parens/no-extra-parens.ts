@@ -1181,12 +1181,16 @@ export default createRule<RuleOptions, MessageIds>({
         const isObjectTypeAssertion = isTypeAssertion(node.object)
         const shouldAllowWrapOnce = isObjectTypeAssertion
           || (isMemberExpInNewCallee(node) && doesMemberExpressionContainCallExpression(node))
-        const nodeObjHasExcessParens = shouldAllowWrapOnce ? hasDoubleExcessParens(node.object) : hasExcessParens(node.object)
-          && !(
-            isImmediateFunctionPrototypeMethodCall(node.parent)
-            && 'callee' in node.parent && node.parent.callee === node
-            && IGNORE_FUNCTION_PROTOTYPE_METHODS
-          )
+        const nodeObjHasExcessParens = shouldAllowWrapOnce
+          ? hasDoubleExcessParens(node.object)
+          : (
+              hasExcessParens(node.object)
+              && !(
+                isImmediateFunctionPrototypeMethodCall(node.parent)
+                && 'callee' in node.parent && node.parent.callee === node
+                && IGNORE_FUNCTION_PROTOTYPE_METHODS
+              )
+            )
 
         if (
           nodeObjHasExcessParens
