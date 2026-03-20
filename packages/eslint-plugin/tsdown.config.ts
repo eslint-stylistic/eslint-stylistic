@@ -25,6 +25,23 @@ export default defineConfig([
     hash: false,
     minify: 'dce-only',
     fixedExtension: false,
+    exports: {
+      customExports: exports => ({
+        ...exports,
+        '.': {
+          types: './dist/dts/index.d.ts',
+          import: './dist/index.js',
+          default: './dist/index.js',
+        },
+        './define-config-support': {
+          types: './dist/dts/define-config-support.d.ts',
+        },
+        './rule-options': {
+          types: './dist/dts/rule-options.d.ts',
+        },
+        './rules/*': './dist/rules/*',
+      }),
+    },
     deps: {
       onlyBundle: [
         // https://github.com/eslint-stylistic/eslint-stylistic/pull/838
