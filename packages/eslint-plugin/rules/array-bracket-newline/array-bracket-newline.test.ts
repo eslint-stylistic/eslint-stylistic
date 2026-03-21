@@ -386,6 +386,32 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
     },
 
+    // TypeScript: ArrayPattern with type annotation
+    {
+      code: $`
+        const [a, b]: string[] = foo
+      `,
+      options: ['consistent'],
+    },
+    {
+      code: $`
+        const [
+          a,
+          b,
+        ]: string[] = foo
+      `,
+      options: ['consistent'],
+    },
+    {
+      code: $`
+        const [a, b]: {
+          foo: string
+          bar: number
+        } = foo
+      `,
+      options: ['consistent'],
+    },
+
     // { multiline: true }
     {
       code: 'var [] = foo;',

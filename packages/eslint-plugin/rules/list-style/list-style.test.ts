@@ -39,6 +39,13 @@ run<RuleOptions, MessageIds>({
     'const [, a] = foo;',
     'const [a,] = foo;',
     'const [, a,] = foo;',
+    'const [a, b]: string[] = foo',
+    $`
+      const [
+        a,
+        b,
+      ]: string[] = foo
+    `,
     $`
       export { name, version } from 'package.json' with {
         type: 'json'

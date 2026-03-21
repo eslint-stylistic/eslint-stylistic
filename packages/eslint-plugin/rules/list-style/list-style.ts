@@ -363,10 +363,15 @@ export default createRule<RuleOptions, MessageIds>({
     function getRightParen(node: ASTNode, items: (ASTNode | null)[], type: ParenType) {
       switch (node.type) {
         // const foo = [a, ]
-        // const [a, ] = foo
         case AST_NODE_TYPES.ArrayExpression:
-        case AST_NODE_TYPES.ArrayPattern:
           return sourceCode.getLastToken(node)
+
+        case AST_NODE_TYPES.ArrayPattern:
+          return node.typeAnnotation
+            // const [a, b]: string[] = foo
+            ? sourceCode.getTokenBefore(node.typeAnnotation)!
+            // const [a, ] = foo
+            : sourceCode.getLastToken(node)!
 
         default:{
           const maybeRight = sourceCode.getTokenAfter(items.at(-1)!, isNotCommaToken)
