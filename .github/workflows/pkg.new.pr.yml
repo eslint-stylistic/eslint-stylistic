@@ -14,14 +14,11 @@ jobs:
     if: github.event.repository.fork == false
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v6
-        with:
-          node-version: lts/*
-          cache: pnpm
-      - run: pnpm install
-      - run: pnpm build
+      - name: Setup JS
+        uses: sxzz/workflows/setup-js@69098296b6f6083ed99f38e2040f2a7238580e27 # v1.4.0
+      - name: Build
+        run: pnpm build
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      - run: pnpx pkg-pr-new publish --compact --pnpm './packages/*'
+      - name: Publish
+        run: pnpx pkg-pr-new publish --compact --pnpm './packages/*'
