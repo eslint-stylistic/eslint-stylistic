@@ -18,7 +18,7 @@ export interface RunFixtureTestOptions {
   errorOutput?: string
 }
 
-const normalizeContent = (text: string) => text.replace(/\r\n/g, '\n').trim()
+const normalizeContent = (text: string) => text.replace(/\r\n/g, '\n')
 
 export async function runFixtureTest(
   expect: ExpectStatic,
@@ -72,8 +72,8 @@ export async function runFixtureTest(
       catch (err) {
         if (errorOutput) {
           const errorPath = join(errorOutput, `${file}.patch`)
-          const expected = fs.readFileSync(targetPath, 'utf-8')
-          const patch = normalizeContent(createPatch(file, expected, content))
+          const expected = normalizeContent(fs.readFileSync(targetPath, 'utf-8'))
+          const patch = createPatch(file, expected, content)
           return await expect.soft(patch).toMatchFileSnapshot(errorPath)
         }
         throw err
