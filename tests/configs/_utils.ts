@@ -73,7 +73,7 @@ export async function runFixtureTest(
         if (errorOutput) {
           const errorPath = join(errorOutput, `${file}.patch`)
           const expected = fs.readFileSync(targetPath, 'utf-8')
-          const patch = createPatch(file, expected, content)
+          const patch = normalizeContent(createPatch(file, expected, content))
           return await expect.soft(patch).toMatchFileSnapshot(errorPath)
         }
         throw err
