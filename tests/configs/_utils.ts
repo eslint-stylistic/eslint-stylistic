@@ -64,7 +64,7 @@ export async function runFixtureTest(
         await expect.soft(content)
           .toMatchFileSnapshot(targetPath)
         if (errorOutput) {
-          const errorPath = join(errorOutput, file)
+          const errorPath = join(errorOutput, `${file}.patch`)
           if (fs.existsSync(errorPath))
             fs.unlinkSync(errorPath)
         }
