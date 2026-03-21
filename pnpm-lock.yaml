@@ -58,6 +58,9 @@ catalogs:
     change-case:
       specifier: ^5.4.4
       version: 5.4.4
+    diff:
+      specifier: ^8.0.3
+      version: 8.0.3
     escape-string-regexp:
       specifier: ^5.0.0
       version: 5.0.0
@@ -298,6 +301,9 @@ importers:
       change-case:
         specifier: catalog:dev
         version: 5.4.4
+      diff:
+        specifier: catalog:dev
+        version: 8.0.3
       escape-string-regexp:
         specifier: catalog:dev
         version: 5.0.0
@@ -2797,6 +2803,10 @@ packages:
   diff-sequences@29.6.3:
     resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+
+  diff@8.0.3:
+    resolution: {integrity: sha512-qejHi7bcSD4hQAZE0tNAawRK1ZtafHDmMTMkrrIGgSLl7hTnQHmKCeB45xAcbfTqK2zowkM3j3bHt/4b/ARbYQ==}
+    engines: {node: '>=0.3.1'}
 
   dotenv@17.3.1:
     resolution: {integrity: sha512-IO8C/dzEb6O3F9/twg6ZLXz164a2fhTnEWb95H23Dm4OuN+92NmEAlTrupP9VW6Jm3sO26tQlqyvyi4CsnY9GA==}
@@ -6559,6 +6569,8 @@ snapshots:
       dequal: 2.0.3
 
   diff-sequences@29.6.3: {}
+
+  diff@8.0.3: {}
 
   dotenv@17.3.1: {}
 

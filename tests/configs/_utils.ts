@@ -2,6 +2,7 @@ import type { ExpectStatic } from 'vitest'
 import fs, { promises as fsp } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { createPatch } from 'diff'
 import fg from 'fast-glob'
 
 export const fixturesDir = fileURLToPath(new URL('fixtures', import.meta.url))
@@ -70,8 +71,10 @@ export async function runFixtureTest(
       }
       catch (err) {
         if (errorOutput) {
-          const errorPath = join(errorOutput, file)
-          return await expect.soft(content).toMatchFileSnapshot(errorPath)
+          const errorPath = join(errorOutput, `${file}.patch`)
+          const expected = fs.readFileSync(targetPath, 'utf-8')
+          const patch = createPatch(file, expected, content)
+          return await expect.soft(patch).toMatchFileSnapshot(errorPath)
         }
         throw err
       }

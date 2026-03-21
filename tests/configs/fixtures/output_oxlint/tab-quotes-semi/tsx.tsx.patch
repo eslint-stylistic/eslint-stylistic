@@ -1,0 +1,14 @@
+Index: tsx.tsx
+===================================================================
+--- tsx.tsx
++++ tsx.tsx
+@@ -12,8 +12,9 @@
+ 				a={1}
+ 				b="2"
+ 			>
+ 				Inline Text
++
+ 			</div>
+ 			<Component1>
+ 				Block Text
+ 			</Component1>

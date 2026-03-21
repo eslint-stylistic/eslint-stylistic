@@ -49,6 +49,7 @@
     "@vitest/ui": "catalog:test",
     "bumpp": "catalog:dev",
     "change-case": "catalog:dev",
+    "diff": "catalog:dev",
     "escape-string-regexp": "catalog:dev",
     "eslint": "catalog:dev",
     "eslint-plugin-eslint-plugin": "catalog:dev",
