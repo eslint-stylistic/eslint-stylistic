@@ -164,33 +164,6 @@ export {}
   )
 }
 
-export async function updateExports(pkg: PackageInfo) {
-  if (!pkg.rules.length)
-    return
-
-  const pkgJson = JSON.parse(await fs.readFile(join(pkg.path, 'package.json'), 'utf-8'))
-  pkgJson.exports = {
-    '.': {
-      types: './dist/dts/index.d.ts',
-      import: './dist/index.js',
-      default: './dist/index.js',
-    },
-    './define-config-support': {
-      types: './dist/dts/define-config-support.d.ts',
-    },
-    './rule-options': {
-      types: './dist/dts/rule-options.d.ts',
-    },
-    ...Object.fromEntries(
-      pkg.rules.map(i => [`./rules/${i.name}`, `./dist/rules/${i.name}.js`]),
-    ),
-  }
-  pkgJson.types = './dist/dts/index.d.ts'
-  pkgJson.main = './dist/index.js'
-  pkgJson.files = ['dist']
-  await fs.writeFile(join(pkg.path, 'package.json'), `${JSON.stringify(pkgJson, null, 2)}\n`, 'utf-8')
-}
-
 export async function writeREADME(pkg: PackageInfo) {
   if (!pkg.rules.length)
     return
