@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: XH7RvEtxLBiHXWC9c2qdmp_GNRlRxQJip4c-vlsaKeI */
+/* @checksum: Y1Dr3lFfoeRCkrJsfT7w90RsbMFbDf9VxwITBsjQ1fs */
 
 export interface TypeGenericSpacingSchema0 {
   before?: boolean
