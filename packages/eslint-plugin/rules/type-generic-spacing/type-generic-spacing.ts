@@ -2,7 +2,7 @@ import type { NodeTypes, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 
-const IGNORE_BEFORE = new Set<NodeTypes>([
+const SKIP_BEFORE_CHECK = new Set<NodeTypes>([
   'TSCallSignatureDeclaration',
   // const foo = <T>(name: T) => name
   //            ^
@@ -16,6 +16,9 @@ const IGNORE_BEFORE = new Set<NodeTypes>([
   //               ^
   // handled by `space-unary-ops`
   'TSConstructorType',
+  // const foo = function <T>() {}
+  //                     ^
+  // handled by `space-before-function-paren`
   'FunctionExpression',
   // const foo = class <T> {}
   //                  ^
@@ -23,7 +26,7 @@ const IGNORE_BEFORE = new Set<NodeTypes>([
   'ClassExpression',
 ])
 
-const IGNORE_AFTER = new Set<NodeTypes>([
+const SKIP_AFTER_CHECK = new Set<NodeTypes>([
   // const foo = class Foo<T> extends Bar<T> {}
   //                                        ^
   // handled by `space-before-blocks`
@@ -101,7 +104,7 @@ export default createRule<RuleOptions, MessageIds>({
     const { before, after } = options!
 
     function checkBefore(node: SupportNodes) {
-      if (IGNORE_BEFORE.has(node.parent.type))
+      if (SKIP_BEFORE_CHECK.has(node.parent.type))
         return
 
       const preToken = sourceCode.getTokenBefore(node, { includeComments: true })
@@ -124,7 +127,7 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function checkAfter(node: SupportNodes) {
-      if (IGNORE_AFTER.has(node.parent.type))
+      if (SKIP_AFTER_CHECK.has(node.parent.type))
         return
       const nextToken = sourceCode.getTokenAfter(node, { includeComments: true })
       if (!nextToken)

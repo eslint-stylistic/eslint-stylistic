@@ -6,6 +6,7 @@ run<RuleOptions, MessageIds>({
   name: 'type-generic-spacing',
   rule,
   valid: [
+    // handled by `space-infix-ops`
     'const foo: Array<number> = []',
     'const foo: Array<number>= []',
     'type Foo<T = true> = T',
@@ -13,6 +14,7 @@ run<RuleOptions, MessageIds>({
     'type Foo<T extends true = true> = T',
     'type Foo<T = (true)> = T',
     'type Foo<T extends (true) = (true)> = T',
+    // handled by `keyword-spacing`
     'type Foo = new <T>(name: T) => void',
     'type Foo = new<T>(name: T) => void',
     $`
