@@ -197,13 +197,8 @@ export default createRule<RuleOptions, MessageIds>({
       TSTypeParameterInstantiation: (node) => {
         checkSpacing(node)
 
-        const params = node.params
-
-        if (params.length === 0)
-          return
-
-        const openToken = sourceCode.getTokenBefore(params[0])
-        const closeToken = sourceCode.getTokenAfter(params[params.length - 1])
+        const openToken = sourceCode.getTokenBefore(node.params[0])
+        const closeToken = sourceCode.getTokenAfter(node.params.at(-1)!)
 
         checkBracketSpacing(openToken, closeToken)
       },
@@ -211,13 +206,8 @@ export default createRule<RuleOptions, MessageIds>({
       TSTypeParameterDeclaration: (node) => {
         checkSpacing(node)
 
-        const params = node.params
-
-        if (params.length === 0)
-          return
-
-        const openToken = sourceCode.getTokenBefore(params[0])
-        const closeToken = sourceCode.getTokenAfter(params[params.length - 1])
+        const openToken = sourceCode.getTokenBefore(node.params[0])
+        const closeToken = sourceCode.getTokenAfter(node.params.at(-1)!)
 
         checkBracketSpacing(openToken, closeToken)
       },
