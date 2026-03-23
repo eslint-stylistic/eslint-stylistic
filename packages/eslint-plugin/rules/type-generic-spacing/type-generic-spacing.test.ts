@@ -55,6 +55,8 @@ run<RuleOptions, MessageIds>({
     'function foo<T>() {}',
     'declare function foo<T>(): void',
     'declare function foo<T> (): void',
+    'interface Foo extends Bar<T> {}',
+    'interface Foo extends Bar<T>{}',
   ],
   invalid: ([
     ['const val: Set< string> = new Set()', 'const val: Set<string> = new Set()'],

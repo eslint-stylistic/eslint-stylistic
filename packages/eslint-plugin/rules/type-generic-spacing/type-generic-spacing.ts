@@ -43,6 +43,10 @@ const SKIP_AFTER_CHECK = new Set<NodeTypes>([
   //                 ^
   // handled by `space-before-blocks`
   'TSInterfaceDeclaration',
+  // interface Foo extends Bar<T> {}
+  //                             ^
+  // handled by `space-before-blocks`
+  'TSInterfaceHeritage',
   // const x: Array<T> = []
   //                  ^
   // handled by `space-infix-ops`
