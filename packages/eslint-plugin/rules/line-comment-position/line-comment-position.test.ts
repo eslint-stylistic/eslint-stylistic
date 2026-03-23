@@ -104,24 +104,6 @@ run<RuleOptions, MessageIds>({
         column: 1,
       }],
     },
-    { // deprecated option still works
-      code: '// jscs: disable\n1 + 1;',
-      options: [{ position: 'beside', applyDefaultPatterns: false }],
-      errors: [{
-        messageId: 'beside',
-        line: 1,
-        column: 1,
-      }],
-    },
-    { // new option name takes precedence
-      code: '// jscs: disable\n1 + 1;',
-      options: [{ position: 'beside', applyDefaultIgnorePatterns: false, applyDefaultPatterns: true }],
-      errors: [{
-        messageId: 'beside',
-        line: 1,
-        column: 1,
-      }],
-    },
     {
       code: '1 + 1; // mentioning falls through',
       errors: [{

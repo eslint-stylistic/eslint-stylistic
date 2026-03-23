@@ -39,6 +39,13 @@ run<RuleOptions, MessageIds>({
     'const [, a] = foo;',
     'const [a,] = foo;',
     'const [, a,] = foo;',
+    'const [a, b]: string[] = foo',
+    $`
+      const [
+        a,
+        b,
+      ]: string[] = foo
+    `,
     $`
       export { name, version } from 'package.json' with {
         type: 'json'
@@ -84,6 +91,18 @@ run<RuleOptions, MessageIds>({
           'ImportAttributes': {
             singleLine: { spacing: 'never' },
           },
+        },
+      }],
+    },
+    {
+      code: $`
+        if (node.callee.type !== 'Identifier'
+          || (node.callee.name !== 't' && node.callee.name !== 'n')
+        ) {}
+      `,
+      options: [{
+        overrides: {
+          IfStatement: 'off',
         },
       }],
     },

@@ -17,27 +17,13 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Set node
-        uses: actions/setup-node@v6
-        with:
-          node-version: lts/*
-          cache: pnpm
-
-      - name: Setup
-        run: npm i -g @antfu/ni
-
-      - name: Install
-        run: nci
+      - name: Setup JS
+        uses: sxzz/workflows/setup-js@69098296b6f6083ed99f38e2040f2a7238580e27 # v1.4.0
 
       - name: Build
-        run: nr build
+        run: pnpm run build
 
       - name: Lint
-        run: nr update
+        run: pnpm run update
 
-      - uses: autofix-ci/action@v1.3
+      - uses: autofix-ci/action@7a166d7532b277f34e16238930461bf77f9d7ed8 # v1.3.3

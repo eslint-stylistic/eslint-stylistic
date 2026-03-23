@@ -3,7 +3,7 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
-import type { ASTNode, Token } from '#types'
+import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isCommentToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -175,14 +175,14 @@ export default createRule<RuleOptions, MessageIds>({
      * Reports a given node if it violated this rule.
      * @param node A node to check. This is an ArrayExpression node or an ArrayPattern node.
      */
-    function check(node: ASTNode) {
-      // @ts-expect-error type cast
+    function check(node: Tree.ArrayExpression | Tree.ArrayPattern) {
       const elements = node.elements
       const normalizedOptions = normalizeOptions(context.options[0])
-      // @ts-expect-error type cast
       const options = normalizedOptions[node.type]
       const openBracket = sourceCode.getFirstToken(node)!
-      const closeBracket = sourceCode.getLastToken(node)!
+      const closeBracket = node.type === 'ArrayPattern' && node.typeAnnotation
+        ? sourceCode.getTokenBefore(node.typeAnnotation)!
+        : sourceCode.getLastToken(node)!
       const firstIncComment = sourceCode.getTokenAfter(openBracket, { includeComments: true })!
       const lastIncComment = sourceCode.getTokenBefore(closeBracket, { includeComments: true })!
       const first = sourceCode.getTokenAfter(openBracket)!

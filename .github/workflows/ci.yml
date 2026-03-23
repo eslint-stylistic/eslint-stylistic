@@ -17,47 +17,23 @@ jobs:
   typecheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Set node
-        uses: actions/setup-node@v6
-        with:
-          node-version: lts/*
-          cache: pnpm
-
-      - name: Setup
-        run: npm i -g @antfu/ni
-
-      - name: Install
-        run: nci
+      - name: Setup JS
+        uses: sxzz/workflows/setup-js@69098296b6f6083ed99f38e2040f2a7238580e27 # v1.4.0
 
       - name: Typecheck
-        run: nr typecheck
+        run: pnpm run typecheck
 
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v6
-        with:
-          node-version: lts/*
-          cache: pnpm
-
-      - name: Setup
-        run: npm i -g @antfu/ni
-
-      - name: Install
-        run: nci
+      - name: Setup JS
+        uses: sxzz/workflows/setup-js@69098296b6f6083ed99f38e2040f2a7238580e27 # v1.4.0
 
       - name: Build
-        run: nr build
+        run: pnpm run build
 
       - name: Cache dist
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           retention-days: 3
           name: dist
@@ -72,74 +48,57 @@ jobs:
         node: [lts/*]
         os: [ubuntu-latest, windows-latest, macos-latest]
         include:
-          - node: 18.x
+          - node: 20.x
             os: ubuntu-latest
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
-      - name: Set node ${{ matrix.node }}
-        uses: actions/setup-node@v6
+      - name: Setup JS
+        uses: sxzz/workflows/setup-js@69098296b6f6083ed99f38e2040f2a7238580e27 # v1.4.0
         with:
           node-version: ${{ matrix.node }}
-          cache: pnpm
-
-      - name: Setup
-        run: npm i -g @antfu/ni
-
-      - name: Install
-        run: nci
 
       - name: Restore dist cache
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: dist
           path: packages
 
       - name: Test
-        run: nr test
+        run: pnpm run test
         if: ${{ matrix.node != 'lts/*' || matrix.os != 'ubuntu-latest' }}
 
       - name: Test with coverage
-        run: nr test --coverage
+        run: pnpm run test --coverage
         if: ${{ matrix.node == 'lts/*' && matrix.os == 'ubuntu-latest' }}
 
       - name: Report coverage
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@1af58845a975a7985b0beb0cbe6fbbb71a41dbad # v5.5.3
         if: ${{ matrix.node == 'lts/*' && matrix.os == 'ubuntu-latest' }}
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Fixtures
-        run: nr test:fixtures
+        run: pnpm run test:fixtures
 
   test-eslint9:
     runs-on: ubuntu-slim
+    needs:
+      - build
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v6
-        with:
-          node-version: lts/*
-          cache: pnpm
+      - name: Setup JS
+        uses: sxzz/workflows/setup-js@69098296b6f6083ed99f38e2040f2a7238580e27 # v1.4.0
 
-      - name: Setup
-        run: npm i -g @antfu/ni
-
-      - name: Install
-        run: nci
-
-      - run: ni eslint@9 -D
+      - run: pnpm install eslint@9 -D
 
       - name: Restore dist cache
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: dist
           path: packages
 
       - name: Test
-        run: nr test
+        run: pnpm run test
 
       - name: Fixtures
-        run: nr test:fixtures
+        run: pnpm run test:fixtures

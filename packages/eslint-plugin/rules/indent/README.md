@@ -80,7 +80,7 @@ if (a) {
 This rule has an object option:
 
 - `"ignoredNodes"` can be used to disable indentation checking for any AST node. This accepts an array of [selectors](https://eslint.org/docs/latest/extend/selectors). If an AST node is matched by any of the selectors, the indentation of tokens which are direct children of that node will be ignored. This can be used as an escape hatch to relax the rule if you disagree with the indentation that it enforces for a particular syntactic pattern.
-- `"SwitchCase"` (default: 0) enforces indentation level for `case` clauses in `switch` statements
+- `"SwitchCase"` (default: 1) enforces indentation level for `case` clauses in `switch` statements
 - `"VariableDeclarator"` (default: 1) enforces indentation level for `var` declarators; can also take an object to define separate rules for `var`, `let` and `const` declarations. It can also be `"first"`, indicating all the declarators should be aligned with the first declarator.
 - `"outerIIFEBody"` (default: 1) enforces indentation level for file-level IIFEs. This can also be set to `"off"` to disable checking for file-level IIFEs.
 - `"MemberExpression"` (default: 1) enforces indentation level for multi-line property chains. This can also be set to `"off"` to disable checking for MemberExpression indentation.
@@ -104,9 +104,6 @@ This rule has an object option:
   - `CallExpression`: Aligns with `offsetTernaryExpressions` by default.
   - `AwaitExpression`: Aligns with `offsetTernaryExpressions` by default.
   - `NewExpression`: Aligns with `offsetTernaryExpressions` by default.
-- ~~`"offsetTernaryExpressionsOffsetCallExpressions": true`~~ (`true` by default) handles an edge case for call expressions nested in ternary. It's only effective when `offsetTernaryExpressions` is set to `true`.
-  > [!WARNING]
-  > This option is **deprecated**, please use `offsetTernaryExpressions.CallExpression` instead.
 - `"assignmentOperator"` (default: 1) enforces indentation level for the assignment operator and value in variable/type declarations and assignment expressions when they are on different lines than the left side of the assignment (e.g. variable name). This can also be set to `"off"` to disable the checking.
 - `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
 - `"tabLength"` (default: 4) when using tabbed indentation, the indentation used to calculate the insertion value of the template string

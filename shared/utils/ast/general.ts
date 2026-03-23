@@ -1,11 +1,10 @@
 import type { ASTNode, SourceCode, Token, Tree } from '#types'
-import type { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import type { AST_NODE_TYPES } from '@typescript-eslint/types'
 import { isClosingParenToken, isColonToken, isCommentToken, isFunction, isOpeningParenToken, isTokenOnSameLine, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
-import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
-// @ts-expect-error missing types
+import { visitorKeys } from '@typescript-eslint/visitor-keys'
 import { latestEcmaVersion, tokenize } from 'espree'
 
-export const COMMENTS_IGNORE_PATTERN = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
+export const COMMENTS_IGNORE_PATTERN = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs|\/\s*<(?:reference|amd-))/u
 
 export const LINEBREAKS = /* @__PURE__ */ new Set(['\r\n', '\r', '\n', '\u2028', '\u2029'])
 
@@ -314,7 +313,7 @@ export function isKeywordToken(token: Token | null | undefined): token is Tree.K
  * #!/usr/bin/env node
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#hashbang_comments
  */
-export function isHashbangComment(comment: Tree.Comment): Tree.Comment {
+export function isHashbangComment(comment: Tree.Comment): comment is Tree.Comment & { type: 'SheBang' | 'Hashbang' } {
   // @ts-expect-error 'Shebang' is not in the type definition
   // If a hashbang comment was passed as a token object from SourceCode,
   // its type will be "Shebang" because of the way ESLint itself handles hashbangs.
@@ -447,7 +446,15 @@ export function getPrecedence(node: ASTNode) {
     case 'AssignmentExpression':
     case 'ArrowFunctionExpression':
     case 'YieldExpression':
+    case 'TSFunctionType':
+    case 'TSConstructorType':
       return 1
+
+    case 'TSAsExpression':
+    case 'TSNonNullExpression':
+    case 'TSSatisfiesExpression':
+    case 'TSTypeAssertion':
+      return 2
 
     case 'ConditionalExpression':
     case 'TSConditionalType':
@@ -466,7 +473,6 @@ export function getPrecedence(node: ASTNode) {
       /* falls through */
 
     case 'BinaryExpression':
-
       switch (node.operator) {
         case '|':
           return 6
@@ -502,13 +508,20 @@ export function getPrecedence(node: ASTNode) {
 
         // no default
       }
-
       /* falls through */
 
     case 'TSUnionType':
       return 6
     case 'TSIntersectionType':
       return 8
+    case 'TSTypeOperator':
+      switch (node.operator) {
+        case 'keyof':
+          return 10
+
+        // no default
+      }
+      /* falls through */
 
     case 'UnaryExpression':
     case 'AwaitExpression':
@@ -525,12 +538,8 @@ export function getPrecedence(node: ASTNode) {
     case 'NewExpression':
       return 19
 
-    case 'TSImportType':
-    case 'TSArrayType':
-      return 20
-
     default:
-      if (node.type in eslintVisitorKeys)
+      if (node.type in visitorKeys)
         return 20
 
       /**
@@ -683,13 +692,13 @@ export function canTokensBeAdjacent(leftValue: Token | string, rightValue: Token
       return false
     }
 
-    const comments = tokens.comments
+    const comments = tokens.comments!
 
     leftToken = tokens[tokens.length - 1]
     if (comments.length) {
       const lastComment = comments[comments.length - 1]
 
-      if (!leftToken || lastComment.range[0] > leftToken.range[0])
+      if (!leftToken || lastComment.range![0] > leftToken.range![0])
         leftToken = lastComment
     }
   }
@@ -697,7 +706,7 @@ export function canTokensBeAdjacent(leftValue: Token | string, rightValue: Token
     leftToken = leftValue
   }
 
-  if (isHashbangComment(leftToken))
+  if (isHashbangComment(leftToken as Tree.Comment))
     return false
 
   let rightToken
@@ -712,13 +721,13 @@ export function canTokensBeAdjacent(leftValue: Token | string, rightValue: Token
       return false
     }
 
-    const comments = tokens.comments
+    const comments = tokens.comments!
 
     rightToken = tokens[0]
     if (comments.length) {
       const firstComment = comments[0]
 
-      if (!rightToken || firstComment.range[0] < rightToken.range[0])
+      if (!rightToken || firstComment.range![0] < rightToken.range![0])
         rightToken = firstComment
     }
   }

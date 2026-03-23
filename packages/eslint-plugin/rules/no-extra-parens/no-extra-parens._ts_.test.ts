@@ -1,6 +1,3 @@
-// this rule tests extra parens, which prettier will want to fix and break the tests
-/* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
-
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from './no-extra-parens'
@@ -346,16 +343,6 @@ run<RuleOptions, MessageIds>({
         },
       },
     },
-    {
-      code: $`
-        f<(number) | string>(1)
-      `,
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-    },
     // https://github.com/eslint/eslint/issues/17173
     {
       code: 'const x = (1 satisfies number).toFixed();',
@@ -378,6 +365,9 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['all', { ignoredNodes: ['TSTypeAliasDeclaration[typeAnnotation.type="TSIntersectionType"]'] }],
     },
+    `type Foo = (() => string)[]`,
+    `type Foo = (new () => string)[]`,
+    `type Foo = (keyof T)[]`,
   ],
 
   invalid: [
@@ -413,12 +403,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: 'a<(A) | number>((1));',
-      output: 'a<(A) | number>(1);',
+      output: 'a<A | number>(1);',
       errors: [
-        {
-          messageId: 'unexpected',
-          column: 17,
-        },
+        { messageId: 'unexpected', column: 3 },
+        { messageId: 'unexpected', column: 17 },
       ],
     },
     {
@@ -502,6 +490,15 @@ run<RuleOptions, MessageIds>({
     {
       code: 'const x = [(b as string)]',
       output: 'const x = [b as string]',
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
+      ],
+    },
+    {
+      code: '((foo as Bar)).baz',
+      output: '(foo as Bar).baz',
       errors: [
         {
           messageId: 'unexpected',
@@ -610,6 +607,21 @@ run<RuleOptions, MessageIds>({
       `,
       recursive: Number.POSITIVE_INFINITY,
       errors: [
+        { messageId: 'unexpected' },
+      ],
+    },
+    {
+      code: 'f<(number) | string>(1)',
+      output: 'f<number | string>(1)',
+      errors: [
+        { messageId: 'unexpected' },
+      ],
+    },
+    {
+      code: '((a as A)) | ((b as B))',
+      output: '(a as A) | (b as B)',
+      errors: [
+        { messageId: 'unexpected' },
         { messageId: 'unexpected' },
       ],
     },

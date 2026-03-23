@@ -12,8 +12,6 @@ run<RuleOptions, MessageIds>({
     'type Foo<T = true> = T',
     'type Foo<T = true>= T',
     'type Foo<T extends true = true> = T',
-    'type Foo<T = (true)> = T',
-    'type Foo<T extends (true) = (true)> = T',
     // handled by `keyword-spacing`
     'type Foo = new <T>(name: T) => void',
     'type Foo = new<T>(name: T) => void',
@@ -43,12 +41,6 @@ run<RuleOptions, MessageIds>({
         foo?: <T>(name: T) => void
       }
     `,
-    $`
-      type Foo<
-        T = true,
-        K = false,
-      > = T
-    `,
     `const toSortedImplementation = Array.prototype.toSorted || function <T>(name: T): void {}`,
     `type Foo = import('foo')<T>['Foo']`,
     `type Foo = import('foo')<T> ['Foo']`,
@@ -73,11 +65,7 @@ run<RuleOptions, MessageIds>({
     ['type Foo< T > = T', 'type Foo<T> = T', 2],
     ['function foo< T >() {}', 'function foo<T>() {}', 2],
     ['type Foo< T = true    > = T', 'type Foo<T = true> = T', 2],
-    ['type Foo<T=true> = T', 'type Foo<T = true> = T'],
-    ['type Foo<T=(true)> = T', 'type Foo<T = (true)> = T'],
-    ['type Foo<T extends (true)=(true)> = T', 'type Foo<T extends (true) = (true)> = T'],
     ['type Foo< T, K   > = T', 'type Foo<T, K> = T', 2],
-    ['type Foo<T=false, K=1|2> = T', 'type Foo<T = false, K = 1|2> = T', 2],
     ['function foo <T>() {}', 'function foo<T>() {}'],
     ['function foo< T >() {}', 'function foo<T>() {}', 2],
     [

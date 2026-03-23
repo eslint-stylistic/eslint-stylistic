@@ -28,8 +28,6 @@ Examples of **incorrect** code for this rule:
 ```ts
 /* eslint @stylistic/type-generic-spacing: ["error"] */
 
-type Foo<T=true> = T
-
 interface Log {
   foo <T>(name: T): void
 }

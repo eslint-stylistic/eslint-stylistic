@@ -39,10 +39,6 @@ Object option:
 - `"allowTemplateLiterals": "never"` (default) disallows strings to use backtick in all cases
 - `"ignoreStringLiterals": true` don’t report string literals, only template strings (default: `false`)
 
-**Deprecated**: The object property `avoid-escape` is deprecated; please use the object property `avoidEscape` instead.
-
-**Deprecated**: Boolean values for `allowTemplateLiterals` are deprecated. `true` equates to `"always"` and `false` equates to `"never"`.
-
 > [!TIP]
 > `"allowTemplateLiterals": "never"` will not disallow the usage of all template literals. If you want to forbid any instance of template literals, use [no-restricted-syntax](https://eslint.org/docs/latest/rules/no-restricted-syntax) and target the `TemplateLiteral` selector.
 
