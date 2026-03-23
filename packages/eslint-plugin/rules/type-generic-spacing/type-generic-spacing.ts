@@ -16,15 +16,24 @@ const SKIP_BEFORE_CHECK = new Set<NodeTypes>([
   //               ^
   // handled by `space-unary-ops`
   'TSConstructorType',
+])
+
+function shouldSkipBeforeCheck(node: SupportNodes) {
+  if (SKIP_BEFORE_CHECK.has(node.parent.type))
+    return true
+
   // const foo = function <T>() {}
   //                     ^
   // handled by `space-before-function-paren`
-  'FunctionExpression',
+  //
   // const foo = class <T> {}
   //                  ^
   // handled by `keyword-spacing`
-  'ClassExpression',
-])
+  if (node.parent.type === 'FunctionExpression' || node.parent.type === 'ClassExpression')
+    return node.parent.id == null
+
+  return false
+}
 
 const SKIP_AFTER_CHECK = new Set<NodeTypes>([
   // const foo = class Foo<T> extends Bar<T> {}
@@ -108,7 +117,7 @@ export default createRule<RuleOptions, MessageIds>({
     const { before, after } = options!
 
     function checkBefore(node: SupportNodes) {
-      if (SKIP_BEFORE_CHECK.has(node.parent.type))
+      if (shouldSkipBeforeCheck(node))
         return
 
       const preToken = sourceCode.getTokenBefore(node, { includeComments: true })

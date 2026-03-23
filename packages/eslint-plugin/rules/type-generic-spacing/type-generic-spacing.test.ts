@@ -116,13 +116,20 @@ run<RuleOptions, MessageIds>({
   name: 'type-generic-spacing',
   rule,
   valid: [
+    { code: 'const foo = function bar<T>() {}' },
     { code: 'function foo <T>() {}', options: [{ before: true }] },
     { code: 'type Foo <T> = T', options: [{ before: true }] },
+    { code: 'const Foo = class Bar<T> {}' },
     { code: 'class Foo <T> {}', options: [{ before: true }] },
     { code: 'const val = callback<string> (() => \'foo\')', options: [{ after: true }] },
     { code: 'interface Foo { foo<T> (name: T): void }', options: [{ after: true }] },
   ],
   invalid: [
+    {
+      code: 'const foo = function bar <T>() {}',
+      output: 'const foo = function bar<T>() {}',
+      errors: [{ messageId: 'genericSpacingMismatch' }],
+    },
     {
       code: 'function foo<T>() {}',
       output: 'function foo <T>() {}',
@@ -133,6 +140,11 @@ run<RuleOptions, MessageIds>({
       code: 'type Foo<T> = T',
       output: 'type Foo <T> = T',
       options: [{ before: true }],
+      errors: [{ messageId: 'genericSpacingMismatch' }],
+    },
+    {
+      code: 'const Foo = class Bar <T> {}',
+      output: 'const Foo = class Bar<T> {}',
       errors: [{ messageId: 'genericSpacingMismatch' }],
     },
     {
