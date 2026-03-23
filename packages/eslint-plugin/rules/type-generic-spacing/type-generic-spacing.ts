@@ -120,10 +120,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (shouldSkipBeforeCheck(node))
         return
 
-      const preToken = sourceCode.getTokenBefore(node, { includeComments: true })
-      if (!preToken)
-        return
-
+      const preToken = sourceCode.getTokenBefore(node, { includeComments: true })!
       const hasSpace = sourceCode.isSpaceBetween(preToken, node)
 
       if (before !== hasSpace) {
@@ -142,10 +139,7 @@ export default createRule<RuleOptions, MessageIds>({
     function checkAfter(node: SupportNodes) {
       if (SKIP_AFTER_CHECK.has(node.parent.type))
         return
-      const nextToken = sourceCode.getTokenAfter(node, { includeComments: true })
-      if (!nextToken)
-        return
-
+      const nextToken = sourceCode.getTokenAfter(node, { includeComments: true })!
       const hasSpace = sourceCode.isSpaceBetween(node, nextToken)
 
       if (after !== hasSpace) {
