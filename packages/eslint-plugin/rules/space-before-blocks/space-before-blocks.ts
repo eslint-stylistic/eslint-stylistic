@@ -101,31 +101,22 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function checkPrecedingSpace(node: ASTNode | Token): void {
+      const config = isFunctionBody(node)
+        ? categoryConfig.functions
+        : node.type === 'ClassBody' || node.type === 'TSEnumBody' || node.type === 'TSInterfaceBody'
+          ? categoryConfig.classes
+          : node.type === 'TSModuleBlock'
+            ? categoryConfig.modules
+            : categoryConfig.keywords
+
+      if (config === 'off')
+        return
+
       const precedingToken = sourceCode.getTokenBefore(node)
       if (precedingToken && !isConflicted(precedingToken, node) && isTokenOnSameLine(precedingToken, node)) {
         const hasSpace = sourceCode.isSpaceBetween(precedingToken, node)
 
-        let requireSpace: boolean
-        let requireNoSpace: boolean
-
-        if (isFunctionBody(node)) {
-          requireSpace = categoryConfig.functions === 'always'
-          requireNoSpace = categoryConfig.functions === 'never'
-        }
-        else if (node.type === 'ClassBody' || node.type === 'TSEnumBody' || node.type === 'TSInterfaceBody') {
-          requireSpace = categoryConfig.classes === 'always'
-          requireNoSpace = categoryConfig.classes === 'never'
-        }
-        else if (node.type === 'TSModuleBlock') {
-          requireSpace = categoryConfig.modules === 'always'
-          requireNoSpace = categoryConfig.modules === 'never'
-        }
-        else {
-          requireSpace = categoryConfig.keywords === 'always'
-          requireNoSpace = categoryConfig.keywords === 'never'
-        }
-
-        if (requireSpace && !hasSpace) {
+        if (config === 'always' && !hasSpace) {
           context.report({
             node,
             messageId: 'missingSpace',
@@ -134,7 +125,7 @@ export default createRule<RuleOptions, MessageIds>({
             },
           })
         }
-        else if (requireNoSpace && hasSpace) {
+        else if (config === 'never' && hasSpace) {
           context.report({
             node,
             messageId: 'unexpectedSpace',
