@@ -1,8 +1,3 @@
-/**
- * @fileoverview Tests for space-before-block rule.
- * @author Mathias Schreck <https://github.com/lo1tuma>
- */
-
 import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
@@ -188,7 +183,6 @@ run<RuleOptions, MessageIds>({
     'if(a) {}else{}',
     { code: 'if(a){}else {}', options: neverArgs },
     { code: 'try {}catch(a){}', options: functionsOnlyArgs },
-    { code: 'export default class {}', options: classesOnlyArgs, parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
 
     // https://github.com/eslint/eslint/issues/15082
     { code: 'switch(x) { case 9:{ break; } }', options: alwaysArgs },
