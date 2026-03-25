@@ -2042,24 +2042,11 @@ run<RuleOptions, MessageIds>({
       errors: expectedBefore('class'),
     },
     {
-      code: '(class{})',
-      output: '(class {})',
-      parserOptions: { ecmaVersion: 6 },
-      errors: expectedAfter('class'),
-    },
-    {
       code: '{} class Bar {}',
       output: '{}class Bar {}',
       options: [NEITHER],
       parserOptions: { ecmaVersion: 6 },
       errors: unexpectedBefore('class'),
-    },
-    {
-      code: '(class {})',
-      output: '(class{})',
-      options: [NEITHER],
-      parserOptions: { ecmaVersion: 6 },
-      errors: unexpectedAfter('class'),
     },
     {
       code: '{}class Bar {}',

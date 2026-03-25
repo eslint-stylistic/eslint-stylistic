@@ -188,7 +188,7 @@ run<RuleOptions, MessageIds>({
     'if(a) {}else{}',
     { code: 'if(a){}else {}', options: neverArgs },
     { code: 'try {}catch(a){}', options: functionsOnlyArgs },
-    { code: 'export default class{}', options: classesOnlyArgs, parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
+    { code: 'export default class {}', options: classesOnlyArgs, parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
 
     // https://github.com/eslint/eslint/issues/15082
     { code: 'switch(x) { case 9:{ break; } }', options: alwaysArgs },
@@ -197,18 +197,6 @@ run<RuleOptions, MessageIds>({
     { code: 'switch(x){ case (9): { break; } }', options: neverArgs },
     { code: 'switch(x) { default:{ break; } }', options: alwaysArgs },
     { code: 'switch(x){ default: { break; } }', options: neverArgs },
-
-    // not conflict with `keyword-spacing`
-    {
-      code: '(class{ static{} })',
-      options: ['always'],
-      parserOptions: { ecmaVersion: 2022 },
-    },
-    {
-      code: '(class { static {} })',
-      options: ['never'],
-      parserOptions: { ecmaVersion: 2022 },
-    },
   ],
   invalid: [
     {
@@ -585,6 +573,28 @@ run<RuleOptions, MessageIds>({
       output: 'function foo(): null{}',
       options: neverArgs,
       parser: tsParser,
+      errors: [expectedNoSpacingError],
+    },
+
+    {
+      code: 'export default class{}',
+      output: 'export default class {}',
+      options: classesOnlyArgs,
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+      errors: [expectedSpacingError],
+    },
+    {
+      code: '(class{ static{} })',
+      output: '(class { static{} })',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 2022 },
+      errors: [expectedSpacingError],
+    },
+    {
+      code: '(class { static {} })',
+      output: '(class{ static {} })',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 2022 },
       errors: [expectedNoSpacingError],
     },
 
