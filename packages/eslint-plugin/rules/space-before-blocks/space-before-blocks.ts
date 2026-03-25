@@ -144,13 +144,9 @@ export default createRule<RuleOptions, MessageIds>({
       BlockStatement: checkPrecedingSpace,
       ClassBody: checkPrecedingSpace,
       SwitchStatement(node) {
-        const cases = node.cases
-        let openingBrace: Token
-
-        if (cases.length > 0)
-          openingBrace = sourceCode.getTokenBefore(cases[0])!
-        else
-          openingBrace = sourceCode.getLastToken(node, 1)!
+        const openingBrace = node.cases.length > 0
+          ? sourceCode.getTokenBefore(node.cases[0])!
+          : sourceCode.getLastToken(node, 1)!
 
         checkPrecedingSpace(openingBrace)
       },
