@@ -52,35 +52,9 @@ export default createRule<RuleOptions, MessageIds>({
   create(context, [config]) {
     const sourceCode = context.sourceCode
 
-    let alwaysFunctions = true
-    let alwaysKeywords = true
-    let alwaysClasses = true
-    let alwaysModules = true
-    let neverFunctions = false
-    let neverKeywords = false
-    let neverClasses = false
-    let neverModules = false
-
-    if (typeof config === 'object') {
-      alwaysFunctions = config.functions === 'always'
-      alwaysKeywords = config.keywords === 'always'
-      alwaysClasses = config.classes === 'always'
-      alwaysModules = config.modules === 'always'
-      neverFunctions = config.functions === 'never'
-      neverKeywords = config.keywords === 'never'
-      neverClasses = config.classes === 'never'
-      neverModules = config.modules === 'never'
-    }
-    else if (config === 'never') {
-      alwaysFunctions = false
-      alwaysKeywords = false
-      alwaysClasses = false
-      alwaysModules = false
-      neverFunctions = true
-      neverKeywords = true
-      neverClasses = true
-      neverModules = true
-    }
+    const categoryConfig = typeof config === 'string'
+      ? { functions: config, keywords: config, classes: config, modules: config }
+      : { functions: 'always', keywords: 'always', classes: 'always', modules: 'always', ...config }
 
     /**
      * Checks whether the given node represents the body of a function.
@@ -131,24 +105,24 @@ export default createRule<RuleOptions, MessageIds>({
       if (precedingToken && !isConflicted(precedingToken, node) && isTokenOnSameLine(precedingToken, node)) {
         const hasSpace = sourceCode.isSpaceBetween(precedingToken, node)
 
-        let requireSpace
-        let requireNoSpace
+        let requireSpace: boolean
+        let requireNoSpace: boolean
 
         if (isFunctionBody(node)) {
-          requireSpace = alwaysFunctions
-          requireNoSpace = neverFunctions
+          requireSpace = categoryConfig.functions === 'always'
+          requireNoSpace = categoryConfig.functions === 'never'
         }
         else if (node.type === 'ClassBody' || node.type === 'TSEnumBody' || node.type === 'TSInterfaceBody') {
-          requireSpace = alwaysClasses
-          requireNoSpace = neverClasses
+          requireSpace = categoryConfig.classes === 'always'
+          requireNoSpace = categoryConfig.classes === 'never'
         }
         else if (node.type === 'TSModuleBlock') {
-          requireSpace = alwaysModules
-          requireNoSpace = neverModules
+          requireSpace = categoryConfig.modules === 'always'
+          requireNoSpace = categoryConfig.modules === 'never'
         }
         else {
-          requireSpace = alwaysKeywords
-          requireNoSpace = neverKeywords
+          requireSpace = categoryConfig.keywords === 'always'
+          requireNoSpace = categoryConfig.keywords === 'never'
         }
 
         if (requireSpace && !hasSpace) {
