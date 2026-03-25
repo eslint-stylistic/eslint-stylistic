@@ -346,7 +346,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node A node to report.
      */
     function checkSpacingForClass(node: Tree.ClassDeclaration | Tree.ClassExpression) {
-      checkSpacingAroundFirstToken(node)
+      checkSpacingBeforeFirstToken(node)
       checkSpacingAroundTokenBefore(node.superClass)
     }
 

@@ -89,6 +89,7 @@ export default createRule<RuleOptions, MessageIds>({
         || (
           isKeywordToken(precedingToken)
           && !isFunctionBody(node)
+          && node.type !== 'ClassBody'
         )
         || (
           isColonToken(precedingToken)
