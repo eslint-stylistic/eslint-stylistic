@@ -52,35 +52,9 @@ export default createRule<RuleOptions, MessageIds>({
   create(context, [config]) {
     const sourceCode = context.sourceCode
 
-    let alwaysFunctions = true
-    let alwaysKeywords = true
-    let alwaysClasses = true
-    let alwaysModules = true
-    let neverFunctions = false
-    let neverKeywords = false
-    let neverClasses = false
-    let neverModules = false
-
-    if (typeof config === 'object') {
-      alwaysFunctions = config.functions === 'always'
-      alwaysKeywords = config.keywords === 'always'
-      alwaysClasses = config.classes === 'always'
-      alwaysModules = config.modules === 'always'
-      neverFunctions = config.functions === 'never'
-      neverKeywords = config.keywords === 'never'
-      neverClasses = config.classes === 'never'
-      neverModules = config.modules === 'never'
-    }
-    else if (config === 'never') {
-      alwaysFunctions = false
-      alwaysKeywords = false
-      alwaysClasses = false
-      alwaysModules = false
-      neverFunctions = true
-      neverKeywords = true
-      neverClasses = true
-      neverModules = true
-    }
+    const categoryConfig = typeof config === 'string'
+      ? { functions: config, keywords: config, classes: config, modules: config }
+      : { functions: 'always', keywords: 'always', classes: 'always', modules: 'always', ...config }
 
     /**
      * Checks whether the given node represents the body of a function.
@@ -127,31 +101,22 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function checkPrecedingSpace(node: ASTNode | Token): void {
+      const config = isFunctionBody(node)
+        ? categoryConfig.functions
+        : node.type === 'ClassBody' || node.type === 'TSEnumBody' || node.type === 'TSInterfaceBody'
+          ? categoryConfig.classes
+          : node.type === 'TSModuleBlock'
+            ? categoryConfig.modules
+            : categoryConfig.keywords
+
+      if (config === 'off')
+        return
+
       const precedingToken = sourceCode.getTokenBefore(node)
       if (precedingToken && !isConflicted(precedingToken, node) && isTokenOnSameLine(precedingToken, node)) {
         const hasSpace = sourceCode.isSpaceBetween(precedingToken, node)
 
-        let requireSpace
-        let requireNoSpace
-
-        if (isFunctionBody(node)) {
-          requireSpace = alwaysFunctions
-          requireNoSpace = neverFunctions
-        }
-        else if (node.type === 'ClassBody' || node.type === 'TSEnumBody' || node.type === 'TSInterfaceBody') {
-          requireSpace = alwaysClasses
-          requireNoSpace = neverClasses
-        }
-        else if (node.type === 'TSModuleBlock') {
-          requireSpace = alwaysModules
-          requireNoSpace = neverModules
-        }
-        else {
-          requireSpace = alwaysKeywords
-          requireNoSpace = neverKeywords
-        }
-
-        if (requireSpace && !hasSpace) {
+        if (config === 'always' && !hasSpace) {
           context.report({
             node,
             messageId: 'missingSpace',
@@ -160,7 +125,7 @@ export default createRule<RuleOptions, MessageIds>({
             },
           })
         }
-        else if (requireNoSpace && hasSpace) {
+        else if (config === 'never' && hasSpace) {
           context.report({
             node,
             messageId: 'unexpectedSpace',
@@ -179,13 +144,9 @@ export default createRule<RuleOptions, MessageIds>({
       BlockStatement: checkPrecedingSpace,
       ClassBody: checkPrecedingSpace,
       SwitchStatement(node) {
-        const cases = node.cases
-        let openingBrace: Token
-
-        if (cases.length > 0)
-          openingBrace = sourceCode.getTokenBefore(cases[0])!
-        else
-          openingBrace = sourceCode.getLastToken(node, 1)!
+        const openingBrace = node.cases.length > 0
+          ? sourceCode.getTokenBefore(node.cases[0])!
+          : sourceCode.getLastToken(node, 1)!
 
         checkPrecedingSpace(openingBrace)
       },
