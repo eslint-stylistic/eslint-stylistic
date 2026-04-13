@@ -1,8 +1,3 @@
-/**
- * @fileoverview Tests for keyword-spacing rule.
- * @author Toru Nagashima
- */
-
 import type { CompatConfigOptions, TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
@@ -1884,34 +1879,35 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 8 },
       errors: unexpectedBefore('await'),
     },
-
+    // #region for await
     {
       code: 'async function wrap() { for await(x of xs); }',
       output: 'async function wrap() { for await (x of xs); }',
       parserOptions: { ecmaVersion: 2018 },
-      errors: expectedAfter('await'),
+      errors: expectedAfter('for await'),
     },
     {
       code: 'async function wrap() { for await (x of xs); }',
       output: 'async function wrap() { for await(x of xs); }',
       options: [NEITHER],
       parserOptions: { ecmaVersion: 2018 },
-      errors: unexpectedAfter('await'),
+      errors: unexpectedAfter('for await'),
     },
     {
       code: 'async function wrap() { for await(x of xs); }',
       output: 'async function wrap() { for await (x of xs); }',
-      options: [override('await', BOTH)],
+      options: [override('for', BOTH)],
       parserOptions: { ecmaVersion: 2018 },
-      errors: expectedAfter('await'),
+      errors: expectedAfter('for await'),
     },
     {
       code: 'async function wrap() { for await (x of xs); }',
       output: 'async function wrap() { for await(x of xs); }',
-      options: [override('await', NEITHER)],
+      options: [override('for', NEITHER)],
       parserOptions: { ecmaVersion: 2018 },
-      errors: unexpectedAfter('await'),
+      errors: unexpectedAfter('for await'),
     },
+    // #endregion
 
     // ----------------------------------------------------------------------
     // break

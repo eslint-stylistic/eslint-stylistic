@@ -1,6 +1,6 @@
 import type { ASTNode, JSONSchema, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine, isTypeKeyword, KEYWORDS } from '#utils/ast'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES, isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine, isTypeKeyword, KEYWORDS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const PREV_TOKEN = /^[)\]}>]$/u
@@ -96,8 +96,9 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           loc: token.loc,
           messageId: 'expectedBefore',
-          // @ts-expect-error index signature for string is missing
-          data: token,
+          data: {
+            value: sourceCode.getText(token),
+          },
           fix(fixer) {
             return fixer.insertTextBefore(token, ' ')
           },
@@ -122,8 +123,9 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           loc: { start: prevToken.loc.end, end: token.loc.start },
           messageId: 'unexpectedBefore',
-          // @ts-expect-error index signature for string is missing
-          data: token,
+          data: {
+            value: sourceCode.getText(token),
+          },
           fix(fixer) {
             return fixer.removeRange([prevToken.range[1], token.range[0]])
           },
@@ -148,8 +150,9 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           loc: token.loc,
           messageId: 'expectedAfter',
-          // @ts-expect-error index signature for string is missing
-          data: token,
+          data: {
+            value: sourceCode.getText(token),
+          },
           fix(fixer) {
             return fixer.insertTextAfter(token, ' ')
           },
@@ -174,8 +177,9 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           loc: { start: token.loc.end, end: nextToken.loc.start },
           messageId: 'unexpectedAfter',
-          // @ts-expect-error index signature for string is missing
-          data: token,
+          data: {
+            value: sourceCode.getText(token),
+          },
           fix(fixer) {
             return fixer.removeRange([token.range[1], nextToken.range[0]])
           },
@@ -522,31 +526,35 @@ export default createRule<RuleOptions, MessageIds>({
         checkSpacingAroundFirstToken(node)
 
         const inToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)!
-        const previousToken = sourceCode.getTokenBefore(inToken)
+        const previousToken = sourceCode.getTokenBefore(inToken)!
 
-        // @ts-expect-error espree has PrivateIdentifier in tokens
-        // https://github.com/eslint/espree/blob/1584ddb00f0b4e3ada764ac86ae20e1480003de3/lib/token-translator.js#L22C23-L22C23
-        // but Tree.Token has not
         if (previousToken.type !== 'PrivateIdentifier')
           checkSpacingBefore(inToken)
 
         checkSpacingAfter(inToken)
       },
       ForOfStatement(node) {
+        const forToken = sourceCode.getFirstToken(node)!
         if (node.await) {
-          checkSpacingBefore(sourceCode.getFirstToken(node, 0)!)
-          checkSpacingAfter(sourceCode.getFirstToken(node, 1)!)
+          const awaitToken = sourceCode.getFirstToken(node, 1)!
+          // treat `for await` as `for`
+          checkSpacingAround({
+            type: AST_TOKEN_TYPES.Keyword,
+            value: 'for',
+            loc: {
+              start: forToken.loc.start,
+              end: awaitToken.loc.end,
+            },
+            range: [forToken.range[0], awaitToken.range[1]],
+          } satisfies Token)
         }
         else {
-          checkSpacingAroundFirstToken(node)
+          checkSpacingAround(forToken)
         }
 
         const ofToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)!
-        const previousToken = sourceCode.getTokenBefore(ofToken)
+        const previousToken = sourceCode.getTokenBefore(ofToken)!
 
-        // @ts-expect-error espree has PrivateIdentifier in tokens
-        // https://github.com/eslint/espree/blob/1584ddb00f0b4e3ada764ac86ae20e1480003de3/lib/token-translator.js#L22C23-L22C23
-        // but Tree.Token has not
         if (previousToken.type !== 'PrivateIdentifier')
           checkSpacingBefore(ofToken)
 
