@@ -16,7 +16,7 @@ packages:
 catalogs:
   build:
     '@codecov/rollup-plugin': ^1.9.1
-    tsdown: ^0.21.7
+    tsdown: ^0.21.8
   dev:
     '@antfu/eslint-config': ^8.2.0
     '@antfu/eslint-define-config': 1.23.0-2
@@ -33,7 +33,7 @@ catalogs:
     '@typescript-eslint/utils': ^8.58.1
     bumpp: ^11.0.1
     change-case: ^5.4.4
-    diff: ^8.0.4
+    diff: ^9.0.0
     escape-string-regexp: ^5.0.0
     eslint: ^10.2.0
     eslint-plugin-eslint-plugin: ^7.3.2
@@ -46,8 +46,8 @@ catalogs:
     jsonc-eslint-parser: ^3.1.0
     lint-staged: ^16.4.0
     ohash: ^2.0.11
-    oxfmt: ^0.44.0
-    oxlint: ^1.59.0
+    oxfmt: ^0.45.0
+    oxlint: ^1.60.0
     semver: ^7.7.4
     simple-git-hooks: ^2.13.1
     taze: ^19.11.0
@@ -65,7 +65,7 @@ catalogs:
     '@vueuse/core': ^14.2.1
     fuse.js: ^7.3.0
     markdown-it-container: ^4.0.0
-    oxc-minify: ^0.124.0
+    oxc-minify: ^0.125.0
     shiki: ^4.0.2
     twoslash: ^0.3.7
     twoslash-eslint: ^0.3.7
