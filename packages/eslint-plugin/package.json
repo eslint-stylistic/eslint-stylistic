@@ -60,7 +60,7 @@
     "picomatch": "catalog:prod"
   },
   "inlinedDependencies": {
-    "@typescript-eslint/utils": "8.56.1",
+    "@typescript-eslint/utils": "8.58.1",
     "escape-string-regexp": "5.0.0"
   }
 }

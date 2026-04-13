@@ -3,7 +3,7 @@
  * @author Teddy Katz
  */
 
-import type { Token, Tree } from '#types'
+import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isClosingParenToken, isFunction, isOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -242,7 +242,7 @@ export default createRule<RuleOptions, MessageIds>({
         }
 
         default:
-          throw new TypeError(`unexpected node with type ${node.type}`)
+          throw new TypeError(`unexpected node with type ${(node as ASTNode).type}`)
       }
     }
 
