@@ -60,23 +60,21 @@ export async function runFixtureTest(
         await fsp.unlink(targetPath)
     }
     else {
-      try {
-        await expect.soft(content)
-          .toMatchFileSnapshot(targetPath)
-        if (errorOutput) {
-          const errorPath = join(errorOutput, `${file}.patch`)
+      if (errorOutput) {
+        const errorPath = join(errorOutput, `${file}.patch`)
+        const expected = normalizeContent(fs.readFileSync(targetPath, 'utf-8'))
+
+        if (content === expected) {
           if (fs.existsSync(errorPath))
-            fs.unlinkSync(errorPath)
+            await fsp.unlink(errorPath)
+        }
+        else {
+          const patch = createPatch(file, expected, content)
+          await expect.soft(patch).toMatchFileSnapshot(errorPath)
         }
       }
-      catch (err) {
-        if (errorOutput) {
-          const errorPath = join(errorOutput, `${file}.patch`)
-          const expected = normalizeContent(fs.readFileSync(targetPath, 'utf-8'))
-          const patch = createPatch(file, expected, content)
-          return await expect.soft(patch).toMatchFileSnapshot(errorPath)
-        }
-        throw err
+      else {
+        await expect.soft(content).toMatchFileSnapshot(targetPath)
       }
     }
   }))
