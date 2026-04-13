@@ -33,6 +33,7 @@ catalogs:
     '@typescript-eslint/utils': ^8.56.1
     bumpp: ^10.4.1
     change-case: ^5.4.4
+    diff: ^8.0.3
     escape-string-regexp: ^5.0.0
     eslint: ^10.0.2
     eslint-plugin-eslint-plugin: ^7.3.2
@@ -46,6 +47,7 @@ catalogs:
     lint-staged: ^16.3.2
     ohash: ^2.0.11
     oxfmt: ^0.36.0
+    oxlint: ^1.55.0
     semver: ^7.7.4
     simple-git-hooks: ^2.13.1
     taze: ^19.10.0
