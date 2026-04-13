@@ -47,7 +47,7 @@ catalogs:
     lint-staged: ^16.4.0
     ohash: ^2.0.11
     oxfmt: ^0.45.0
-    oxlint: ^1.60.0
+    oxlint: 1.55.0
     semver: ^7.7.4
     simple-git-hooks: ^2.13.1
     taze: ^19.11.0
