@@ -34,6 +34,12 @@ The following deprecated options or shorthands are no longer supported:
 
 ### Behavior Changes
 
+#### type-generic-spacing / space-infix-ops
+
+Spacing around default values in type parameters is no longer handled by [type-generic-spacing](../rules/type-generic-spacing).
+
+If you want to enforce `type Foo<T = true> = T` instead of `type Foo<T=true> = T`, make sure [space-infix-ops](../rules/space-infix-ops) is enabled.
+
 #### keyword-spacing
 
 The space before a class body's `{` is no longer handled by [keyword-spacing](../rules/keyword-spacing).
