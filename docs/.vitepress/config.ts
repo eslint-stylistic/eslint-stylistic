@@ -24,6 +24,7 @@ const GUIDES: DefaultTheme.NavItemWithLink[] = [
   { text: 'Shared Configs', link: '/guide/config-presets' },
   { text: 'Rules', link: '/rules' },
   { text: 'Migration', link: '/guide/migration' },
+  { text: 'Upgrade', link: '/guide/upgrade' },
   { text: 'FAQ', link: '/guide/faq' },
 ]
 
