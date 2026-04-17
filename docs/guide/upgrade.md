@@ -2,7 +2,7 @@
 
 ## Migrating to v6
 
-This guide covers the confirmed breaking changes between `v5.10.0` and the current v6 branch.
+This guide covers the confirmed breaking changes between `v5.10.0` and the `v6`.
 
 ### Node.js Version
 
@@ -40,7 +40,7 @@ Spacing around default values in type parameters is no longer handled by [type-g
 
 If you want to enforce `type Foo<T = true> = T` instead of `type Foo<T=true> = T`, make sure [space-infix-ops](../rules/space-infix-ops) is enabled.
 
-#### keyword-spacing
+#### keyword-spacing / space-before-blocks
 
 The space before a class body's `{` is no longer handled by [keyword-spacing](../rules/keyword-spacing).
 
