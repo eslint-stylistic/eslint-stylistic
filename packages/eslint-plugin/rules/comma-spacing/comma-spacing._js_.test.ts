@@ -283,6 +283,17 @@ run<RuleOptions, MessageIds>({
       ],
     },
     {
+      code: 'var [,,,,f] = [1, 2, 3, 4, 5, 6];',
+      output: 'var [,,,, f] = [1, 2, 3, 4, 5, 6];',
+      parserOptions: { ecmaVersion: 6 },
+      errors: [
+        {
+          messageId: 'missing',
+          data: { loc: 'after' },
+        },
+      ],
+    },
+    {
       code: 'var obj = {\'foo\':\n\'bar\', \'baz\':\n\'qur\'};',
       output: 'var obj = {\'foo\':\n\'bar\' ,\'baz\':\n\'qur\'};',
       options: [{ before: true, after: false }],
