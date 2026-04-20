@@ -40,6 +40,8 @@ import jsxPascalCase from './jsx-pascal-case/jsx-pascal-case'
 import jsxPropsStyle from './jsx-props-style/jsx-props-style'
 import jsxQuotes from './jsx-quotes/jsx-quotes'
 import jsxSelfClosingComp from './jsx-self-closing-comp/jsx-self-closing-comp'
+import jsxShorthandBoolean from './jsx-shorthand-boolean/jsx-shorthand-boolean'
+import jsxShorthandFragment from './jsx-shorthand-fragment/jsx-shorthand-fragment'
 import jsxTagSpacing from './jsx-tag-spacing/jsx-tag-spacing'
 import jsxWrapMultilines from './jsx-wrap-multilines/jsx-wrap-multilines'
 import keySpacing from './key-spacing/key-spacing'
@@ -136,6 +138,8 @@ export default {
   'exp-jsx-props-style': jsxPropsStyle,
   'jsx-quotes': jsxQuotes,
   'jsx-self-closing-comp': jsxSelfClosingComp,
+  'jsx-shorthand-boolean': jsxShorthandBoolean,
+  'jsx-shorthand-fragment': jsxShorthandFragment,
   'jsx-tag-spacing': jsxTagSpacing,
   'jsx-wrap-multilines': jsxWrapMultilines,
   'key-spacing': keySpacing,

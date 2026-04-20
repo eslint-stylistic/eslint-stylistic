@@ -540,6 +540,34 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "jsx-shorthand-boolean",
+        "ruleId": "@stylistic/jsx-shorthand-boolean",
+        "entry": "packages/eslint-plugin/rules/jsx-shorthand-boolean/jsx-shorthand-boolean.ts",
+        "docsEntry": "packages/eslint-plugin/rules/jsx-shorthand-boolean/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce shorthand for boolean JSX attributes.",
+            "experimental": false,
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "jsx-shorthand-fragment",
+        "ruleId": "@stylistic/jsx-shorthand-fragment",
+        "entry": "packages/eslint-plugin/rules/jsx-shorthand-fragment/jsx-shorthand-fragment.ts",
+        "docsEntry": "packages/eslint-plugin/rules/jsx-shorthand-fragment/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce shorthand fragment syntax.",
+            "experimental": false,
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "jsx-tag-spacing",
         "ruleId": "@stylistic/jsx-tag-spacing",
         "entry": "packages/eslint-plugin/rules/jsx-tag-spacing/jsx-tag-spacing.ts",
