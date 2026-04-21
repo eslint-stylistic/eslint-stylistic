@@ -15,6 +15,10 @@ run({
     // Fragment with key prop should not be reported
     '<Fragment key={id}><div /></Fragment>',
     '<React.Fragment key={id}><div /></React.Fragment>',
+    // ignore non React Fragment
+    '<NonReact.Fragment><div /></NonReact.Fragment>',
+    // ignore React non Fragment
+    '<React.Anything><div /></React.Anything>',
   ],
   invalid: [
     {
@@ -22,6 +26,13 @@ run({
       output: '<><div /></>',
       errors: [{ messageId: 'preferShorthandFragment' as const }],
     },
+
+    // Missing closing
+    {
+      code: '<Fragment />',
+      errors: [{ messageId: 'preferShorthandFragment' as const }],
+    },
+
     {
       code: '<React.Fragment><div /></React.Fragment>',
       output: '<><div /></>',
