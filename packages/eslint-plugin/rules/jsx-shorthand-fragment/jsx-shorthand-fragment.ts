@@ -13,7 +13,7 @@ export default createRule<RuleOptions, MessageIds>({
     fixable: 'code',
     schema: [],
     messages: {
-      preferShorthandFragment: 'Use shorthand fragment syntax \'<>...</>\' instead of \'<{{pattern}}>...</{{pattern}}>\'.\'',
+      preferShorthandFragment: 'Use shorthand fragment syntax `<>...</>` instead of `<{{pattern}}>...</{{pattern}}>`.',
     },
   },
   create(context) {
