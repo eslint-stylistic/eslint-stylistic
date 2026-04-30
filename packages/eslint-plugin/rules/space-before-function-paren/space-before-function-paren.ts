@@ -143,7 +143,11 @@ export default createRule<RuleOptions, MessageIds>({
       if (functionConfig === 'ignore')
         return
 
-      if (functionConfig === 'always' && node.typeParameters && !node.id)
+      // For anonymous function expressions and arrow functions with type parameters, don't enforce
+      // a space between the type parameters' `>` and the `(` — `always` would otherwise demand one
+      // in a stylistically unusual location. Methods are named via their parent (MethodDefinition
+      // etc.), which `isNamedFunction` already accounts for.
+      if (functionConfig === 'always' && node.typeParameters && !isNamedFunction(node))
         return
 
       let leftToken: Token
