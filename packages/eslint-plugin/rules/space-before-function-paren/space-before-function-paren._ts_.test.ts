@@ -25,6 +25,18 @@ run<RuleOptions, MessageIds>({
       code: 'abstract class Foo { constructor() {} abstract method() }',
       options: [{ anonymous: 'always', named: 'never' }],
     },
+    'class Foo { method<T> () {} static cast<T> () {} }',
+    {
+      code: 'class Foo { method<T>() {} static cast<T>() {} }',
+      options: ['never'],
+    },
+    {
+      code: 'abstract class Foo { abstract method<T> (): void; }',
+    },
+    {
+      code: 'abstract class Foo { abstract method<T>(): void; }',
+      options: ['never'],
+    },
     'function foo ();',
     {
       code: 'function foo();',
@@ -45,6 +57,62 @@ run<RuleOptions, MessageIds>({
           messageId: 'missingSpace',
           line: 1,
           column: 33,
+        },
+      ],
+    },
+    {
+      code: 'class Foo { method<T>() {} }',
+      output: 'class Foo { method<T> () {} }',
+      errors: [
+        {
+          messageId: 'missingSpace',
+          line: 1,
+          column: 22,
+        },
+      ],
+    },
+    {
+      code: 'class Foo { static cast<T>(_candidate: T | undefined) { return []; } }',
+      output: 'class Foo { static cast<T> (_candidate: T | undefined) { return []; } }',
+      errors: [
+        {
+          messageId: 'missingSpace',
+          line: 1,
+          column: 27,
+        },
+      ],
+    },
+    {
+      code: 'class Foo { method<T> () {} }',
+      output: 'class Foo { method<T>() {} }',
+      options: ['never'],
+      errors: [
+        {
+          messageId: 'unexpectedSpace',
+          line: 1,
+          column: 22,
+        },
+      ],
+    },
+    {
+      code: 'abstract class Foo { abstract method<T>(): void; }',
+      output: 'abstract class Foo { abstract method<T> (): void; }',
+      errors: [
+        {
+          messageId: 'missingSpace',
+          line: 1,
+          column: 40,
+        },
+      ],
+    },
+    {
+      code: 'const obj = { method<T>() {} };',
+      output: 'const obj = { method<T> () {} };',
+      errors: [
+        {
+          messageId: 'missingSpace',
+          line: 1,
+          column: 24,
         },
       ],
     },
