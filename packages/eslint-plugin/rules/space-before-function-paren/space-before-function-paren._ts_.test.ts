@@ -37,6 +37,15 @@ run<RuleOptions, MessageIds>({
       code: 'abstract class Foo { abstract method<T>(): void; }',
       options: ['never'],
     },
+    'const obj = { method<T> () {} };',
+    {
+      code: 'const obj = { method<T>() {} };',
+      options: ['never'],
+    },
+    {
+      code: 'class Foo { method<T>() {} }',
+      options: [{ anonymous: 'always', named: 'never' }],
+    },
     'function foo ();',
     {
       code: 'function foo();',
