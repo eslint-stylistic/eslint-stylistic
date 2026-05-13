@@ -178,6 +178,26 @@ class Foo {
 
 ### overrides
 
+#### questionMark
+
+Controls spacing around the `?` token of an optional type annotation. The `before` option sets the space before `?`, and the `after` option sets the space between `?` and `:`. If unset, the existing `before`/`after` defaults are kept and a space between `?` and `:` is disallowed.
+
+Examples of **correct** code for this rule with the `{ "overrides": { "questionMark": { "before": true, "after": true } } }` option:
+
+::: correct
+
+```ts
+/* eslint @stylistic/type-annotation-spacing: ["error", { "overrides": { "questionMark": { "before": true, "after": true } } }] */
+
+interface Example {
+    type ? : string;
+}
+
+function example(type ? : string): void {}
+```
+
+:::
+
 #### colon
 
 Examples of **incorrect** code for this rule with the `{ "before": false, "after": false, "overrides": { "colon": { "before": true, "after": true } } }` option:

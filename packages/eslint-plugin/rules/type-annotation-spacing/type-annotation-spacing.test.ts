@@ -3502,6 +3502,22 @@ run<RuleOptions, MessageIds>({
       `,
       options: [{ before: true }],
     },
+    {
+      code: 'function foo(a ? : string) {}',
+      options: [{ before: true, overrides: { questionMark: { before: true, after: true } } }],
+    },
+    {
+      code: $`
+        interface Foo {
+            name ? : string;
+        }
+      `,
+      options: [{ before: true, overrides: { questionMark: { before: true, after: true } } }],
+    },
+    {
+      code: 'function foo(a?: string) {}',
+      options: [{ before: true, overrides: { questionMark: { before: false, after: false } } }],
+    },
   ],
   invalid: [
     {
@@ -4907,6 +4923,71 @@ run<RuleOptions, MessageIds>({
           data: { type: ':' },
           line: 2,
           column: 24,
+        },
+      ],
+    },
+    {
+      code: 'function foo(a?: string) {}',
+      output: 'function foo(a ? : string) {}',
+      options: [{ before: true, overrides: { questionMark: { before: true, after: true } } }],
+      errors: [
+        {
+          messageId: 'expectedSpaceBefore',
+          data: { type: '?:' },
+          line: 1,
+          column: 15,
+        },
+        {
+          messageId: 'expectedSpaceBetween',
+          data: { type: ':', previousToken: '?' },
+          line: 1,
+          column: 16,
+        },
+      ],
+    },
+    {
+      code: 'function foo(a ? : string) {}',
+      output: 'function foo(a?: string) {}',
+      options: [{ before: true, overrides: { questionMark: { before: false, after: false } } }],
+      errors: [
+        {
+          messageId: 'unexpectedSpaceBefore',
+          data: { type: '?:' },
+          line: 1,
+          column: 16,
+        },
+        {
+          messageId: 'unexpectedSpaceBetween',
+          data: { type: ':', previousToken: '?' },
+          line: 1,
+          column: 18,
+        },
+      ],
+    },
+    {
+      code: $`
+        interface Foo {
+            name?: string;
+        }
+      `,
+      output: $`
+        interface Foo {
+            name ? : string;
+        }
+      `,
+      options: [{ overrides: { questionMark: { before: true, after: true } } }],
+      errors: [
+        {
+          messageId: 'expectedSpaceBefore',
+          data: { type: '?:' },
+          line: 2,
+          column: 9,
+        },
+        {
+          messageId: 'expectedSpaceBetween',
+          data: { type: ':', previousToken: '?' },
+          line: 2,
+          column: 10,
         },
       ],
     },
