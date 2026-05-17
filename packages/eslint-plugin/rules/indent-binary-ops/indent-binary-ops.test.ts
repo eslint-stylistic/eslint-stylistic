@@ -144,6 +144,16 @@ run<RuleOptions, MessageIds>({
         console.log('test');
       }
     `,
+    $`
+      const elem = document.getElementById('elem');
+      if (
+        (elem && (elem.getAttribute('href')
+                    .toLowerCase()) === 'test')
+        && elem.tabIndex === 0
+      ) {
+        console.log('test');
+      }
+    `,
   ],
   invalid: [
     {
