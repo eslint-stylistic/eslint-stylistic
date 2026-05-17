@@ -134,6 +134,16 @@ run<RuleOptions, MessageIds>({
         c()
       }
     `,
+    $`
+      const anchor = document.getElementById('anchor');
+      if (
+        (anchor && (anchor.getAttribute('href')
+                      ?.startsWith('#tab_name_')) === false)
+        && anchor.tabIndex === 0
+      ) {
+        console.log('test');
+      }
+    `,
   ],
   invalid: [
     {
