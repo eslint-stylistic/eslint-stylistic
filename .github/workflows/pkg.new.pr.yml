@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup JS
-        uses: sxzz/workflows/setup-js@340b33de8349804cfdae4f42345478516d03a973
+        uses: sxzz/workflows/setup-js@e10bbede8ba835eaee8df633bb472d303aba8509
       - name: Build
         run: pnpm build
         env:
