@@ -38,6 +38,8 @@ import type { JsxPascalCaseRuleOptions } from '../rules/jsx-pascal-case/types'
 import type { JsxPropsStyleRuleOptions } from '../rules/jsx-props-style/types'
 import type { JsxQuotesRuleOptions } from '../rules/jsx-quotes/types'
 import type { JsxSelfClosingCompRuleOptions } from '../rules/jsx-self-closing-comp/types'
+import type { JsxShorthandBooleanRuleOptions } from '../rules/jsx-shorthand-boolean/types'
+import type { JsxShorthandFragmentRuleOptions } from '../rules/jsx-shorthand-fragment/types'
 import type { JsxTagSpacingRuleOptions } from '../rules/jsx-tag-spacing/types'
 import type { JsxWrapMultilinesRuleOptions } from '../rules/jsx-wrap-multilines/types'
 import type { KeySpacingRuleOptions } from '../rules/key-spacing/types'
@@ -286,6 +288,16 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/jsx-self-closing-comp
    */
   '@stylistic/jsx-self-closing-comp': JsxSelfClosingCompRuleOptions
+  /**
+   * Enforce shorthand for boolean JSX attributes.
+   * @see https://eslint.style/rules/jsx-shorthand-boolean
+   */
+  '@stylistic/jsx-shorthand-boolean': JsxShorthandBooleanRuleOptions
+  /**
+   * Enforce shorthand fragment syntax.
+   * @see https://eslint.style/rules/jsx-shorthand-fragment
+   */
+  '@stylistic/jsx-shorthand-fragment': JsxShorthandFragmentRuleOptions
   /**
    * Enforce whitespace in and around the JSX opening and closing brackets
    * @see https://eslint.style/rules/jsx-tag-spacing
@@ -759,6 +771,16 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/jsx-self-closing-comp
    */
   'jsx-self-closing-comp': JsxSelfClosingCompRuleOptions
+  /**
+   * Enforce shorthand for boolean JSX attributes.
+   * @see https://eslint.style/rules/jsx-shorthand-boolean
+   */
+  'jsx-shorthand-boolean': JsxShorthandBooleanRuleOptions
+  /**
+   * Enforce shorthand fragment syntax.
+   * @see https://eslint.style/rules/jsx-shorthand-fragment
+   */
+  'jsx-shorthand-fragment': JsxShorthandFragmentRuleOptions
   /**
    * Enforce whitespace in and around the JSX opening and closing brackets
    * @see https://eslint.style/rules/jsx-tag-spacing
