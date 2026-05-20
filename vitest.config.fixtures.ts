@@ -7,5 +7,8 @@ export default defineConfig({
     root: './tests',
     globals: true,
     reporters: 'dot',
+    exclude: [
+      '**/oxlint.test.ts',
+    ],
   },
 })

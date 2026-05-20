@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Setup JS
-        uses: sxzz/workflows/setup-js@69098296b6f6083ed99f38e2040f2a7238580e27 # v1.4.0
+        uses: sxzz/workflows/setup-js@340b33de8349804cfdae4f42345478516d03a973
         with:
           fetch-all: true
 
