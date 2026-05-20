@@ -2,7 +2,7 @@ import type { StylisticCustomizeOptions } from '@stylistic/eslint-plugin'
 import { promises as fsp } from 'node:fs'
 import { join, resolve } from 'node:path'
 import plugin from '@stylistic/eslint-plugin'
-import { execa } from 'execa'
+import { x } from 'tinyexec'
 import { afterAll, beforeAll, it } from 'vitest'
 import { fixturesDir, runFixtureTest } from './_utils'
 
@@ -63,10 +63,12 @@ function runWithConfig(name: string, configs: StylisticCustomizeOptions | string
       },
       lintRunner: async (target) => {
         for (let i = 0; i < MAX_FIX_PASSES; i++) {
-          const { stdout } = await execa('npx', ['oxlint', '--fix'], {
-            cwd: target,
-            stdio: 'pipe',
-            reject: false,
+          const { stdout } = await x('npx', ['oxlint', '--fix'], {
+            nodeOptions: {
+              cwd: target,
+              stdio: 'pipe',
+            },
+            throwOnError: true,
           })
           if (stdout.includes('0 fixed'))
             break

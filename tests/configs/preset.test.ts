@@ -2,7 +2,7 @@ import type { StylisticCustomizeOptions } from '@stylistic/eslint-plugin'
 import type { Linter } from 'eslint'
 import { promises as fsp } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { execa } from 'execa'
+import { x } from 'tinyexec'
 import { afterAll, beforeAll, it } from 'vitest'
 import { fixturesDir, runFixtureTest } from './_utils'
 
@@ -94,9 +94,12 @@ export default [
   `)
       },
       lintRunner: async (target) => {
-        await execa('npx', ['eslint', '.', '--fix'], {
-          cwd: target,
-          stdio: 'pipe',
+        await x('npx', ['eslint', '.', '--fix'], {
+          nodeOptions: {
+            cwd: target,
+            stdio: 'pipe',
+          },
+          throwOnError: true,
         })
       },
     })
