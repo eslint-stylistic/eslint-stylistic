@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup JS
-        uses: sxzz/workflows/setup-js@69098296b6f6083ed99f38e2040f2a7238580e27 # v1.4.0
+        uses: sxzz/workflows/setup-js@e10bbede8ba835eaee8df633bb472d303aba8509
 
       - name: Typecheck
         run: pnpm run typecheck
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup JS
-        uses: sxzz/workflows/setup-js@69098296b6f6083ed99f38e2040f2a7238580e27 # v1.4.0
+        uses: sxzz/workflows/setup-js@e10bbede8ba835eaee8df633bb472d303aba8509
 
       - name: Build
         run: pnpm run build
@@ -54,7 +54,7 @@ jobs:
 
     steps:
       - name: Setup JS
-        uses: sxzz/workflows/setup-js@69098296b6f6083ed99f38e2040f2a7238580e27 # v1.4.0
+        uses: sxzz/workflows/setup-js@e10bbede8ba835eaee8df633bb472d303aba8509
         with:
           node-version: ${{ matrix.node }}
 
@@ -87,7 +87,7 @@ jobs:
       - build
     steps:
       - name: Setup JS
-        uses: sxzz/workflows/setup-js@69098296b6f6083ed99f38e2040f2a7238580e27 # v1.4.0
+        uses: sxzz/workflows/setup-js@e10bbede8ba835eaee8df633bb472d303aba8509
 
       - run: pnpm install eslint@9 -D
 
