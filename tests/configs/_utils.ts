@@ -3,7 +3,7 @@ import fs, { promises as fsp } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createPatch } from 'diff'
-import fg from 'fast-glob'
+import { glob } from 'tinyglobby'
 
 export const fixturesDir = fileURLToPath(new URL('fixtures', import.meta.url))
 
@@ -45,7 +45,7 @@ export async function runFixtureTest(
     error = e
   }
 
-  const files = await fg('**/*', {
+  const files = await glob('**/*', {
     ignore: ['node_modules', ...ignoreFiles],
     cwd: target,
   })

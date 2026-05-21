@@ -38,19 +38,19 @@ catalogs:
     eslint: ^10.2.0
     eslint-plugin-eslint-plugin: ^7.3.2
     eslint-plugin-format: ^2.0.1
-    execa: ^9.6.1
-    fast-glob: ^3.3.3
     gray-matter: ^4.0.3
     jiti: ^2.6.1
     json-schema-to-typescript-lite: ^15.0.0
     jsonc-eslint-parser: ^3.1.0
-    lint-staged: ^16.4.0
+    nano-staged: ^1.0.2
     ohash: ^2.0.11
     oxfmt: ^0.45.0
     oxlint: 1.55.0
     semver: ^7.7.4
     simple-git-hooks: ^2.13.1
     taze: ^19.11.0
+    tinyexec: ^1.1.2
+    tinyglobby: ^0.2.16
     tsx: ^4.21.0
     typescript: ^6.0.2
     vite: ^8.0.8
