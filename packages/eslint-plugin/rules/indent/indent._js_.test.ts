@@ -658,6 +658,16 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
+        export const
+            CONST_1    = 1,
+            CONST_2    = 2,
+            CONST_3    = 3,
+            CONST_LAST = null;
+      `,
+      options: [4, { VariableDeclarator: 'first' }],
+    },
+    {
+      code: $`
         let foo = 1,
             bar =
             2
