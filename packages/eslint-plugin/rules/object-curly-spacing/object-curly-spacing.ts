@@ -352,7 +352,7 @@ export default createRule<RuleOptions, MessageIds>({
           const allTokens = sourceCode.getTokens(node)
           const openingToken = allTokens.find(token => isOpeningBraceToken(token))!
           const closingToken = (node.type === 'ObjectPattern' && node.typeAnnotation)
-            ? sourceCode.getTokenBefore(node.typeAnnotation)!
+            ? sourceCode.getTokenBefore(node.typeAnnotation, isClosingBraceToken)!
             : allTokens.findLast(token => isClosingBraceToken(token))!
           return [openingToken, closingToken]
         }
