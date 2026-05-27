@@ -4546,7 +4546,7 @@ run<RuleOptions, MessageIds>({
     // singleline-using
     // ----------------------------------------------------------------------
 
-    ...['using', 'await using'].flatMap <InvalidTestCase<RuleOptions, MessageIds>>(usingType => [
+    ...['using', 'await using'].flatMap<InvalidTestCase<RuleOptions, MessageIds>>(usingType => [
       {
         code: `${usingType} a=1\n\n${usingType} b=2`,
         output: `${usingType} a=1\n${usingType} b=2`,
