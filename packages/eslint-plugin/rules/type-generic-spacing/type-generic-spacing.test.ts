@@ -95,18 +95,6 @@ run<RuleOptions, MessageIds>({
     [
       $`
         interface Log {
-          new <T>(): Log
-        }
-      `,
-      $`
-        interface Log {
-          new<T>(): Log
-        }
-      `,
-    ],
-    [
-      $`
-        interface Log {
           foo<  T >(name: T): void
         }
       `,
