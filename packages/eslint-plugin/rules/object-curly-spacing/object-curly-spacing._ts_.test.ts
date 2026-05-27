@@ -383,6 +383,10 @@ run<RuleOptions, MessageIds>({
       code: 'enum Foo { }',
       options: ['never', { emptyObjects: 'always' }],
     },
+    {
+      code: `type Foo = ({ changes }?: { changes?: unknown }) => void`,
+      options: ['always'],
+    },
   ],
 
   invalid: [
