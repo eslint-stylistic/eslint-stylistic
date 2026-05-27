@@ -34,11 +34,24 @@ The following deprecated options or shorthands are no longer supported:
 
 ### Behavior Changes
 
+#### type-generic-spacing
+
+The rule now supports `before` and `after` options to control spacing before and after generic type parameters. Both default to `false`, preserving the previous behavior of disallowing spaces.
+
+```json
+{
+  "@stylistic/type-generic-spacing": [
+    "error",
+    { "before": false, "after": false }
+  ]
+}
+```
+
 #### type-generic-spacing / space-infix-ops
 
-Spacing around default values in type parameters is no longer handled by [type-generic-spacing](../rules/type-generic-spacing).
+Spacing around default values in type parameters (e.g., `type Foo<T = true>` instead of `type Foo<T=true>`) is no longer handled by [type-generic-spacing](../rules/type-generic-spacing).
 
-If you want to enforce `type Foo<T = true> = T` instead of `type Foo<T=true> = T`, make sure [space-infix-ops](../rules/space-infix-ops) is enabled.
+If you previously relied on this rule to enforce it, make sure [space-infix-ops](../rules/space-infix-ops) is enabled.
 
 #### keyword-spacing / space-before-blocks
 
