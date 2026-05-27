@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup JS
-        uses: sxzz/workflows/setup-js@69098296b6f6083ed99f38e2040f2a7238580e27 # v1.4.0
+        uses: sxzz/workflows/setup-js@e10bbede8ba835eaee8df633bb472d303aba8509
 
       - name: Typecheck
         run: pnpm run typecheck
@@ -27,13 +27,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup JS
-        uses: sxzz/workflows/setup-js@69098296b6f6083ed99f38e2040f2a7238580e27 # v1.4.0
+        uses: sxzz/workflows/setup-js@e10bbede8ba835eaee8df633bb472d303aba8509
 
       - name: Build
         run: pnpm run build
 
       - name: Cache dist
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           retention-days: 3
           name: dist
@@ -54,7 +54,7 @@ jobs:
 
     steps:
       - name: Setup JS
-        uses: sxzz/workflows/setup-js@69098296b6f6083ed99f38e2040f2a7238580e27 # v1.4.0
+        uses: sxzz/workflows/setup-js@e10bbede8ba835eaee8df633bb472d303aba8509
         with:
           node-version: ${{ matrix.node }}
 
@@ -73,7 +73,7 @@ jobs:
         if: ${{ matrix.node == 'lts/*' && matrix.os == 'ubuntu-latest' }}
 
       - name: Report coverage
-        uses: codecov/codecov-action@1af58845a975a7985b0beb0cbe6fbbb71a41dbad # v5.5.3
+        uses: codecov/codecov-action@e79a6962e0d4c0c17b229090214935d2e33f8354 # v6.0.1
         if: ${{ matrix.node == 'lts/*' && matrix.os == 'ubuntu-latest' }}
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -87,7 +87,7 @@ jobs:
       - build
     steps:
       - name: Setup JS
-        uses: sxzz/workflows/setup-js@69098296b6f6083ed99f38e2040f2a7238580e27 # v1.4.0
+        uses: sxzz/workflows/setup-js@e10bbede8ba835eaee8df633bb472d303aba8509
 
       - run: pnpm install eslint@9 -D
 

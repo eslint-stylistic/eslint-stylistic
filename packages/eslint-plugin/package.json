@@ -1,7 +1,7 @@
 {
   "name": "@stylistic/eslint-plugin",
   "type": "module",
-  "version": "6.0.0-beta.3",
+  "version": "6.0.0-beta.4",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
@@ -41,7 +41,16 @@
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
-    "eslint": "^9.0.0 || ^10.0.0"
+    "eslint": "^9.0.0 || ^10.0.0",
+    "oxlint": "^1.55.0"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    },
+    "oxlint": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@eslint-community/eslint-utils": "catalog:prod",
@@ -51,7 +60,7 @@
     "picomatch": "catalog:prod"
   },
   "inlinedDependencies": {
-    "@typescript-eslint/utils": "8.56.1",
+    "@typescript-eslint/utils": "8.58.1",
     "escape-string-regexp": "5.0.0"
   }
 }

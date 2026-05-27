@@ -3,16 +3,16 @@ import fs from 'node:fs/promises'
 import { basename, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { pascalCase } from 'change-case'
-import fg from 'fast-glob'
 import { compile } from 'json-schema-to-typescript-lite'
 import { hash } from 'ohash'
 import { format } from 'oxfmt'
+import { glob } from 'tinyglobby'
 import { GEN_HEADER } from './meta'
 
 const VERSION = 'v1'
 
 export async function generateDtsFromSchema() {
-  const dirs = await fg('packages/eslint-plugin/rules/*', {
+  const dirs = await glob('packages/eslint-plugin/rules/*', {
     onlyDirectories: true,
     absolute: true,
   })

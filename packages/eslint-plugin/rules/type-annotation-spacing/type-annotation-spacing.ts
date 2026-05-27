@@ -23,6 +23,13 @@ function createRules(options: TypeAnnotationSpacingSchema0 | undefined): Overrid
     ...globals,
     ...override?.colon,
   }
+  // questionMark governs spacing around the `?` in optional type annotations:
+  // `before` is space before `?`, `after` is space between `?` and `:`. Defaults preserve current behavior.
+  const questionMark = {
+    before: colon.before,
+    after: false,
+    ...override?.questionMark,
+  }
 
   return {
     colon,
@@ -30,6 +37,7 @@ function createRules(options: TypeAnnotationSpacingSchema0 | undefined): Overrid
     property: { ...colon, ...override?.property },
     parameter: { ...colon, ...override?.parameter },
     returnType: { ...colon, ...override?.returnType },
+    questionMark,
   }
 }
 
@@ -95,6 +103,7 @@ export default createRule<RuleOptions, MessageIds>({
               parameter: { $ref: '#/items/0/$defs/spacingConfig' },
               property: { $ref: '#/items/0/$defs/spacingConfig' },
               returnType: { $ref: '#/items/0/$defs/spacingConfig' },
+              questionMark: { $ref: '#/items/0/$defs/spacingConfig' },
             },
             additionalProperties: false,
           },
@@ -112,6 +121,8 @@ export default createRule<RuleOptions, MessageIds>({
       expectedSpaceBefore: 'Expected a space before the \'{{type}}\'.',
       unexpectedSpaceAfter: 'Unexpected space after the \'{{type}}\'.',
       unexpectedSpaceBefore: 'Unexpected space before the \'{{type}}\'.',
+      expectedSpaceBetween:
+        'Expected a space between the \'{{previousToken}}\' and the \'{{type}}\'.',
       unexpectedSpaceBetween:
         'Unexpected space between the \'{{previousToken}}\' and the \'{{type}}\'.',
     },
@@ -139,11 +150,26 @@ export default createRule<RuleOptions, MessageIds>({
       let punctuatorTokenStart = punctuatorTokenEnd
       let previousToken = sourceCode.getTokenBefore(punctuatorTokenEnd)!
 
-      const { before, after } = getRules(ruleSet, typeAnnotation)
+      let { before, after } = getRules(ruleSet, typeAnnotation)
 
       if (previousToken.value === '?') {
+        const questionMark = ruleSet.questionMark
+        const hasInnerSpace = sourceCode.isSpaceBetween(previousToken, punctuatorTokenStart)
         // space between ? and :
-        if (sourceCode.isSpaceBetween(previousToken, punctuatorTokenStart)) {
+        if (questionMark.after && !hasInnerSpace) {
+          context.report({
+            node: punctuatorTokenStart,
+            messageId: 'expectedSpaceBetween',
+            data: {
+              type,
+              previousToken: previousToken.value,
+            },
+            fix(fixer) {
+              return fixer.insertTextAfter(previousToken, ' ')
+            },
+          })
+        }
+        else if (!questionMark.after && hasInnerSpace) {
           context.report({
             node: punctuatorTokenStart,
             messageId: 'unexpectedSpaceBetween',
@@ -164,6 +190,8 @@ export default createRule<RuleOptions, MessageIds>({
         type = '?:'
         punctuatorTokenStart = previousToken
         previousToken = sourceCode.getTokenBefore(previousToken)!
+        // outer space (before `?`) follows the questionMark override
+        before = questionMark.before
 
         // handle the +/- modifiers for optional modification operators
         if (previousToken.value === '+' || previousToken.value === '-') {

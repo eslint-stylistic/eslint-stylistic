@@ -156,7 +156,7 @@ export default createRule<RuleOptions, MessageIds>({
         fix(fixer) {
           const expression = JSXExpressionNode.expression as Tree.TemplateLiteral | Tree.StringLiteral
 
-          let textToReplace
+          let textToReplace: string
           if (isJSX(expression)) {
             const sourceCode = context.sourceCode
             textToReplace = sourceCode.getText(expression)
@@ -177,7 +177,7 @@ export default createRule<RuleOptions, MessageIds>({
             }
             else {
               textToReplace = expression.type === 'TemplateLiteral'
-                ? (expression as Tree.TemplateLiteral).quasis[0].value.cooked : (expression as Tree.StringLiteral).value
+                ? expression.quasis[0].value.cooked! : expression.value
             }
           }
 
@@ -262,7 +262,7 @@ export default createRule<RuleOptions, MessageIds>({
         && !expression.quasis[0].value.raw.includes('\n')
         && !isStringWithTrailingWhiteSpaces(expression.quasis[0].value.raw)
         && !needToEscapeCharacterForJSX(expression.quasis[0].value.raw, JSXExpressionNode)
-        && !containsQuoteCharacters(expression.quasis[0].value.cooked)
+        && !containsQuoteCharacters(expression.quasis[0].value.cooked!)
       ) {
         reportUnnecessaryCurly(JSXExpressionNode)
       }

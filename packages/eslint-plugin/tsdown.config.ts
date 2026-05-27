@@ -1,11 +1,11 @@
 import { basename, dirname } from 'node:path'
 import { env } from 'node:process'
 import { codecovRollupPlugin } from '@codecov/rollup-plugin'
-import fg from 'fast-glob'
+import { globSync } from 'tinyglobby'
 import { defineConfig } from 'tsdown'
 import pkg from './package.json' with { type: 'json' }
 
-const rulesEntry = fg.sync(
+const rulesEntry = globSync(
   'rules/**/*.ts',
   {
     onlyFiles: true,
