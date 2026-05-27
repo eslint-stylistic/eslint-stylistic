@@ -47,22 +47,24 @@ export default createRule<RuleOptions, MessageIds>({
     const { before: spaceBefore, after: spaceAfter } = options!
     const sourceCode = context.sourceCode
     const tokensAndComments = sourceCode.tokensAndComments
-    const ignoredTokens = new Set<Tree.PunctuatorToken>()
+    const ignoredBeforeTokens = new Set<Tree.PunctuatorToken>()
+    const ignoredAfterTokens = new Set<Tree.PunctuatorToken>()
 
-    /**
-     * Adds null elements of the ArrayExpression or ArrayPattern node to the ignore list
-     * @param node node to evaluate
-     */
     function addNullElementsToIgnoreList(
       node: Tree.ArrayExpression | Tree.ArrayPattern,
     ): void {
       let previousToken = sourceCode.getFirstToken(node)
-      for (const element of node.elements) {
+      for (let i = 0; i < node.elements.length; i++) {
+        const element = node.elements[i]
         let token: Token | null
         if (element == null) {
           token = sourceCode.getTokenAfter(previousToken!)
-          if (token && isCommaToken(token))
-            ignoredTokens.add(token)
+          if (token && isCommaToken(token)) {
+            ignoredBeforeTokens.add(token)
+            const nextElement = node.elements[i + 1]
+            if (nextElement == null)
+              ignoredAfterTokens.add(token)
+          }
         }
         else {
           token = sourceCode.getTokenAfter(element)
@@ -72,10 +74,6 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    /**
-     * Adds type parameters trailing comma token to the ignore list
-     * @param node node to evaluate
-     */
     function addTypeParametersTrailingCommaToIgnoreList(
       node: Tree.TSTypeParameterDeclaration,
     ): void {
@@ -83,17 +81,13 @@ export default createRule<RuleOptions, MessageIds>({
       if (paramLength) {
         const param = node.params[paramLength - 1]
         const afterToken = sourceCode.getTokenAfter(param)
-        if (afterToken && isCommaToken(afterToken))
-          ignoredTokens.add(afterToken)
+        if (afterToken && isCommaToken(afterToken)) {
+          ignoredBeforeTokens.add(afterToken)
+          ignoredAfterTokens.add(afterToken)
+        }
       }
     }
 
-    /**
-     * Validates the spacing around a comma token.
-     * @param commaToken The token representing the comma
-     * @param prevToken The last token before the comma
-     * @param nextToken The first token after the comma
-     */
     function validateCommaSpacing(
       commaToken: Tree.PunctuatorToken,
       prevToken: Token | null,
@@ -161,10 +155,10 @@ export default createRule<RuleOptions, MessageIds>({
 
           validateCommaSpacing(
             token,
-            isCommaToken(prevToken) || ignoredTokens.has(token)
+            isCommaToken(prevToken) || ignoredBeforeTokens.has(token)
               ? null
               : prevToken,
-            (nextToken && isCommaToken(nextToken)) || ignoredTokens.has(token)
+            (nextToken && isCommaToken(nextToken)) || ignoredAfterTokens.has(token)
               ? null
               : nextToken,
           )

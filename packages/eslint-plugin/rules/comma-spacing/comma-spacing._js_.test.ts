@@ -1,8 +1,3 @@
-/**
- * @fileoverview tests to validate spacing before and after comma.
- * @author Vignesh Anand.
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './comma-spacing'
@@ -279,6 +274,17 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missing',
           data: { loc: 'before' },
+        },
+      ],
+    },
+    {
+      code: 'var [,,,,f] = [1, 2, 3, 4, 5, 6];',
+      output: 'var [,,,, f] = [1, 2, 3, 4, 5, 6];',
+      parserOptions: { ecmaVersion: 6 },
+      errors: [
+        {
+          messageId: 'missing',
+          data: { loc: 'after' },
         },
       ],
     },
