@@ -3,7 +3,16 @@ import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 
 const SKIP_BEFORE_CHECK = new Set<NodeTypes>([
+  // interface A {
+  //   <T>(a: number): A
+  // }
   'TSCallSignatureDeclaration',
+  // interface A {
+  //   new <T>(a: number): A
+  //      ^
+  // handled by `space-unary-ops`
+  // }
+  'TSConstructSignatureDeclaration',
   // const foo = <T>(name: T) => name
   //            ^
   // handled by `space-infix-ops`
@@ -35,47 +44,37 @@ function shouldSkipBeforeCheck(node: SupportNodes) {
   return false
 }
 
-const SKIP_AFTER_CHECK = new Set<NodeTypes>([
-  // const foo = class Foo<T> extends Bar<T> {}
-  //                                        ^
-  // handled by `space-before-blocks`
-  'ClassExpression',
-  // class foo<T> extends bar<T> {}
-  //             ^              ^
-  // handled by `keyword-spacing` and `space-before-blocks`
-  'ClassDeclaration',
-  // type Foo<T> = T
-  //            ^
-  // handled by `space-infix-ops`
-  'TSTypeAliasDeclaration',
-  // interface Foo<T> {}
-  //                 ^
-  // handled by `space-before-blocks`
-  'TSInterfaceDeclaration',
-  // interface Foo extends Bar<T> {}
-  //                             ^
-  // handled by `space-before-blocks`
-  'TSInterfaceHeritage',
-  // const x: Array<T> = []
+const SHOULD_CHECK_AFTER = new Set<NodeTypes>([
+  // const foo = callback<T> ()
+  //                        ^
+  'CallExpression',
+  // const foo = new Foo<T> ()
+  //                        ^
+  'NewExpression',
+  // const foo = tag<T> `template`
+  //                   ^
+  'TaggedTemplateExpression',
+  // interface A {
+  //   <T> (): A
+  //      ^
+  // }
+  'TSCallSignatureDeclaration',
+  // interface A {
+  //   new<T> (): A
+  //         ^
+  // }
+  'TSConstructSignatureDeclaration',
+  // interface A {
+  //   foo<T> (): A
+  //        ^
+  // }
+  'TSMethodSignature',
+  // type Foo = <T> () => void
+  //              ^
+  'TSFunctionType',
+  // type Foo = new<T> () => void
   //                  ^
-  // handled by `space-infix-ops`
-  'TSTypeReference',
-  // type Foo = import('foo')<T> ['Foo']
-  //                            ^
-  // handled by `no-whitespace-before-property`
-  'TSImportType',
-  // function foo<T> () {}
-  //                ^
-  // handled by `space-before-function-paren`
-  'FunctionDeclaration',
-  // const foo = function<T> () {}
-  //                        ^
-  // handled by `space-before-function-paren`
-  'FunctionExpression',
-  // declare function foo<T> (): void
-  //                        ^
-  // handled by `space-before-function-paren`
-  'TSDeclareFunction',
+  'TSConstructorType',
 ])
 
 type SupportNodes = Tree.TSTypeParameterDeclaration | Tree.TSTypeParameterInstantiation
@@ -125,7 +124,10 @@ export default createRule<RuleOptions, MessageIds>({
 
       if (before !== hasSpace) {
         context.report({
-          node,
+          loc: {
+            start: preToken.loc.end,
+            end: node.loc.start,
+          },
           messageId: 'genericSpacingMismatch',
           fix(fixer) {
             return before
@@ -137,14 +139,17 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function checkAfter(node: SupportNodes) {
-      if (SKIP_AFTER_CHECK.has(node.parent.type))
+      if (!SHOULD_CHECK_AFTER.has(node.parent.type))
         return
       const nextToken = sourceCode.getTokenAfter(node, { includeComments: true })!
       const hasSpace = sourceCode.isSpaceBetween(node, nextToken)
 
       if (after !== hasSpace) {
         context.report({
-          node,
+          loc: {
+            start: node.loc.end,
+            end: nextToken.loc.start,
+          },
           messageId: 'genericSpacingMismatch',
           fix(fixer) {
             return after

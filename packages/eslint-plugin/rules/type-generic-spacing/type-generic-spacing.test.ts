@@ -9,6 +9,7 @@ run<RuleOptions, MessageIds>({
     // handled by `space-infix-ops`
     'const foo: Array<number> = []',
     'const foo: Array<number>= []',
+    // handled by `space-infix-ops`
     'type Foo<T = true> = T',
     'type Foo<T = true>= T',
     'type Foo<T extends true = true> = T',
@@ -44,17 +45,21 @@ run<RuleOptions, MessageIds>({
     `const toSortedImplementation = Array.prototype.toSorted || function <T>(name: T): void {}`,
     `type Foo = import('foo')<T>['Foo']`,
     `type Foo = import('foo')<T> ['Foo']`,
+    // handled by `keyword-spacing` and `space-before-blocks`
     `const foo = class <T> { value: T; }`,
     `const foo = class<T>{ value: T; }`,
     `class Foo<T>{ value: T; }`,
     `class Foo<T> { value: T; }`,
+    // handled by `space-infix-ops`
     'const foo = <T>() => 1',
     'const foo =<T>() => 1',
+    // handled by `space-before-function-paren`
     'const foo = function <T> () {}',
     'const foo = function<T>() {}',
     'function foo<T>() {}',
     'declare function foo<T>(): void',
     'declare function foo<T> (): void',
+    // handled by `space-before-blocks`
     'interface Foo extends Bar<T> {}',
     'interface Foo extends Bar<T>{}',
   ],
@@ -86,6 +91,18 @@ run<RuleOptions, MessageIds>({
         }
       `,
       3,
+    ],
+    [
+      $`
+        interface Log {
+          new <T>(): Log
+        }
+      `,
+      $`
+        interface Log {
+          new<T>(): Log
+        }
+      `,
     ],
     [
       $`

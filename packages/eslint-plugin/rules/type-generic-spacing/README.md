@@ -2,7 +2,7 @@
 related_rules:
   - type-annotation-spacing
   - space-infix-ops
-  - space-before-blocks
+  - space-before-function-paren
 ---
 
 # type-generic-spacing
@@ -28,10 +28,23 @@ Examples of **incorrect** code for this rule:
 ```ts
 /* eslint @stylistic/type-generic-spacing: ["error"] */
 
-type Foo<T=true> = T
+type Foo <T = true> = T
+
+const foo: Array <number> = []
+
+function foo <T> () {}
+
+const value = callback <string> ()
+
+const set = new Set <string> ()
+
+const tagged = tag <string> `value`
 
 interface Log {
-  foo <T>(name: T): void
+  new <T> (): Log
+  foo <T> (name: T): void
+  call: <T> () => void
+  construct: new <T> () => Log
 }
 ```
 
@@ -45,16 +58,23 @@ Examples of **correct** code for this rule:
 /* eslint @stylistic/type-generic-spacing: ["error"] */
 
 type Foo<T = true> = T
-//                ^
-// handled by `space-infix-ops`
+
+const foo: Array<number> = []
+
+function foo<T>() {}
+
+const value = callback<string>()
+
+const set = new Set<string>()
+
+const tagged = tag<string>`value`
 
 interface Log {
+  new <T>(): Log
   foo<T>(name: T): void
+  call: <T>() => void
+  construct: new <T>() => Log
 }
-
-const foo = class <T> {}
-//               ^   ^
-// handled by `keyword-spacing` and `space-before-blocks`
 ```
 
 :::
