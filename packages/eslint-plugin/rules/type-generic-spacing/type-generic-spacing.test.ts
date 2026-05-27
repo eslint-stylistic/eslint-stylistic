@@ -38,7 +38,8 @@ run<RuleOptions, MessageIds>({
       }
     `,
     `const toSortedImplementation = Array.prototype.toSorted || function <T>(name: T): void {}`,
-    `const foo = class <T> { value: T; }`,
+    `class Foo<T> {}`,
+    `const foo = class<T> {}`,
   ],
   invalid: ([
     ['const val: Set< string> = new Set()', 'const val: Set<string> = new Set()'],
@@ -82,6 +83,8 @@ run<RuleOptions, MessageIds>({
       'const toSortedImplementation = Array.prototype.toSorted || function <T>(name: T): void {}',
       2,
     ],
+    ['class Foo <T> {}', 'class Foo<T> {}', 1],
+    ['const foo = class <T> {}', 'const foo = class<T> {}', 1],
   ] as const)
     .map(i => ({
       code: i[0],

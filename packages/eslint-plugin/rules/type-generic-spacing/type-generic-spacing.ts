@@ -17,10 +17,6 @@ const PRESERVE_PREFIX_SPACE_BEFORE_GENERIC = new Set<NodeTypes>([
   // handled by `space-unary-ops`
   'TSConstructorType',
   'FunctionExpression',
-  // const foo = class <T> {}
-  //                  ^
-  // handled by `keyword-spacing`
-  'ClassExpression',
 ])
 
 export default createRule<RuleOptions, MessageIds>({
