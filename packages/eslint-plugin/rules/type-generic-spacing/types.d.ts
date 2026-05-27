@@ -1,8 +1,15 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: U7Qr2apF2YKrIKyL3cL-WlXDPID73rUMb8TVLH8uS_k */
+/* @checksum: Y1Dr3lFfoeRCkrJsfT7w90RsbMFbDf9VxwITBsjQ1fs */
 
-export type TypeGenericSpacingRuleOptions = []
+export interface TypeGenericSpacingSchema0 {
+  before?: boolean
+  after?: boolean
+}
+
+export type TypeGenericSpacingRuleOptions = [
+  TypeGenericSpacingSchema0?,
+]
 
 export type RuleOptions = TypeGenericSpacingRuleOptions
 export type MessageIds = 'genericSpacingMismatch'

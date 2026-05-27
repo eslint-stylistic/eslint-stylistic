@@ -1,9 +1,18 @@
-import type { NodeTypes, Token } from '#types'
+import type { NodeTypes, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 
-const PRESERVE_PREFIX_SPACE_BEFORE_GENERIC = new Set<NodeTypes>([
+const SKIP_BEFORE_CHECK = new Set<NodeTypes>([
+  // interface A {
+  //   <T>(a: number): A
+  // }
   'TSCallSignatureDeclaration',
+  // interface A {
+  //   new <T>(a: number): A
+  //      ^
+  // handled by `space-unary-ops`
+  // }
+  'TSConstructSignatureDeclaration',
   // const foo = <T>(name: T) => name
   //            ^
   // handled by `space-infix-ops`
@@ -16,8 +25,59 @@ const PRESERVE_PREFIX_SPACE_BEFORE_GENERIC = new Set<NodeTypes>([
   //               ^
   // handled by `space-unary-ops`
   'TSConstructorType',
-  'FunctionExpression',
 ])
+
+function shouldSkipBeforeCheck(node: SupportNodes) {
+  if (SKIP_BEFORE_CHECK.has(node.parent.type))
+    return true
+
+  // const foo = function <T>() {}
+  //                     ^
+  // handled by `space-before-function-paren`
+  //
+  // const foo = class <T> {}
+  //                  ^
+  // handled by `keyword-spacing`
+  if (node.parent.type === 'FunctionExpression' || node.parent.type === 'ClassExpression')
+    return node.parent.id == null
+
+  return false
+}
+
+const SHOULD_CHECK_AFTER = new Set<NodeTypes>([
+  // const foo = callback<T> ()
+  //                        ^
+  'CallExpression',
+  // const foo = new Foo<T> ()
+  //                        ^
+  'NewExpression',
+  // const foo = tag<T> `template`
+  //                   ^
+  'TaggedTemplateExpression',
+  // interface A {
+  //   <T> (): A
+  //      ^
+  // }
+  'TSCallSignatureDeclaration',
+  // interface A {
+  //   new<T> (): A
+  //         ^
+  // }
+  'TSConstructSignatureDeclaration',
+  // interface A {
+  //   foo<T> (): A
+  //        ^
+  // }
+  'TSMethodSignature',
+  // type Foo = <T> () => void
+  //              ^
+  'TSFunctionType',
+  // type Foo = new<T> () => void
+  //                  ^
+  'TSConstructorType',
+])
+
+type SupportNodes = Tree.TSTypeParameterDeclaration | Tree.TSTypeParameterInstantiation
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'type-generic-spacing',
@@ -27,13 +87,83 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Enforces consistent spacing inside TypeScript type generics',
     },
     fixable: 'whitespace',
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          before: {
+            type: 'boolean',
+          },
+          after: {
+            type: 'boolean',
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
+    defaultOptions: [
+      {
+        before: false,
+        after: false,
+      },
+    ],
     messages: {
       genericSpacingMismatch: 'Generic spaces mismatch',
     },
   },
-  create: (context) => {
+  create: (context, [options]) => {
     const sourceCode = context.sourceCode
+    const { before, after } = options!
+
+    function checkBefore(node: SupportNodes) {
+      if (shouldSkipBeforeCheck(node))
+        return
+
+      const preToken = sourceCode.getTokenBefore(node, { includeComments: true })!
+      const hasSpace = sourceCode.isSpaceBetween(preToken, node)
+
+      if (before !== hasSpace) {
+        context.report({
+          loc: {
+            start: preToken.loc.end,
+            end: node.loc.start,
+          },
+          messageId: 'genericSpacingMismatch',
+          fix(fixer) {
+            return before
+              ? fixer.insertTextBefore(node, ' ')
+              : fixer.replaceTextRange([preToken.range[1], node.range[0]], '')
+          },
+        })
+      }
+    }
+
+    function checkAfter(node: SupportNodes) {
+      if (!SHOULD_CHECK_AFTER.has(node.parent.type))
+        return
+      const nextToken = sourceCode.getTokenAfter(node, { includeComments: true })!
+      const hasSpace = sourceCode.isSpaceBetween(node, nextToken)
+
+      if (after !== hasSpace) {
+        context.report({
+          loc: {
+            start: node.loc.end,
+            end: nextToken.loc.start,
+          },
+          messageId: 'genericSpacingMismatch',
+          fix(fixer) {
+            return after
+              ? fixer.insertTextAfter(node, ' ')
+              : fixer.replaceTextRange([node.range[1], nextToken.range[0]], '')
+          },
+        })
+      }
+    }
+
+    function checkSpacing(node: SupportNodes) {
+      checkBefore(node)
+      checkAfter(node)
+    }
 
     function removeSpaceBetween(left: Token, right: Token) {
       const textBetween = sourceCode.text.slice(left.range[1], right.range[0])
@@ -73,41 +203,19 @@ export default createRule<RuleOptions, MessageIds>({
 
     return {
       TSTypeParameterInstantiation: (node) => {
-        const params = node.params
+        checkSpacing(node)
 
-        if (params.length === 0)
-          return
-
-        const openToken = sourceCode.getTokenBefore(params[0])
-        const closeToken = sourceCode.getTokenAfter(params[params.length - 1])
+        const openToken = sourceCode.getTokenBefore(node.params[0])
+        const closeToken = sourceCode.getTokenAfter(node.params.at(-1)!)
 
         checkBracketSpacing(openToken, closeToken)
       },
 
       TSTypeParameterDeclaration: (node) => {
-        if (!PRESERVE_PREFIX_SPACE_BEFORE_GENERIC.has(node.parent.type)) {
-          const pre = sourceCode.text.slice(0, node.range[0])
-          const preSpace = pre.match(/(\s+)$/)?.[0]
+        checkSpacing(node)
 
-          // strip space before <T>
-          if (preSpace && preSpace.length) {
-            context.report({
-              node,
-              messageId: 'genericSpacingMismatch',
-              * fix(fixer) {
-                yield fixer.replaceTextRange([node.range[0] - preSpace.length, node.range[0]], '')
-              },
-            })
-          }
-        }
-
-        const params = node.params
-
-        if (params.length === 0)
-          return
-
-        const openToken = sourceCode.getTokenBefore(params[0])
-        const closeToken = sourceCode.getTokenAfter(params[params.length - 1])
+        const openToken = sourceCode.getTokenBefore(node.params[0])
+        const closeToken = sourceCode.getTokenAfter(node.params.at(-1)!)
 
         checkBracketSpacing(openToken, closeToken)
       },
