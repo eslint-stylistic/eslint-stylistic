@@ -1,8 +1,3 @@
-/**
- * @fileoverview tests to validate spacing before and after comma.
- * @author Vignesh Anand.
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './comma-spacing'
