@@ -126,6 +126,8 @@ export default createRule<RuleOptions, MessageIds>({
       //   we bump the indentation level by one.
       const firstTokenOfLineLeft = firstTokenOfLine(tokenLeft.loc.start.line)
       const lastTokenOfLineLeft = lastTokenOfLine(tokenLeft.loc.start.line)
+      const hasMoreCloseParensOnLeftLine = lastTokenOfLineLeft?.value === ')' && isGreaterThanCloseBracketOfLine(tokenLeft.loc.start.line)
+      const isMemberChainCloseLine = hasMoreCloseParensOnLeftLine && ['.', '?.'].includes(firstTokenOfLineLeft?.value || '')
       const needAdditionIndent = false
         // First line is a keyword (but exclude `typeof`, `instanceof`, `this`)
         || (isKeywordToken(firstTokenOfLineLeft) && !['typeof', 'instanceof', 'this'].includes(firstTokenOfLineLeft.value))
@@ -141,12 +143,12 @@ export default createRule<RuleOptions, MessageIds>({
       const needSubtractionIndent = false
         // End of line is a closing bracket
         || (
-          lastTokenOfLineLeft?.value === ')'
-          && isGreaterThanCloseBracketOfLine(tokenLeft.loc.start.line)
+          hasMoreCloseParensOnLeftLine
           && ![']', ')', '}'].includes(firstTokenOfLineLeft?.value || '')
+          && !isMemberChainCloseLine
         )
 
-      const indentLeft = getIndentOfLine(tokenLeft.loc.start.line)
+      const indentLeft = getIndentOfLine(isMemberChainCloseLine ? node.loc.start.line : tokenLeft.loc.start.line)
       const indentRight = getIndentOfLine(tokenRight.loc.start.line)
       const indentTarget = getTargetIndent(indentLeft, needAdditionIndent, needSubtractionIndent)
 
