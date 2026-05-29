@@ -1,19 +1,21 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: D-fY9SckJ9kkYgPeSHnbqrFRQdB9tFNbq_tqb_HYeR8 */
+/* @checksum: pgv4yhnlgKghpHQCSxCVsAfXGeiptdo98NqHwAmDgMI */
 
-export type SpacingConfigOrIgnore = 'ignore' | SpacingConfig
+export type SpacingConfigWithIgnore
+  = | 'ignore'
+    | SpacingConfig
 
 export interface TypeAnnotationSpacingSchema0 {
   before?: boolean
   after?: boolean
   overrides?: {
     colon?: SpacingConfig
-    variable?: SpacingConfigOrIgnore
-    parameter?: SpacingConfigOrIgnore
-    property?: SpacingConfigOrIgnore
-    returnType?: SpacingConfigOrIgnore
-    questionMark?: SpacingConfigOrIgnore
+    variable?: SpacingConfigWithIgnore
+    parameter?: SpacingConfigWithIgnore
+    property?: SpacingConfigWithIgnore
+    returnType?: SpacingConfigWithIgnore
+    questionMark?: SpacingConfigWithIgnore
   }
 }
 export interface SpacingConfig {

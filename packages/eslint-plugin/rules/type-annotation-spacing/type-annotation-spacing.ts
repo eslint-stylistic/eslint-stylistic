@@ -90,7 +90,7 @@ export default createRule<RuleOptions, MessageIds>({
             },
             additionalProperties: false,
           },
-          spacingConfigOrIgnore: {
+          spacingConfigWithIgnore: {
             oneOf: [
               {
                 type: 'string',
@@ -108,11 +108,11 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'object',
             properties: {
               colon: { $ref: '#/items/0/$defs/spacingConfig' },
-              variable: { $ref: '#/items/0/$defs/spacingConfigOrIgnore' },
-              parameter: { $ref: '#/items/0/$defs/spacingConfigOrIgnore' },
-              property: { $ref: '#/items/0/$defs/spacingConfigOrIgnore' },
-              returnType: { $ref: '#/items/0/$defs/spacingConfigOrIgnore' },
-              questionMark: { $ref: '#/items/0/$defs/spacingConfigOrIgnore' },
+              variable: { $ref: '#/items/0/$defs/spacingConfigWithIgnore' },
+              parameter: { $ref: '#/items/0/$defs/spacingConfigWithIgnore' },
+              property: { $ref: '#/items/0/$defs/spacingConfigWithIgnore' },
+              returnType: { $ref: '#/items/0/$defs/spacingConfigWithIgnore' },
+              questionMark: { $ref: '#/items/0/$defs/spacingConfigWithIgnore' },
             },
             additionalProperties: false,
           },
