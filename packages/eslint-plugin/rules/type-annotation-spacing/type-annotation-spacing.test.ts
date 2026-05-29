@@ -787,6 +787,20 @@ run<RuleOptions, MessageIds>({
       options: [{ before: true }],
     },
     {
+      code: 'const foo :    string;',
+      options: [
+        {
+          overrides: {
+            colon: {
+              after: false,
+              before: true,
+            },
+            variable: 'ignore',
+          },
+        },
+      ],
+    },
+    {
       code: 'const foo:string;',
       options: [
         {
@@ -815,6 +829,25 @@ run<RuleOptions, MessageIds>({
             variable: {
               after: false,
             },
+          },
+        },
+      ],
+    },
+    {
+      code: $`
+        interface Foo {
+          name: string;
+          greet() :string;
+        }
+      `,
+      options: [
+        {
+          overrides: {
+            colon: {
+              after: false,
+              before: true,
+            },
+            property: 'ignore',
           },
         },
       ],
@@ -861,6 +894,20 @@ run<RuleOptions, MessageIds>({
       ],
     },
     {
+      code: 'function foo(name  :  string) {}',
+      options: [
+        {
+          overrides: {
+            colon: {
+              after: false,
+              before: true,
+            },
+            parameter: 'ignore',
+          },
+        },
+      ],
+    },
+    {
       code: 'function foo(name:string) {}',
       options: [
         {
@@ -889,6 +936,20 @@ run<RuleOptions, MessageIds>({
             parameter: {
               after: false,
             },
+          },
+        },
+      ],
+    },
+    {
+      code: 'function foo()  :  string {}',
+      options: [
+        {
+          overrides: {
+            colon: {
+              after: false,
+              before: true,
+            },
+            returnType: 'ignore',
           },
         },
       ],
