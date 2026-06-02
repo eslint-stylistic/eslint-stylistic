@@ -1,5 +1,5 @@
-import type { ASTNode, SourceCode, Token, Tree } from '#types'
 import type { AST_NODE_TYPES } from '@typescript-eslint/types'
+import type { ASTNode, SourceCode, Token, Tree } from '#types'
 import { isClosingParenToken, isColonToken, isCommentToken, isFunction, isOpeningParenToken, isTokenOnSameLine, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
 import { visitorKeys } from '@typescript-eslint/visitor-keys'
 import { latestEcmaVersion, tokenize } from 'espree'

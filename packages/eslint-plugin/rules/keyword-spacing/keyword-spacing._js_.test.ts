@@ -1,7 +1,7 @@
 import type { CompatConfigOptions, TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
+import { run } from '#test'
 import rule from './keyword-spacing'
 
 export const BOTH = { before: true, after: true }

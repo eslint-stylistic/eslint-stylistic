@@ -5,8 +5,8 @@
 
 import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
-import { $, run } from '#test'
 import tsParser from '@typescript-eslint/parser'
+import { $, run } from '#test'
 import rule from './function-paren-newline'
 
 const LEFT_MISSING_ERROR: TestCaseError<MessageIds> = { messageId: 'expectedAfter' }

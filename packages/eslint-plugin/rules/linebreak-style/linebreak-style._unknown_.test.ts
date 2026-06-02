@@ -1,7 +1,7 @@
 import type { BinarySourceCode } from '@eslint/core'
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
 import { VisitNodeStep } from '@eslint/plugin-kit'
+import { run } from '#test'
 import rule from './linebreak-style'
 
 run<RuleOptions, MessageIds>({

@@ -4,8 +4,8 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
+import { run } from '#test'
 import rule from './space-infix-ops'
 
 run<RuleOptions, MessageIds>({
