@@ -25,18 +25,18 @@ function createRules(options: TypeAnnotationSpacingSchema0 | undefined): Overrid
   }
   // questionMark governs spacing around the `?` in optional type annotations:
   // `before` is space before `?`, `after` is space between `?` and `:`. Defaults preserve current behavior.
-  const questionMark = {
+  const questionMark = override?.questionMark === 'ignore' ? 'ignore' : {
     before: colon.before,
     after: false,
-    ...override?.questionMark,
+    ...override.questionMark,
   }
 
   return {
     colon,
-    variable: { ...colon, ...override?.variable },
-    property: { ...colon, ...override?.property },
-    parameter: { ...colon, ...override?.parameter },
-    returnType: { ...colon, ...override?.returnType },
+    variable: override?.variable === 'ignore' ? 'ignore' : { ...colon, ...override.variable },
+    property: override?.property === 'ignore' ? 'ignore' : { ...colon, ...override.property },
+    parameter: override?.parameter === 'ignore' ? 'ignore' : { ...colon, ...override.parameter },
+    returnType: override?.returnType === 'ignore' ? 'ignore' : { ...colon, ...override.returnType },
     questionMark,
   }
 }
@@ -90,6 +90,15 @@ export default createRule<RuleOptions, MessageIds>({
             },
             additionalProperties: false,
           },
+          spacingConfigWithIgnore: {
+            oneOf: [
+              {
+                type: 'string',
+                enum: ['ignore'],
+              },
+              { $ref: '#/items/0/$defs/spacingConfig' },
+            ],
+          },
         },
         type: 'object',
         properties: {
@@ -99,11 +108,11 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'object',
             properties: {
               colon: { $ref: '#/items/0/$defs/spacingConfig' },
-              variable: { $ref: '#/items/0/$defs/spacingConfig' },
-              parameter: { $ref: '#/items/0/$defs/spacingConfig' },
-              property: { $ref: '#/items/0/$defs/spacingConfig' },
-              returnType: { $ref: '#/items/0/$defs/spacingConfig' },
-              questionMark: { $ref: '#/items/0/$defs/spacingConfig' },
+              variable: { $ref: '#/items/0/$defs/spacingConfigWithIgnore' },
+              parameter: { $ref: '#/items/0/$defs/spacingConfigWithIgnore' },
+              property: { $ref: '#/items/0/$defs/spacingConfigWithIgnore' },
+              returnType: { $ref: '#/items/0/$defs/spacingConfigWithIgnore' },
+              questionMark: { $ref: '#/items/0/$defs/spacingConfigWithIgnore' },
             },
             additionalProperties: false,
           },
@@ -150,9 +159,14 @@ export default createRule<RuleOptions, MessageIds>({
       let punctuatorTokenStart = punctuatorTokenEnd
       let previousToken = sourceCode.getTokenBefore(punctuatorTokenEnd)!
 
-      let { before, after } = getRules(ruleSet, typeAnnotation)
+      const rule = getRules(ruleSet, typeAnnotation)
+      if (rule === 'ignore') {
+        /** ignore means do not report or fix the problem */
+        return void 0
+      }
+      let { before, after } = rule
 
-      if (previousToken.value === '?') {
+      if (previousToken.value === '?' && ruleSet.questionMark !== 'ignore') {
         const questionMark = ruleSet.questionMark
         const hasInnerSpace = sourceCode.isSpaceBetween(previousToken, punctuatorTokenStart)
         // space between ? and :
