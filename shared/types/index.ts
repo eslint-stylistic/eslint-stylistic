@@ -1,8 +1,8 @@
-import type { AST_NODE_TYPES } from '#utils/ast'
 import type { TextSourceCodeBase } from '@eslint/plugin-kit'
 import type { TSESTree } from '@typescript-eslint/utils'
 import type { AST } from 'eslint'
 import type * as ESTree from 'estree'
+import type { AST_NODE_TYPES } from '#utils/ast'
 
 export type { TextSourceCodeBase }
 

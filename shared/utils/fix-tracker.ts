@@ -3,8 +3,8 @@
  * @author Alan Pierce
  */
 
-import type { ASTNode, ESToken, RuleFixer, SourceCode, Token } from '#types'
 import type { AST } from 'eslint'
+import type { ASTNode, ESToken, RuleFixer, SourceCode, Token } from '#types'
 import { getUpperFunction } from './ast'
 
 /**
