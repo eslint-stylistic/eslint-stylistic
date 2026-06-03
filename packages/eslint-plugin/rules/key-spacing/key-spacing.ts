@@ -968,7 +968,11 @@ export default createRule<RuleOptions, MessageIds>({
 
         const { typeAnnotation } = node
         const toCheck
-          = align === 'colon' ? typeAnnotation : typeAnnotation.typeAnnotation
+          = align === 'colon'
+            ? typeAnnotation
+            // a parenthesized type starts at `(`; align by the first token after the
+            // colon rather than the inner type node, which sits past it (issue #189)
+            : sourceCode.getTokenAfter(sourceCode.getFirstToken(typeAnnotation)!)!
         const difference = adjustedColumn(toCheck.loc.start) - alignColumn
 
         if (difference) {

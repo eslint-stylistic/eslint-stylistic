@@ -6,6 +6,17 @@ run<RuleOptions, MessageIds>({
   name: 'key-spacing',
   rule,
   valid: [
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/189
+    // a parenthesized type value aligns by its opening paren, not the inner type
+    {
+      code: $`
+        interface Foo {
+          bar: 123;
+          baz: (123);
+        }
+      `,
+      options: [{ align: 'value' }],
+    },
     // non-applicable
     {
       code: $`
