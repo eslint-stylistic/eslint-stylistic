@@ -69,6 +69,7 @@ export function MarkdownTransform(): Plugin {
         content.trimStart().replace(/^# .*\n/, ''),
         extraLinks('Related Rules', data.related_rules),
         extraLinks('Further Reading', data.further_reading),
+        `<RuleChangelog rule-name="${rule.name}" />`,
       ].join('\n')
 
       return graymatter.stringify(content, { data })
