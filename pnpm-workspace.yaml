@@ -50,6 +50,7 @@ catalogs:
     oxfmt: ^0.53.0
     oxlint: 1.55.0
     semver: ^7.8.1
+    simple-git: ^3.27.0
     simple-git-hooks: ^2.13.1
     taze: ^19.14.1
     tinyexec: ^1.2.4

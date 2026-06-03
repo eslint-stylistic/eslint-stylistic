@@ -67,6 +67,7 @@
     "oxlint": "catalog:dev",
     "picomatch": "catalog:prod",
     "semver": "catalog:dev",
+    "simple-git": "catalog:dev",
     "simple-git-hooks": "catalog:dev",
     "taze": "catalog:dev",
     "tinyexec": "catalog:dev",
