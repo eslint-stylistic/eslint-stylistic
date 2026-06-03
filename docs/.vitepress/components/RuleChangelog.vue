@@ -10,7 +10,6 @@ const props = defineProps<{
 const entries = computed(() => {
   const list = changeLogData
     .filter(i => i.rules?.includes(props.ruleName) || i.version)
-    .reverse()
 
   const grouped: { version?: string, commits: CommitInfo[] }[] = []
   let current: typeof grouped[0] | null = null
