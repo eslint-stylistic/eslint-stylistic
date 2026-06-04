@@ -1,21 +1,88 @@
 <script setup lang="ts">
 import changelogData from 'virtual:changelog'
+import { computed } from 'vue'
+
+type CommitType = 'feat' | 'fix'
+
+interface CommitPart {
+  kind: 'text' | 'code' | 'link'
+  content: string
+  href?: string
+}
+
+interface ParsedCommit {
+  hash: string
+  type: CommitType
+  breaking: boolean
+  parts: CommitPart[]
+}
 
 const props = defineProps<{
   ruleName: string
 }>()
 
-function renderCommitMessage(msg: string) {
-  return msg
-    .replace(/`([^`]+)`/g, '<code>$1</code>')
-    .replace(/#(\d+)/g, '<a href=\'https://github.com/eslint-stylistic/eslint-stylistic/issues/$1\' target=\'_blank\'>#$1</a>')
+const TYPE_PATTERN = /^(feat|fix)(?:\([^)]+\))?(!)?:\s*/
+const PART_PATTERN = /(`[^`]+`|#\d+)|([^`#]+)/g
+const REPO_URL = 'https://github.com/eslint-stylistic/eslint-stylistic'
+
+function parseCommit(message: string, hash: string): ParsedCommit | null {
+  const match = message.match(TYPE_PATTERN)
+  if (!match) {
+    return null
+  }
+
+  const type = match[1] as CommitType
+  const breaking = Boolean(match[2])
+  const body = message.slice(match[0].length)
+
+  const parts: CommitPart[] = []
+  let token: RegExpExecArray | null
+  PART_PATTERN.lastIndex = 0
+  while ((token = PART_PATTERN.exec(body)) !== null) {
+    if (token[1]) {
+      if (token[1].startsWith('`')) {
+        parts.push({ kind: 'code', content: token[1].slice(1, -1) })
+      }
+      else {
+        const number = token[1].slice(1)
+        parts.push({
+          kind: 'link',
+          content: token[1],
+          href: `${REPO_URL}/issues/${number}`,
+        })
+      }
+    }
+    else {
+      parts.push({ kind: 'text', content: token[2] })
+    }
+  }
+
+  return { hash, type, breaking, parts }
 }
 
-const entries = changelogData[props.ruleName]
+function badgeClass(commit: ParsedCommit): string {
+  if (commit.breaking) {
+    return commit.type === 'feat'
+      ? 'bg-yellow:12 text-yellow-700 dark:text-yellow border-yellow:25'
+      : 'bg-red:12 text-red-700 dark:text-red border-red:25'
+  }
+
+  return commit.type === 'feat'
+    ? 'bg-teal:12 text-teal-700 dark:text-teal border-teal:25'
+    : 'bg-blue:12 text-blue-700 dark:text-blue border-blue:25'
+}
+
+const entries = computed(() => (changelogData[props.ruleName] ?? []).map(group => ({
+  ...group,
+  commits: group.commits.flatMap((commit) => {
+    const parsed = parseCommit(commit.message, commit.hash)
+    return parsed ? [parsed] : []
+  }),
+})))
 </script>
 
 <template>
-  <div v-if="entries?.length" mt-8>
+  <div v-if="entries.length" mt-8>
     <div v-for="group of entries" :key="group.version" mb-4>
       <h4 text-lg mb-2>
         <code font-bold>{{ group.version }}</code>
@@ -25,14 +92,30 @@ const entries = changelogData[props.ruleName]
       </h4>
       <ul>
         <li v-for="commit of group.commits" :key="commit.hash" mb-1 text-sm>
+          <span
+            class="inline-block align-middle px-1.5 py-0.5 mr-1.5 rounded text-xs font-mono border"
+            :class="badgeClass(commit)"
+          >
+            {{ commit.type }}{{ commit.breaking ? '!' : '' }}
+          </span>
           <a
-            :href="`https://github.com/eslint-stylistic/eslint-stylistic/commit/${commit.hash}`"
+            :href="`${REPO_URL}/commit/${commit.hash}`"
             target="_blank"
             op80 mr-2 font-mono
           >
             {{ commit.hash.slice(0, 7) }}
           </a>
-          <span v-html="renderCommitMessage(commit.message.replace(`(${props.ruleName})`, ''))" />
+          <span>
+            <template v-for="(part, i) in commit.parts" :key="i">
+              <code v-if="part.kind === 'code'">{{ part.content }}</code>
+              <a
+                v-else-if="part.kind === 'link'"
+                :href="part.href"
+                target="_blank"
+              >{{ part.content }}</a>
+              <template v-else>{{ part.content }}</template>
+            </template>
+          </span>
         </li>
       </ul>
     </div>
