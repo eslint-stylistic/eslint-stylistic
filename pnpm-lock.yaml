@@ -101,7 +101,7 @@ catalogs:
       specifier: ^7.8.1
       version: 7.8.1
     simple-git:
-      specifier: ^3.27.0
+      specifier: ^3.36.0
       version: 3.36.0
     simple-git-hooks:
       specifier: ^2.13.1
