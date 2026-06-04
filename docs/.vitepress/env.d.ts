@@ -1,8 +1,8 @@
 /// <reference types="vite/client" />
 
 declare module 'virtual:changelog' {
-  import type { CommitInfo } from '../plugins/changelog'
+  import type { VersionGroup } from '../plugins/changelog'
 
-  const data: CommitInfo[]
+  const data: Record<string, VersionGroup[]>
   export default data
 }

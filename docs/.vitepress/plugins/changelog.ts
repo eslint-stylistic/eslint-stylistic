@@ -1,9 +1,7 @@
 import type { Plugin } from 'vite'
 import Git from 'simple-git'
 
-export interface CommitInfo {
-  rules?: string[]
-  version?: string
+interface CommitInfo {
   hash: string
   date: string
   message: string
@@ -11,48 +9,66 @@ export interface CommitInfo {
   authorEmail: string
 }
 
+export interface VersionGroup {
+  version: string
+  versionDate: string
+  commits: CommitInfo[]
+}
+
 const ID = 'virtual:changelog'
 
 async function getChangelog(from: string) {
   try {
-    const git = Git({
-      maxConcurrentProcesses: 200,
-    })
+    const git = Git({ maxConcurrentProcesses: 200 })
 
-    const rawLogs = (await git.log({ from })).all.filter((i) => {
-      return i.message.includes('chore: release')
-        || i.message.includes('!')
-        || i.message.startsWith('feat')
-        || i.message.startsWith('fix')
-    })
+    const result: Record<string, VersionGroup[]> = {}
+    let currentVersion: { version: string, date: string } | null = null
 
-    const logs: CommitInfo[] = rawLogs.map(i => ({
-      hash: i.hash,
-      date: i.date,
-      message: i.message,
-      authorName: i.author_name,
-      authorEmail: i.author_email,
-    }))
+    const rawLogs = (await git.log({ from })).all
 
-    for (const log of logs) {
-      if (log.message.includes('chore: release')) {
-        const match = log.message.match(/chore: release\s+(\S+)/)
-        if (match)
-          log.version = match[1]
+    for (const raw of rawLogs) {
+      if (!raw.message.includes('chore: release')
+        && !raw.message.includes('!')
+        && !raw.message.startsWith('feat')
+        && !raw.message.startsWith('fix')) {
         continue
       }
-      const raw = await git.raw(['diff-tree', '--no-commit-id', '--name-only', '-r', log.hash])
-      const files = raw.replace(/\\/g, '/').trim().split('\n')
-      log.rules = [
-        ...new Set(
-          files
-            .map(i => i.match(/^packages\/eslint-plugin\/rules\/([^/]+)\//)?.[1])
-            .filter((i): i is string => Boolean(i)),
-        ),
-      ]
+
+      if (raw.message.includes('chore: release')) {
+        const match = raw.message.match(/chore: release\s+(\S+)/)
+        if (match)
+          currentVersion = { version: match[1], date: raw.date }
+        continue
+      }
+
+      const match = raw.message.match(/^\w+(?:\((\w+)\))?!?:\s*/)
+      if (!match || !match[1])
+        continue
+
+      if (!currentVersion)
+        continue
+
+      const rule = match[1]
+      const groups = result[rule] || (result[rule] = [])
+
+      if (!groups.length || groups[groups.length - 1].version !== currentVersion.version) {
+        groups.push({
+          version: currentVersion.version,
+          versionDate: currentVersion.date,
+          commits: [],
+        })
+      }
+
+      groups[groups.length - 1].commits.push({
+        hash: raw.hash,
+        date: raw.date,
+        message: raw.message,
+        authorName: raw.author_name,
+        authorEmail: raw.author_email,
+      })
     }
 
-    return logs.filter(i => i.rules?.length || i.version)
+    return result
   }
   catch (error) {
     console.error('Failed to generate changelog:', error)
@@ -61,7 +77,7 @@ async function getChangelog(from: string) {
 }
 
 // eslint-disable-next-line antfu/no-top-level-await
-const data = await getChangelog('v5.0.0')
+export const changelogData = await getChangelog('v5.0.0')
 
 export function Changelog(): Plugin {
   return {
@@ -72,7 +88,7 @@ export function Changelog(): Plugin {
     load(id) {
       if (id !== ID)
         return null
-      return `export default ${JSON.stringify(data)}`
+      return `export default ${JSON.stringify(changelogData)}`
     },
   }
 }

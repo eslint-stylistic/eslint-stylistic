@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import type { CommitInfo } from '../plugins/changelog'
 import changelogData from 'virtual:changelog'
-import { computed } from 'vue'
 
 const props = defineProps<{
   ruleName: string
@@ -13,29 +11,11 @@ function renderCommitMessage(msg: string) {
     .replace(/#(\d+)/g, '<a href=\'https://github.com/eslint-stylistic/eslint-stylistic/issues/$1\' target=\'_blank\'>#$1</a>')
 }
 
-const entries = computed(() => {
-  const list = changelogData
-    .filter(i => i.rules?.includes(props.ruleName) || i.version)
-
-  const grouped: { version?: string, versionDate?: string, commits: CommitInfo[] }[] = []
-  let current: typeof grouped[0] | null = null
-
-  for (const item of list) {
-    if (item.version) {
-      current = { version: item.version, versionDate: item.date, commits: [] }
-      grouped.push(current)
-    }
-    else if (current) {
-      current.commits.push(item)
-    }
-  }
-
-  return grouped.filter(g => g.commits.length > 0)
-})
+const entries = changelogData[props.ruleName]
 </script>
 
 <template>
-  <div v-if="entries.length" mt-8>
+  <div v-if="entries?.length" mt-8>
     <div v-for="group of entries" :key="group.version" mb-4>
       <h4 text-lg mb-2>
         <code font-bold>{{ group.version }}</code>
