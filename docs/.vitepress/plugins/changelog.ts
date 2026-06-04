@@ -5,8 +5,6 @@ interface CommitInfo {
   hash: string
   date: string
   message: string
-  authorName: string
-  authorEmail: string
 }
 
 export interface VersionGroup {
@@ -41,7 +39,7 @@ async function getChangelog(from: string) {
         continue
       }
 
-      const match = raw.message.match(/^\w+(?:\((\w+)\))?!?:\s*/)
+      const match = raw.message.match(/^\w+(?:\(([\w-]+)\))?!?:\s*/)
       if (!match || !match[1])
         continue
 
@@ -63,8 +61,6 @@ async function getChangelog(from: string) {
         hash: raw.hash,
         date: raw.date,
         message: raw.message,
-        authorName: raw.author_name,
-        authorEmail: raw.author_email,
       })
     }
 
