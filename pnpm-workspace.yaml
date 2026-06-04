@@ -67,6 +67,7 @@ catalogs:
     '@shikijs/vitepress-twoslash': ^4.1.0
     '@types/markdown-it-container': ^4.0.0
     '@vueuse/core': ^14.3.0
+    conventional-commits-parser: ^6.4.0
     fuse.js: ^7.4.1
     markdown-it-container: ^4.0.0
     oxc-minify: ^0.134.0

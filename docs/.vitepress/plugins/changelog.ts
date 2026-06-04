@@ -1,10 +1,13 @@
 import type { Plugin } from 'vite'
+import { CommitParser } from 'conventional-commits-parser'
 import Git from 'simple-git'
 
-interface CommitInfo {
+export interface CommitInfo {
   hash: string
   date: string
-  message: string
+  type: 'feat' | 'fix'
+  breaking: boolean
+  subject: string
 }
 
 export interface VersionGroup {
@@ -14,6 +17,11 @@ export interface VersionGroup {
 }
 
 const ID = 'virtual:changelog'
+
+const PARSER = new CommitParser({
+  headerPattern: /^(\w+)(?:\(([\w-]+)\))?(!)?: (.*)$/,
+  headerCorrespondence: ['type', 'scope', 'breaking', 'subject'],
+})
 
 async function getChangelog(from: string) {
   try {
@@ -25,13 +33,6 @@ async function getChangelog(from: string) {
     const rawLogs = (await git.log({ from })).all
 
     for (const raw of rawLogs) {
-      if (!raw.message.includes('chore: release')
-        && !raw.message.includes('!')
-        && !raw.message.startsWith('feat')
-        && !raw.message.startsWith('fix')) {
-        continue
-      }
-
       if (raw.message.includes('chore: release')) {
         const match = raw.message.match(/chore: release\s+(\S+)/)
         if (match)
@@ -39,14 +40,15 @@ async function getChangelog(from: string) {
         continue
       }
 
-      const match = raw.message.match(/^\w+(?:\(([\w-]+)\))?!?:\s*/)
-      if (!match || !match[1])
+      const parsed = PARSER.parse(raw.message)
+      if (!parsed.type || (parsed.type !== 'feat' && parsed.type !== 'fix'))
         continue
-
+      if (!parsed.scope)
+        continue
       if (!currentVersion)
         continue
 
-      const rule = match[1]
+      const rule = parsed.scope
       const groups = result[rule] || (result[rule] = [])
 
       if (!groups.length || groups[groups.length - 1].version !== currentVersion.version) {
@@ -60,7 +62,9 @@ async function getChangelog(from: string) {
       groups[groups.length - 1].commits.push({
         hash: raw.hash,
         date: raw.date,
-        message: raw.message,
+        type: parsed.type,
+        breaking: Boolean(parsed.breaking),
+        subject: parsed.subject ?? '',
       })
     }
 

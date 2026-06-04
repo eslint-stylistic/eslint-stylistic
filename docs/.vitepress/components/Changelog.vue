@@ -1,8 +1,7 @@
 <script setup lang="ts">
+import type { CommitInfo } from '../plugins/changelog'
 import changelogData from 'virtual:changelog'
 import { computed } from 'vue'
-
-type CommitType = 'feat' | 'fix'
 
 interface CommitPart {
   kind: 'text' | 'code' | 'link'
@@ -10,9 +9,9 @@ interface CommitPart {
   href?: string
 }
 
-interface ParsedCommit {
+interface RenderCommit {
   hash: string
-  type: CommitType
+  type: CommitInfo['type']
   breaking: boolean
   parts: CommitPart[]
 }
@@ -21,34 +20,24 @@ const props = defineProps<{
   ruleName: string
 }>()
 
-const TYPE_PATTERN = /^(feat|fix)(?:\([^)]+\))?(!)?:\s*/
 const PART_PATTERN = /(`[^`]+`|#\d+)|([^`#]+)/g
 const REPO_URL = 'https://github.com/eslint-stylistic/eslint-stylistic'
 
-function parseCommit(message: string, hash: string): ParsedCommit | null {
-  const match = message.match(TYPE_PATTERN)
-  if (!match) {
-    return null
-  }
-
-  const type = match[1] as CommitType
-  const breaking = Boolean(match[2])
-  const body = message.slice(match[0].length)
-
+function tokenizeSubject(subject: string): CommitPart[] {
   const parts: CommitPart[] = []
   let token: RegExpExecArray | null
   PART_PATTERN.lastIndex = 0
-  while ((token = PART_PATTERN.exec(body)) !== null) {
+  while ((token = PART_PATTERN.exec(subject)) !== null) {
     if (token[1]) {
       if (token[1].startsWith('`')) {
         parts.push({ kind: 'code', content: token[1].slice(1, -1) })
       }
       else {
-        const number = token[1].slice(1)
+        const issue = token[1].slice(1)
         parts.push({
           kind: 'link',
           content: token[1],
-          href: `${REPO_URL}/issues/${number}`,
+          href: `${REPO_URL}/issues/${issue}`,
         })
       }
     }
@@ -56,11 +45,10 @@ function parseCommit(message: string, hash: string): ParsedCommit | null {
       parts.push({ kind: 'text', content: token[2] })
     }
   }
-
-  return { hash, type, breaking, parts }
+  return parts
 }
 
-function badgeClass(commit: ParsedCommit): string {
+function badgeClass(commit: RenderCommit): string {
   if (commit.breaking) {
     return commit.type === 'feat'
       ? 'bg-yellow:12 text-yellow-700 dark:text-yellow border-yellow:25'
@@ -74,10 +62,12 @@ function badgeClass(commit: ParsedCommit): string {
 
 const entries = computed(() => (changelogData[props.ruleName] ?? []).map(group => ({
   ...group,
-  commits: group.commits.flatMap((commit) => {
-    const parsed = parseCommit(commit.message, commit.hash)
-    return parsed ? [parsed] : []
-  }),
+  commits: group.commits.map((commit): RenderCommit => ({
+    hash: commit.hash,
+    type: commit.type,
+    breaking: commit.breaking,
+    parts: tokenizeSubject(commit.subject),
+  })),
 })))
 </script>
 
