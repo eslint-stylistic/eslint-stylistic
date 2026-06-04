@@ -2,53 +2,13 @@
 import type { CommitInfo } from '../plugins/changelog'
 import changelogData from 'virtual:changelog'
 import { computed } from 'vue'
-
-interface CommitPart {
-  kind: 'text' | 'code' | 'link'
-  content: string
-  href?: string
-}
-
-interface RenderCommit {
-  hash: string
-  type: CommitInfo['type']
-  breaking: boolean
-  parts: CommitPart[]
-}
+import { REPO_URL } from '../plugins/changelog'
 
 const props = defineProps<{
   ruleName: string
 }>()
 
-const PART_PATTERN = /(`[^`]+`|#\d+)|([^`#]+)/g
-const REPO_URL = 'https://github.com/eslint-stylistic/eslint-stylistic'
-
-function tokenizeSubject(subject: string): CommitPart[] {
-  const parts: CommitPart[] = []
-  let token: RegExpExecArray | null
-  PART_PATTERN.lastIndex = 0
-  while ((token = PART_PATTERN.exec(subject)) !== null) {
-    if (token[1]) {
-      if (token[1].startsWith('`')) {
-        parts.push({ kind: 'code', content: token[1].slice(1, -1) })
-      }
-      else {
-        const issue = token[1].slice(1)
-        parts.push({
-          kind: 'link',
-          content: token[1],
-          href: `${REPO_URL}/issues/${issue}`,
-        })
-      }
-    }
-    else {
-      parts.push({ kind: 'text', content: token[2] })
-    }
-  }
-  return parts
-}
-
-function badgeClass(commit: RenderCommit): string {
+function badgeClass(commit: CommitInfo): string {
   if (commit.breaking) {
     return commit.type === 'feat'
       ? 'bg-yellow:12 text-yellow-700 dark:text-yellow border-yellow:25'
@@ -60,15 +20,7 @@ function badgeClass(commit: RenderCommit): string {
     : 'bg-blue:12 text-blue-700 dark:text-blue border-blue:25'
 }
 
-const entries = computed(() => (changelogData[props.ruleName] ?? []).map(group => ({
-  ...group,
-  commits: group.commits.map((commit): RenderCommit => ({
-    hash: commit.hash,
-    type: commit.type,
-    breaking: commit.breaking,
-    parts: tokenizeSubject(commit.subject),
-  })),
-})))
+const entries = computed(() => changelogData[props.ruleName] ?? [])
 </script>
 
 <template>

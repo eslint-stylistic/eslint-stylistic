@@ -2,12 +2,18 @@ import type { Plugin } from 'vite'
 import { CommitParser } from 'conventional-commits-parser'
 import Git from 'simple-git'
 
+export interface CommitPart {
+  kind: 'text' | 'code' | 'link'
+  content: string
+  href?: string
+}
+
 export interface CommitInfo {
   hash: string
   date: string
   type: 'feat' | 'fix'
   breaking: boolean
-  subject: string
+  parts: CommitPart[]
 }
 
 export interface VersionGroup {
@@ -16,12 +22,39 @@ export interface VersionGroup {
   commits: CommitInfo[]
 }
 
+export const REPO_URL = 'https://github.com/eslint-stylistic/eslint-stylistic'
+
 const ID = 'virtual:changelog'
 
 const PARSER = new CommitParser({
   headerPattern: /^(\w+)(?:\(([\w-]+)\))?(!)?: (.*)$/,
   headerCorrespondence: ['type', 'scope', 'breaking', 'subject'],
 })
+
+const PART_PATTERN = /(`[^`]+`|#\d+)|([^`#]+)/g
+
+function tokenizeSubject(subject: string): CommitPart[] {
+  const parts: CommitPart[] = []
+  let token: RegExpExecArray | null
+  PART_PATTERN.lastIndex = 0
+  while ((token = PART_PATTERN.exec(subject)) !== null) {
+    if (token[1]?.startsWith('`')) {
+      parts.push({ kind: 'code', content: token[1].slice(1, -1) })
+    }
+    else if (token[1]?.startsWith('#')) {
+      const issue = token[1].slice(1)
+      parts.push({
+        kind: 'link',
+        content: token[1],
+        href: `${REPO_URL}/issues/${issue}`,
+      })
+    }
+    else {
+      parts.push({ kind: 'text', content: token[2] })
+    }
+  }
+  return parts
+}
 
 async function getChangelog(from: string) {
   try {
@@ -64,7 +97,7 @@ async function getChangelog(from: string) {
         date: raw.date,
         type: parsed.type,
         breaking: Boolean(parsed.breaking),
-        subject: parsed.subject ?? '',
+        parts: tokenizeSubject(parsed.subject ?? ''),
       })
     }
 
