@@ -92,6 +92,17 @@ const individualNodeTests = [
             b: boolean
         } : string;
       `,
+      $`
+        type Foo<T> = T extends string ? readonly T[]
+            : T extends number ? readonly T[]
+            : T;
+      `,
+      $`
+        type Foo<T> = T extends string ? 1
+            : T extends number ? 2
+            : T extends boolean ? 3
+            : 4;
+      `,
     ],
   },
   {
@@ -592,6 +603,16 @@ run<RuleOptions, MessageIds>({
   rule,
   valid: [
     ...individualNodeTests.valid!,
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1216
+    {
+      code: $`
+        export type Helper<T> =
+            | (T extends string ? readonly T[]
+                : T extends number ? readonly T[]
+                : T);
+      `,
+      options: [4, { VariableDeclarator: 1, MemberExpression: 1 }],
+    },
     $`
       @Component({
           components: {
@@ -897,6 +918,33 @@ run<RuleOptions, MessageIds>({
   ],
   invalid: [
     ...individualNodeTests.invalid!,
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1216
+    {
+      code: $`
+        export type Helper<T> =
+            | (T extends string ? readonly T[]
+                : T extends number ? readonly T[]
+                    : T);
+      `,
+      output: $`
+        export type Helper<T> =
+            | (T extends string ? readonly T[]
+                : T extends number ? readonly T[]
+                : T);
+      `,
+      options: [4, { VariableDeclarator: 1, MemberExpression: 1 }],
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '8 spaces',
+            actual: 12,
+          },
+          line: 4,
+          column: 1,
+        },
+      ],
+    },
     {
       code: $`
         type Foo = {
