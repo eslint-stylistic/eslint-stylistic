@@ -324,6 +324,18 @@ export default createRule<RuleOptions, MessageIds>({
           ArrayExpression: ELEMENT_LIST_SCHEMA,
           ObjectExpression: ELEMENT_LIST_SCHEMA,
           ImportDeclaration: ELEMENT_LIST_SCHEMA,
+          binaryOps: {
+            oneOf: [
+              {
+                type: 'integer',
+                minimum: 0,
+              },
+              {
+                type: 'string',
+                enum: ['off'],
+              },
+            ],
+          },
           flatTernaryExpressions: {
             type: 'boolean',
           },
@@ -431,6 +443,7 @@ export default createRule<RuleOptions, MessageIds>({
       ignoreComments: false,
       offsetTernaryExpressions: false as NonNullable<RuleOptions[1]>['offsetTernaryExpressions'],
       tabLength: 4,
+      binaryOps: 1 as BinaryOpsOption,
     }
 
     if (optionsWithDefaults.length) {

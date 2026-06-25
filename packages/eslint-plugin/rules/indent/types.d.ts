@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: YDN3bipCxLbi2wbT3RWu6jn4-qnI-TofUsH_Va73Pro */
+/* @checksum: 9eW2NRlZWJN69WyTE7_r-BqO6A-Dy06ubqtAhHYKHco */
 
 export type IndentSchema0 = 'tab' | number
 
@@ -47,6 +47,7 @@ export interface IndentSchema1 {
   ignoredNodes?: string[]
   ignoreComments?: boolean
   tabLength?: number
+  binaryOps?: number | 'off'
 }
 
 export type IndentRuleOptions = [

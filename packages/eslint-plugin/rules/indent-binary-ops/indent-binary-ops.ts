@@ -11,6 +11,15 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Indentation for binary operators',
     },
     fixable: 'whitespace',
+    deprecated: {
+      deprecatedSince: '6.0.0',
+      message: 'This rule has been merged into the `indent` rule. Use `@stylistic/indent` with the `binaryOps` option instead.',
+      replacedBy: [{
+        rule: {
+          name: 'indent',
+        },
+      }],
+    },
     schema: [
       {
         oneOf: [
