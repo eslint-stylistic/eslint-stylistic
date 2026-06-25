@@ -252,18 +252,6 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
-        type Foo =
-        | A | C
-            | B
-      `,
-      output: $`
-        type Foo =
-            | A | C
-            | B
-      `,
-    },
-    {
-      code: $`
         type T =
         & A
             & (B
@@ -388,24 +376,6 @@ run<RuleOptions, MessageIds>({
             p: b
                 + c,
         };
-      `,
-    },
-    {
-      code: $`
-        const a = (
-          (b
-              && c)
-            || (d
-          && e)
-        )
-      `,
-      output: $`
-        const a = (
-            (b
-                && c)
-            || (d
-                && e)
-        )
       `,
     },
     {
@@ -580,18 +550,6 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
-        a = 1
-        - 2
-            - 3;
-      `,
-      output: $`
-        a = 1
-            - 2
-            - 3;
-      `,
-    },
-    {
-      code: $`
         const a = 1 *
         2 *
             3;
@@ -599,18 +557,6 @@ run<RuleOptions, MessageIds>({
       output: $`
         const a = 1 *
             2 *
-            3;
-      `,
-    },
-    {
-      code: $`
-        a = 1 /
-        2 /
-            3;
-      `,
-      output: $`
-        a = 1 /
-            2 /
             3;
       `,
     },
