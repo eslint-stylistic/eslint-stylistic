@@ -128,6 +128,9 @@ catalogs:
     '@iconify-json/ri':
       specifier: ^1.2.10
       version: 1.2.10
+    '@rolldown/pluginutils':
+      specifier: ^1.0.1
+      version: 1.0.1
     '@shikijs/transformers':
       specifier: ^4.1.0
       version: 4.1.0
@@ -268,6 +271,9 @@ importers:
       '@eslint/plugin-kit':
         specifier: catalog:dev
         version: 0.7.2
+      '@rolldown/pluginutils':
+        specifier: catalog:docs
+        version: 1.0.1
       '@stylistic/eslint-plugin':
         specifier: workspace:*
         version: link:packages/eslint-plugin

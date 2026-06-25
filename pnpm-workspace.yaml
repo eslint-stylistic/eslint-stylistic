@@ -62,6 +62,7 @@ catalogs:
   docs:
     '@iconify-json/carbon': ^1.2.22
     '@iconify-json/ri': ^1.2.10
+    '@rolldown/pluginutils': ^1.0.1
     '@shikijs/transformers': ^4.1.0
     '@shikijs/twoslash': ^4.1.0
     '@shikijs/vitepress-twoslash': ^4.1.0

@@ -1,4 +1,5 @@
 import type { Plugin } from 'vite'
+import { exactRegex } from '@rolldown/pluginutils'
 import { CommitParser } from 'conventional-commits-parser'
 import Git from 'simple-git'
 
@@ -21,8 +22,6 @@ export interface VersionGroup {
   versionDate: string
   commits: CommitInfo[]
 }
-
-const ID = 'virtual:changelog'
 
 const PARSER = new CommitParser({
   headerPattern: /^(\w+)(?:\(([\w-]+)\))?(!)?: (.*)$/,
@@ -110,16 +109,24 @@ async function getChangelog(from: string) {
 // eslint-disable-next-line antfu/no-top-level-await
 export const changelogData = await getChangelog('v5.0.0')
 
+// ref: https://vite.dev/guide/api-plugin.html#virtual-modules-convention
 export function Changelog(): Plugin {
+  const ID = 'virtual:changelog'
+  const RESOLVED_ID = `\0${ID}`
+
   return {
-    name: 'eslint-stylistic-changelog',
-    resolveId(id) {
-      return id === ID ? ID : null
+    name: 'changelog',
+    resolveId: {
+      filter: { id: exactRegex(ID) },
+      handler() {
+        return RESOLVED_ID
+      },
     },
-    load(id) {
-      if (id !== ID)
-        return null
-      return `export default ${JSON.stringify(changelogData)}`
+    load: {
+      filter: { id: exactRegex(RESOLVED_ID) },
+      handler() {
+        return `export default ${JSON.stringify(changelogData)}`
+      },
     },
   }
 }

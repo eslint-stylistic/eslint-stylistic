@@ -36,6 +36,7 @@
     "@eslint/css": "catalog:dev",
     "@eslint/markdown": "catalog:dev",
     "@eslint/plugin-kit": "catalog:dev",
+    "@rolldown/pluginutils": "catalog:docs",
     "@stylistic/eslint-plugin": "workspace:*",
     "@types/estree": "catalog:dev",
     "@types/node": "catalog:dev",
