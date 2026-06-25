@@ -22,8 +22,6 @@ export interface VersionGroup {
   commits: CommitInfo[]
 }
 
-export const REPO_URL = 'https://github.com/eslint-stylistic/eslint-stylistic'
-
 const ID = 'virtual:changelog'
 
 const PARSER = new CommitParser({
@@ -46,7 +44,7 @@ function tokenizeSubject(subject: string): CommitPart[] {
       parts.push({
         kind: 'link',
         content: token[1],
-        href: `${REPO_URL}/issues/${issue}`,
+        href: `issues/${issue}`,
       })
     }
     else {

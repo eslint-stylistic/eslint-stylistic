@@ -2,11 +2,12 @@
 import type { CommitInfo } from '../plugins/changelog'
 import changelogData from 'virtual:changelog'
 import { computed } from 'vue'
-import { REPO_URL } from '../plugins/changelog'
 
 const props = defineProps<{
   ruleName: string
 }>()
+
+const REPO_URL = 'https://github.com/eslint-stylistic/eslint-stylistic'
 
 function badgeClass(commit: CommitInfo): string {
   if (commit.breaking) {
@@ -52,7 +53,7 @@ const entries = computed(() => changelogData[props.ruleName] ?? [])
               <code v-if="part.kind === 'code'">{{ part.content }}</code>
               <a
                 v-else-if="part.kind === 'link'"
-                :href="part.href"
+                :href="`${REPO_URL}/${part.href}`"
                 target="_blank"
               >{{ part.content }}</a>
               <template v-else>{{ part.content }}</template>
