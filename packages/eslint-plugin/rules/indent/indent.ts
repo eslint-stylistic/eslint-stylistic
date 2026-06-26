@@ -443,7 +443,7 @@ export default createRule<RuleOptions, MessageIds>({
       ignoreComments: false,
       offsetTernaryExpressions: false as NonNullable<RuleOptions[1]>['offsetTernaryExpressions'],
       tabLength: 4,
-      binaryOps: 1 as BinaryOpsOption,
+      binaryOps: 1 as number | 'off',
     }
 
     if (optionsWithDefaults.length) {
