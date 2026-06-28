@@ -480,6 +480,10 @@ run<RuleOptions, MessageIds>({
       code: '(class {async foo() { }})',
       parserOptions: { ecmaVersion: 8 },
     },
+
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1230
+    'function */* c */foo(){}',
+    { code: 'function/* c */*foo(){}', options: [{ before: false, after: false }] },
   ],
 
   invalid: [
@@ -1021,6 +1025,19 @@ run<RuleOptions, MessageIds>({
       output: 'class Foo { static async * foo(){} }',
       options: [{ before: true, after: true }],
       errors: [missingBeforeError, missingAfterError],
+    },
+
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1230
+    {
+      code: 'function * /* c */foo(){}',
+      output: 'function */* c */foo(){}',
+      errors: [unexpectedAfterError],
+    },
+    {
+      code: 'function/* c */ *foo(){}',
+      output: 'function/* c */*foo(){}',
+      options: [{ before: false, after: false }],
+      errors: [unexpectedBeforeError],
     },
 
   ],
