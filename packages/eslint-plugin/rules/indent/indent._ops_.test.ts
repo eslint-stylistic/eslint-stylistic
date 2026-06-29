@@ -9,261 +9,264 @@ run<RuleOptions, MessageIds>({
   valid: [
     $`
       type a = {
-          [K in keyof T]: T[K] extends Date
-              ? Date | string
-              : T[K] extends (Date | null)
-                  ? Date | string | null
-                  : T[K];
+        [K in keyof T]: T[K] extends Date
+          ? Date | string
+          : T[K] extends (Date | null)
+            ? Date | string | null
+            : T[K];
       }
     `,
     $`
       type Foo =
-          | A
-          | B
+        | A
+        | B
     `,
     $`
       if (
-          this.level >= this.max ||
-          this.level <= this.min
+        this.level >= this.max ||
+        this.level <= this.min
       ) {
-          this.overflow = true;
+        this.overflow = true;
       }
     `,
     $`
       const woof = computed(() => keys.value.filter(
-          ({ type }) => type === 'bark' ||
-              type === 'pooque' ||
-              type === 'srenque'
-          ));
+        ({ type }) => type === 'bark' ||
+          type === 'pooque' ||
+          type === 'srenque'
+        ));
     `,
     $`
       if (a
-          && b
-          && c
-          && (d
-              || e
-              || f
-          )
+        && b
+        && c
+        && (d
+          || e
+          || f
+        )
       ) {
-          foo()
+        foo()
       }
     `,
     $`
       type Foo = Pick<Bar,
-          Baz
-          | Qux,
+        Baz
+        | Qux,
       >;
     `,
     $`
       type Foo = [Bar,
-          Baz
-          | Qux,
+        Baz
+        | Qux,
       ];
     `,
     $`
       type Foo = { x: Foo,
-          y: Baz
-              | Quz
+        y: Baz
+          | Quz
       };
     `,
     $`
       type Foo = Pick<Bar
-          | Baz,
-          Baz
-          | Qux,
+        | Baz,
+        Baz
+        | Qux,
       >;
     `,
     $`
       type Foo = [Bar
-          | Baz,
-          Baz
-          | Qux,
+        | Baz,
+        Baz
+        | Qux,
       ];
     `,
     $`
       type Foo = { x: Foo
-          | Baz,
-          y: Baz
-              | Quz
+        | Baz,
+        y: Baz
+          | Quz
       };
     `,
     $`
       const a = 1
-          + 2
-          + 3;
+        + 2
+        + 3;
     `,
     $`
       a = 1
-          + 2
-          + 3;
+        + 2
+        + 3;
     `,
     $`
       const a = 1 +
-          2 +
-          3;
+        2 +
+        3;
     `,
     $`
       a = 1 +
-          2 +
-          3;
+        2 +
+        3;
     `,
     $`
       this.a = this.b
-          || c
-          || d;
+        || c
+        || d;
     `,
     $`
       { aaaaa &&
-          bbbbb &&
-          ccccc }
+        bbbbb &&
+        ccccc }
     `,
     $`
       {
-          aaaaa &&
-          bbbbb &&
-          ccccc
+        aaaaa &&
+        bbbbb &&
+        ccccc
       }
     `,
     $`
       if (condition1 &&
-          condition2 &&
-          condition3
+        condition2 &&
+        condition3
       ) {
-          a &&
-          b() &&
-          c()
+        a &&
+        b() &&
+        c()
       }
     `,
     $`
       const anchor = document.getElementById('anchor');
       if (
-          (anchor && (anchor.getAttribute('href')
-              ?.startsWith('#tab_name_')) === false)
-          && anchor.tabIndex === 0
+        (anchor && (anchor.getAttribute('href')
+                      ?.startsWith('#tab_name_')) === false)
+        && anchor.tabIndex === 0
       ) {
-          console.log('test');
+        console.log('test');
       }
     `,
     $`
       const elem = document.getElementById('elem');
       if (
-          (elem && (elem.getAttribute('href')
-              .toLowerCase()) === 'test')
-          && elem.tabIndex === 0
+        (elem && (elem.getAttribute('href')
+                    .toLowerCase()) === 'test')
+        && elem.tabIndex === 0
       ) {
-          console.log('test');
+        console.log('test');
       }
     `,
-  ],
+  ].map(code => ({
+    code,
+    options: [2, { binaryOps: 1 }],
+  })),
   invalid: [
     {
       code: $`
         if (
-            a && (
-                a.b ||
-                    a.c
-            ) &&
-                a.d
-        ) {}
-      `,
-      output: $`
-        if (
-            a && (
-                a.b ||
-                a.c
-            ) &&
+          a && (
+            a.b ||
+              a.c
+          ) &&
             a.d
         ) {}
       `,
+      output: $`
+        if (
+          a && (
+            a.b ||
+            a.c
+          ) &&
+          a.d
+        ) {}
+      `,
     },
     {
       code: $`
         const a =
-            x +
-                y * z
+          x +
+            y * z
       `,
       output: $`
         const a =
-            x +
-            y * z
+          x +
+          y * z
       `,
     },
     {
       code: $`
         if (
-            aaaaaa >
+          aaaaaa >
         bbbbb
         ) {}
       `,
       output: $`
         if (
-            aaaaaa >
-            bbbbb
+          aaaaaa >
+          bbbbb
         ) {}
       `,
     },
     {
       code: $`
         function foo() {
-            if (a
-            || b
-                || c || d
-                    || (d && b)
-            ) {
-                foo()
-            }
+          if (a
+          || b
+              || c || d
+                || (d && b)
+          ) {
+            foo()
+          }
         }
       `,
       output: $`
         function foo() {
-            if (a
-                || b
-                || c || d
-                || (d && b)
-            ) {
-                foo()
-            }
+          if (a
+            || b
+            || c || d
+            || (d && b)
+          ) {
+            foo()
+          }
         }
       `,
     },
     {
       code: $`
         type Foo = A | B
-            | C | D
-                | E
+          | C | D
+            | E
       `,
       output: $`
         type Foo = A | B
-            | C | D
-            | E
+          | C | D
+          | E
       `,
     },
     {
       code: $`
         type Foo =
         | A | C
-            | B
+          | B
       `,
       output: $`
         type Foo =
-            | A | C
-            | B
+          | A | C
+          | B
       `,
     },
     {
       code: $`
         type T =
         & A
-            & (B
-            | A
-            | D)
+          & (B
+          | A
+          | D)
       `,
       output: $`
         type T =
-            & A
-            & (B
-                | A
-                | D)
+          & A
+          & (B
+            | A
+            | D)
       `,
     },
     {
@@ -271,13 +274,13 @@ run<RuleOptions, MessageIds>({
         type T =
         a
         | b
-            | c
+          | c
       `,
       output: $`
         type T =
-            a
-            | b
-            | c
+          a
+          | b
+          | c
       `,
     },
     {
@@ -294,13 +297,13 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         function TSPropertySignatureToProperty(
-            node:
-                | TSESTree.TSEnumMember
-                | TSESTree.TSPropertySignature
-                | TSESTree.TypeElement,
-            type:
-                | AST_NODE_TYPES.Property
-                | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
+          node:
+            | TSESTree.TSEnumMember
+            | TSESTree.TSPropertySignature
+            | TSESTree.TypeElement,
+          type:
+            | AST_NODE_TYPES.Property
+            | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
         ): TSESTree.Node | null {}
       `,
     },
@@ -314,9 +317,9 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         type Foo = Merge<
-            A
-            & B
-            & C
+          A
+          & B
+          & C
         >
       `,
     },
@@ -334,13 +337,13 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         if (
-            typeof woof === 'string' &&
-            typeof woof === 'string' &&
-            typeof woof === 'string' &&
-            isNaN(null) &&
-            isNaN(NaN)
+          typeof woof === 'string' &&
+          typeof woof === 'string' &&
+          typeof woof === 'string' &&
+          isNaN(null) &&
+          isNaN(NaN)
         ) {
-            return;
+          return;
         }
       `,
     },
@@ -363,18 +366,18 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         const a = () => b
-            || c
+          || c
         
         const a = (
-            p,
+          p,
         ) => (b
-            || c)
+          || c)
         
         const a = b
-            + c;
+          + c;
         const a = {
-            p: b
-                + c,
+          p: b
+            + c,
         };
       `,
     },
@@ -389,10 +392,10 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         const a = (
-            (b
-                && c)
-            || (d
-                && e)
+          (b
+            && c)
+          || (d
+            && e)
         )
       `,
     },
@@ -408,11 +411,11 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         {
-            const a = false
-                || (a && b)
-                || (c && d)
-                || (e && f)
-                || (g && h)
+          const a = false
+            || (a && b)
+            || (c && d)
+            || (e && f)
+            || (g && h)
         }
       `,
     },
@@ -433,17 +436,17 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         type Type =
-            | ({
-                type: 'a';
-            } & A)
-            | ({
-                type: 'b';
+          | ({
+            type: 'a';
+          } & A)
+          | ({
+            type: 'b';
             } & B)
             | ({
-                type: 'c';
-            } & {
-                c: string;
-            });
+            type: 'c';
+          } & {
+            c: string;
+          });
       `,
     },
     {
@@ -455,8 +458,8 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         type Foo = Pick<Bar,
-            Baz
-            | Qux,
+          Baz
+          | Qux,
         >;
       `,
     },
@@ -469,8 +472,8 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         type Foo = [Bar,
-            Baz
-            | Qux,
+          Baz
+          | Qux,
         ];
       `,
     },
@@ -483,8 +486,8 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         type Foo = { x: Foo,
-            y: Baz
-                | Quz
+          y: Baz
+            | Quz
         };
       `,
     },
@@ -498,9 +501,9 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         type Foo = Pick<Bar
-            | Baz,
-            Baz
-            | Qux,
+          | Baz,
+          Baz
+          | Qux,
         >;
       `,
     },
@@ -514,9 +517,9 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         type Foo = [Bar
-            | Baz,
-            Baz
-            | Qux,
+          | Baz,
+          Baz
+          | Qux,
         ];
       `,
     },
@@ -530,9 +533,9 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         type Foo = { x: Foo
-            | Baz,
-            y: Baz
-                | Quz
+          | Baz,
+          y: Baz
+            | Quz
         };
       `,
     },
@@ -544,8 +547,8 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         const a = 1
-            + 2
-            + 3;
+          + 2
+          + 3;
       `,
     },
     {
@@ -556,8 +559,8 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         const a = 1 *
-            2 *
-            3;
+          2 *
+          3;
       `,
     },
     {
@@ -568,8 +571,8 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         this.a = this.b
-            || 2
-            || 3;
+          || 2
+          || 3;
       `,
     },
     {
@@ -580,9 +583,12 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         { aaaaa &&
-            bbbbb &&
-            ccccc }
+          bbbbb &&
+          ccccc }
       `,
     },
-  ],
+  ].map(c => ({
+    options: [2, { binaryOps: 1 }],
+    ...c,
+  })),
 })
