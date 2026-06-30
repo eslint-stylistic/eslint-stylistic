@@ -189,5 +189,6 @@ export default antfu(
       'antfu/curly': 'error',
       'antfu/if-newline': 'error',
       'antfu/top-level-function': 'error',
+      'style/indent-binary-ops': 'off',
     },
   })

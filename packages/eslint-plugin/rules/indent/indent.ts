@@ -162,9 +162,8 @@ const KNOWN_NODES = new Set([
   AST_NODE_TYPES.TSTypeReference,
   AST_NODE_TYPES.Decorator,
 
-  // These are took care by `indent-binary-ops` rule
-  // AST_NODE_TYPES.TSIntersectionType,
-  // AST_NODE_TYPES.TSUnionType,
+  AST_NODE_TYPES.TSIntersectionType,
+  AST_NODE_TYPES.TSUnionType,
 ])
 
 type ElementListOffset = 'first' | 'off' | number
@@ -443,7 +442,7 @@ export default createRule<RuleOptions, MessageIds>({
       ignoreComments: false,
       offsetTernaryExpressions: false as NonNullable<RuleOptions[1]>['offsetTernaryExpressions'],
       tabLength: 4,
-      binaryOps: 1 as number | 'off',
+      binaryOps: 'off' as number | 'off',
     }
 
     if (optionsWithDefaults.length) {
@@ -966,6 +965,92 @@ export default createRule<RuleOptions, MessageIds>({
       offsets.setDesiredOffset(tokenAfterOperator, operatorToken, 0)
     }
 
+    function isBinaryLikeNode(node: ASTNode | undefined): node is ASTNode & { left: ASTNode, right: ASTNode } {
+      return !!node && (node.type === 'BinaryExpression' || node.type === 'LogicalExpression')
+    }
+
+    function getBinaryExpressionRoot(node: ASTNode & { left: ASTNode, right: ASTNode }) {
+      let root = node
+
+      while (isBinaryLikeNode(root.parent) && root.parent.left === root)
+        root = root.parent
+
+      return root
+    }
+
+    function getContinuationIndent(firstToken: Token): number {
+      if (tokenInfo.isFirstTokenOfLine(firstToken) || options.binaryOps === 'off')
+        return 0
+
+      return options.binaryOps
+    }
+
+    function getContinuationAnchor(firstToken: Token) {
+      return tokenInfo.getFirstTokenOfLine(firstToken)!
+    }
+
+    function applyContinuationIndent(tokenOperator: Token, tokenLeft: Token, tokenRight: Token, anchor: Token, offset: number) {
+      if (isTokenOnSameLine(tokenLeft, tokenRight))
+        return
+
+      if (tokenInfo.isFirstTokenOfLine(tokenOperator)) {
+        offsets.setDesiredOffset(tokenOperator, anchor, offset)
+
+        if (isTokenOnSameLine(tokenOperator, tokenRight))
+          offsets.setDesiredOffset(tokenRight, tokenOperator, 0)
+      }
+      else {
+        offsets.setDesiredOffset(tokenRight, anchor, offset)
+      }
+    }
+
+    function checkBinaryOps(node: Tree.BinaryExpression | Tree.LogicalExpression) {
+      if (isSingleLine(node))
+        return
+      if (options.binaryOps === 'off')
+        return
+
+      const tokenOperator = sourceCode.getTokenBefore(node.right, token => token.value === node.operator)!
+      const tokenLeft = sourceCode.getTokenBefore(tokenOperator)!
+      const tokenRight = sourceCode.getTokenAfter(tokenOperator)!
+
+      const root = getBinaryExpressionRoot(node)
+      const firstToken = sourceCode.getFirstToken(root)!
+      const anchor = getContinuationAnchor(firstToken)
+      const offset = getContinuationIndent(firstToken)
+
+      applyContinuationIndent(tokenOperator, tokenLeft, tokenRight, anchor, offset)
+    }
+
+    function checkTypeBinaryOps(node: Tree.TSUnionType | Tree.TSIntersectionType, operator: string) {
+      if (options.binaryOps === 'off') {
+        addToIgnoredNodes(node)
+        return
+      }
+
+      if (isSingleLine(node))
+        return
+
+      const firstToken = sourceCode.getFirstToken(node)!
+      const anchor = getContinuationAnchor(firstToken)
+      const offset = getContinuationIndent(firstToken)
+
+      if (anchor !== firstToken)
+        offsets.setDesiredOffsets(firstToken.range, anchor, offset, true)
+
+      for (const typeNode of node.types) {
+        const tokenOperator = sourceCode.getTokenBefore(typeNode)
+
+        if (!tokenOperator || tokenOperator.value !== operator || tokenOperator.range[0] < node.range[0])
+          continue
+
+        const tokenLeft = sourceCode.getTokenBefore(tokenOperator)!
+        const tokenRight = sourceCode.getTokenAfter(tokenOperator)!
+
+        applyContinuationIndent(tokenOperator, tokenLeft, tokenRight, anchor, offset)
+      }
+    }
+
     function checkMemberExpression(
       node: Tree.MemberExpression | Tree.JSXMemberExpression | Tree.MetaProperty | Tree.TSIndexedAccessType | Tree.TSQualifiedName,
       object: ASTNode,
@@ -1138,11 +1223,21 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       BinaryExpression(node) {
-        checkOperatorToken(node.left, node.right, node.operator)
+        if (options.binaryOps === 'off') {
+          checkOperatorToken(node.left, node.right, node.operator)
+        }
+        else {
+          checkBinaryOps(node)
+        }
       },
 
       LogicalExpression(node) {
-        checkOperatorToken(node.left, node.right, node.operator)
+        if (options.binaryOps === 'off') {
+          checkOperatorToken(node.left, node.right, node.operator)
+        }
+        else {
+          checkBinaryOps(node)
+        }
       },
 
       'BlockStatement': checkBlockLikeNode,
@@ -1171,11 +1266,11 @@ export default createRule<RuleOptions, MessageIds>({
 
       'DoWhileStatement, WhileStatement, ForInStatement, ForOfStatement, WithStatement': function (
         node:
-          | Tree.DoWhileStatement
-          | Tree.WhileStatement
-          | Tree.ForInStatement
-          | Tree.ForOfStatement
-          | Tree.WithStatement,
+        | Tree.DoWhileStatement
+        | Tree.WhileStatement
+        | Tree.ForInStatement
+        | Tree.ForOfStatement
+        | Tree.WithStatement,
       ) {
         addBlocklessNodeIndent(node.body)
       },
@@ -1369,9 +1464,11 @@ export default createRule<RuleOptions, MessageIds>({
 
       NewExpression(node) {
         // Only indent the arguments if the NewExpression has parens (e.g. `new Foo(bar)` or `new Foo()`, but not `new Foo`
-        if (node.arguments.length > 0
-          || isClosingParenToken(sourceCode.getLastToken(node)!)
-          && isOpeningParenToken(sourceCode.getLastToken(node, 1)!)) {
+        if (
+          node.arguments.length > 0
+          || (isClosingParenToken(sourceCode.getLastToken(node)!)
+            && isOpeningParenToken(sourceCode.getLastToken(node, 1)!))
+        ) {
           addFunctionCallIndent(node)
         }
       },
@@ -1705,6 +1802,13 @@ export default createRule<RuleOptions, MessageIds>({
 
       TSAsExpression(node) {
         checkOperatorToken(node.expression, node.typeAnnotation, 'as')
+      },
+
+      TSUnionType(node) {
+        checkTypeBinaryOps(node, '|')
+      },
+      TSIntersectionType(node) {
+        checkTypeBinaryOps(node, '&')
       },
 
       // TODO: TSSatisfiesExpression
