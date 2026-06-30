@@ -34,7 +34,7 @@ run<RuleOptions, MessageIds>({
         ({ type }) => type === 'bark' ||
           type === 'pooque' ||
           type === 'srenque'
-        ));
+      ));
     `,
     $`
       if (a
@@ -138,7 +138,7 @@ run<RuleOptions, MessageIds>({
       const anchor = document.getElementById('anchor');
       if (
         (anchor && (anchor.getAttribute('href')
-                      ?.startsWith('#tab_name_')) === false)
+          ?.startsWith('#tab_name_')) === false)
         && anchor.tabIndex === 0
       ) {
         console.log('test');
@@ -148,7 +148,7 @@ run<RuleOptions, MessageIds>({
       const elem = document.getElementById('elem');
       if (
         (elem && (elem.getAttribute('href')
-                    .toLowerCase()) === 'test')
+          .toLowerCase()) === 'test')
         && elem.tabIndex === 0
       ) {
         console.log('test');
@@ -441,8 +441,8 @@ run<RuleOptions, MessageIds>({
           } & A)
           | ({
             type: 'b';
-            } & B)
-            | ({
+          } & B)
+          | ({
             type: 'c';
           } & {
             c: string;
