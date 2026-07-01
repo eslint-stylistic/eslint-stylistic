@@ -1048,9 +1048,6 @@ export default createRule<RuleOptions, MessageIds>({
       const anchor = tokenInfo.getFirstTokenOfLine(firstToken)!
       const offset = tokenInfo.isFirstTokenOfLine(firstToken) ? 0 : options.binaryOps
 
-      if (anchor !== firstToken)
-        offsets.setDesiredOffsets(firstToken.range, anchor, offset, true)
-
       for (const typeNode of node.types) {
         const tokenOperator = sourceCode.getTokenBefore(typeNode)
 
@@ -1279,11 +1276,11 @@ export default createRule<RuleOptions, MessageIds>({
 
       'DoWhileStatement, WhileStatement, ForInStatement, ForOfStatement, WithStatement': function (
         node:
-        | Tree.DoWhileStatement
-        | Tree.WhileStatement
-        | Tree.ForInStatement
-        | Tree.ForOfStatement
-        | Tree.WithStatement,
+          | Tree.DoWhileStatement
+          | Tree.WhileStatement
+          | Tree.ForInStatement
+          | Tree.ForOfStatement
+          | Tree.WithStatement,
       ) {
         addBlocklessNodeIndent(node.body)
       },

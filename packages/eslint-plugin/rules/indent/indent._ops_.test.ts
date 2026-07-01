@@ -69,22 +69,22 @@ run<RuleOptions, MessageIds>({
     $`
       type Foo = Pick<Bar
         | Baz,
-        Baz
-        | Qux,
+      Baz
+      | Qux,
       >;
     `,
     $`
       type Foo = [Bar
         | Baz,
-        Baz
-        | Qux,
+      Baz
+      | Qux,
       ];
     `,
     $`
       type Foo = { x: Foo
         | Baz,
-        y: Baz
-          | Quz
+      y: Baz
+        | Quz
       };
     `,
     $`
@@ -502,8 +502,8 @@ run<RuleOptions, MessageIds>({
       output: $`
         type Foo = Pick<Bar
           | Baz,
-          Baz
-          | Qux,
+        Baz
+        | Qux,
         >;
       `,
     },
@@ -518,8 +518,8 @@ run<RuleOptions, MessageIds>({
       output: $`
         type Foo = [Bar
           | Baz,
-          Baz
-          | Qux,
+        Baz
+        | Qux,
         ];
       `,
     },
@@ -534,8 +534,8 @@ run<RuleOptions, MessageIds>({
       output: $`
         type Foo = { x: Foo
           | Baz,
-          y: Baz
-            | Quz
+        y: Baz
+          | Quz
         };
       `,
     },
