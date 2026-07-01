@@ -6,7 +6,31 @@
 
 import type { ASTNode, JSONSchema, NodeTypes, RuleFunction, RuleListener, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
+import {
+  AST_NODE_TYPES,
+  createGlobalLinebreakMatcher,
+  getCommentsBetween,
+  isClosingBraceToken,
+  isClosingBracketToken,
+  isClosingParenToken,
+  isColonToken,
+  isCommentToken,
+  isEqToken,
+  isNodeOfTypes,
+  isNotClosingParenToken,
+  isNotOpeningParenToken,
+  isNotSemicolonToken,
+  isOpeningBraceToken,
+  isOpeningBracketToken,
+  isOpeningParenToken,
+  isOptionalChainPunctuator,
+  isQuestionToken,
+  isSemicolonToken,
+  isSingleLine,
+  isTokenOnSameLine,
+  skipChainExpression,
+  STATEMENT_LIST_PARENTS,
+} from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { isESTreeSourceCode } from '#utils/eslint-core'
 import { OffsetStorage } from './utils/offset-storage'
@@ -965,30 +989,6 @@ export default createRule<RuleOptions, MessageIds>({
       offsets.setDesiredOffset(tokenAfterOperator, operatorToken, 0)
     }
 
-    function isBinaryLikeNode(node: ASTNode | undefined): node is ASTNode & { left: ASTNode, right: ASTNode } {
-      return !!node && (node.type === 'BinaryExpression' || node.type === 'LogicalExpression')
-    }
-
-    function getBinaryExpressionRoot(node: ASTNode & { left: ASTNode, right: ASTNode }) {
-      let root = node
-
-      while (isBinaryLikeNode(root.parent) && root.parent.left === root)
-        root = root.parent
-
-      return root
-    }
-
-    function getContinuationIndent(firstToken: Token): number {
-      if (tokenInfo.isFirstTokenOfLine(firstToken) || options.binaryOps === 'off')
-        return 0
-
-      return options.binaryOps
-    }
-
-    function getContinuationAnchor(firstToken: Token) {
-      return tokenInfo.getFirstTokenOfLine(firstToken)!
-    }
-
     function applyContinuationIndent(tokenOperator: Token, tokenLeft: Token, tokenRight: Token, anchor: Token, offset: number) {
       if (isTokenOnSameLine(tokenLeft, tokenRight))
         return
@@ -1004,6 +1004,19 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
+    function getBinaryExpressionRoot(node: ASTNode & { left: ASTNode, right: ASTNode }) {
+      let root = node
+
+      while (
+        isNodeOfTypes([AST_NODE_TYPES.BinaryExpression, AST_NODE_TYPES.LogicalExpression])(root.parent)
+        && root.parent.left === root
+      ) {
+        root = root.parent
+      }
+
+      return root
+    }
+
     function checkBinaryOps(node: Tree.BinaryExpression | Tree.LogicalExpression) {
       if (isSingleLine(node))
         return
@@ -1016,8 +1029,8 @@ export default createRule<RuleOptions, MessageIds>({
 
       const root = getBinaryExpressionRoot(node)
       const firstToken = sourceCode.getFirstToken(root)!
-      const anchor = getContinuationAnchor(firstToken)
-      const offset = getContinuationIndent(firstToken)
+      const anchor = tokenInfo.getFirstTokenOfLine(firstToken)!
+      const offset = tokenInfo.isFirstTokenOfLine(firstToken) ? 0 : options.binaryOps
 
       applyContinuationIndent(tokenOperator, tokenLeft, tokenRight, anchor, offset)
     }
@@ -1032,8 +1045,8 @@ export default createRule<RuleOptions, MessageIds>({
         return
 
       const firstToken = sourceCode.getFirstToken(node)!
-      const anchor = getContinuationAnchor(firstToken)
-      const offset = getContinuationIndent(firstToken)
+      const anchor = tokenInfo.getFirstTokenOfLine(firstToken)!
+      const offset = tokenInfo.isFirstTokenOfLine(firstToken) ? 0 : options.binaryOps
 
       if (anchor !== firstToken)
         offsets.setDesiredOffsets(firstToken.range, anchor, offset, true)
