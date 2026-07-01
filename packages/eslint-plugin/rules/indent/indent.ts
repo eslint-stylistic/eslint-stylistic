@@ -2045,6 +2045,16 @@ export default createRule<RuleOptions, MessageIds>({
         checkMemberExpression(node, node.object, node.property)
       },
 
+      TSTypeAnnotation(node) {
+        // handled by FunctionDeclaration.returnType, FunctionExpression.returnType
+        if (node.parent.type === 'FunctionDeclaration' || node.parent.type === 'FunctionExpression')
+          return
+
+        const colon = sourceCode.getFirstToken(node)!
+        const right = sourceCode.getTokenAfter(colon)!
+        offsets.setDesiredOffset(right, colon, 1)
+      },
+
       TSTypeAliasDeclaration(node) {
         const operator = sourceCode.getTokenBefore(node.typeAnnotation, isNotOpeningParenToken)!
         checkAssignmentOperator(operator)
