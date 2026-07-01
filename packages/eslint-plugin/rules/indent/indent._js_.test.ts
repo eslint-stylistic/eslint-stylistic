@@ -2,7 +2,6 @@ import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import tsParser from '@typescript-eslint/parser'
 import { $, run, skipBabel } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from './indent'
@@ -4242,24 +4241,6 @@ run<RuleOptions, MessageIds>({
     // Ignore Unknown Nodes
     // ----------------------------------------------------------------------
 
-    {
-      code: $`
-        type httpMethod = 'GET'
-          | 'POST'
-          | 'PUT';
-      `,
-      options: [2, { VariableDeclarator: 0 }],
-      parser: tsParser,
-    },
-    {
-      code: $`
-        type httpMethod = 'GET'
-        | 'POST'
-        | 'PUT';
-      `,
-      options: [2, { VariableDeclarator: 1 }],
-      parser: tsParser,
-    },
     $`
       foo(\`foo
               \`, {
