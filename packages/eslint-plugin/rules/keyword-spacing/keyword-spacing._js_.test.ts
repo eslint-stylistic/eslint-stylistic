@@ -614,6 +614,10 @@ run<RuleOptions, MessageIds>({
     'if (a);else;',
     { code: 'if(a); else ;', options: [NEITHER] },
 
+    // preserve comments between keyword and neighbor in NEITHER mode (sibling of #1231)
+    { code: 'if(a) {} /* comment */ else{}', options: [NEITHER] },
+    { code: 'if(a) {}else /* comment */ {}', options: [NEITHER] },
+
     // ----------------------------------------------------------------------
     // export
     // ----------------------------------------------------------------------
