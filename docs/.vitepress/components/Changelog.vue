@@ -28,10 +28,21 @@ const entries = computed(() => changelogData[props.ruleName] ?? [])
   <div v-if="entries.length" mt-8>
     <div v-for="group of entries" :key="group.version" mb-4>
       <h4 text-lg mb-2>
-        <code font-bold>{{ group.version }}</code>
-        <span v-if="group.versionDate" op-50 text-xs>
-          on <time :datetime="group.versionDate">{{ new Date(group.versionDate).toLocaleDateString() }}</time>
-        </span>
+        <template v-if="group.isUnreleased">
+          <code font-bold op-60>Not released yet</code>
+        </template>
+        <template v-else>
+          <a
+            :href="`${REPO_URL}/releases/tag/${group.version}`" target="_blank"
+            text-teal-700 dark:text-teal
+            class="!no-underline"
+          >
+            <code font-bold>{{ group.version }}</code>
+          </a>
+          <span v-if="group.versionDate" op-50 text-xs>
+            on <time :datetime="group.versionDate">{{ new Date(group.versionDate).toLocaleDateString() }}</time>
+          </span>
+        </template>
       </h4>
       <ul>
         <li v-for="commit of group.commits" :key="commit.hash" mb-1 text-sm>
