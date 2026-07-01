@@ -21,6 +21,7 @@ export interface VersionGroup {
   version: string
   versionDate: string
   commits: CommitInfo[]
+  isUnreleased?: boolean
 }
 
 const PARSER = new CommitParser({
@@ -75,11 +76,23 @@ async function getChangelog(from: string) {
         continue
       if (!parsed.scope)
         continue
-      if (!currentVersion)
-        continue
 
       const rule = parsed.scope
       const groups = result[rule] || (result[rule] = [])
+
+      if (!currentVersion) {
+        if (!groups.length || !groups[0].isUnreleased)
+          groups.unshift({ version: '', versionDate: '', commits: [], isUnreleased: true })
+
+        groups[0].commits.push({
+          hash: raw.hash,
+          date: raw.date,
+          type: parsed.type,
+          breaking: Boolean(parsed.breaking),
+          parts: tokenizeSubject(parsed.subject ?? ''),
+        })
+        continue
+      }
 
       if (!groups.length || groups[groups.length - 1].version !== currentVersion.version) {
         groups.push({
