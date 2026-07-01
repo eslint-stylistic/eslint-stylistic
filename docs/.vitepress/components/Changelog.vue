@@ -29,7 +29,7 @@ const entries = computed(() => changelogData[props.ruleName] ?? [])
     <div v-for="group of entries" :key="group.version" mb-4>
       <h4 text-lg mb-2>
         <template v-if="group.isUnreleased">
-          <code font-bold op-60>Not release yet</code>
+          <code font-bold op-60>Not released yet</code>
         </template>
         <template v-else>
           <a
