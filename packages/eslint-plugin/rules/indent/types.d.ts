@@ -36,6 +36,7 @@ export interface IndentSchema1 {
   ArrayExpression?: number | ('first' | 'off')
   ObjectExpression?: number | ('first' | 'off')
   ImportDeclaration?: number | ('first' | 'off')
+  binaryOps?: number | 'off'
   flatTernaryExpressions?: boolean
   offsetTernaryExpressions?:
     | boolean
@@ -47,7 +48,6 @@ export interface IndentSchema1 {
   ignoredNodes?: string[]
   ignoreComments?: boolean
   tabLength?: number
-  binaryOps?: number | 'off'
 }
 
 export type IndentRuleOptions = [

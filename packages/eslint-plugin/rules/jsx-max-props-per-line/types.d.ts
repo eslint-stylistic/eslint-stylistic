@@ -9,10 +9,10 @@ export type JsxMaxPropsPerLineSchema0
       multi?: number
     }
   }
-  | {
-    maximum?: number
-    when?: 'always' | 'multiline'
-  }
+    | {
+      maximum?: number
+      when?: 'always' | 'multiline'
+    }
 
 export type JsxMaxPropsPerLineRuleOptions = [
   JsxMaxPropsPerLineSchema0?,

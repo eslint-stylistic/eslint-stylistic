@@ -4,13 +4,13 @@
 
 export type ObjectCurlyNewlineSchema0
   = | (
-      | ('always' | 'never')
-      | {
-        multiline?: boolean
-        minProperties?: number
-        consistent?: boolean
-      }
-    )
+    | ('always' | 'never')
+    | {
+      multiline?: boolean
+      minProperties?: number
+      consistent?: boolean
+    }
+  )
     | {
       ObjectExpression?:
         | ('always' | 'never')

@@ -299,7 +299,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "docs": {
             "description": "Indentation for binary operators",
             "experimental": false,
-            "recommended": true
+            "recommended": false
           }
         }
       },

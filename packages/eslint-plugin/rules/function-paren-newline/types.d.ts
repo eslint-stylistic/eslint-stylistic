@@ -9,7 +9,7 @@ export type FunctionParenNewlineSchema0
     | 'consistent'
     | 'multiline'
     | 'multiline-arguments'
-    )
+  )
     | {
       minItems?: number
     }

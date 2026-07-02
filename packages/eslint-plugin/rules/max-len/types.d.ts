@@ -15,7 +15,7 @@ export type MaxLenSchema0
     ignoreRegExpLiterals?: boolean
     ignoreTrailingComments?: boolean
   }
-  | number
+    | number
 
 export type MaxLenSchema1
   = | {
@@ -30,7 +30,7 @@ export type MaxLenSchema1
     ignoreRegExpLiterals?: boolean
     ignoreTrailingComments?: boolean
   }
-  | number
+    | number
 
 export interface MaxLenSchema2 {
   code?: number

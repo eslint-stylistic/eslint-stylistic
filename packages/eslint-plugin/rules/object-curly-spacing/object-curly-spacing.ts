@@ -236,8 +236,8 @@ export default createRule<RuleOptions, MessageIds>({
         const shouldCheckPenultimate
           = (options.arraysInObjectsException
             && isClosingBracketToken(tokenBeforeClosing))
-          || (options.objectsInObjectsException
-            && isClosingBraceToken(tokenBeforeClosing))
+            || (options.objectsInObjectsException
+              && isClosingBraceToken(tokenBeforeClosing))
         const penultimateType = shouldCheckPenultimate
           ? sourceCode.getNodeByRangeIndex(tokenBeforeClosing.range[0])!.type
           : undefined
@@ -250,16 +250,16 @@ export default createRule<RuleOptions, MessageIds>({
               AST_NODE_TYPES.TSTupleType,
             ].includes(penultimateType!)
           )
-          || (
-            options.objectsInObjectsException
-            && penultimateType !== undefined
-            && [
-              AST_NODE_TYPES.ObjectExpression,
-              AST_NODE_TYPES.ObjectPattern,
-              AST_NODE_TYPES.TSMappedType,
-              AST_NODE_TYPES.TSTypeLiteral,
-            ].includes(penultimateType)
-          )
+            || (
+              options.objectsInObjectsException
+              && penultimateType !== undefined
+              && [
+                AST_NODE_TYPES.ObjectExpression,
+                AST_NODE_TYPES.ObjectPattern,
+                AST_NODE_TYPES.TSMappedType,
+                AST_NODE_TYPES.TSTypeLiteral,
+              ].includes(penultimateType)
+            )
             ? !spaced
             : spaced
 

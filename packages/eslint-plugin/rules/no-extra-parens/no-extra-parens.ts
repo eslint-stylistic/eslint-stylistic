@@ -752,7 +752,7 @@ export default createRule<RuleOptions, MessageIds>({
           IGNORE_NESTED_BINARY
           && (expression.type === 'BinaryExpression' || expression.type === 'LogicalExpression')
         )
-        || !hasExcessParens(expression)
+          || !hasExcessParens(expression)
       }
 
       const nodePrecedence = precedence(node)
@@ -868,11 +868,11 @@ export default createRule<RuleOptions, MessageIds>({
             secondToken.value === 'function'
             || secondToken.value === 'class'
             || secondToken.value === 'let'
-            && tokenAfterClosingParens
-            && (
-              isOpeningBracketToken(tokenAfterClosingParens)
-              || tokenAfterClosingParens.type === 'Identifier'
-            )
+              && tokenAfterClosingParens
+              && (
+                isOpeningBracketToken(tokenAfterClosingParens)
+                || tokenAfterClosingParens.type === 'Identifier'
+              )
           )
           || secondToken && secondToken.type === 'Identifier' && secondToken.value === 'async' && isKeywordToken(thirdToken) && thirdToken.value === 'function'
         )
@@ -1378,7 +1378,7 @@ export default createRule<RuleOptions, MessageIds>({
         if ((precedence(node.argument) >= precedence(node)
           && yieldToken
           && hasExcessParensNoLineTerminator(yieldToken, node.argument))
-        || hasDoubleExcessParens(node.argument)) {
+          || hasDoubleExcessParens(node.argument)) {
           report(node.argument)
         }
       },

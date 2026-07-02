@@ -8,7 +8,7 @@ export type JsxClosingBracketLocationSchema0
     | 'props-aligned'
     | 'tag-aligned'
     | 'line-aligned'
-    )
+  )
     | {
       location?:
         | 'after-props'
@@ -23,16 +23,16 @@ export type JsxClosingBracketLocationSchema0
           | 'props-aligned'
           | 'tag-aligned'
           | 'line-aligned'
-          )
-          | false
+        )
+        | false
       selfClosing?:
         | (
           | 'after-props'
           | 'props-aligned'
           | 'tag-aligned'
           | 'line-aligned'
-          )
-          | false
+        )
+        | false
     }
 
 export type JsxClosingBracketLocationRuleOptions = [
