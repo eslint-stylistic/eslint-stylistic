@@ -1,9 +1,6 @@
 import { basename, dirname } from 'node:path'
-import { env } from 'node:process'
-import { codecovRollupPlugin } from '@codecov/rollup-plugin'
 import { globSync } from 'tinyglobby'
 import { defineConfig } from 'tsdown'
-import pkg from './package.json' with { type: 'json' }
 
 const rulesEntry = globSync(
   'rules/**/*.ts',
@@ -72,14 +69,6 @@ export default defineConfig([
         ],
       },
     },
-    plugins: [
-      codecovRollupPlugin({
-        enableBundleAnalysis: env.CODECOV_TOKEN !== undefined,
-        bundleName: pkg.name,
-        uploadToken: env.CODECOV_TOKEN,
-        gitService: 'github',
-      }),
-    ],
   },
   {
     entry: [
