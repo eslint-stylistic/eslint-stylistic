@@ -57,14 +57,14 @@ export default defineConfig([
             name: 'vendor',
             test: /node_modules/,
           },
-          {
-            name: 'utils',
-            test: /utils/,
-          },
           ...rulesEntry.map(file => ({
             name: `rules/${basename(dirname(file))}`,
             test: new RegExp(`rules[\\/]${basename(dirname(file))}[\\/]`),
           })),
+          {
+            name: 'utils',
+            test: /utils/,
+          },
           {
             name: 'configs',
             test: /configs/,
