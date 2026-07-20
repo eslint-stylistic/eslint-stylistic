@@ -35,6 +35,14 @@ run<RuleOptions, MessageIds>({
     { code: 'a ** b', parserOptions: { ecmaVersion: 7 } },
     { code: 'a|0', options: [{ int32Hint: true }] },
     { code: 'a |0', options: [{ int32Hint: true }] },
+    { code: 'a^b + c*d + e/f', options: [{ ignoreOperators: ['*', '/', '^'] }] },
+    { code: 'a+b', options: [{ ignoreOperators: ['+'] }] },
+    { code: 'a+=b', options: [{ ignoreOperators: ['+='] }] },
+    { code: 'a&&b', options: [{ ignoreOperators: ['&&'] }] },
+    { code: 'a?b:c', options: [{ ignoreOperators: ['?', ':'] }] },
+    { code: 'var a=b', options: [{ ignoreOperators: ['='] }] },
+    { code: 'a|0', options: [{ int32Hint: true, ignoreOperators: [] }] },
+    { code: 'a|0', options: [{ int32Hint: false, ignoreOperators: ['|'] }] },
 
     // Type Annotations
     { code: 'function foo(a: number = 0) { }', parser: tsParser, parserOptions: { ecmaVersion: 6 } },
@@ -58,6 +66,30 @@ run<RuleOptions, MessageIds>({
     { code: 'class C { #a = b; }', parserOptions: { ecmaVersion: 2022 } },
   ],
   invalid: [
+    {
+      code: 'a^b+c',
+      output: 'a^b + c',
+      options: [{ ignoreOperators: ['*', '/', '^'] }],
+      errors: [{
+        messageId: 'missingSpace',
+        data: { operator: '+' },
+        line: 1,
+        column: 4,
+        endColumn: 5,
+      }],
+    },
+    {
+      code: 'a+=b',
+      output: 'a += b',
+      options: [{ ignoreOperators: ['+'] }],
+      errors: [{
+        messageId: 'missingSpace',
+        data: { operator: '+=' },
+        line: 1,
+        column: 2,
+        endColumn: 4,
+      }],
+    },
     {
       code: 'a+b',
       output: 'a + b',
