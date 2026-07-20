@@ -58,7 +58,6 @@ export interface IndentContext {
   indentSize: number
   indentType: 'space' | 'tab'
   options: IndentConfig
-  ternaryOptions: false | Partial<Record<string, boolean>>
 }
 
 /**
@@ -386,7 +385,15 @@ export function checkConditionalNode(
   consequent: ASTNode,
   alternate: ASTNode,
 ) {
-  const { sourceCode, offsets, options, ternaryOptions } = ctx
+  const { sourceCode, offsets, options } = ctx
+  const ternaryOptions: false | Partial<Record<string, boolean>> = options.offsetTernaryExpressions !== false
+    ? {
+        CallExpression: true,
+        AwaitExpression: true,
+        NewExpression: true,
+        ...options.offsetTernaryExpressions === true ? {} : options.offsetTernaryExpressions,
+      }
+    : false
   const firstToken = sourceCode.getFirstToken(node)!
 
   // `flatTernaryExpressions` option is for the following style:

@@ -479,15 +479,6 @@ export default createRule<RuleOptions, MessageIds>({
     const offsets = new OffsetStorage(tokenInfo, indentSize, indentType === 'space' ? ' ' : '\t', sourceCode.text.length)
     const parameterParens = new WeakSet()
 
-    const ternaryOptions: false | Partial<Record<string, boolean>> = options.offsetTernaryExpressions !== false
-      ? {
-          CallExpression: true,
-          AwaitExpression: true,
-          NewExpression: true,
-          ...options.offsetTernaryExpressions === true ? {} : options.offsetTernaryExpressions,
-        }
-      : false
-
     const ctx: IndentContext = {
       sourceCode,
       offsets,
@@ -496,7 +487,6 @@ export default createRule<RuleOptions, MessageIds>({
       indentSize,
       indentType,
       options,
-      ternaryOptions,
     }
 
     /**
