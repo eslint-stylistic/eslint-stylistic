@@ -11,6 +11,7 @@ import { createRule } from '#utils/create-rule'
 import { isESTreeSourceCode } from '#utils/eslint-core'
 import { OffsetStorage } from './utils/offset-storage'
 import { TokenInfo } from './utils/token-info'
+import { hasBlankLinesBetween, validateTokenIndent } from './utils/validator'
 
 const KNOWN_NODES = new Set([
   'AssignmentExpression',
@@ -523,18 +524,6 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Checks if a token's indentation is correct
-     * @param token Token to examine
-     * @param desiredIndent Desired indentation of the string
-     * @returns `true` if the token's indentation is correct
-     */
-    function validateTokenIndent(token: Token, desiredIndent: string): boolean {
-      const indentation = tokenInfo.getTokenIndent(token)
-
-      return indentation === desiredIndent
-    }
-
-    /**
      * Check to see if the node is a file level IIFE
      * @param node The function node to check.
      * @returns True if the node is the outer IIFE
@@ -803,29 +792,6 @@ export default createRule<RuleOptions, MessageIds>({
       node = node.parent!
 
       return !node || node.loc.start.line === token.loc.start.line
-    }
-
-    /**
-     * Check whether there are any blank (whitespace-only) lines between
-     * two tokens on separate lines.
-     * @param firstToken The first token.
-     * @param secondToken The second token.
-     * @returns `true` if the tokens are on separate lines and
-     *   there exists a blank line between them, `false` otherwise.
-     */
-    function hasBlankLinesBetween(firstToken: Token, secondToken: Token): boolean {
-      const firstTokenLine = firstToken.loc.end.line
-      const secondTokenLine = secondToken.loc.start.line
-
-      if (firstTokenLine === secondTokenLine || firstTokenLine === secondTokenLine - 1)
-        return false
-
-      for (let line = firstTokenLine + 1; line < secondTokenLine; ++line) {
-        if (!tokenInfo.firstTokensByLineNumber.has(line))
-          return true
-      }
-
-      return false
     }
 
     const ignoredNodeFirstTokens = new Set<Token>()
@@ -1891,8 +1857,8 @@ export default createRule<RuleOptions, MessageIds>({
           if (isCommentToken(firstTokenOfLine)) {
             const tokenBefore = precedingTokens.get(firstTokenOfLine)
             const tokenAfter = tokenBefore ? sourceCode.getTokenAfter(tokenBefore) : sourceCode.ast.tokens[0]
-            const mayAlignWithBefore = tokenBefore && !hasBlankLinesBetween(tokenBefore, firstTokenOfLine)
-            const mayAlignWithAfter = tokenAfter && !hasBlankLinesBetween(firstTokenOfLine, tokenAfter)
+            const mayAlignWithBefore = tokenBefore && !hasBlankLinesBetween(tokenInfo, tokenBefore, firstTokenOfLine)
+            const mayAlignWithAfter = tokenAfter && !hasBlankLinesBetween(tokenInfo, firstTokenOfLine, tokenAfter)
 
             /**
              * If a comment precedes a line that begins with a semicolon token, align to that token, i.e.
@@ -1906,15 +1872,15 @@ export default createRule<RuleOptions, MessageIds>({
 
             // If a comment matches the expected indentation of the token immediately before or after, don't report it.
             if (
-              mayAlignWithBefore && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenBefore)!)
-              || mayAlignWithAfter && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenAfter)!)
+              mayAlignWithBefore && validateTokenIndent(tokenInfo, firstTokenOfLine, offsets.getDesiredIndent(tokenBefore)!)
+              || mayAlignWithAfter && validateTokenIndent(tokenInfo, firstTokenOfLine, offsets.getDesiredIndent(tokenAfter)!)
             ) {
               continue
             }
           }
 
           // If the token matches the expected indentation, don't report it.
-          if (validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(firstTokenOfLine)!))
+          if (validateTokenIndent(tokenInfo, firstTokenOfLine, offsets.getDesiredIndent(firstTokenOfLine)!))
             continue
 
           // Otherwise, report the token/comment.
