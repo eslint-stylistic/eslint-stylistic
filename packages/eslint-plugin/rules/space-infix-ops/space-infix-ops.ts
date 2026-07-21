@@ -20,6 +20,13 @@ export default createRule<RuleOptions, MessageIds>({
           int32Hint: {
             type: 'boolean',
           },
+          ignoreOperators: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+            uniqueItems: true,
+          },
           ignoreTypes: {
             type: 'boolean',
           },
@@ -30,6 +37,7 @@ export default createRule<RuleOptions, MessageIds>({
     defaultOptions: [
       {
         int32Hint: false,
+        ignoreOperators: [],
         ignoreTypes: false,
       },
     ],
@@ -38,7 +46,8 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   create(context, [options]) {
-    const { int32Hint, ignoreTypes } = options!
+    const { int32Hint, ignoreOperators, ignoreTypes } = options!
+    const ignoredOperators = new Set(ignoreOperators)
 
     const sourceCode = context.sourceCode
 
@@ -107,10 +116,16 @@ export default createRule<RuleOptions, MessageIds>({
 
       const nonSpacedNode = getFirstNonSpacedToken(leftNode, rightNode, operator)
 
-      if (nonSpacedNode) {
-        if (!(int32Hint && sourceCode.getText(node).endsWith('|0')))
-          report(node, nonSpacedNode)
-      }
+      if (!nonSpacedNode)
+        return
+
+      if (int32Hint && sourceCode.getText(node).endsWith('|0'))
+        return
+
+      if (ignoredOperators.has(operator))
+        return
+
+      report(node, nonSpacedNode)
     }
 
     function isSpaceChar(token: Token): boolean {
@@ -130,6 +145,9 @@ export default createRule<RuleOptions, MessageIds>({
         rightNode,
         isSpaceChar,
       )!
+
+      if (ignoredOperators.has(operator.value))
+        return
 
       const prev = sourceCode.getTokenBefore(operator)!
       const next = sourceCode.getTokenAfter(operator)!
@@ -176,7 +194,12 @@ export default createRule<RuleOptions, MessageIds>({
           skipFunctionParenthesis,
         )
 
-        if (!ignoreTypes && operator != null && UNIONS.includes(operator.value)) {
+        if (
+          !ignoreTypes
+          && operator != null
+          && UNIONS.includes(operator.value)
+          && !ignoredOperators.has(operator.value)
+        ) {
           const prev = sourceCode.getTokenBefore(operator)
           const next = sourceCode.getTokenAfter(operator)
 
