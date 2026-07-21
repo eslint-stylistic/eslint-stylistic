@@ -555,13 +555,9 @@ export default createRule<RuleOptions, MessageIds>({
 
       'ArrayPattern': node => checkArrayLikeNode(ctx, node),
 
-      ObjectExpression(node) {
-        checkObjectLikeNode(ctx, node, node.properties)
-      },
+      'ObjectExpression': node => checkObjectLikeNode(ctx, node, node.properties),
 
-      ObjectPattern(node) {
-        checkObjectLikeNode(ctx, node, node.properties)
-      },
+      'ObjectPattern': node => checkObjectLikeNode(ctx, node, node.properties),
 
       ArrowFunctionExpression(node) {
         const maybeOpeningParen = sourceCode.getFirstToken(node, { skip: node.async ? 1 : 0 })!
@@ -593,13 +589,9 @@ export default createRule<RuleOptions, MessageIds>({
         checkAssignmentOperator(ctx, operator)
       },
 
-      BinaryExpression(node) {
-        checkOperatorToken(ctx, node.left, node.right, node.operator)
-      },
+      'BinaryExpression': node => checkOperatorToken(ctx, node.left, node.right, node.operator),
 
-      LogicalExpression(node) {
-        checkOperatorToken(ctx, node.left, node.right, node.operator)
-      },
+      'LogicalExpression': node => checkOperatorToken(ctx, node.left, node.right, node.operator),
 
       'BlockStatement': node => checkBlockLikeNode(ctx, node),
 
@@ -621,9 +613,7 @@ export default createRule<RuleOptions, MessageIds>({
         checkHeritages(ctx, node, [node.superClass])
       },
 
-      ConditionalExpression(node) {
-        checkConditionalNode(ctx, node, node.test, node.consequent, node.alternate)
-      },
+      'ConditionalExpression': node => checkConditionalNode(ctx, node, node.test, node.consequent, node.alternate),
 
       'DoWhileStatement, WhileStatement, ForInStatement, ForOfStatement, WithStatement': function (
         node:
@@ -815,13 +805,9 @@ export default createRule<RuleOptions, MessageIds>({
         addElementListIndent(ctx, [node.source], openingParen, closingParen, options.CallExpression.arguments)
       },
 
-      MemberExpression(node) {
-        checkMemberExpression(ctx, node, node.object, node.property, node.computed)
-      },
+      'MemberExpression': node => checkMemberExpression(ctx, node, node.object, node.property, node.computed),
 
-      MetaProperty(node) {
-        checkMemberExpression(ctx, node, node.meta, node.property)
-      },
+      'MetaProperty': node => checkMemberExpression(ctx, node, node.meta, node.property),
 
       NewExpression(node) {
         // Only indent the arguments if the NewExpression has parens (e.g. `new Foo(bar)` or `new Foo()`, but not `new Foo`
@@ -1124,9 +1110,7 @@ export default createRule<RuleOptions, MessageIds>({
         )
       },
 
-      JSXMemberExpression(node) {
-        checkMemberExpression(ctx, node, node.object, node.property)
-      },
+      'JSXMemberExpression': node => checkMemberExpression(ctx, node, node.object, node.property),
 
       TSTypeAnnotation(node) {
         // handled by FunctionDeclaration.returnType, FunctionExpression.returnType
@@ -1159,9 +1143,7 @@ export default createRule<RuleOptions, MessageIds>({
         checkAssignmentOperator(ctx, operator)
       },
 
-      TSTypeLiteral(node) {
-        checkObjectLikeNode(ctx, node, node.members)
-      },
+      'TSTypeLiteral': node => checkObjectLikeNode(ctx, node, node.members),
 
       TSMappedType(node) {
         const startToken = sourceCode.getFirstToken(node, isOpeningBraceToken)!
@@ -1171,15 +1153,11 @@ export default createRule<RuleOptions, MessageIds>({
         offsets.setDesiredOffset(endToken, startToken, 0)
       },
 
-      TSAsExpression(node) {
-        checkOperatorToken(ctx, node.expression, node.typeAnnotation, 'as')
-      },
+      'TSAsExpression': node => checkOperatorToken(ctx, node.expression, node.typeAnnotation, 'as'),
 
       // TODO: TSSatisfiesExpression
 
-      TSConditionalType(node) {
-        checkConditionalNode(ctx, node, node.extendsType, node.trueType, node.falseType)
-      },
+      'TSConditionalType': node => checkConditionalNode(ctx, node, node.extendsType, node.trueType, node.falseType),
 
       TSImportEqualsDeclaration(node) {
         if (node.moduleReference) {
@@ -1192,9 +1170,7 @@ export default createRule<RuleOptions, MessageIds>({
           offsets.ignoreToken(lastToken)
       },
 
-      TSIndexedAccessType(node) {
-        checkMemberExpression(ctx, node, node.objectType, node.indexType, true)
-      },
+      'TSIndexedAccessType': node => checkMemberExpression(ctx, node, node.objectType, node.indexType, true),
 
       'TSInterfaceBody': node => checkBlockLikeNode(ctx, node),
 
@@ -1205,9 +1181,7 @@ export default createRule<RuleOptions, MessageIds>({
         checkHeritages(ctx, node, node.extends)
       },
 
-      TSQualifiedName(node) {
-        checkMemberExpression(ctx, node, node.left, node.right)
-      },
+      'TSQualifiedName': node => checkMemberExpression(ctx, node, node.left, node.right),
 
       TSTypeParameter(node) {
         if (!node.default)
