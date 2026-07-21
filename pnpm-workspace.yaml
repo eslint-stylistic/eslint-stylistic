@@ -18,7 +18,6 @@ overrides:
 
 catalogs:
   build:
-    '@codecov/rollup-plugin': ^2.0.1
     tsdown: ^0.22.1
   dev:
     '@antfu/eslint-config': ^9.0.0

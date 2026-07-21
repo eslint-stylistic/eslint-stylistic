@@ -30,7 +30,6 @@
     "@babel/plugin-syntax-do-expressions": "catalog:test",
     "@babel/plugin-syntax-function-bind": "catalog:test",
     "@babel/preset-react": "catalog:test",
-    "@codecov/rollup-plugin": "catalog:build",
     "@eslint-stylistic/metadata": "workspace:*",
     "@eslint/core": "catalog:dev",
     "@eslint/css": "catalog:dev",
