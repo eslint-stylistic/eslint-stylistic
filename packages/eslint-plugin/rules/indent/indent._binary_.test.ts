@@ -13,6 +13,11 @@ run<RuleOptions, MessageIds>({
           + baz
       `,
       $`
+        const value = foo +
+          bar
+      `,
+      'const value = foo + bar',
+      $`
         if (foo
           && bar
           && (baz
@@ -32,6 +37,11 @@ run<RuleOptions, MessageIds>({
         )
       `,
       $`
+        const value = (
+          foo
+        ) + bar
+      `,
+      $`
         type Result =
           | Success
           | Failure
@@ -40,6 +50,11 @@ run<RuleOptions, MessageIds>({
           & Left
           & Right
       `,
+      $`
+        type Result = Success |
+          Failure
+      `,
+      'type Result = Success | Failure',
       $`
         type Config
           = | {
@@ -85,6 +100,16 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
+        const value = foo +
+            bar
+      `,
+      output: $`
+        const value = foo +
+          bar
+      `,
+    },
+    {
+      code: $`
         if (foo
             && bar
           && baz
@@ -107,6 +132,16 @@ run<RuleOptions, MessageIds>({
         type Result =
           | Success
           | Failure
+      `,
+    },
+    {
+      code: $`
+        type Result = Success |
+            Failure
+      `,
+      output: $`
+        type Result = Success |
+          Failure
       `,
     },
     {
