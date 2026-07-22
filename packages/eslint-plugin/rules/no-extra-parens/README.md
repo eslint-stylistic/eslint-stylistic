@@ -444,7 +444,7 @@ const fruits = {
 
 #### ignoredNodes
 
-The following configuration ignores `ConditionalExpression` in `ArrowFunctionExpression` nodes like [`enforceForArrowConditionals`](#enforceforarrowconditionals-deprecated):
+The following configuration resolves the conflict against 'no-confusing-arrow' by ignoring `ConditionalExpression` in `ArrowFunctionExpression` nodes like [`enforceForArrowConditionals`](#enforceforarrowconditionals-deprecated):
 
 Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["ArrowFunctionExpression[body.type=ConditionalExpression]"] }` option:
 

@@ -18,6 +18,7 @@
     "@shikijs/vitepress-twoslash": "catalog:docs",
     "@types/markdown-it-container": "catalog:docs",
     "@vueuse/core": "catalog:docs",
+    "conventional-commits-parser": "catalog:docs",
     "markdown-it-container": "catalog:docs",
     "shiki": "catalog:docs",
     "twoslash": "catalog:docs",

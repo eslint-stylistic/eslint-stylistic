@@ -947,6 +947,38 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
+        function foo(
+          a:
+          number
+        ) {
+          
+        }
+      `,
+      output: $`
+        function foo(
+          a:
+            number
+        ) {
+          
+        }
+      `,
+      options: [2],
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          column: 1,
+          endColumn: 3,
+          endLine: 3,
+          line: 3,
+          data: {
+            expected: '4 spaces',
+            actual: 2,
+          },
+        },
+      ],
+    },
+    {
+      code: $`
         type Foo = {
         bar : string,
         age : number,

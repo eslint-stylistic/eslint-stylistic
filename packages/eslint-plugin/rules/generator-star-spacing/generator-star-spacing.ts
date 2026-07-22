@@ -178,8 +178,8 @@ export default createRule<RuleOptions, MessageIds>({
         return
 
       const starToken = getStarToken(node)!
-      const prevToken = sourceCode.getTokenBefore(starToken)!
-      const nextToken = sourceCode.getTokenAfter(starToken)!
+      const prevToken = sourceCode.getTokenBefore(starToken, { includeComments: true })!
+      const nextToken = sourceCode.getTokenAfter(starToken, { includeComments: true })!
 
       let kind: keyof typeof modes = 'named'
 

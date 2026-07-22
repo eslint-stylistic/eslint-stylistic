@@ -423,6 +423,26 @@ run<RuleOptions, MessageIds>({
       }],
     },
     {
+      code: 'type Test = string|number;',
+      options: [{
+        ignoreOperators: ['|'],
+        ignoreTypes: false,
+      }],
+    },
+    {
+      code: 'type Test = string&number;',
+      options: [{
+        ignoreOperators: ['&'],
+        ignoreTypes: false,
+      }],
+    },
+    {
+      code: 'type Test<T> = T extends boolean?true:false',
+      options: [{
+        ignoreOperators: ['?', ':'],
+      }],
+    },
+    {
       code: `
         interface IFoo {
           id: string&number;
@@ -2456,6 +2476,17 @@ run<RuleOptions, MessageIds>({
       errors: [
         { messageId: 'missingSpace', line: 1, column: 36 },
         { messageId: 'missingSpace', line: 1, column: 43 },
+      ],
+    },
+    {
+      code: `type Test = string|number&boolean;`,
+      output: `type Test = string|number & boolean;`,
+      options: [{
+        ignoreOperators: ['|'],
+        ignoreTypes: false,
+      }],
+      errors: [
+        { messageId: 'missingSpace', line: 1, column: 26 },
       ],
     },
   ],

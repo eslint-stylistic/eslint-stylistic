@@ -420,6 +420,26 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['starred-block'],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/917
+    // TypeScript directive comments must be left untouched so they keep applying
+    // to the code below them, instead of being merged into a block comment.
+    {
+      code: $`
+        // @ts-expect-error TS(2322) some message
+        foo();
+      `,
+      options: ['starred-block'],
+    },
+    {
+      code: $`
+        // @ts-ignore
+        // @ts-expect-error
+        // @ts-nocheck
+        // @ts-check
+        foo();
+      `,
+      options: ['starred-block'],
+    },
     {
       code: $`
         let x = 5; // first number
@@ -1616,6 +1636,73 @@ ${'                   '}
         { messageId: 'missingStar', line: 5 },
         { messageId: 'alignment', line: 6 },
       ],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/917
+    // A trailing TypeScript directive must not be pulled into the block comment;
+    // only the preceding line comments are merged.
+    {
+      code: $`
+        // This is
+        // a multiline comment
+        // @ts-expect-error TS(2322) some message
+        foo();
+      `,
+      output: $`
+        /*
+         * This is
+         * a multiline comment
+         */
+        // @ts-expect-error TS(2322) some message
+        foo();
+      `,
+      options: ['starred-block'],
+      errors: [{ messageId: 'expectedBlock', line: 1 }],
+    },
+    // A directive written with a colon (e.g. `@ts-expect-error: reason`) is still a
+    // directive and must not be merged into the block comment.
+    {
+      code: $`
+        // This is
+        // a multiline comment
+        // @ts-expect-error: TS(2322) some message
+        foo();
+      `,
+      output: $`
+        /*
+         * This is
+         * a multiline comment
+         */
+        // @ts-expect-error: TS(2322) some message
+        foo();
+      `,
+      options: ['starred-block'],
+      errors: [{ messageId: 'expectedBlock', line: 1 }],
+    },
+    // A TypeScript directive in the middle splits the surrounding line comments
+    // into two groups and is itself left untouched.
+    {
+      code: $`
+        // Top A
+        // Top B
+        // @ts-ignore some message
+        // Bottom A
+        // Bottom B
+        foo();
+      `,
+      output: $`
+        /*
+         * Top A
+         * Top B
+         */
+        // @ts-ignore some message
+        /*
+         * Bottom A
+         * Bottom B
+         */
+        foo();
+      `,
+      options: ['starred-block'],
+      errors: [{ messageId: 'expectedBlock', line: 1 }, { messageId: 'expectedBlock', line: 4 }],
     },
   ],
 })

@@ -3,6 +3,7 @@ import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import { alias } from '../../alias.mjs'
+import { Changelog } from './plugins/changelog'
 import { MarkdownTransform } from './plugins/markdown-transform'
 
 export default defineConfig({
@@ -22,6 +23,7 @@ export default defineConfig({
       fileURLToPath(new URL('./uno.config.ts', import.meta.url)),
     ),
     MarkdownTransform(),
+    Changelog(),
   ],
   publicDir: fileURLToPath(new URL('../public', import.meta.url)),
 })
