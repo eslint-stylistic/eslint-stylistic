@@ -105,6 +105,7 @@ This rule has an object option:
   - `AwaitExpression`: Aligns with `offsetTernaryExpressions` by default.
   - `NewExpression`: Aligns with `offsetTernaryExpressions` by default.
 - `"assignmentOperator"` (default: 1) enforces indentation level for the assignment operator and value in variable/type declarations and assignment expressions when they are on different lines than the left side of the assignment (e.g. variable name). This can also be set to `"off"` to disable the checking.
+- `"binaryOps"` (default: `"off"`) enforces indentation for multiline binary and logical expressions, TypeScript union types, and TypeScript intersection types. Set it to a number to specify the indentation level.
 - `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
 - `"tabLength"` (default: 4) when using tabbed indentation, the indentation used to calculate the insertion value of the template string
 

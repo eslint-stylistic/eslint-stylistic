@@ -6,35 +6,6 @@ export type JsxCurlySpacingSchema0
   = | []
     | [
       | {
-        when?: 'always' | 'never'
-        allowMultiline?: boolean
-        spacing?: {
-          objectLiterals?: 'always' | 'never'
-        }
-        attributes?:
-          | {
-            when?: 'always' | 'never'
-            allowMultiline?: boolean
-            spacing?: {
-              objectLiterals?: 'always' | 'never'
-            }
-          }
-          | boolean
-        children?:
-          | {
-            when?: 'always' | 'never'
-            allowMultiline?: boolean
-            spacing?: {
-              objectLiterals?: 'always' | 'never'
-            }
-          }
-          | boolean
-      }
-      | ('always' | 'never'),
-    ]
-    | [
-      (
-        | {
           when?: 'always' | 'never'
           allowMultiline?: boolean
           spacing?: {
@@ -42,23 +13,52 @@ export type JsxCurlySpacingSchema0
           }
           attributes?:
             | {
-              when?: 'always' | 'never'
-              allowMultiline?: boolean
-              spacing?: {
-                objectLiterals?: 'always' | 'never'
+                when?: 'always' | 'never'
+                allowMultiline?: boolean
+                spacing?: {
+                  objectLiterals?: 'always' | 'never'
+                }
               }
-            }
             | boolean
           children?:
             | {
-              when?: 'always' | 'never'
-              allowMultiline?: boolean
-              spacing?: {
-                objectLiterals?: 'always' | 'never'
+                when?: 'always' | 'never'
+                allowMultiline?: boolean
+                spacing?: {
+                  objectLiterals?: 'always' | 'never'
+                }
               }
-            }
             | boolean
         }
+      | ('always' | 'never'),
+    ]
+    | [
+      (
+        | {
+            when?: 'always' | 'never'
+            allowMultiline?: boolean
+            spacing?: {
+              objectLiterals?: 'always' | 'never'
+            }
+            attributes?:
+              | {
+                  when?: 'always' | 'never'
+                  allowMultiline?: boolean
+                  spacing?: {
+                    objectLiterals?: 'always' | 'never'
+                  }
+                }
+              | boolean
+            children?:
+              | {
+                  when?: 'always' | 'never'
+                  allowMultiline?: boolean
+                  spacing?: {
+                    objectLiterals?: 'always' | 'never'
+                  }
+                }
+              | boolean
+          }
         | ('always' | 'never')
       ),
       {

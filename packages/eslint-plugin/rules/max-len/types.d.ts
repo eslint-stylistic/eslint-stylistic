@@ -4,33 +4,33 @@
 
 export type MaxLenSchema0
   = | {
-    code?: number
-    comments?: number
-    tabWidth?: number
-    ignorePattern?: string
-    ignoreComments?: boolean
-    ignoreStrings?: boolean
-    ignoreUrls?: boolean
-    ignoreTemplateLiterals?: boolean
-    ignoreRegExpLiterals?: boolean
-    ignoreTrailingComments?: boolean
-  }
-  | number
+      code?: number
+      comments?: number
+      tabWidth?: number
+      ignorePattern?: string
+      ignoreComments?: boolean
+      ignoreStrings?: boolean
+      ignoreUrls?: boolean
+      ignoreTemplateLiterals?: boolean
+      ignoreRegExpLiterals?: boolean
+      ignoreTrailingComments?: boolean
+    }
+    | number
 
 export type MaxLenSchema1
   = | {
-    code?: number
-    comments?: number
-    tabWidth?: number
-    ignorePattern?: string
-    ignoreComments?: boolean
-    ignoreStrings?: boolean
-    ignoreUrls?: boolean
-    ignoreTemplateLiterals?: boolean
-    ignoreRegExpLiterals?: boolean
-    ignoreTrailingComments?: boolean
-  }
-  | number
+      code?: number
+      comments?: number
+      tabWidth?: number
+      ignorePattern?: string
+      ignoreComments?: boolean
+      ignoreStrings?: boolean
+      ignoreUrls?: boolean
+      ignoreTemplateLiterals?: boolean
+      ignoreRegExpLiterals?: boolean
+      ignoreTrailingComments?: boolean
+    }
+    | number
 
 export interface MaxLenSchema2 {
   code?: number

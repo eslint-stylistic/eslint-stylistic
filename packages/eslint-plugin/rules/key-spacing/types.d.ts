@@ -4,38 +4,9 @@
 
 export type KeySpacingSchema0
   = | {
-    align?:
+      align?:
         | ('colon' | 'value')
         | {
-          mode?: 'strict' | 'minimum'
-          on?: 'colon' | 'value'
-          beforeColon?: boolean
-          afterColon?: boolean
-        }
-    mode?: 'strict' | 'minimum'
-    beforeColon?: boolean
-    afterColon?: boolean
-    ignoredNodes?: (
-      | 'ObjectExpression'
-      | 'ObjectPattern'
-      | 'ImportDeclaration'
-      | 'ExportNamedDeclaration'
-      | 'ExportAllDeclaration'
-      | 'TSTypeLiteral'
-      | 'TSInterfaceBody'
-      | 'ClassBody'
-    )[]
-  }
-  | {
-    singleLine?: {
-      mode?: 'strict' | 'minimum'
-      beforeColon?: boolean
-      afterColon?: boolean
-    }
-    multiLine?: {
-      align?:
-          | ('colon' | 'value')
-          | {
             mode?: 'strict' | 'minimum'
             on?: 'colon' | 'value'
             beforeColon?: boolean
@@ -44,26 +15,55 @@ export type KeySpacingSchema0
       mode?: 'strict' | 'minimum'
       beforeColon?: boolean
       afterColon?: boolean
+      ignoredNodes?: (
+        | 'ObjectExpression'
+        | 'ObjectPattern'
+        | 'ImportDeclaration'
+        | 'ExportNamedDeclaration'
+        | 'ExportAllDeclaration'
+        | 'TSTypeLiteral'
+        | 'TSInterfaceBody'
+        | 'ClassBody'
+      )[]
     }
-  }
-  | {
-    singleLine?: {
-      mode?: 'strict' | 'minimum'
-      beforeColon?: boolean
-      afterColon?: boolean
+    | {
+      singleLine?: {
+        mode?: 'strict' | 'minimum'
+        beforeColon?: boolean
+        afterColon?: boolean
+      }
+      multiLine?: {
+        align?:
+          | ('colon' | 'value')
+          | {
+              mode?: 'strict' | 'minimum'
+              on?: 'colon' | 'value'
+              beforeColon?: boolean
+              afterColon?: boolean
+            }
+        mode?: 'strict' | 'minimum'
+        beforeColon?: boolean
+        afterColon?: boolean
+      }
     }
-    multiLine?: {
-      mode?: 'strict' | 'minimum'
-      beforeColon?: boolean
-      afterColon?: boolean
+    | {
+      singleLine?: {
+        mode?: 'strict' | 'minimum'
+        beforeColon?: boolean
+        afterColon?: boolean
+      }
+      multiLine?: {
+        mode?: 'strict' | 'minimum'
+        beforeColon?: boolean
+        afterColon?: boolean
+      }
+      align?: {
+        mode?: 'strict' | 'minimum'
+        on?: 'colon' | 'value'
+        beforeColon?: boolean
+        afterColon?: boolean
+      }
     }
-    align?: {
-      mode?: 'strict' | 'minimum'
-      on?: 'colon' | 'value'
-      beforeColon?: boolean
-      afterColon?: boolean
-    }
-  }
 
 export type KeySpacingRuleOptions = [KeySpacingSchema0?]
 
