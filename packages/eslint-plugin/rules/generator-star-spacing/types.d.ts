@@ -10,27 +10,27 @@ export type GeneratorStarSpacingSchema0
       named?:
         | ('before' | 'after' | 'both' | 'neither')
         | {
-          before?: boolean
-          after?: boolean
-        }
+            before?: boolean
+            after?: boolean
+          }
       anonymous?:
         | ('before' | 'after' | 'both' | 'neither')
         | {
-          before?: boolean
-          after?: boolean
-        }
+            before?: boolean
+            after?: boolean
+          }
       method?:
         | ('before' | 'after' | 'both' | 'neither')
         | {
-          before?: boolean
-          after?: boolean
-        }
+            before?: boolean
+            after?: boolean
+          }
       shorthand?:
         | ('before' | 'after' | 'both' | 'neither')
         | {
-          before?: boolean
-          after?: boolean
-        }
+            before?: boolean
+            after?: boolean
+          }
     }
 
 export type GeneratorStarSpacingRuleOptions = [
