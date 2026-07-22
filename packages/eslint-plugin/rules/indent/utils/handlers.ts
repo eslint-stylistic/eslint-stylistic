@@ -404,9 +404,19 @@ export function checkConditionalNode(
   if (options.flatTernaryExpressions && isTokenOnSameLine(test, consequent) && !isOnFirstLineOfStatement(firstToken, node))
     return
 
+  // A conditional type chained in the alternate of another conditional type
+  // and written compactly (`test ? consequent` on one line) is a single
+  // continuation level. Its `?:` align with the enclosing chain rather than
+  // indenting further, matching how dprint formats unions of conditional types.
+  const alignsWithEnclosingConditionalTypeChain
+    = node.type === AST_NODE_TYPES.TSConditionalType
+      && node.parent.type === AST_NODE_TYPES.TSConditionalType
+      && node.parent.falseType === node
+      && isTokenOnSameLine(test, consequent)
+
   function checkBranch(branch: ASTNode, branchFirstToken: Token) {
-    let offset = 1
-    if (ternaryOptions) {
+    let offset = alignsWithEnclosingConditionalTypeChain ? 0 : 1
+    if (!alignsWithEnclosingConditionalTypeChain && ternaryOptions) {
       const branchType = skipChainExpression(branch).type
 
       if (branchFirstToken.type === 'Punctuator' || ternaryOptions[branchType]) {
@@ -428,8 +438,9 @@ export function checkConditionalNode(
   const lastConsequentToken = sourceCode.getTokenBefore(colonToken)!
   const firstAlternateToken = sourceCode.getTokenAfter(colonToken)!
 
-  offsets.setDesiredOffset(questionMarkToken, firstToken, 1)
-  offsets.setDesiredOffset(colonToken, firstToken, 1)
+  const operatorOffset = alignsWithEnclosingConditionalTypeChain ? 0 : 1
+  offsets.setDesiredOffset(questionMarkToken, firstToken, operatorOffset)
+  offsets.setDesiredOffset(colonToken, firstToken, operatorOffset)
 
   checkBranch(consequent, firstConsequentToken)
 
