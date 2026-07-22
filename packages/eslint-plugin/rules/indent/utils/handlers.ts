@@ -27,6 +27,17 @@ import {
 
 type ElementListOffset = 'first' | 'off' | number
 
+const isBinaryExpressionNode = isNodeOfTypes([
+  AST_NODE_TYPES.BinaryExpression,
+  AST_NODE_TYPES.LogicalExpression,
+])
+
+interface BinaryTypeContinuation {
+  leftToken: Token
+  operatorToken: Token
+  rightToken: Token
+}
+
 export interface IndentConfig {
   SwitchCase: number
   VariableDeclarator: {
@@ -510,9 +521,7 @@ function getBinaryExpressionRoot(ctx: IndentContext, node: Tree.BinaryExpression
   const { sourceCode } = ctx
   let root = node
 
-  while (
-    isNodeOfTypes([AST_NODE_TYPES.BinaryExpression, AST_NODE_TYPES.LogicalExpression])(root.parent)
-  ) {
+  while (isBinaryExpressionNode(root.parent)) {
     if (root.parent.right === root && isOpeningParenToken(sourceCode.getTokenBefore(root)!))
       break
 
@@ -539,7 +548,7 @@ export function checkBinaryExpressionIndent(
   const wrapsLeftOperand = isOpeningParenToken(firstToken)
     && sourceCode.getTokenBefore(root.left) === firstToken
     && sourceCode.getTokenAfter(root.left) === leftToken
-    && !isNodeOfTypes([AST_NODE_TYPES.BinaryExpression, AST_NODE_TYPES.LogicalExpression])(root.parent)
+    && !isBinaryExpressionNode(root.parent)
     && firstToken.loc.end.line < leftToken.loc.start.line
   const anchorToken = wrapsLeftOperand ? firstToken : tokenInfo.getFirstTokenOfLine(firstToken)!
   const offset = wrapsLeftOperand || tokenInfo.isFirstTokenOfLine(firstToken) ? 0 : options.binaryOps
@@ -557,7 +566,9 @@ export function checkBinaryTypeIndent(
   if (options.binaryOps === 'off' || isSingleLine(node))
     return
 
-  const checkedTokens = new Set(getBinaryTypeIndentTokens(ctx, node, operator))
+  const continuations = getBinaryTypeContinuations(ctx, node, operator)
+  const checkedTokens = new Set(continuations.map(({ operatorToken, rightToken }) =>
+    tokenInfo.isFirstTokenOfLine(operatorToken) ? operatorToken : rightToken))
 
   for (const token of sourceCode.getTokens(node, { includeComments: true })) {
     if (tokenInfo.isFirstTokenOfLine(token) && !checkedTokens.has(token))
@@ -568,14 +579,7 @@ export function checkBinaryTypeIndent(
   const rootAnchorToken = tokenInfo.getFirstTokenOfLine(firstToken)!
   const rootOffset = tokenInfo.isFirstTokenOfLine(firstToken) ? 0 : options.binaryOps
 
-  for (const typeNode of node.types) {
-    const operatorToken = sourceCode.getTokenBefore(typeNode)
-
-    if (!operatorToken || operatorToken.value !== operator || operatorToken.range[0] < node.range[0])
-      continue
-
-    const leftToken = sourceCode.getTokenBefore(operatorToken)!
-    const rightToken = sourceCode.getTokenAfter(operatorToken)!
+  for (const { leftToken, operatorToken, rightToken } of continuations) {
     const followsMultilineDelimitedType = firstToken.loc.start.line < leftToken.loc.start.line
       && (
         isClosingBraceToken(leftToken)
@@ -610,13 +614,13 @@ export function ignoreBinaryTypeIndent(
     checkOperatorToken(ctx, node.types[index - 1], node.types[index], operator)
 }
 
-function getBinaryTypeIndentTokens(
+function getBinaryTypeContinuations(
   ctx: IndentContext,
   node: Tree.TSIntersectionType | Tree.TSUnionType,
   operator: '&' | '|',
 ) {
-  const { sourceCode, tokenInfo } = ctx
-  const tokens: Token[] = []
+  const { sourceCode } = ctx
+  const continuations: BinaryTypeContinuation[] = []
 
   for (const typeNode of node.types) {
     const operatorToken = sourceCode.getTokenBefore(typeNode)
@@ -624,10 +628,14 @@ function getBinaryTypeIndentTokens(
     if (!operatorToken || operatorToken.value !== operator || operatorToken.range[0] < node.range[0])
       continue
 
-    tokens.push(tokenInfo.isFirstTokenOfLine(operatorToken) ? operatorToken : sourceCode.getTokenAfter(operatorToken)!)
+    continuations.push({
+      leftToken: sourceCode.getTokenBefore(operatorToken)!,
+      operatorToken,
+      rightToken: sourceCode.getTokenAfter(operatorToken)!,
+    })
   }
 
-  return tokens
+  return continuations
 }
 
 /**
