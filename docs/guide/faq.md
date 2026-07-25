@@ -91,3 +91,8 @@ Layout rules with fixers collapse or expand whitespace during `--fix` without ch
 ### Why this happens
 
 **This is not a bug in any individual rule.** It's a structural limitation: ESLint fixers operate independently and have no mechanism to check width constraints. And this plugin does not add — and does not plan to add — width-awareness to layout fixers.
+
+### Workarounds
+
+- Use a dedicated formatter ([Prettier](https://prettier.io/), [dprint](https://dprint.dev/), [oxfmt](https://oxc.rs/)) for layout concerns and disable conflicting layout rules.
+- Adjust your `max-len` threshold to accommodate the minimum width your layout rules produce.
