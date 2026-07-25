@@ -81,3 +81,13 @@ Also refer to [Migration Guide](/guide/migration#when-should-i-migrate).
 Rule docs show each rule's **native defaults** — how they behave without any configuration. However, our [`recommended`](/guide/config-presets#static-configurations) preset intentionally overrides some defaults for consistency. Use the [`all`](/guide/config-presets#enable-all-available-rules) preset if you want all native defaults.
 
 You can use [`@eslint/config-inspector`](https://github.com/eslint/config-inspector) to visualize your actual resolved configuration.
+
+## `max-len` and layout fixers conflict after `--fix`
+
+### What happens
+
+Layout rules with fixers collapse or expand whitespace during `--fix` without checking the resulting line length. Combined with `max-len`, `--fix` can introduce errors that can't be auto-recovered.
+
+### Why this happens
+
+**This is not a bug in any individual rule.** It's a structural limitation: ESLint fixers operate independently and have no mechanism to check width constraints. And this plugin does not add — and does not plan to add — width-awareness to layout fixers.
