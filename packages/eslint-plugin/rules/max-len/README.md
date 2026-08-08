@@ -215,3 +215,15 @@ var dep = require('really/really/really/really/really/really/really/really/long/
 ```
 
 :::
+
+## Autofix limitations
+
+`max-len` reports lines that exceed the configured limit, but it does not wrap them automatically. Some autofixable layout rules can remove line breaks or increase indentation. As a result, running `eslint --fix` may leave or introduce `max-len` violations.
+
+ESLint does not coordinate a rule's fixes with the configured limit of `max-len`. Therefore, the output of `--fix` is not guaranteed to satisfy this rule.
+
+### Ways to avoid this
+
+- Use a dedicated formatter such as [Prettier](https://prettier.io/), [dprint](https://dprint.dev/), or [oxfmt](https://oxc.rs/) for layout, and disable overlapping autofixable layout rules. Formatters generally treat line width as a wrapping preference rather than a hard limit, so you may still need to relax or disable `max-len`.
+- If you keep ESLint layout fixers enabled, choose compatible rule options and a suitable `max-len` limit, then manually resolve any remaining violations.
+- Use options such as [`ignoreComments`](#ignorecomments), [`ignoreStrings`](#ignorestrings), [`ignoreUrls`](#ignoreurls), or [`ignorePattern`](#ignorepattern) when specific kinds of long lines are acceptable.
