@@ -5,7 +5,7 @@
 
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { COMMENTS_IGNORE_PATTERN, isHashbangComment, isSingleLine, isTokenOnSameLine, isWhiteSpaces, LINEBREAK_MATCHER, WHITE_SPACES_PATTERN } from '#utils/ast'
+import { isDirectiveComment, isHashbangComment, isSingleLine, isTokenOnSameLine, isWhiteSpaces, LINEBREAK_MATCHER, WHITE_SPACES_PATTERN } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -455,7 +455,7 @@ export default createRule<RuleOptions, MessageIds>({
       Program() {
         return sourceCode.getAllComments()
           .filter((comment) => {
-            if (isHashbangComment(comment) || COMMENTS_IGNORE_PATTERN.test(comment.value))
+            if (isHashbangComment(comment) || isDirectiveComment(comment))
               return false
 
             const tokenBefore = sourceCode.getTokenBefore(comment, { includeComments: true })

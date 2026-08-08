@@ -1,3 +1,4 @@
+export * from './ast/comment'
 export * from './ast/general'
 
 export {
