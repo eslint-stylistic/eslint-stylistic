@@ -1,6 +1,6 @@
 import { ESLint } from 'eslint'
-import { gte } from 'semver'
+import { isGreaterOrEqual } from 'verkit'
 
 export * from './runner'
 
-export const skipBabel = gte(ESLint.version, '10.0.0')
+export const skipBabel = isGreaterOrEqual(ESLint.version, '10.0.0')
