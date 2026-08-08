@@ -1,8 +1,8 @@
-import semver from 'semver'
 import { x } from 'tinyexec'
+import { tryParse } from 'verkit'
 import { version } from '../package.json'
 
-const parsed = semver.parse(version)
+const parsed = tryParse(version)
 const tag = parsed?.prerelease?.[0] || undefined
 
 const args = ['-r', 'publish', '--access', 'public', '--no-git-checks']

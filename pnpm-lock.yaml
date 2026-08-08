@@ -43,9 +43,6 @@ catalogs:
     '@types/picomatch':
       specifier: ^4.0.3
       version: 4.0.3
-    '@types/semver':
-      specifier: ^7.7.1
-      version: 7.7.1
     '@typescript-eslint/parser':
       specifier: ^8.60.1
       version: 8.60.1
@@ -97,9 +94,6 @@ catalogs:
     oxlint:
       specifier: 1.55.0
       version: 1.55.0
-    semver:
-      specifier: ^7.8.1
-      version: 7.8.1
     simple-git:
       specifier: ^3.36.0
       version: 3.36.0
@@ -121,6 +115,9 @@ catalogs:
     typescript:
       specifier: ^6.0.3
       version: 6.0.3
+    verkit:
+      specifier: ^0.3.2
+      version: 0.3.2
   docs:
     '@iconify-json/carbon':
       specifier: ^1.2.22
@@ -286,9 +283,6 @@ importers:
       '@types/picomatch':
         specifier: catalog:dev
         version: 4.0.3
-      '@types/semver':
-        specifier: catalog:dev
-        version: 7.7.1
       '@typescript-eslint/parser':
         specifier: catalog:dev
         version: 8.60.1(eslint@10.4.1(jiti@2.7.0))(typescript@6.0.3)
@@ -364,9 +358,6 @@ importers:
       picomatch:
         specifier: catalog:prod
         version: 4.0.4
-      semver:
-        specifier: catalog:dev
-        version: 7.8.1
       simple-git:
         specifier: catalog:dev
         version: 3.36.0
@@ -391,6 +382,9 @@ importers:
       typescript:
         specifier: catalog:dev
         version: 6.0.3
+      verkit:
+        specifier: catalog:dev
+        version: 0.3.2
       vite:
         specifier: ^8.0.16
         version: 8.0.16(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(tsx@4.22.4)(yaml@2.9.0)
@@ -2299,9 +2293,6 @@ packages:
 
   '@types/picomatch@4.0.3':
     resolution: {integrity: sha512-iG0T6+nYJ9FAPmx9SsUlnwcq1ZVRuCXcVEvWnntoPlrOpwtSTKNDC9uVAxTsC3PUvJ+99n4RpAcNgBbHX3JSnQ==}
-
-  '@types/semver@7.7.1':
-    resolution: {integrity: sha512-FmgJfu+MOcQ370SD0ev7EI8TlCAfKYU+B4m5T3yXc1CiRN94g/SZPtsCkk506aUDtlMnFZvasDwHHUcZUEaYuA==}
 
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
@@ -4334,6 +4325,10 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
+  verkit@0.3.2:
+    resolution: {integrity: sha512-zj/ob3UsvJGN0whEAKFp53REA5X66hvffVqoCtVQAakJKnKlH+/PcOfMoFwIG/o4rElqLv/ycAFlx8ZlXUorCg==}
+    engines: {node: '>=18.12.0'}
+
   vfile-message@4.0.3:
     resolution: {integrity: sha512-QTHzsGd1EhbZs4AsQ20JX1rC3cOlt/IWJruk893DfLRr57lcnOeMaWG4K0JrRta4mIJZKth2Au3mM3u03/JWKw==}
 
@@ -5871,8 +5866,6 @@ snapshots:
       undici-types: 7.24.6
 
   '@types/picomatch@4.0.3': {}
-
-  '@types/semver@7.7.1': {}
 
   '@types/unist@3.0.3': {}
 
@@ -8333,6 +8326,8 @@ snapshots:
       punycode: 2.3.1
 
   util-deprecate@1.0.2: {}
+
+  verkit@0.3.2: {}
 
   vfile-message@4.0.3:
     dependencies:
