@@ -5,13 +5,8 @@
 
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { COMMENTS_IGNORE_PATTERN, isHashbangComment, isSingleLine, isTokenOnSameLine, isWhiteSpaces, LINEBREAK_MATCHER, WHITE_SPACES_PATTERN } from '#utils/ast'
+import { isDirectiveComment, isHashbangComment, isSingleLine, isTokenOnSameLine, isWhiteSpaces, LINEBREAK_MATCHER, WHITE_SPACES_PATTERN } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-
-// TypeScript directive comments (e.g. `// @ts-expect-error`). Merging these into a
-// block comment or with neighboring comments would stop them from being recognized
-// by the TypeScript compiler, so they are treated like other ignored comments.
-const TS_DIRECTIVE_PATTERN = /^\s*@ts-(?:expect-error|ignore|nocheck|check)(?![\w-])/u
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'multiline-comment-style',
@@ -460,7 +455,7 @@ export default createRule<RuleOptions, MessageIds>({
       Program() {
         return sourceCode.getAllComments()
           .filter((comment) => {
-            if (isHashbangComment(comment) || COMMENTS_IGNORE_PATTERN.test(comment.value) || TS_DIRECTIVE_PATTERN.test(comment.value))
+            if (isHashbangComment(comment) || isDirectiveComment(comment))
               return false
 
             const tokenBefore = sourceCode.getTokenBefore(comment, { includeComments: true })

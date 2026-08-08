@@ -1,6 +1,6 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, AST_TOKEN_TYPES, COMMENTS_IGNORE_PATTERN, isCommentToken, isHashbangComment, isNodeOfTypes, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES, isCommentToken, isDirectiveComment, isHashbangComment, isNodeOfTypes, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 /**
@@ -135,7 +135,6 @@ export default createRule<RuleOptions, MessageIds>({
   },
   create(context, [options]) {
     const normalizedOptions = options!
-    const defaultIgnoreRegExp = COMMENTS_IGNORE_PATTERN
     const {
       beforeBlockComment,
       afterBlockComment,
@@ -305,7 +304,7 @@ export default createRule<RuleOptions, MessageIds>({
     ): void {
       if (
         applyDefaultIgnorePatterns !== false
-        && defaultIgnoreRegExp.test(token.value)
+        && isDirectiveComment(token)
       ) {
         return
       }

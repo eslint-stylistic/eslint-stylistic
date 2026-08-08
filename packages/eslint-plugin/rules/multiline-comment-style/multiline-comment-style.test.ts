@@ -440,6 +440,45 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['starred-block'],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1249
+    // Tool directives must stay as line comments so their consumers can recognize them.
+    {
+      code: $`
+        // keep this matrix laid out by hand
+        // prettier-ignore
+        const m = [
+          1,0,0,
+          0,1,0,
+          0,0,1,
+        ];
+      `,
+      options: ['starred-block'],
+    },
+    ...[
+      'v8 ignore next',
+      'v8 ignore if -- @preserve',
+      'v8 ignore start -- @preserve',
+      'v8 ignore stop -- @preserve',
+      'v8 ignore file -- @preserve',
+      'c8 ignore next',
+      'c8 ignore start',
+      'c8 ignore stop',
+      'node:coverage ignore next',
+      'node:coverage disable',
+      'node:coverage enable',
+      'webpackChunkName: "chunk"',
+      'webpackFetchPriority: "high"',
+      'webpackMode: "lazy"',
+      'webpackExports: ["default"]',
+      'webpackInclude: /\\.json$/',
+      'webpackExclude: /\\.noimport\\.json$/',
+      'webpackPrefetch: true',
+      'webpackPreload: true',
+      'webpackIgnore: true',
+    ].map(directive => ({
+      code: `// why this directive is needed\n// ${directive}\nfoo();`,
+      options: ['starred-block'] as RuleOptions,
+    })),
     {
       code: $`
         let x = 5; // first number
@@ -1703,6 +1742,25 @@ ${'                   '}
       `,
       options: ['starred-block'],
       errors: [{ messageId: 'expectedBlock', line: 1 }, { messageId: 'expectedBlock', line: 4 }],
+    },
+    // Prefix lookalikes are ordinary prose and must still be converted.
+    {
+      code: $`
+        // prettier-ignorement
+        // v8 ignored next
+        // node:coverage ignored next
+        // webpackChunkNameExtra: "chunk"
+      `,
+      output: $`
+        /*
+         * prettier-ignorement
+         * v8 ignored next
+         * node:coverage ignored next
+         * webpackChunkNameExtra: "chunk"
+         */
+      `,
+      options: ['starred-block'],
+      errors: [{ messageId: 'expectedBlock', line: 1 }],
     },
   ],
 })
