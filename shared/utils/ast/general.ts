@@ -4,7 +4,7 @@ import { isClosingParenToken, isColonToken, isCommentToken, isFunction, isOpenin
 import { visitorKeys } from '@typescript-eslint/visitor-keys'
 import { latestEcmaVersion, tokenize } from 'espree'
 
-export const COMMENTS_IGNORE_PATTERN = /^\s*(?:eslint|@ts-(?:expect-error|ignore|nocheck|check)(?![\w-])|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs|\/\s*<(?:reference|amd-))/u
+export const COMMENTS_IGNORE_PATTERN = /^\s*(?:eslint|@ts-(?:expect-error|ignore|nocheck|check)(?![\w-])|prettier-ignore(?![\w-])|[vc]8\s+ignore(?![\w-])|node:coverage\s+(?:disable|enable|ignore\s+next)(?![\w-])|webpack(?:ChunkName|FetchPriority|Mode|Exports|Include|Exclude|Prefetch|Preload|Ignore)\s*:|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs|\/\s*<(?:reference|amd-))/u
 
 export const LINEBREAKS = /* @__PURE__ */ new Set(['\r\n', '\r', '\n', '\u2028', '\u2029'])
 
