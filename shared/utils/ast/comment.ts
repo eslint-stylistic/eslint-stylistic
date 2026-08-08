@@ -1,5 +1,10 @@
 import type { Tree } from '#types'
 
+/**
+ * @see https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html
+ */
+const TRIPLE_SLASH_REFERENCE_PATTERN = /^\/\s*<(?:reference|amd-)/u
+
 const COMMENT_DIRECTIVE_PATTERNS = [
   /^\s*eslint/u,
   /^\s*@ts-(?:expect-error|ignore|nocheck|check)(?![\w-])/u,
@@ -13,13 +18,8 @@ const COMMENT_DIRECTIVE_PATTERNS = [
   /^\s*globals?\s+/u,
   /^\s*exported\s+/u,
   /^\s*jscs/u,
-  /^\s*\/\s*<(?:reference|amd-)/u,
+  TRIPLE_SLASH_REFERENCE_PATTERN,
 ] as const
-
-/**
- * @see https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html
- */
-const TRIPLE_SLASH_REFERENCE_PATTERN = /^\/\s*<(?:reference|amd-)/u
 
 /**
  * Checks if a comment contains a directive that must retain its position and form.
