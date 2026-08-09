@@ -47,6 +47,20 @@ run<RuleOptions, MessageIds>({
   ],
   invalid: [
     {
+      code: `{ "array": [ ], "object": {} }`,
+      output: `{ "array": [], "object": { } }`,
+      options: [{
+        empty: 'never',
+        overrides: {
+          JSONObjectExpression: { empty: 'always' },
+        },
+      }],
+      errors: [
+        { messageId: 'shouldNotSpacing' },
+        { messageId: 'shouldSpacing' },
+      ],
+    },
+    {
       code: $`
         {
           "foo": ["bar",

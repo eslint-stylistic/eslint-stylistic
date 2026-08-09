@@ -56,6 +56,10 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'object',
             additionalProperties: false,
             properties: {
+              empty: {
+                type: 'string',
+                enum: ['ignore', 'always', 'never'],
+              },
               singleLine: { $ref: '#/items/0/$defs/singleLineConfig' },
               multiline: { $ref: '#/items/0/$defs/multiLineConfig' },
             },
@@ -70,6 +74,10 @@ export default createRule<RuleOptions, MessageIds>({
         type: 'object',
         additionalProperties: false,
         properties: {
+          empty: {
+            type: 'string',
+            enum: ['ignore', 'always', 'never'],
+          },
           singleLine: { $ref: '#/items/0/$defs/singleLineConfig' },
           multiLine: { $ref: '#/items/0/$defs/multiLineConfig' },
           overrides: {
@@ -112,6 +120,7 @@ export default createRule<RuleOptions, MessageIds>({
     ],
     // #region defaultOptions
     defaultOptions: [{
+      empty: 'ignore',
       singleLine: {
         spacing: 'never',
         maxItems: Number.POSITIVE_INFINITY,
@@ -134,6 +143,7 @@ export default createRule<RuleOptions, MessageIds>({
   create: (context, [options]) => {
     const { sourceCode } = context
     const {
+      empty = 'ignore',
       singleLine,
       multiLine,
       overrides,
@@ -159,6 +169,7 @@ export default createRule<RuleOptions, MessageIds>({
         overridesByNode ??= {}
 
         resolved = {
+          empty: overridesByNode.empty ?? overridesByParen.empty ?? empty,
           singleLine: {
             ...singleLine,
             ...overridesByParen.singleLine,
@@ -183,8 +194,7 @@ export default createRule<RuleOptions, MessageIds>({
       return current.value.match(/(?:,|;)$/) ? undefined : ','
     }
 
-    function checkSpacing(node: ASTNode, left: Token, right: Token, config: BaseConfig) {
-      const shouldSpace = config.singleLine!.spacing === 'always'
+    function checkSpacing(node: ASTNode, left: Token, right: Token, shouldSpace: boolean) {
       const firstToken = sourceCode.getTokenAfter(left, { includeComments: true })!
       const lastToken = sourceCode.getTokenBefore(right, { includeComments: true })!
 
@@ -228,7 +238,45 @@ export default createRule<RuleOptions, MessageIds>({
       }
 
       doCheck(left, firstToken)
-      doCheck(lastToken, right)
+
+      if (firstToken !== right)
+        doCheck(lastToken, right)
+    }
+
+    function checkEmptyWrap(node: ASTNode, left: Token, right: Token, config: BaseConfig) {
+      const firstToken = sourceCode.getTokenAfter(left, { includeComments: true })!
+      const lastToken = sourceCode.getTokenBefore(right, { includeComments: true })!
+
+      if (firstToken !== right) {
+        for (const [prev, next] of [[left, firstToken], [lastToken, right]] as const) {
+          if (isTokenOnSameLine(prev, next)) {
+            context.report({
+              node,
+              messageId: 'shouldWrap',
+              loc: { start: prev.loc.end, end: next.loc.start },
+              data: { prev: prev.value, next: next.value },
+              fix: safeReplaceTextBetween(sourceCode, prev, next, () => '\n'),
+            })
+          }
+        }
+        return
+      }
+
+      if (config.multiline!.minItems === 0)
+        return
+
+      context.report({
+        node,
+        messageId: 'shouldNotWrap',
+        loc: { start: left.loc.end, end: right.loc.start },
+        data: { prev: left.value, next: right.value },
+        fix: safeReplaceTextBetween(
+          sourceCode,
+          left,
+          right,
+          () => config.empty === 'always' ? ' ' : '',
+        ),
+      })
     }
 
     function checkWrap(node: ASTNode, items: (ASTNode | null)[], left: Token, right: Token, config: BaseConfig) {
@@ -336,7 +384,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
     }
 
-    function getLeftParen(node: ASTNode, items: (ASTNode | null)[], type: ParenType) {
+    function getLeftParen(node: ASTNode, items: (ASTNode | null)[], type: ParenType, nodeType: OverrideKey) {
       switch (node.type) {
         // fun?.()
         // fun<T>()
@@ -352,6 +400,16 @@ export default createRule<RuleOptions, MessageIds>({
           return sourceCode.getFirstToken(node)
 
         default: {
+          if (items.length === 0) {
+            const tokens = sourceCode.getTokens(node)
+            const { left, right } = parenMatchers[type]
+            const pairs = tokens
+              .map((token, index) => [token, tokens[index + 1]] as const)
+              .filter(([current, next]) => left(current) && next && right(next))
+
+            return (nodeType === 'ImportAttributes' ? pairs.at(-1) : pairs[0])?.[0] ?? null
+          }
+
           const maybeLeft = sourceCode.getTokenBefore(items[0]!)
           // foo => bar
           const { left: matcher } = parenMatchers[type]
@@ -360,7 +418,12 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    function getRightParen(node: ASTNode, items: (ASTNode | null)[], type: ParenType) {
+    function getRightParen(node: ASTNode, items: (ASTNode | null)[], type: ParenType, left: Token) {
+      if (items.length === 0) {
+        const maybeRight = sourceCode.getTokenAfter(left)
+        return maybeRight && parenMatchers[type].right(maybeRight) ? maybeRight : null
+      }
+
       switch (node.type) {
         // const foo = [a, ]
         case AST_NODE_TYPES.ArrayExpression:
@@ -373,7 +436,7 @@ export default createRule<RuleOptions, MessageIds>({
             // const [a, ] = foo
             : sourceCode.getLastToken(node)!
 
-        default:{
+        default: {
           const maybeRight = sourceCode.getTokenAfter(items.at(-1)!, isNotCommaToken)
           // foo => bar
           const { right: matcher } = parenMatchers[type]
@@ -382,25 +445,39 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    function check(parenType: ParenType, node: ASTNode, items: (ASTNode | null)[]) {
-      if (items.length === 0)
-        return
-
-      const left = getLeftParen(node, items, parenType)
-      const right = getRightParen(node, items, parenType)
-
-      if (!left || !right)
-        return
-
-      const nodeType = items[0]?.type === 'ImportAttribute' ? 'ImportAttributes' : node.type as OverrideKey
+    function check(parenType: ParenType, node: ASTNode, items: (ASTNode | null)[], overrideKey?: OverrideKey) {
+      const nodeType = overrideKey ?? (items[0]?.type === 'ImportAttribute' ? 'ImportAttributes' : node.type as OverrideKey)
 
       const config = resolveOption(parenType, nodeType)
 
       if (config === 'off')
         return
 
+      const left = getLeftParen(node, items, parenType, nodeType)
+      const right = left && getRightParen(node, items, parenType, left)
+
+      if (
+        !left || !right
+        || left.range[0] < node.range[0]
+        || right.range[1] > node.range[1]
+      ) {
+        return
+      }
+
+      const isEmpty = items.length === 0 && !sourceCode.commentsExistBetween(left, right)
+      if (isEmpty && config.empty === 'ignore')
+        return
+
       if (isTokenOnSameLine(left, right) && items.length <= config.singleLine.maxItems!) {
-        checkSpacing(node, left, right, config)
+        checkSpacing(
+          node,
+          left,
+          right,
+          isEmpty ? config.empty === 'always' : config.singleLine.spacing === 'always',
+        )
+      }
+      else if (items.length === 0) {
+        checkEmptyWrap(node, left, right, config)
       }
       else {
         checkWrap(node, items, left, right, config)
@@ -423,13 +500,14 @@ export default createRule<RuleOptions, MessageIds>({
       },
       ExportAllDeclaration(node) {
         if (node.attributes)
-          check('{}', node, node.attributes)
+          check('{}', node, node.attributes, 'ImportAttributes')
       },
       ExportNamedDeclaration(node) {
-        check('{}', node, node.specifiers)
+        if (!node.declaration)
+          check('{}', node, node.specifiers)
 
         if (node.attributes)
-          check('{}', node, node.attributes)
+          check('{}', node, node.attributes, 'ImportAttributes')
       },
       FunctionDeclaration(node) {
         check('()', node, node.params)
@@ -441,10 +519,16 @@ export default createRule<RuleOptions, MessageIds>({
         check('()', node, [node.test])
       },
       ImportDeclaration(node) {
-        check('{}', node, node.specifiers.filter(specifier => specifier.type === 'ImportSpecifier'))
+        const specifiers = node.specifiers.filter(specifier => specifier.type === 'ImportSpecifier')
+        if (
+          specifiers.length
+          || sourceCode.getTokens(node).some(token => isOpeningBraceToken(token) && token.range[0] < node.source.range[0])
+        ) {
+          check('{}', node, specifiers)
+        }
 
         if (node.attributes)
-          check('{}', node, node.attributes)
+          check('{}', node, node.attributes, 'ImportAttributes')
       },
       JSONArrayExpression(node: Tree.ArrayExpression) {
         check('[]', node, node.elements)
