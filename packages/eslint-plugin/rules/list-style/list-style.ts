@@ -180,7 +180,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (root.type !== 'TSInterfaceBody' && root.type !== 'TSTypeLiteral')
         return
 
-      return current.value.match(/(?:,|;)$/) ? undefined : ','
+      return /(?:,|;)$/.test(current.value) ? undefined : ','
     }
 
     function checkSpacing(node: ASTNode, left: Token, right: Token, config: BaseConfig) {

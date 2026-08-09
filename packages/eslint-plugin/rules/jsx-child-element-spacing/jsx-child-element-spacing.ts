@@ -79,7 +79,7 @@ export default createRule<RuleOptions, MessageIds>({
           && (!nextChild || isInlineElement(nextChild))
           && true
         ) {
-          if (lastChild && String(child.value).match(TEXT_FOLLOWING_ELEMENT_PATTERN)) {
+          if (lastChild && TEXT_FOLLOWING_ELEMENT_PATTERN.test(String(child.value))) {
             context.report({
               messageId: 'spacingAfterPrev',
               node: lastChild,
@@ -89,7 +89,7 @@ export default createRule<RuleOptions, MessageIds>({
               },
             })
           }
-          else if (nextChild && String(child.value).match(TEXT_PRECEDING_ELEMENT_PATTERN)) {
+          else if (nextChild && TEXT_PRECEDING_ELEMENT_PATTERN.test(String(child.value))) {
             context.report({
               messageId: 'spacingBeforeNext',
               node: nextChild,
