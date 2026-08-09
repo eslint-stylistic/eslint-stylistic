@@ -222,6 +222,30 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         type A =
+          | Foo
+          | Bar;
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
+        type A =
+          & Foo
+          & Bar;
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
+        type A =
+          | Foo
+          | Bar;
+      `,
+      options: ['before', { overrides: { '=': 'none' } }],
+    },
+    {
+      code: $`
+        type A =
           string;
         type A = string;
       `,

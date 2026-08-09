@@ -145,7 +145,9 @@ export default createRule<RuleOptions, MessageIds>({
       const leftToken = sourceCode.getTokenBefore(operatorToken)!
       const rightToken = sourceCode.getTokenAfter(operatorToken)!
       const operatorStyleOverride = styleOverrides[operator]
-      const style = operatorStyleOverride || globalStyle
+      let style = operatorStyleOverride || globalStyle
+      if (style !== 'ignore' && node.type === 'TSTypeAliasDeclaration' && (rightToken.value === '|' || rightToken.value === '&'))
+        style = 'after'
       const fix = getFixer(operatorToken, style)
 
       // if single line

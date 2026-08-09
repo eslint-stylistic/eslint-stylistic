@@ -42,6 +42,8 @@ Object option:
 
 The default configuration is `"after", { "overrides": { "?": "before", ":": "before" } }`
 
+In TypeScript type aliases whose type annotation starts with `|` or `&`, the `=` operator uses the `"after"` style unless it is configured as `"ignore"`.
+
 ### after
 
 Examples of **incorrect** code for this rule with the `"after"` option:
