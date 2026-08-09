@@ -1,7 +1,7 @@
 import type { CompatConfigOptions, TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
+import { run } from '#test'
 import rule from './keyword-spacing'
 
 export const BOTH = { before: true, after: true }
@@ -613,6 +613,10 @@ run<RuleOptions, MessageIds>({
     // not conflict with `semi-spacing`
     'if (a);else;',
     { code: 'if(a); else ;', options: [NEITHER] },
+
+    // preserve comments between keyword and neighbor in NEITHER mode (sibling of #1231)
+    { code: 'if(a) {} /* comment */ else{}', options: [NEITHER] },
+    { code: 'if(a) {}else /* comment */ {}', options: [NEITHER] },
 
     // ----------------------------------------------------------------------
     // export

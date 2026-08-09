@@ -64,9 +64,14 @@ export default createRule<RuleOptions, MessageIds>({
         const hasComments = !!sourceCode.getCommentsInside(node).length
 
         if (ignoreJSX) {
-          if (node.parent.type === 'JSXElement'
-            || node.parent.type === 'JSXFragment'
-            || node.parent.type === 'JSXExpressionContainer') {
+          let parent = node.parent
+
+          while (parent.type === 'ConditionalExpression')
+            parent = parent.parent
+
+          if (parent.type === 'JSXElement'
+            || parent.type === 'JSXFragment'
+            || parent.type === 'JSXExpressionContainer') {
             return null
           }
         }

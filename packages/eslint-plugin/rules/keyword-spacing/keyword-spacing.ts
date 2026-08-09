@@ -112,7 +112,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param pattern A pattern of the previous token to check.
      */
     function unexpectSpaceBefore(token: Token, pattern: RegExp) {
-      const prevToken = sourceCode.getTokenBefore(token)
+      const prevToken = sourceCode.getTokenBefore(token, { includeComments: true })
 
       if (prevToken
         && (CHECK_TYPE.test(prevToken.type) || pattern.test(prevToken.value))
@@ -166,7 +166,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param pattern A pattern of the next token to check.
      */
     function unexpectSpaceAfter(token: Token, pattern: RegExp) {
-      const nextToken = sourceCode.getTokenAfter(token)
+      const nextToken = sourceCode.getTokenAfter(token, { includeComments: true })
 
       if (nextToken
         && (CHECK_TYPE.test(nextToken.type) || pattern.test(nextToken.value))

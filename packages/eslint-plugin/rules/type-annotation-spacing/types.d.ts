@@ -1,17 +1,21 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 0_8KE1pUa6UDFEIg9ElCoTaoCjKEyxP7H98oRPr91yY */
+/* @checksum: pgv4yhnlgKghpHQCSxCVsAfXGeiptdo98NqHwAmDgMI */
+
+export type SpacingConfigWithIgnore
+  = | 'ignore'
+    | SpacingConfig
 
 export interface TypeAnnotationSpacingSchema0 {
   before?: boolean
   after?: boolean
   overrides?: {
     colon?: SpacingConfig
-    variable?: SpacingConfig
-    parameter?: SpacingConfig
-    property?: SpacingConfig
-    returnType?: SpacingConfig
-    questionMark?: SpacingConfig
+    variable?: SpacingConfigWithIgnore
+    parameter?: SpacingConfigWithIgnore
+    property?: SpacingConfigWithIgnore
+    returnType?: SpacingConfigWithIgnore
+    questionMark?: SpacingConfigWithIgnore
   }
 }
 export interface SpacingConfig {

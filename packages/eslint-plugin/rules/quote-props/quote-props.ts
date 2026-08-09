@@ -1,8 +1,8 @@
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { tokenize } from 'espree'
 import { ES3_KEYWORDS, isNumericLiteral, isStringLiteral } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { tokenize } from 'espree'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'quote-props',

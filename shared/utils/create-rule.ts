@@ -1,5 +1,5 @@
-import type { RuleContext, RuleListener, RuleWithMetaAndName } from '#types'
 import type { Rule } from 'eslint'
+import type { RuleContext, RuleListener, RuleWithMetaAndName } from '#types'
 import { warnDeprecation } from '.'
 import { deepMerge, isObjectNotArray } from './merge'
 

@@ -3,6 +3,7 @@ import type { Plugin } from 'vite'
 import { basename, dirname } from 'node:path'
 import { packages } from '@eslint-stylistic/metadata'
 import graymatter from 'gray-matter'
+import { changelogData } from './changelog'
 
 export function MarkdownTransform(): Plugin {
   return {
@@ -69,6 +70,9 @@ export function MarkdownTransform(): Plugin {
         content.trimStart().replace(/^# .*\n/, ''),
         extraLinks('Related Rules', data.related_rules),
         extraLinks('Further Reading', data.further_reading),
+        ...(changelogData[rule.name]
+          ? [`## Changelog\n\n<Changelog rule-name="${rule.name}" />`]
+          : []),
       ].join('\n')
 
       return graymatter.stringify(content, { data })

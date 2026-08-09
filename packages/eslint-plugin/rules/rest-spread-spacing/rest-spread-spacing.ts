@@ -41,7 +41,7 @@ export default createRule<RuleOptions, MessageIds>({
         | Tree.RestElement,
     ) {
       const operator = sourceCode.getFirstToken(node)!
-      const nextToken = sourceCode.getTokenAfter(operator)!
+      const nextToken = sourceCode.getTokenAfter(operator, { includeComments: true })!
       const hasWhitespace = sourceCode.isSpaceBetween(operator, nextToken)
       let type
 

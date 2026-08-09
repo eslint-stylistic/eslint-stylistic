@@ -2,9 +2,9 @@ import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import tsParser from '@typescript-eslint/parser'
 import { $, run, skipBabel } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
-import tsParser from '@typescript-eslint/parser'
 import rule from './indent'
 
 const fixture = readFileSync(join(__dirname, './fixtures/indent-invalid-fixture-1.js'), 'utf8')

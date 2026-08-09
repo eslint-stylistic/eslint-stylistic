@@ -4,10 +4,9 @@
  */
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isHashbangComment, LINEBREAKS } from '#utils/ast'
-import { isTripleSlashReference } from '#utils/ast/comment'
-import { createRule } from '#utils/create-rule'
 import escapeRegExp from 'escape-string-regexp'
+import { isHashbangComment, isTripleSlashReference, LINEBREAKS } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 /**
  * Escapes the control characters of a given string.

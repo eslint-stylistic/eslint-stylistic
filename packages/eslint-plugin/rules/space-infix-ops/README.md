@@ -26,7 +26,7 @@ This rule is aimed at ensuring there are spaces around infix operators.
 This rule accepts a single options argument with the following defaults:
 
 ```json
-"space-infix-ops": ["error", { "int32Hint": false }]
+"space-infix-ops": ["error", { "int32Hint": false, "ignoreOperators": [], "ignoreTypes": false }]
 ```
 
 ### `int32Hint`
@@ -86,6 +86,16 @@ type Foo<T = true> = T
 ```
 
 :::
+
+### `ignoreOperators`
+
+Set the `ignoreOperators` option to a list of operators that should not require surrounding spaces. Operators are matched by their exact text, so ignoring `+` does not ignore `+=`.
+
+```json
+"space-infix-ops": ["error", { "ignoreOperators": ["*", "/", "^"] }]
+```
+
+With this configuration, `a^b + c*d + e/f` is valid while `+` is still checked.
 
 ### `ignoreTypes`
 

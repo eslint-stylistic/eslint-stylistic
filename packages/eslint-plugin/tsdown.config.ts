@@ -59,7 +59,7 @@ export default defineConfig([
           },
           {
             name: 'utils',
-            test: /utils/,
+            test: /shared\/utils/,
           },
           ...rulesEntry.map(file => ({
             name: `rules/${basename(dirname(file))}`,

@@ -1,5 +1,5 @@
 import type { MessageIds, RuleOptions } from './types'
-import { COMMENTS_IGNORE_PATTERN, isTokenOnSameLine } from '#utils/ast'
+import { isDirectiveComment, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -51,7 +51,6 @@ export default createRule<RuleOptions, MessageIds>({
     const above = position === 'above'
     const customIgnoreRegExp = ignorePattern ? new RegExp(ignorePattern, 'u') : null
 
-    const defaultIgnoreRegExp = COMMENTS_IGNORE_PATTERN
     const fallThroughRegExp = /^\s*falls?\s?through/u
     const sourceCode = context.sourceCode
 
@@ -63,7 +62,7 @@ export default createRule<RuleOptions, MessageIds>({
           if (node.type !== 'Line')
             return
 
-          if (applyDefaultIgnorePatterns && (defaultIgnoreRegExp.test(node.value) || fallThroughRegExp.test(node.value)))
+          if (applyDefaultIgnorePatterns && (isDirectiveComment(node) || fallThroughRegExp.test(node.value)))
             return
 
           if (customIgnoreRegExp?.test(node.value))

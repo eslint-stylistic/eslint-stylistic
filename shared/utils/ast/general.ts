@@ -1,10 +1,8 @@
-import type { ASTNode, SourceCode, Token, Tree } from '#types'
 import type { AST_NODE_TYPES } from '@typescript-eslint/types'
+import type { ASTNode, SourceCode, Token, Tree } from '#types'
 import { isClosingParenToken, isColonToken, isCommentToken, isFunction, isOpeningParenToken, isTokenOnSameLine, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
 import { visitorKeys } from '@typescript-eslint/visitor-keys'
 import { latestEcmaVersion, tokenize } from 'espree'
-
-export const COMMENTS_IGNORE_PATTERN = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs|\/\s*<(?:reference|amd-))/u
 
 export const LINEBREAKS = /* @__PURE__ */ new Set(['\r\n', '\r', '\n', '\u2028', '\u2029'])
 

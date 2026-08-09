@@ -1,8 +1,3 @@
-/**
- * @fileoverview Enforce spacing between rest and spread operators and their expressions.
- * @author Kai Cataldo
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './rest-spread-spacing'
@@ -42,6 +37,11 @@ run<RuleOptions, MessageIds>({
     { code: 'let { x, y, ... z } = { x: 1, y: 2, a: 3, b: 4 };', options: ['always'], parserOptions: { ecmaVersion: 2018 } },
     { code: 'let { x, y, ...\tz } = { x: 1, y: 2, a: 3, b: 4 };', options: ['always'], parserOptions: { ecmaVersion: 2018 } },
     { code: 'let { x, y, ...\nz } = { x: 1, y: 2, a: 3, b: 4 };', options: ['always'], parserOptions: { ecmaVersion: 2018 } },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1230
+    '[.../** @type {string} */ (expr)]',
+    '[.../* comment1 */ /* comment2 */ (expr)]',
+    { code: '[... /** @type {string} */ (expr)]', options: ['always'] },
+    { code: '[... /* a */ /* b */ (expr)]', options: ['always'] },
   ],
 
   invalid: [
@@ -701,6 +701,25 @@ run<RuleOptions, MessageIds>({
         endColumn: 16,
         messageId: 'expectedWhitespace',
         data: { type: 'rest property' },
+      }],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1230
+    {
+      code: '[... /** @type {string} */ (expr)]',
+      output: '[.../** @type {string} */ (expr)]',
+      options: ['never'],
+      errors: [{
+        messageId: 'unexpectedWhitespace',
+        data: { type: 'spread' },
+      }],
+    },
+    {
+      code: '[.../** @type {string} */ (expr)]',
+      output: '[... /** @type {string} */ (expr)]',
+      options: ['always'],
+      errors: [{
+        messageId: 'expectedWhitespace',
+        data: { type: 'spread' },
       }],
     },
   ],

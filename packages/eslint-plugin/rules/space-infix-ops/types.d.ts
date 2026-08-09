@@ -1,9 +1,10 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: NsKkSXq3JrP0tE3E8uHASkNUd6prbB2Gi1wGa4oDmgE */
+/* @checksum: 1tBk9eazuWObtClYGd27BeoPht-GOHqh1B--IiASciw */
 
 export interface SpaceInfixOpsSchema0 {
   int32Hint?: boolean
+  ignoreOperators?: string[]
   ignoreTypes?: boolean
 }
 

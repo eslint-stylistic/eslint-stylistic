@@ -48,6 +48,15 @@ run<RuleOptions, MessageIds>({
       options: ['always', { ignoreJSX: true }],
       parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } },
     },
+    {
+      code: $`
+        <>
+          {a ? <div /> : b ? <div /> : null}
+        </>
+      `,
+      options: ['always', { ignoreJSX: true }],
+      parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } },
+    },
 
     // "always-multiline"
     { code: 'a\n? b\n: c', options: ['always-multiline'] },
@@ -94,6 +103,16 @@ run<RuleOptions, MessageIds>({
       options: ['always-multiline', { ignoreJSX: true }],
       parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } },
     },
+    {
+      code: $`
+        <>
+          {a ? <div /> : b ?
+            <div /> : null}
+        </>
+      `,
+      options: ['always-multiline', { ignoreJSX: true }],
+      parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } },
+    },
 
     // "never"
     { code: 'a ? b : c', options: ['never'] },
@@ -125,6 +144,17 @@ run<RuleOptions, MessageIds>({
           {a 
             ? <div /> 
             : <div />}
+        </>
+      `,
+      options: ['never', { ignoreJSX: true }],
+      parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } },
+    },
+    {
+      code: $`
+        <>
+          {a ? <div /> : b
+            ? <div />
+            : null}
         </>
       `,
       options: ['never', { ignoreJSX: true }],
