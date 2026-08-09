@@ -2,8 +2,8 @@
 
 /* @checksum: 8uvLAvPcygKjpruZlZHjv-Mea0r_zKFO4C8yJpkfWhs */
 
-export type LinesBetweenClassMembersSchema0
-  = | {
+export type LinesBetweenClassMembersSchema0 =
+  | {
     /**
      * @minItems 1
      */

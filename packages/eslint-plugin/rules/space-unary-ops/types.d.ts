@@ -15,10 +15,10 @@ export type SpaceUnaryOpsRuleOptions = [
 ]
 
 export type RuleOptions = SpaceUnaryOpsRuleOptions
-export type MessageIds
-  = | 'unexpectedBefore'
-    | 'unexpectedAfter'
-    | 'unexpectedAfterWord'
-    | 'requireAfterWord'
-    | 'requireAfter'
-    | 'requireBefore'
+export type MessageIds =
+  | 'unexpectedBefore'
+  | 'unexpectedAfter'
+  | 'unexpectedAfterWord'
+  | 'requireAfterWord'
+  | 'requireAfter'
+  | 'requireBefore'

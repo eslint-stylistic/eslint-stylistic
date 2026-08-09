@@ -740,10 +740,10 @@ export default createRule<RuleOptions, MessageIds>({
       )
     }
 
-    type KeyTypeNode
-      = | Tree.PropertyDefinition
-        | Tree.TSIndexSignature
-        | Tree.TSPropertySignature
+    type KeyTypeNode =
+      | Tree.PropertyDefinition
+      | Tree.TSIndexSignature
+      | Tree.TSPropertySignature
 
     type KeyTypeNodeWithTypeAnnotation = KeyTypeNode & {
       typeAnnotation: Tree.TSTypeAnnotation
