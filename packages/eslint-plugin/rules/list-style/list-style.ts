@@ -445,24 +445,34 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    function check(parenType: ParenType, node: ASTNode, items: (ASTNode | null)[], overrideKey?: OverrideKey) {
-      const nodeType = overrideKey ?? (items[0]?.type === 'ImportAttribute' ? 'ImportAttributes' : node.type as OverrideKey)
-
-      const config = resolveOption(parenType, nodeType)
-
-      if (config === 'off')
-        return
-
-      const left = getLeftParen(node, items, parenType, nodeType)
-      const right = left && getRightParen(node, items, parenType, left)
+    function getParens(node: ASTNode, items: (ASTNode | null)[], type: ParenType, nodeType: OverrideKey) {
+      const left = getLeftParen(node, items, type, nodeType)
+      const right = left && getRightParen(node, items, type, left)
 
       if (
         !left || !right
         || left.range[0] < node.range[0]
         || right.range[1] > node.range[1]
       ) {
-        return
+        return null
       }
+
+      return { left, right }
+    }
+
+    function check(parenType: ParenType, node: ASTNode, items: (ASTNode | null)[], overrideKey?: OverrideKey) {
+      const nodeType = overrideKey ?? node.type as OverrideKey
+
+      const config = resolveOption(parenType, nodeType)
+
+      if (config === 'off')
+        return
+
+      const parens = getParens(node, items, parenType, nodeType)
+      if (!parens)
+        return
+
+      const { left, right } = parens
 
       const isEmpty = items.length === 0
       if (isEmpty && config.empty === 'ignore')
