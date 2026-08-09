@@ -464,7 +464,7 @@ export default createRule<RuleOptions, MessageIds>({
         return
       }
 
-      const isEmpty = items.length === 0 && !sourceCode.commentsExistBetween(left, right)
+      const isEmpty = items.length === 0
       if (isEmpty && config.empty === 'ignore')
         return
 

@@ -36,6 +36,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'const ignoredArray = [ ]\nconst ignoredObject = {}\nignoredCall( )',
     },
+    'foo( /* comment */ )',
     'function foo<T = {\na: 1,\nb: 2\n}>(a, b) {}',
     'foo(() =>\nbar())',
     `call<{\nfoo: 'bar'\n}>('')`,
@@ -341,6 +342,10 @@ run<RuleOptions, MessageIds>({
     {
       code: `foo( /* comment */ )\nconst object = {/* comment */}`,
       output: `foo(/* comment */)\nconst object = { /* comment */ }`,
+      options: [{
+        empty: 'never',
+        overrides: { '{}': { empty: 'always' } },
+      }],
       errors: [
         { messageId: 'shouldNotSpacing', line: 1, column: 5 },
         { messageId: 'shouldNotSpacing', line: 1, column: 19 },
@@ -358,7 +363,7 @@ run<RuleOptions, MessageIds>({
         /* comment */
         )
       `,
-      options: [{ multiLine: { minItems: 1 } }],
+      options: [{ empty: 'never', multiLine: { minItems: 1 } }],
       errors: [{ messageId: 'shouldWrap', line: 1, column: 5 }],
     },
     {
