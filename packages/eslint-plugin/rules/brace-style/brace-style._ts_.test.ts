@@ -61,6 +61,72 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['allman'],
     },
+    {
+      code: $`
+        interface Foo {
+        }
+      `,
+      options: ['1tbs'],
+    },
+    {
+      code: $`
+        interface Foo {
+        }
+      `,
+      options: ['stroustrup'],
+    },
+    {
+      code: $`
+        interface Foo
+        {
+        }
+      `,
+      options: ['allman'],
+    },
+    {
+      code: 'interface Foo { a: number }',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'interface Foo { a: number }',
+      options: ['allman', { allowSingleLine: true }],
+    },
+    {
+      code: $`
+        enum Foo
+        {
+          A,
+          B
+        }
+      `,
+      options: ['allman'],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B
+        }
+      `,
+      options: ['1tbs'],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B
+        }
+      `,
+      options: ['stroustrup'],
+    },
+    {
+      code: 'enum Foo { A, B }',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'enum Foo { A, B }',
+      options: ['allman', { allowSingleLine: true }],
+    },
   ],
 
   invalid: [
@@ -136,6 +202,68 @@ run<RuleOptions, MessageIds>({
     {
       code: 'namespace Foo { \n }',
       output: 'namespace Foo \n{ \n }',
+      options: ['allman'],
+      errors: [{ messageId: 'sameLineOpen' }],
+    },
+    {
+      code: $`
+        interface Foo
+        {
+        }
+      `,
+      output: $`
+        interface Foo {
+        }
+      `,
+      errors: [{ messageId: 'nextLineOpen' }],
+    },
+    {
+      code: $`
+        interface Foo
+        {
+        }
+      `,
+      output: $`
+        interface Foo {
+        }
+      `,
+      options: ['stroustrup'],
+      errors: [{ messageId: 'nextLineOpen' }],
+    },
+    {
+      code: 'interface Foo { \n }',
+      output: 'interface Foo \n{ \n }',
+      options: ['allman'],
+      errors: [{ messageId: 'sameLineOpen' }],
+    },
+    {
+      code: $`
+        enum Foo
+        {
+        }
+      `,
+      output: $`
+        enum Foo {
+        }
+      `,
+      errors: [{ messageId: 'nextLineOpen' }],
+    },
+    {
+      code: $`
+        enum Foo
+        {
+        }
+      `,
+      output: $`
+        enum Foo {
+        }
+      `,
+      options: ['stroustrup'],
+      errors: [{ messageId: 'nextLineOpen' }],
+    },
+    {
+      code: 'enum Foo { A }',
+      output: 'enum Foo \n{ A }',
       options: ['allman'],
       errors: [{ messageId: 'sameLineOpen' }],
     },
