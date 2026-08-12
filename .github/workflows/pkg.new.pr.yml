@@ -18,7 +18,5 @@ jobs:
         uses: sxzz/workflows/setup-js@e10bbede8ba835eaee8df633bb472d303aba8509
       - name: Build
         run: pnpm build
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Publish
         run: pnpx pkg-pr-new publish --compact --pnpm './packages/*'
