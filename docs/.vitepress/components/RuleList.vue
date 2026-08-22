@@ -23,6 +23,16 @@ const filterList = [
     rules: pkg.rules,
   },
   {
+    id: 'recommended',
+    name: 'Recommended',
+    rules: pkg.rules.filter(({ meta }) => meta?.docs?.recommended),
+  },
+  {
+    id: 'not-recommended',
+    name: 'Not Recommended',
+    rules: pkg.rules.filter(({ meta }) => !meta?.docs?.recommended),
+  },
+  {
     id: 'spacing',
     name: 'Spacing',
     rules: match([
