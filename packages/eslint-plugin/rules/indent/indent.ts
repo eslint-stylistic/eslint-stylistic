@@ -821,8 +821,9 @@ export default createRule<RuleOptions, MessageIds>({
       Property(node) {
         if (!node.shorthand && !node.method && node.kind === 'init') {
           const colon = sourceCode.getFirstTokenBetween(node.key, node.value, isColonToken)!
+          const valueToken = sourceCode.getTokenAfter(colon)!
 
-          offsets.ignoreToken(sourceCode.getTokenAfter(colon)!)
+          offsets.setDesiredOffset(valueToken, colon, 1)
         }
       },
 

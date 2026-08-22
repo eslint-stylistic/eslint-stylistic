@@ -91,76 +91,76 @@ run<RuleOptions, MessageIds>({
   invalid: [
     {
       code:
-            'var short2 = true;\r\n'
-            + '\r\n'
-            + 'module.exports = {\r\n'
-            + '  short: short,    \r\n'
-            + '  short2: short\r\n'
-            + '}',
+        'var short2 = true;\r\n'
+        + '\r\n'
+        + 'module.exports = {\r\n'
+        + '  short: short,    \r\n'
+        + '  short2: short\r\n'
+        + '}',
       output:
-            'var short2 = true;\r\n'
-            + '\r\n'
-            + 'module.exports = {\r\n'
-            + '  short: short,\r\n'
-            + '  short2: short\r\n'
-            + '}',
+        'var short2 = true;\r\n'
+        + '\r\n'
+        + 'module.exports = {\r\n'
+        + '  short: short,\r\n'
+        + '  short2: short\r\n'
+        + '}',
       errors: [{
         messageId: 'trailingSpace',
       }],
     },
     {
       code:
-            'var short2 = true;\n'
-            + '\r\n'
-            + 'module.exports = {\r\n'
-            + '  short: short,    \r\n'
-            + '  short2: short\n'
-            + '}',
+        'var short2 = true;\n'
+        + '\r\n'
+        + 'module.exports = {\r\n'
+        + '  short: short,    \r\n'
+        + '  short2: short\n'
+        + '}',
       output:
-            'var short2 = true;\n'
-            + '\r\n'
-            + 'module.exports = {\r\n'
-            + '  short: short,\r\n'
-            + '  short2: short\n'
-            + '}',
+        'var short2 = true;\n'
+        + '\r\n'
+        + 'module.exports = {\r\n'
+        + '  short: short,\r\n'
+        + '  short2: short\n'
+        + '}',
       errors: [{
         messageId: 'trailingSpace',
       }],
     },
     {
       code:
-            'var short2 = true;\n'
-            + '\n'
-            + 'module.exports = {\n'
-            + '  short: short,    \n'
-            + '  short2: short\n'
-            + '}\n',
+        'var short2 = true;\n'
+        + '\n'
+        + 'module.exports = {\n'
+        + '  short: short,    \n'
+        + '  short2: short\n'
+        + '}\n',
       output:
-            'var short2 = true;\n'
-            + '\n'
-            + 'module.exports = {\n'
-            + '  short: short,\n'
-            + '  short2: short\n'
-            + '}\n',
+        'var short2 = true;\n'
+        + '\n'
+        + 'module.exports = {\n'
+        + '  short: short,\n'
+        + '  short2: short\n'
+        + '}\n',
       errors: [{
         messageId: 'trailingSpace',
       }],
     },
     {
       code:
-            'var short2 = true;\n'
-            + '\n'
-            + 'module.exports = {\n'
-            + '  short,    \n'
-            + '  short2\n'
-            + '}\n',
+        'var short2 = true;\n'
+        + '\n'
+        + 'module.exports = {\n'
+        + '  short,    \n'
+        + '  short2\n'
+        + '}\n',
       output:
-            'var short2 = true;\n'
-            + '\n'
-            + 'module.exports = {\n'
-            + '  short,\n'
-            + '  short2\n'
-            + '}\n',
+        'var short2 = true;\n'
+        + '\n'
+        + 'module.exports = {\n'
+        + '  short,\n'
+        + '  short2\n'
+        + '}\n',
       parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'trailingSpace',
@@ -168,24 +168,24 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            '\n'
-            + 'measAr.push("<dl></dl>",  \n'
-            + '         " </dt><dd class =\'pta-res\'>");',
+        '\n'
+        + 'measAr.push("<dl></dl>",  \n'
+        + '         " </dt><dd class =\'pta-res\'>");',
       output:
-            '\n'
-            + 'measAr.push("<dl></dl>",\n'
-            + '         " </dt><dd class =\'pta-res\'>");',
+        '\n'
+        + 'measAr.push("<dl></dl>",\n'
+        + '         " </dt><dd class =\'pta-res\'>");',
       errors: [{
         messageId: 'trailingSpace',
       }],
     },
     {
       code:
-            'measAr.push("<dl></dl>",  \n'
-            + '         " </dt><dd class =\'pta-res\'>");',
+        'measAr.push("<dl></dl>",  \n'
+        + '         " </dt><dd class =\'pta-res\'>");',
       output:
-            'measAr.push("<dl></dl>",\n'
-            + '         " </dt><dd class =\'pta-res\'>");',
+        'measAr.push("<dl></dl>",\n'
+        + '         " </dt><dd class =\'pta-res\'>");',
       errors: [{
         messageId: 'trailingSpace',
       }],

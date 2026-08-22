@@ -1278,19 +1278,19 @@ run<RuleOptions, MessageIds>({
       code: $`
         module.exports = {
           'Unit tests':
-          {
-            rootPath: './',
-            environment: 'node',
-            tests:
-            [
-              'test/test-*.js'
-            ],
-            sources:
-            [
-              '*.js',
-              'test/**.js'
-            ]
-          }
+            {
+              rootPath: './',
+              environment: 'node',
+              tests:
+                [
+                  'test/test-*.js'
+                ],
+              sources:
+                [
+                  '*.js',
+                  'test/**.js'
+                ]
+            }
         };
       `,
       options: [2],
@@ -1534,11 +1534,11 @@ run<RuleOptions, MessageIds>({
         var a =
         {
             actions:
-            [
-                {
-                    name: 'compile'
-                }
-            ]
+                [
+                    {
+                        name: 'compile'
+                    }
+                ]
         };
       `,
       options: [4, { VariableDeclarator: 0, SwitchCase: 1, assignmentOperator: 0 }],
@@ -2651,19 +2651,10 @@ run<RuleOptions, MessageIds>({
     `,
     {
 
-      // Don't lint the indentation of the first token after a :
+      // Indent the first token after a : by one level
       code: $`
         ({code:
           "foo.bar();"})
-      `,
-      options: [2],
-    },
-    {
-
-      // Don't lint the indentation of the first token after a :
-      code: $`
-        ({code:
-        "foo.bar();"})
       `,
       options: [2],
     },
@@ -6501,7 +6492,7 @@ run<RuleOptions, MessageIds>({
           {
               type
               :
-              "json"
+                  "json"
           }
           ,
       )
@@ -6559,6 +6550,19 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2],
       errors: expectedErrors([[3, 2, 0]]),
+    },
+    {
+      // Require one extra indentation level for the first token after a :
+      code: $`
+        ({code:
+        "foo.bar();"})
+      `,
+      output: $`
+        ({code:
+          "foo.bar();"})
+      `,
+      options: [2],
+      errors: expectedErrors([[2, 2, 0]]),
     },
     {
       code: $`
@@ -14179,7 +14183,7 @@ run<RuleOptions, MessageIds>({
             {
                 type
                 :
-        "json"
+                    "json"
             }
             ,
         )
@@ -14254,6 +14258,35 @@ run<RuleOptions, MessageIds>({
           : undefined
       `,
       options: [2, { offsetTernaryExpressions: true }],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1188
+    {
+      code: $`
+        const obj = {
+          key:
+              [
+                15,
+                27
+              ]
+        };
+      `,
+      output: $`
+        const obj = {
+        \tkey:
+        \t\t[
+        \t\t\t15,
+        \t\t\t27
+        \t\t]
+        };
+      `,
+      options: ['tab'],
+      errors: expectedErrors('tab', [
+        [2, 1, '2 spaces'],
+        [3, 2, '6 spaces'],
+        [4, 3, '8 spaces'],
+        [5, 3, '8 spaces'],
+        [6, 2, '6 spaces'],
+      ]),
     },
   ],
 })

@@ -275,16 +275,16 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            '\'foo\';\n'
-            + '\n'
-            + '\n'
-            + '`bar`;\n'
-            + '`baz`;',
+        '\'foo\';\n'
+        + '\n'
+        + '\n'
+        + '`bar`;\n'
+        + '`baz`;',
       output:
-            '\'foo\';\n'
-            + '\n'
-            + '`bar`;\n'
-            + '`baz`;',
+        '\'foo\';\n'
+        + '\n'
+        + '`bar`;\n'
+        + '`baz`;',
       options: [{ max: 1 }],
       parserOptions: { ecmaVersion: 6 },
       errors: [getExpectedError(1)],
