@@ -22,7 +22,6 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Enforce consistent spacing and line break styles inside brackets.',
-      experimental: true,
     },
     fixable: 'whitespace',
     schema: [

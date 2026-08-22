@@ -1,5 +1,9 @@
 export function HelloWorld({
-	greeting = "hello", greeted = "\"World\"", silent = false, onMouseOver }) {
+	greeting = "hello",
+	greeted = "\"World\"",
+	silent = false,
+	onMouseOver,
+}) {
 	if (!greeting) {
 		return null;
 	};

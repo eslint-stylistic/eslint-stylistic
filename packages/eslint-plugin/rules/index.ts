@@ -148,7 +148,7 @@ export default {
   'linebreak-style': linebreakStyle,
   'lines-around-comment': linesAroundComment,
   'lines-between-class-members': linesBetweenClassMembers,
-  'exp-list-style': listStyle,
+  'list-style': listStyle,
   'max-len': maxLen,
   'max-statements-per-line': maxStatementsPerLine,
   'member-delimiter-style': memberDelimiterStyle,

@@ -8,10 +8,7 @@ run<RuleOptions, MessageIds>({
   lang: 'js',
   valid: [
     'obj.prop',
-    'obj.\nprop',
-    'obj. \nprop',
-    'obj.\n prop',
-    '(obj).\nprop',
+    'obj\n.property',
     'obj\n[\'prop\']',
     'obj[\'prop\']',
     {
@@ -189,6 +186,11 @@ run<RuleOptions, MessageIds>({
     `import.meta`,
   ],
   invalid: [
+    {
+      code: 'obj.\nproperty',
+      output: 'obj\n.property',
+      errors: [{ messageId: 'expectedDotBeforeProperty' }],
+    },
     {
       code: 'obj\n.property',
       output: 'obj.\nproperty',
