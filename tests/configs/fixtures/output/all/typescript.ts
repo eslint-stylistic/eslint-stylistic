@@ -6,16 +6,13 @@ interface Person<T = string, K = number> {
     "age": number;
 }
 
-type Tuple = [ foo: number, bar: String | Boolean];
+type Tuple = [foo: number, bar: String | Boolean];
 
 // Create an array of objects with the defined interface
 const people: Person[] = [
-    {"name": "Alice",
-        "age": 30},
-    {"name": "Bob",
-        "age": 25},
-    {"name": "Charlie",
-        "age": 35}
+    { "name": "Alice", "age": 30 },
+    { "name": "Bob", "age": 25 },
+    { "name": "Charlie", "age": 35 }
 ];
 
 // eslint-disable-next-line no-console
@@ -43,7 +40,9 @@ enum EnumFoo {
 }
 
 // Use the generic function with type inference
-const result = identity("TypeScript is awesome");
+const result = identity(
+    "TypeScript is awesome"
+);
 log(result);
 
 // Use optional properties in an interface
@@ -53,9 +52,11 @@ interface Car {
 }
 
 // Create objects using the interface
-const car1: Car = {"make": "Toyota"};
-const car2: Car = {"make": "Ford",
-    "model": "Focus"};
+const car1: Car = { "make": "Toyota" };
+const car2: Car = {
+    "make": "Ford",
+    "model": "Focus"
+};
 
 // Use union types
 type Fruit = "apple" | "banana" | "orange";
@@ -124,13 +125,7 @@ var fn = (): string => {
 
 };
 
-log(
-    car1,
-    car2,
-    favoriteFruit,
-    numericValue,
-    fn()
-);
+log(car1, car2, favoriteFruit, numericValue, fn());
 
 // Generator
 export function *generator1 () {
