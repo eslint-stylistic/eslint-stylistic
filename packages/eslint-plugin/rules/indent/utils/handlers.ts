@@ -10,6 +10,7 @@ import {
   isClosingParenToken,
   isColonToken,
   isEqToken,
+  isNodeOfTypes,
   isNotClosingParenToken,
   isNotOpeningParenToken,
   isOpeningBraceToken,
@@ -18,12 +19,24 @@ import {
   isOptionalChainPunctuator,
   isQuestionToken,
   isSemicolonToken,
+  isSingleLine,
   isTokenOnSameLine,
   skipChainExpression,
   STATEMENT_LIST_PARENTS,
 } from '#utils/ast'
 
 type ElementListOffset = 'first' | 'off' | number
+
+const isBinaryExpressionNode = isNodeOfTypes([
+  AST_NODE_TYPES.BinaryExpression,
+  AST_NODE_TYPES.LogicalExpression,
+])
+
+interface BinaryTypeContinuation {
+  leftToken: Token
+  operatorToken: Token
+  rightToken: Token
+}
 
 export interface IndentConfig {
   SwitchCase: number
@@ -48,6 +61,7 @@ export interface IndentConfig {
   ignoreComments: boolean
   offsetTernaryExpressions: NonNullable<RuleOptions[1]>['offsetTernaryExpressions']
   tabLength: number
+  binaryOps: number | 'off'
 }
 
 export interface IndentContext {
@@ -488,6 +502,151 @@ export function checkOperatorToken(ctx: IndentContext, left: ASTNode, right: AST
   offsets.ignoreToken(operatorToken)
   offsets.ignoreToken(tokenAfterOperator)
   offsets.setDesiredOffset(tokenAfterOperator, operatorToken, 0)
+}
+
+function addBinaryContinuationIndent(
+  ctx: IndentContext,
+  operatorToken: Token,
+  leftToken: Token,
+  rightToken: Token,
+  anchorToken: Token,
+  offset: number,
+) {
+  const { offsets, tokenInfo } = ctx
+
+  if (isTokenOnSameLine(leftToken, rightToken))
+    return
+
+  if (tokenInfo.isFirstTokenOfLine(operatorToken)) {
+    offsets.setDesiredOffset(operatorToken, anchorToken, offset)
+
+    if (isTokenOnSameLine(operatorToken, rightToken))
+      offsets.setDesiredOffset(rightToken, operatorToken, 0)
+  }
+  else {
+    offsets.setDesiredOffset(rightToken, anchorToken, offset)
+  }
+}
+
+function getBinaryExpressionRoot(ctx: IndentContext, node: Tree.BinaryExpression | Tree.LogicalExpression) {
+  const { sourceCode } = ctx
+  let root = node
+
+  while (isBinaryExpressionNode(root.parent)) {
+    if (root.parent.right === root && isOpeningParenToken(sourceCode.getTokenBefore(root)!))
+      break
+
+    root = root.parent
+  }
+
+  return root
+}
+
+export function checkBinaryExpressionIndent(
+  ctx: IndentContext,
+  node: Tree.BinaryExpression | Tree.LogicalExpression,
+) {
+  const { sourceCode, tokenInfo, options } = ctx
+
+  if (options.binaryOps === 'off' || isSingleLine(node))
+    return
+
+  const operatorToken = sourceCode.getTokenBefore(node.right, token => token.value === node.operator)!
+  const leftToken = sourceCode.getTokenBefore(operatorToken)!
+  const rightToken = sourceCode.getTokenAfter(operatorToken)!
+  const root = getBinaryExpressionRoot(ctx, node)
+  const firstToken = sourceCode.getFirstToken(root)!
+  const wrapsLeftOperand = isOpeningParenToken(firstToken)
+    && sourceCode.getTokenBefore(root.left) === firstToken
+    && sourceCode.getTokenAfter(root.left) === leftToken
+    && !isBinaryExpressionNode(root.parent)
+    && firstToken.loc.end.line < leftToken.loc.start.line
+  const anchorToken = wrapsLeftOperand ? firstToken : tokenInfo.getFirstTokenOfLine(firstToken)!
+  const offset = wrapsLeftOperand || tokenInfo.isFirstTokenOfLine(firstToken) ? 0 : options.binaryOps
+
+  addBinaryContinuationIndent(ctx, operatorToken, leftToken, rightToken, anchorToken, offset)
+}
+
+export function checkBinaryTypeIndent(
+  ctx: IndentContext,
+  node: Tree.TSIntersectionType | Tree.TSUnionType,
+  operator: '&' | '|',
+) {
+  const { sourceCode, offsets, tokenInfo, options } = ctx
+
+  if (options.binaryOps === 'off' || isSingleLine(node))
+    return
+
+  const continuations = getBinaryTypeContinuations(ctx, node, operator)
+  const checkedTokens = new Set(continuations.map(({ operatorToken, rightToken }) =>
+    tokenInfo.isFirstTokenOfLine(operatorToken) ? operatorToken : rightToken))
+
+  for (const token of sourceCode.getTokens(node, { includeComments: true })) {
+    if (tokenInfo.isFirstTokenOfLine(token) && !checkedTokens.has(token))
+      offsets.ignoreToken(token)
+  }
+
+  const firstToken = sourceCode.getFirstToken(node)!
+  const rootAnchorToken = tokenInfo.getFirstTokenOfLine(firstToken)!
+  const rootOffset = tokenInfo.isFirstTokenOfLine(firstToken) ? 0 : options.binaryOps
+
+  for (const { leftToken, operatorToken, rightToken } of continuations) {
+    const followsMultilineDelimitedType = firstToken.loc.start.line < leftToken.loc.start.line
+      && (
+        isClosingBraceToken(leftToken)
+        || isClosingBracketToken(leftToken)
+        || isClosingParenToken(leftToken)
+      )
+    if (isTokenOnSameLine(leftToken, rightToken))
+      continue
+
+    const anchorToken = followsMultilineDelimitedType
+      ? tokenInfo.getFirstTokenOfLine(leftToken)!
+      : rootAnchorToken
+    const offset = followsMultilineDelimitedType ? 0 : rootOffset
+
+    if (tokenInfo.isFirstTokenOfLine(operatorToken))
+      offsets.setDesiredOffset(operatorToken, anchorToken, offset)
+    else
+      offsets.setDesiredOffset(rightToken, anchorToken, offset)
+  }
+}
+
+export function ignoreBinaryTypeIndent(
+  ctx: IndentContext,
+  node: Tree.TSIntersectionType | Tree.TSUnionType,
+  operator: '&' | '|',
+) {
+  const { sourceCode, offsets } = ctx
+
+  offsets.ignoreToken(sourceCode.getFirstToken(node)!)
+
+  for (let index = 1; index < node.types.length; index++)
+    checkOperatorToken(ctx, node.types[index - 1], node.types[index], operator)
+}
+
+function getBinaryTypeContinuations(
+  ctx: IndentContext,
+  node: Tree.TSIntersectionType | Tree.TSUnionType,
+  operator: '&' | '|',
+) {
+  const { sourceCode } = ctx
+  const continuations: BinaryTypeContinuation[] = []
+
+  for (const typeNode of node.types) {
+    const operatorToken = sourceCode.getTokenBefore(typeNode)
+
+    if (!operatorToken || operatorToken.value !== operator || operatorToken.range[0] < node.range[0])
+      continue
+
+    continuations.push({
+      leftToken: sourceCode.getTokenBefore(operatorToken)!,
+      operatorToken,
+      rightToken: sourceCode.getTokenAfter(operatorToken)!,
+    })
+  }
+
+  return continuations
 }
 
 /**

@@ -17,6 +17,8 @@ import {
   addParensIndent,
   checkArrayLikeNode,
   checkAssignmentOperator,
+  checkBinaryExpressionIndent,
+  checkBinaryTypeIndent,
   checkBlockLikeNode,
   checkClassProperty,
   checkConditionalNode,
@@ -24,6 +26,7 @@ import {
   checkMemberExpression,
   checkObjectLikeNode,
   checkOperatorToken,
+  ignoreBinaryTypeIndent,
   ignoreNode,
 } from './utils/handlers'
 import { OffsetStorage } from './utils/offset-storage'
@@ -180,9 +183,8 @@ const KNOWN_NODES = new Set([
   AST_NODE_TYPES.TSTypeReference,
   AST_NODE_TYPES.Decorator,
 
-  // These are took care by `indent-binary-ops` rule
-  // AST_NODE_TYPES.TSIntersectionType,
-  // AST_NODE_TYPES.TSUnionType,
+  AST_NODE_TYPES.TSIntersectionType,
+  AST_NODE_TYPES.TSUnionType,
 ])
 
 /*
@@ -255,6 +257,18 @@ export default createRule<RuleOptions, MessageIds>({
             ],
           },
           assignmentOperator: {
+            oneOf: [
+              {
+                type: 'integer',
+                minimum: 0,
+              },
+              {
+                type: 'string',
+                enum: ['off'],
+              },
+            ],
+          },
+          binaryOps: {
             oneOf: [
               {
                 type: 'integer',
@@ -422,6 +436,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       outerIIFEBody: 1,
       assignmentOperator: 1,
+      binaryOps: 'off' as number | 'off',
       FunctionDeclaration: {
         parameters: DEFAULT_PARAMETER_INDENT,
         body: DEFAULT_FUNCTION_BODY_INDENT,
@@ -589,9 +604,19 @@ export default createRule<RuleOptions, MessageIds>({
         checkAssignmentOperator(ctx, operator)
       },
 
-      'BinaryExpression': node => checkOperatorToken(ctx, node.left, node.right, node.operator),
+      BinaryExpression(node) {
+        if (options.binaryOps === 'off')
+          checkOperatorToken(ctx, node.left, node.right, node.operator)
+        else
+          checkBinaryExpressionIndent(ctx, node)
+      },
 
-      'LogicalExpression': node => checkOperatorToken(ctx, node.left, node.right, node.operator),
+      LogicalExpression(node) {
+        if (options.binaryOps === 'off')
+          checkOperatorToken(ctx, node.left, node.right, node.operator)
+        else
+          checkBinaryExpressionIndent(ctx, node)
+      },
 
       'BlockStatement': node => checkBlockLikeNode(ctx, node),
 
@@ -1154,6 +1179,20 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       'TSAsExpression': node => checkOperatorToken(ctx, node.expression, node.typeAnnotation, 'as'),
+
+      'TSIntersectionType:exit': function (node) {
+        if (options.binaryOps === 'off')
+          ignoreBinaryTypeIndent(ctx, node, '&')
+        else
+          checkBinaryTypeIndent(ctx, node, '&')
+      },
+
+      'TSUnionType:exit': function (node) {
+        if (options.binaryOps === 'off')
+          ignoreBinaryTypeIndent(ctx, node, '|')
+        else
+          checkBinaryTypeIndent(ctx, node, '|')
+      },
 
       // TODO: TSSatisfiesExpression
 

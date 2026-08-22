@@ -7,9 +7,9 @@ export type ArrayElementNewlineSchema0
     | [
       | BasicConfig
       | {
-        ArrayExpression?: BasicConfig
-        ArrayPattern?: BasicConfig
-      },
+          ArrayExpression?: BasicConfig
+          ArrayPattern?: BasicConfig
+        },
     ]
 export type BasicConfig
   = | ('always' | 'never' | 'consistent')

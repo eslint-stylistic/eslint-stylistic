@@ -4,11 +4,11 @@
 
 export type FunctionParenNewlineSchema0
   = | (
-    | 'always'
-    | 'never'
-    | 'consistent'
-    | 'multiline'
-    | 'multiline-arguments'
+      | 'always'
+      | 'never'
+      | 'consistent'
+      | 'multiline'
+      | 'multiline-arguments'
     )
     | {
       minItems?: number

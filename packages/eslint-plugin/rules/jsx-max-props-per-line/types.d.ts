@@ -4,15 +4,15 @@
 
 export type JsxMaxPropsPerLineSchema0
   = | {
-    maximum?: {
-      single?: number
-      multi?: number
+      maximum?: {
+        single?: number
+        multi?: number
+      }
     }
-  }
-  | {
-    maximum?: number
-    when?: 'always' | 'multiline'
-  }
+    | {
+      maximum?: number
+      when?: 'always' | 'multiline'
+    }
 
 export type JsxMaxPropsPerLineRuleOptions = [
   JsxMaxPropsPerLineSchema0?,
