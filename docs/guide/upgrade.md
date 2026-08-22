@@ -69,6 +69,10 @@ If you rely on the previous behavior, configure `"object"` explicitly:
 }
 ```
 
+#### indent
+
+The first token of a property value that starts on a new line after `:` is now required to be indented one level from the `:` token. If you rely on the previous aligned layout, configure `ignoredNodes` for the affected nodes.
+
 #### operator-linebreak
 
 For TypeScript type aliases whose type annotation starts with `|` or `&`, the `=` operator now uses the `"after"` style unless it is configured as `"ignore"`.
