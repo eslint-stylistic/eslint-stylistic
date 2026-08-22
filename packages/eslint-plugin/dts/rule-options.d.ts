@@ -342,7 +342,7 @@ export interface RuleOptions {
    * Enforce consistent spacing and line break styles inside brackets.
    * @see https://eslint.style/rules/list-style
    */
-  '@stylistic/exp-list-style': ListStyleRuleOptions
+  '@stylistic/list-style': ListStyleRuleOptions
   /**
    * Enforce a maximum line length
    * @see https://eslint.style/rules/max-len
@@ -825,7 +825,7 @@ export interface UnprefixedRuleOptions {
    * Enforce consistent spacing and line break styles inside brackets.
    * @see https://eslint.style/rules/list-style
    */
-  'exp-list-style': ListStyleRuleOptions
+  'list-style': ListStyleRuleOptions
   /**
    * Enforce a maximum line length
    * @see https://eslint.style/rules/max-len

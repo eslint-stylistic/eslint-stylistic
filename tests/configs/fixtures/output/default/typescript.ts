@@ -6,14 +6,13 @@ interface Person<T = string, K = number> {
   age: number
 }
 
-type Tuple = [ foo: number, bar: String | Boolean]
+type Tuple = [foo: number, bar: String | Boolean]
 
 // Create an array of objects with the defined interface
 const people: Person[] = [
   { name: 'Alice', age: 30 },
   { name: 'Bob', age: 25 },
-  { name: 'Charlie',
-    age: 35 },
+  { name: 'Charlie', age: 35 },
 ]
 
 // eslint-disable-next-line no-console
@@ -38,7 +37,8 @@ enum EnumFoo {
 
 // Use the generic function with type inference
 const result = identity(
-  'TypeScript is awesome')
+  'TypeScript is awesome',
+)
 log(result)
 
 // Use optional properties in an interface
@@ -51,7 +51,8 @@ interface Car {
 const car1: Car = { make: 'Toyota' }
 const car2: Car = {
   make: 'Ford',
-  model: 'Focus' }
+  model: 'Focus',
+}
 
 // Use union types
 type Fruit = 'apple' | 'banana' | 'orange'

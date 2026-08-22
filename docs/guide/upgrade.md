@@ -18,6 +18,29 @@ These previously deprecated rules have been removed:
 | `jsx-props-no-multi-spaces` | Use [no-multi-spaces](../rules/no-multi-spaces)                                                      |
 | `jsx-sort-props`            | Use `eslint-plugin-perfectionist`'s [sort-jsx-props](https://perfectionist.dev/rules/sort-jsx-props) |
 
+### Graduated Experimental Rules
+
+The following rules have graduated from experimental to stable. If you were using the experimental `exp-` prefix, drop it:
+
+| Old Rule ID                 | New Rule ID             |
+| --------------------------- | ----------------------- |
+| `@stylistic/exp-list-style` | `@stylistic/list-style` |
+
+### Deprecated Rules
+
+These rules are now deprecated and will be removed in a future major version. They are replaced by [list-style](../rules/list-style):
+
+| Rule                                                                      | Migration                             |
+| ------------------------------------------------------------------------- | ------------------------------------- |
+| [array-bracket-newline](../rules/array-bracket-newline)                   | Use [list-style](../rules/list-style) |
+| [array-bracket-spacing](../rules/array-bracket-spacing)                   | Use [list-style](../rules/list-style) |
+| [array-element-newline](../rules/array-element-newline)                   | Use [list-style](../rules/list-style) |
+| [function-call-argument-newline](../rules/function-call-argument-newline) | Use [list-style](../rules/list-style) |
+| [function-paren-newline](../rules/function-paren-newline)                 | Use [list-style](../rules/list-style) |
+| [object-curly-newline](../rules/object-curly-newline)                     | Use [list-style](../rules/list-style) |
+| [object-curly-spacing](../rules/object-curly-spacing)                     | Use [list-style](../rules/list-style) |
+| [object-property-newline](../rules/object-property-newline)               | Use [list-style](../rules/list-style) |
+
 ### Removed Deprecated Options
 
 The following deprecated options or shorthands are no longer supported:

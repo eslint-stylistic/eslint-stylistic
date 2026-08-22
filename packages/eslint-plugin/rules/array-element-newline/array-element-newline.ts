@@ -16,6 +16,13 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Enforce line breaks after each array element',
     },
     fixable: 'whitespace',
+    deprecated: {
+      message: 'This rule is deprecated and replaced by list-style.',
+      replacedBy: [
+        { plugin: { name: '@stylistic' }, rule: { name: 'list-style' } },
+      ],
+      deprecatedSince: '6.0.0',
+    },
     schema: {
       definitions: {
         basicConfig: {
