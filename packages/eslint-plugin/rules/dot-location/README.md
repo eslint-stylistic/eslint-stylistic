@@ -27,14 +27,14 @@ This rule aims to enforce newline consistency in member expressions. This rule p
 
 The rule takes one option, a string:
 
-- If it is `"object"` (default), the dot in a member expression should be on the same line as the object portion.
-- If it is `"property"`, the dot in a member expression should be on the same line as the property portion.
+- If it is `"object"`, the dot in a member expression should be on the same line as the object portion.
+- If it is `"property"` (default), the dot in a member expression should be on the same line as the property portion.
 
 ### object
 
-The default `"object"` option requires the dot to be on the same line as the object.
+The `"object"` option requires the dot to be on the same line as the object.
 
-Examples of **incorrect** code for the default `"object"` option:
+Examples of **incorrect** code for the `"object"` option:
 
 ::: incorrect
 
@@ -56,7 +56,7 @@ type Bar = import('Obj')
 
 :::
 
-Examples of **correct** code for the default `"object"` option:
+Examples of **correct** code for the `"object"` option:
 
 ::: correct
 
@@ -87,7 +87,7 @@ type Bar = import('Obj').
 
 ### property
 
-The `"property"` option requires the dot to be on the same line as the property.
+The default `"property"` option requires the dot to be on the same line as the property.
 
 Examples of **incorrect** code for the `"property"` option:
 
