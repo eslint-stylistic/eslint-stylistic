@@ -19,7 +19,7 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['object', 'property'],
       },
     ],
-    defaultOptions: ['object'],
+    defaultOptions: ['property'],
     messages: {
       expectedDotAfterObject: 'Expected dot to be on same line as object.',
       expectedDotBeforeProperty: 'Expected dot to be on same line as property.',

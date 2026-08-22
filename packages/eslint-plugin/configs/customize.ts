@@ -64,7 +64,7 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
     '@stylistic/comma-spacing': [severity, { after: true, before: false }],
     '@stylistic/comma-style': [severity, 'last'],
     '@stylistic/computed-property-spacing': [severity, 'never', { enforceForClassMembers: true }],
-    '@stylistic/dot-location': [severity, 'property'],
+    '@stylistic/dot-location': severity,
     '@stylistic/eol-last': severity,
     '@stylistic/generator-star-spacing': [severity, { after: true, before: false }],
     '@stylistic/indent': [severity, indentLevel, indentOptions],

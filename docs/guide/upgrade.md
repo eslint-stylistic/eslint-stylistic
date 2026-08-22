@@ -34,6 +34,18 @@ The following deprecated options or shorthands are no longer supported:
 
 ### Behavior Changes
 
+#### dot-location
+
+The default option is now `"property"` instead of `"object"`.
+
+If you rely on the previous behavior, configure `"object"` explicitly:
+
+```json
+{
+  "@stylistic/dot-location": ["error", "object"]
+}
+```
+
 #### operator-linebreak
 
 For TypeScript type aliases whose type annotation starts with `|` or `&`, the `=` operator now uses the `"after"` style unless it is configured as `"ignore"`.
