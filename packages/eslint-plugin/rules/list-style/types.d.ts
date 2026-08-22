@@ -1,10 +1,11 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: bO-QF1vmjhbG-SOI1py-wrNSdizWYw_vlRpd_N-bzaA */
+/* @checksum: 4q_MHCJXCCDAPnzLHlr3tVJatY44E9CkVN9FRtDf-VU */
 
 export type OverrideConfig = BaseConfig | 'off'
 
 export interface ListStyleSchema0 {
+  empty?: 'ignore' | 'always' | 'never'
   singleLine?: SingleLineConfig
   multiLine?: MultiLineConfig
   overrides?: {
@@ -45,6 +46,7 @@ export interface MultiLineConfig {
   minItems?: number
 }
 export interface BaseConfig {
+  empty?: 'ignore' | 'always' | 'never'
   singleLine?: SingleLineConfig
   multiline?: MultiLineConfig
 }
@@ -52,8 +54,8 @@ export interface BaseConfig {
 export type ListStyleRuleOptions = [ListStyleSchema0?]
 
 export type RuleOptions = ListStyleRuleOptions
-export type MessageIds
-  = | 'shouldSpacing'
-    | 'shouldNotSpacing'
-    | 'shouldWrap'
-    | 'shouldNotWrap'
+export type MessageIds =
+  | 'shouldSpacing'
+  | 'shouldNotSpacing'
+  | 'shouldWrap'
+  | 'shouldNotWrap'

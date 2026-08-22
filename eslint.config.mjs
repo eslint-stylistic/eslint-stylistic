@@ -11,8 +11,6 @@ const stylisticConfig = stylistic.configs.customize({
 
 export default antfu(
   {
-    // TODO: enable it
-    e18e: false,
     formatters: true,
     ignores: [
       '**/fixtures/**',
@@ -82,30 +80,6 @@ export default antfu(
     rules: {
       'eslint-plugin/meta-property-ordering': 'error',
       'eslint-plugin/require-meta-schema-description': 'off',
-      'perfectionist/sort-objects': [
-        'error',
-        {
-          customGroups: [
-            { elementNamePattern: 'defaultOptions', groupName: 'bottom' },
-          ],
-          groups: ['unknown', 'multiline-property', 'bottom', 'method'],
-          newlinesBetween: 0,
-          type: 'subgroup-order',
-          useConfigurationIf: {
-            callingFunctionNamePattern: '^createRule$',
-          },
-        },
-        {
-          newlinesBetween: 0,
-          type: 'unsorted',
-          useConfigurationIf: {
-            declarationMatchesPattern: '^meta$',
-          },
-        },
-        {
-          type: 'unsorted',
-        },
-      ],
     },
   },
   {

@@ -16,8 +16,8 @@ export type ArrayBracketSpacingRuleOptions = [
 ]
 
 export type RuleOptions = ArrayBracketSpacingRuleOptions
-export type MessageIds
-  = | 'unexpectedSpaceAfter'
-    | 'unexpectedSpaceBefore'
-    | 'missingSpaceAfter'
-    | 'missingSpaceBefore'
+export type MessageIds =
+  | 'unexpectedSpaceAfter'
+  | 'unexpectedSpaceBefore'
+  | 'missingSpaceAfter'
+  | 'missingSpaceBefore'

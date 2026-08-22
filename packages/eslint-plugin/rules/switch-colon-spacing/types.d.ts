@@ -12,8 +12,8 @@ export type SwitchColonSpacingRuleOptions = [
 ]
 
 export type RuleOptions = SwitchColonSpacingRuleOptions
-export type MessageIds
-  = | 'expectedBefore'
-    | 'expectedAfter'
-    | 'unexpectedBefore'
-    | 'unexpectedAfter'
+export type MessageIds =
+  | 'expectedBefore'
+  | 'expectedAfter'
+  | 'unexpectedBefore'
+  | 'unexpectedAfter'

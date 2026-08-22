@@ -2,12 +2,12 @@
 
 /* @checksum: ljofdOuHuEhA0dW5Fg2dfdaqPq0pwLcMkpmO2QLzva4 */
 
-export type JsxFirstPropNewLineSchema0
-  = | 'always'
-    | 'never'
-    | 'multiline'
-    | 'multiline-multiprop'
-    | 'multiprop'
+export type JsxFirstPropNewLineSchema0 =
+  | 'always'
+  | 'never'
+  | 'multiline'
+  | 'multiline-multiprop'
+  | 'multiprop'
 
 export type JsxFirstPropNewLineRuleOptions = [
   JsxFirstPropNewLineSchema0?,

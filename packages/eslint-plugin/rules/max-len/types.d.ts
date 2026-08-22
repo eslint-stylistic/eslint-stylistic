@@ -2,8 +2,8 @@
 
 /* @checksum: uMJkONlM226jhA3G9S3Ome05yXe2M1PH12DfV1X9Wvg */
 
-export type MaxLenSchema0
-  = | {
+export type MaxLenSchema0 =
+  | {
     code?: number
     comments?: number
     tabWidth?: number
@@ -17,8 +17,8 @@ export type MaxLenSchema0
   }
   | number
 
-export type MaxLenSchema1
-  = | {
+export type MaxLenSchema1 =
+  | {
     code?: number
     comments?: number
     tabWidth?: number

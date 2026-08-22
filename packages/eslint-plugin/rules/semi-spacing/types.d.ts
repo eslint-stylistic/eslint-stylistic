@@ -10,8 +10,8 @@ export interface SemiSpacingSchema0 {
 export type SemiSpacingRuleOptions = [SemiSpacingSchema0?]
 
 export type RuleOptions = SemiSpacingRuleOptions
-export type MessageIds
-  = | 'unexpectedWhitespaceBefore'
-    | 'unexpectedWhitespaceAfter'
-    | 'missingWhitespaceBefore'
-    | 'missingWhitespaceAfter'
+export type MessageIds =
+  | 'unexpectedWhitespaceBefore'
+  | 'unexpectedWhitespaceAfter'
+  | 'missingWhitespaceBefore'
+  | 'missingWhitespaceAfter'

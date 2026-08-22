@@ -2,9 +2,9 @@
 
 /* @checksum: RKAqDKRVp0pyFLxfhNvczVPyKf9CGsnhKIRTJ9bSOMQ */
 
-export type JsxFunctionCallNewlineSchema0
-  = | 'always'
-    | 'multiline'
+export type JsxFunctionCallNewlineSchema0 =
+  | 'always'
+  | 'multiline'
 
 export type JsxFunctionCallNewlineRuleOptions = [
   JsxFunctionCallNewlineSchema0?,

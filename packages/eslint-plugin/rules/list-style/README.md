@@ -30,6 +30,7 @@ This rule accepts an object option:
   - [`"maxItems"`](#maxitems): Maximum number of elements allowed before auto-fixing to multi-line
 - [`"multiLine"`](#multiline): Options for when the node is multi-line
   - [`"minItems"`](#minitems): Minimum number of elements allowed before auto-fixing to single-line
+- [`"empty"`](#empty): How spacing and line breaks are handled for empty structures
 - [`"overrides"`](#overrides): Override options based on bracket type or node type
 
 The default configuration of this rule is:
@@ -192,6 +193,67 @@ let [
   a,
   b
 ] = bar;
+```
+
+:::
+
+### empty
+
+`"ignore"` (default) does not check empty structures. `"always"` requires a space inside an empty structure, while `"never"` disallows spaces. When enabled, empty multiline structures count as having zero items, so `multiLine.minItems` controls whether they collapse to a single line.
+
+Examples of **correct** code with the default `"ignore"` option:
+
+::: correct
+
+```ts
+/* eslint @stylistic/exp-list-style: ["error", { "empty": "ignore" }] */
+
+const array = [ ]
+const object = {}
+foo( )
+```
+
+:::
+
+Examples of **correct** code with the `"always"` option:
+
+::: correct
+
+```ts
+/* eslint @stylistic/exp-list-style: ["error", { "empty": "always" }] */
+
+const array = [ ]
+const object = { }
+foo( )
+```
+
+:::
+
+Examples of **incorrect** code with the `"never"` option and `multiLine.minItems` set to `1`:
+
+::: incorrect
+
+```ts
+/* eslint @stylistic/exp-list-style: ["error", { "empty": "never", "multiLine": { "minItems": 1 } }] */
+
+const array = [ ]
+const object = {
+}
+foo( )
+```
+
+:::
+
+Examples of **correct** code with the `"never"` option and `multiLine.minItems` set to `1`:
+
+::: correct
+
+```ts
+/* eslint @stylistic/exp-list-style: ["error", { "empty": "never", "multiLine": { "minItems": 1 } }] */
+
+const array = []
+const object = {}
+foo()
 ```
 
 :::
