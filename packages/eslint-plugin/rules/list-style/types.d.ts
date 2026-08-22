@@ -54,8 +54,8 @@ export interface BaseConfig {
 export type ListStyleRuleOptions = [ListStyleSchema0?]
 
 export type RuleOptions = ListStyleRuleOptions
-export type MessageIds
-  = | 'shouldSpacing'
-    | 'shouldNotSpacing'
-    | 'shouldWrap'
-    | 'shouldNotWrap'
+export type MessageIds =
+  | 'shouldSpacing'
+  | 'shouldNotSpacing'
+  | 'shouldWrap'
+  | 'shouldNotWrap'

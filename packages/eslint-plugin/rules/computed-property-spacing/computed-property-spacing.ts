@@ -3,13 +3,13 @@ import type { MessageIds, RuleOptions } from './types'
 import { isClosingBracketToken, isOpeningBracketToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
-type SupportedNode
-  = | Tree.Property
-    | Tree.PropertyDefinition
-    | Tree.AccessorProperty
-    | Tree.MemberExpression
-    | Tree.MethodDefinition
-    | Tree.TSIndexedAccessType
+type SupportedNode =
+  | Tree.Property
+  | Tree.PropertyDefinition
+  | Tree.AccessorProperty
+  | Tree.MemberExpression
+  | Tree.MethodDefinition
+  | Tree.TSIndexedAccessType
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'computed-property-spacing',

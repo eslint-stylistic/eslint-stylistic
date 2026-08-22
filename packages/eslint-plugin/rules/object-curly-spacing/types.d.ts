@@ -28,10 +28,10 @@ export type ObjectCurlySpacingRuleOptions = [
 ]
 
 export type RuleOptions = ObjectCurlySpacingRuleOptions
-export type MessageIds
-  = | 'requireSpaceBefore'
-    | 'requireSpaceAfter'
-    | 'unexpectedSpaceBefore'
-    | 'unexpectedSpaceAfter'
-    | 'requiredSpaceInEmptyObject'
-    | 'unexpectedSpaceInEmptyObject'
+export type MessageIds =
+  | 'requireSpaceBefore'
+  | 'requireSpaceAfter'
+  | 'unexpectedSpaceBefore'
+  | 'unexpectedSpaceAfter'
+  | 'requiredSpaceInEmptyObject'
+  | 'unexpectedSpaceInEmptyObject'

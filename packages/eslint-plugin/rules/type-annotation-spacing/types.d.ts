@@ -2,9 +2,9 @@
 
 /* @checksum: pgv4yhnlgKghpHQCSxCVsAfXGeiptdo98NqHwAmDgMI */
 
-export type SpacingConfigWithIgnore
-  = | 'ignore'
-    | SpacingConfig
+export type SpacingConfigWithIgnore =
+  | 'ignore'
+  | SpacingConfig
 
 export interface TypeAnnotationSpacingSchema0 {
   before?: boolean
@@ -28,10 +28,10 @@ export type TypeAnnotationSpacingRuleOptions = [
 ]
 
 export type RuleOptions = TypeAnnotationSpacingRuleOptions
-export type MessageIds
-  = | 'expectedSpaceAfter'
-    | 'expectedSpaceBefore'
-    | 'unexpectedSpaceAfter'
-    | 'unexpectedSpaceBefore'
-    | 'expectedSpaceBetween'
-    | 'unexpectedSpaceBetween'
+export type MessageIds =
+  | 'expectedSpaceAfter'
+  | 'expectedSpaceBefore'
+  | 'unexpectedSpaceAfter'
+  | 'unexpectedSpaceBefore'
+  | 'expectedSpaceBetween'
+  | 'unexpectedSpaceBetween'

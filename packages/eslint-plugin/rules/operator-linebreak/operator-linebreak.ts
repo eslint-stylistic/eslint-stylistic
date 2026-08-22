@@ -42,8 +42,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    // eslint-disable-next-line eslint-plugin/require-meta-default-options
-    defaultOptions: [],
+    defaultOptions: [null],
     messages: {
       operatorAtBeginning: '\'{{operator}}\' should be placed at the beginning of the line.',
       operatorAtEnd: '\'{{operator}}\' should be placed at the end of the line.',
@@ -52,7 +51,6 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   create(context) {
-    // TODO: `usedDefaultGlobal` break the `defaultOptions`. Fix it in v6
     const usedDefaultGlobal = !context.options[0]
     const globalStyle = context.options[0] || 'after'
     const options = context.options[1] || {}
@@ -145,7 +143,9 @@ export default createRule<RuleOptions, MessageIds>({
       const leftToken = sourceCode.getTokenBefore(operatorToken)!
       const rightToken = sourceCode.getTokenAfter(operatorToken)!
       const operatorStyleOverride = styleOverrides[operator]
-      const style = operatorStyleOverride || globalStyle
+      let style = operatorStyleOverride || globalStyle
+      if (style !== 'ignore' && node.type === 'TSTypeAliasDeclaration' && (rightToken.value === '|' || rightToken.value === '&'))
+        style = 'after'
       const fix = getFixer(operatorToken, style)
 
       // if single line

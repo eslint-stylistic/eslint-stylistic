@@ -2,9 +2,9 @@
 
 /* @checksum: bvbRmH_q4r4TwHYQKuuH7KdPdHlTaAIJBPnPwrfvKsM */
 
-export type OperatorLinebreakSchema0
-  = | ('after' | 'before' | 'none')
-    | null
+export type OperatorLinebreakSchema0 =
+  | ('after' | 'before' | 'none')
+  | null
 
 export interface OperatorLinebreakSchema1 {
   overrides?: {
@@ -18,8 +18,8 @@ export type OperatorLinebreakRuleOptions = [
 ]
 
 export type RuleOptions = OperatorLinebreakRuleOptions
-export type MessageIds
-  = | 'operatorAtBeginning'
-    | 'operatorAtEnd'
-    | 'badLinebreak'
-    | 'noLinebreak'
+export type MessageIds =
+  | 'operatorAtBeginning'
+  | 'operatorAtEnd'
+  | 'badLinebreak'
+  | 'noLinebreak'
