@@ -24,18 +24,9 @@ class Person {
 
 // Create an array of objects
 const people = [
-    new Person(
-        "Alice",
-        30
-    ),
-    new Person(
-        "Bob",
-        25
-    ),
-    new Person(
-        "Charlie",
-        35
-    )
+    new Person("Alice", 30),
+    new Person("Bob", 25),
+    new Person("Charlie", 35)
 ];
 
 // Use the forEach method to iterate over the array
@@ -52,23 +43,12 @@ const multilineString = `
 `;
 
 // Use destructuring assignment to extract values from an object
-const {name, age} = people[0];
-log(
-    `First person in the array is ${name} and they are ${age} years old.`,
-    multilineString
-);
+const { name, age } = people[0];
+log(`First person in the array is ${name} and they are ${age} years old.`, multilineString);
 
 // Use the spread operator to create a new array
-const numbers = [
-    1,
-    2,
-    3
-];
-const newNumbers = [
-    ...numbers,
-    4,
-    5
-];
+const numbers = [1, 2, 3];
+const newNumbers = [...numbers, 4, 5];
 log(newNumbers);
 
 // Use a try-catch block for error handling
@@ -79,10 +59,7 @@ try {
 
 } catch (error) {
 
-    console.error(
-        "Error parsing JSON:",
-        error.message
-    );
+    console.error("Error parsing JSON:", error.message);
 
 }
 
@@ -94,21 +71,17 @@ log(`${number} is ${isEven(number)
     : "odd"}.`);
 
 // Use a callback function with setTimeout for asynchronous code
-setTimeout(
-    () => {
+setTimeout(() => {
 
-        log("This code runs after a delay of 2 seconds.");
+    log("This code runs after a delay of 2 seconds.");
 
-    },
-    2000
-);
+}, 2000);
 
 let a, b, c, d, foo;
 
 if (a ||
   b ||
-  c || d
-) {
+  c || d) {
 
     foo();
 
