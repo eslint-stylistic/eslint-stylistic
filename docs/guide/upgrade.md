@@ -34,6 +34,10 @@ The following deprecated options or shorthands are no longer supported:
 
 ### Behavior Changes
 
+#### operator-linebreak
+
+For TypeScript type aliases whose type annotation starts with `|` or `&`, the `=` operator now uses the `"after"` style unless it is configured as `"ignore"`.
+
 #### type-generic-spacing
 
 The rule now supports `before` and `after` options to control spacing before and after generic type parameters. Both default to `false`, preserving the previous behavior of disallowing spaces.
