@@ -392,87 +392,59 @@ export default createRule<RuleOptions, MessageIds>({
         // typescript docs indent the case from the switch
         // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-1-8.html#example-4
         SwitchCase: 1,
+        VariableDeclarator: 1,
+        outerIIFEBody: 1,
+        assignmentOperator: 1,
+        FunctionDeclaration: {
+          parameters: 1,
+          body: 1,
+          returnType: 1,
+        },
+        FunctionExpression: {
+          parameters: 1,
+          body: 1,
+          returnType: 1,
+        },
+        StaticBlock: {
+          body: 1,
+        },
+        CallExpression: {
+          arguments: 1,
+        },
+        MemberExpression: 1,
+        ArrayExpression: 1,
+        ObjectExpression: 1,
+        ImportDeclaration: 1,
         flatTernaryExpressions: false,
+        offsetTernaryExpressions: false,
         ignoredNodes: [],
+        ignoreComments: false,
+        tabLength: 4,
       },
     ],
     messages: {
       wrongIndentation: 'Expected indentation of {{expected}} but found {{actual}}.',
     },
   },
-  create(context, optionsWithDefaults) {
+  create(context, [indentOption, userOptions]) {
     if (!isESTreeSourceCode(context.sourceCode)) {
       return {}
     }
 
-    const DEFAULT_VARIABLE_INDENT = 1
-    const DEFAULT_PARAMETER_INDENT = 1
-    const DEFAULT_FUNCTION_BODY_INDENT = 1
-    const DEFAULT_FUNCTION_RETURN_TYPE_INDENT = 1
-
-    let indentType: IndentContext['indentType'] = 'space'
-    let indentSize = 4
+    const indentType: IndentContext['indentType'] = indentOption === 'tab' ? 'tab' : 'space'
+    const indentSize = indentOption === 'tab' ? 1 : indentOption!
+    const variableIndent = userOptions!.VariableDeclarator!
     const options = {
-      SwitchCase: 0,
-      VariableDeclarator: {
-        var: DEFAULT_VARIABLE_INDENT as number | 'first',
-        let: DEFAULT_VARIABLE_INDENT as number | 'first',
-        const: DEFAULT_VARIABLE_INDENT as number | 'first',
-        using: DEFAULT_VARIABLE_INDENT as number | 'first',
-      },
-      outerIIFEBody: 1,
-      assignmentOperator: 1,
-      FunctionDeclaration: {
-        parameters: DEFAULT_PARAMETER_INDENT,
-        body: DEFAULT_FUNCTION_BODY_INDENT,
-        returnType: DEFAULT_FUNCTION_RETURN_TYPE_INDENT,
-      },
-      FunctionExpression: {
-        parameters: DEFAULT_PARAMETER_INDENT,
-        body: DEFAULT_FUNCTION_BODY_INDENT,
-        returnType: DEFAULT_FUNCTION_RETURN_TYPE_INDENT,
-      },
-      StaticBlock: {
-        body: DEFAULT_FUNCTION_BODY_INDENT,
-      },
-      CallExpression: {
-        arguments: DEFAULT_PARAMETER_INDENT,
-      },
-      MemberExpression: 1,
-      ArrayExpression: 1,
-      ObjectExpression: 1,
-      ImportDeclaration: 1,
-      flatTernaryExpressions: false,
-      ignoredNodes: [],
-      ignoreComments: false,
-      offsetTernaryExpressions: false as NonNullable<RuleOptions[1]>['offsetTernaryExpressions'],
-      tabLength: 4,
-    }
-
-    if (optionsWithDefaults.length) {
-      if (optionsWithDefaults[0] === 'tab') {
-        indentSize = 1
-        indentType = 'tab'
-      }
-      else {
-        indentSize = optionsWithDefaults[0] ?? indentSize
-        indentType = 'space'
-      }
-
-      const userOptions = optionsWithDefaults[1]
-      if (userOptions) {
-        Object.assign(options, userOptions)
-
-        if (typeof userOptions.VariableDeclarator === 'number' || userOptions.VariableDeclarator === 'first') {
-          options.VariableDeclarator = {
-            var: userOptions.VariableDeclarator,
-            let: userOptions.VariableDeclarator,
-            const: userOptions.VariableDeclarator,
-            using: userOptions.VariableDeclarator,
-          }
-        }
-      }
-    }
+      ...userOptions,
+      VariableDeclarator: typeof variableIndent === 'object'
+        ? variableIndent
+        : {
+            var: variableIndent,
+            let: variableIndent,
+            const: variableIndent,
+            using: variableIndent,
+          },
+    } as IndentContext['options']
 
     const sourceCode = context.sourceCode
     const tokenInfo = new TokenInfo(sourceCode)
@@ -911,11 +883,9 @@ export default createRule<RuleOptions, MessageIds>({
           return
 
         const kind = node.kind === 'await using' ? 'using' : node.kind
-        const variableIndent = Object.hasOwn(options.VariableDeclarator, kind)
-          ? options.VariableDeclarator[kind]
-          : DEFAULT_VARIABLE_INDENT
+        const variableIndent = options.VariableDeclarator[kind] ?? 1
         const alignFirstVariable = variableIndent === 'first'
-        let numericVariableIndent = alignFirstVariable ? DEFAULT_VARIABLE_INDENT : variableIndent
+        let numericVariableIndent = typeof variableIndent === 'number' ? variableIndent : 1
 
         const firstToken = sourceCode.getFirstToken(node)!
         const lastToken = sourceCode.getLastToken(node)!

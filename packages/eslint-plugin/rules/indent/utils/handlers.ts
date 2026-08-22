@@ -23,31 +23,14 @@ import {
   STATEMENT_LIST_PARENTS,
 } from '#utils/ast'
 
-type ElementListOffset = 'first' | 'off' | number
+type IndentOptions = NonNullable<RuleOptions[1]>
+type BaseIndentConfig = {
+  [K in keyof IndentOptions]-?: Required<NonNullable<IndentOptions[K]>>
+}
+type ElementListOffset = NonNullable<IndentOptions['ArrayExpression']>
 
-export interface IndentConfig {
-  SwitchCase: number
-  VariableDeclarator: {
-    var: number | 'first'
-    let: number | 'first'
-    const: number | 'first'
-    using: number | 'first'
-  }
-  outerIIFEBody: number | 'off'
-  assignmentOperator: number | 'off'
-  FunctionDeclaration: { parameters: number | 'first' | 'off', body: number, returnType: number }
-  FunctionExpression: { parameters: number | 'first' | 'off', body: number, returnType: number }
-  StaticBlock: { body: number }
-  CallExpression: { arguments: number | 'first' | 'off' }
-  MemberExpression: number | 'off'
-  ArrayExpression: number | 'first' | 'off'
-  ObjectExpression: number | 'first' | 'off'
-  ImportDeclaration: number | 'first' | 'off'
-  flatTernaryExpressions: boolean
-  ignoredNodes: string[]
-  ignoreComments: boolean
-  offsetTernaryExpressions: NonNullable<RuleOptions[1]>['offsetTernaryExpressions']
-  tabLength: number
+export type IndentConfig = BaseIndentConfig & {
+  VariableDeclarator: Required<Extract<IndentOptions['VariableDeclarator'], object>>
 }
 
 export interface IndentContext {
