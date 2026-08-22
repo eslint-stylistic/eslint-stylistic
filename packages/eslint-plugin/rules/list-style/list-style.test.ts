@@ -32,6 +32,11 @@ run<RuleOptions, MessageIds>({
     'new Foo(a, b)',
     'new Foo(\na,\nb\n)',
     'new (Foo())(a, b)',
+    'new Foo\nbar()',
+    {
+      code: 'const ignoredArray = [ ]\nconst ignoredObject = {}\nignoredCall( )',
+    },
+    'foo( /* comment */ )',
     'function foo<T = {\na: 1,\nb: 2\n}>(a, b) {}',
     'foo(() =>\nbar())',
     `call<{\nfoo: 'bar'\n}>('')`,
@@ -200,8 +205,167 @@ run<RuleOptions, MessageIds>({
         ]
       })
     `,
+    {
+      code: $`
+        foo(
+          // comment
+        )
+        const array = [
+          // comment
+        ]
+      `,
+      options: [{ multiLine: { minItems: 1 } }],
+    },
+    `import value from 'foo' with {}`,
+    `export * from 'foo' with {}`,
   ],
   invalid: [
+    {
+      code: $`
+        const array = [ ]
+        const object = {}
+        const [] = array
+        const {} = object
+        type Tuple = [ ]
+        type Literal = {}
+        interface Empty {}
+        enum EmptyEnum {}
+      `,
+      output: $`
+        const array = []
+        const object = { }
+        const [] = array
+        const { } = object
+        type Tuple = []
+        type Literal = { }
+        interface Empty { }
+        enum EmptyEnum { }
+      `,
+      options: [{
+        empty: 'never',
+        overrides: {
+          '{}': { empty: 'always' },
+        },
+      }],
+      errors: [
+        { messageId: 'shouldNotSpacing', line: 1, column: 16 },
+        { messageId: 'shouldSpacing', line: 2, column: 17 },
+        { messageId: 'shouldSpacing', line: 4, column: 8 },
+        { messageId: 'shouldNotSpacing', line: 5, column: 15 },
+        { messageId: 'shouldSpacing', line: 6, column: 17 },
+        { messageId: 'shouldSpacing', line: 7, column: 18 },
+        { messageId: 'shouldSpacing', line: 8, column: 17 },
+      ],
+    },
+    {
+      code: $`
+        function declaration( ) {}
+        const expression = function ( ) {}
+        const arrow = ( ) => {}
+        declaration( )
+        new expression( )
+        type FunctionType = ( ) => void
+        declare function declared( ): void
+      `,
+      output: $`
+        function declaration() {}
+        const expression = function () {}
+        const arrow = () => {}
+        declaration()
+        new expression()
+        type FunctionType = () => void
+        declare function declared(): void
+      `,
+      options: [{ empty: 'never' }],
+      errors: [
+        { messageId: 'shouldNotSpacing', line: 1, column: 22 },
+        { messageId: 'shouldNotSpacing', line: 2, column: 30 },
+        { messageId: 'shouldNotSpacing', line: 3, column: 16 },
+        { messageId: 'shouldNotSpacing', line: 4, column: 13 },
+        { messageId: 'shouldNotSpacing', line: 5, column: 16 },
+        { messageId: 'shouldNotSpacing', line: 6, column: 22 },
+        { messageId: 'shouldNotSpacing', line: 7, column: 27 },
+      ],
+    },
+    {
+      code: `import { } from 'foo' with {}\nexport { } from 'bar' with {}`,
+      output: `import {} from 'foo' with { }\nexport {} from 'bar' with { }`,
+      options: [{
+        overrides: {
+          ImportAttributes: { empty: 'always' },
+          ImportDeclaration: { empty: 'never' },
+          ExportNamedDeclaration: { empty: 'never' },
+        },
+      }],
+      errors: [
+        { messageId: 'shouldNotSpacing', line: 1, column: 9 },
+        { messageId: 'shouldSpacing', line: 1, column: 29 },
+        { messageId: 'shouldNotSpacing', line: 2, column: 9 },
+        { messageId: 'shouldSpacing', line: 2, column: 29 },
+      ],
+    },
+    {
+      code: $`
+        const array = [
+        ]
+        const object = {
+        }
+        function foo(
+        ) {}
+        foo(
+        )
+        interface Empty {
+        }
+      `,
+      output: $`
+        const array = []
+        const object = { }
+        function foo() {}
+        foo()
+        interface Empty { }
+      `,
+      options: [{
+        empty: 'never',
+        multiLine: { minItems: 1 },
+        overrides: {
+          '{}': { empty: 'always' },
+        },
+      }],
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 16 },
+        { messageId: 'shouldNotWrap', line: 3, column: 17 },
+        { messageId: 'shouldNotWrap', line: 5, column: 14 },
+        { messageId: 'shouldNotWrap', line: 7, column: 5 },
+        { messageId: 'shouldNotWrap', line: 9, column: 18 },
+      ],
+    },
+    {
+      code: `foo( /* comment */ )\nconst object = {/* comment */}`,
+      output: `foo(/* comment */)\nconst object = { /* comment */ }`,
+      options: [{
+        empty: 'never',
+        overrides: { '{}': { empty: 'always' } },
+      }],
+      errors: [
+        { messageId: 'shouldNotSpacing', line: 1, column: 5 },
+        { messageId: 'shouldNotSpacing', line: 1, column: 19 },
+        { messageId: 'shouldSpacing', line: 2, column: 17 },
+        { messageId: 'shouldSpacing', line: 2, column: 30 },
+      ],
+    },
+    {
+      code: $`
+        foo(/* comment */
+        )
+      `,
+      output: $`
+        foo(
+        /* comment */
+        )
+      `,
+      options: [{ empty: 'never', multiLine: { minItems: 1 } }],
+      errors: [{ messageId: 'shouldWrap', line: 1, column: 5 }],
+    },
     {
       code: $`
         if (
