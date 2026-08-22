@@ -33,6 +33,11 @@ const filterList = [
     rules: pkg.rules.filter(({ meta }) => !meta?.docs?.recommended),
   },
   {
+    id: 'experimental',
+    name: 'Experimental',
+    rules: pkg.rules.filter(({ meta }) => meta?.docs?.experimental),
+  },
+  {
     id: 'spacing',
     name: 'Spacing',
     rules: match([
@@ -135,18 +140,17 @@ const filterList = [
     ]),
   },
   {
-    id: 'experimental',
-    name: 'Experimental',
-    rules: pkg.rules.filter(({ meta }) => meta?.docs?.experimental),
-  },
-  {
     id: 'misc',
     name: 'Misc.',
     rules: [],
   },
 ]
 
-const categorizedRules = new Set(filterList.slice(1).flatMap(i => i.rules))
+const categorizedRules = new Set(
+  filterList
+    .filter(i => !['', 'recommended', 'not-recommended'].includes(i.id))
+    .flatMap(i => i.rules),
+)
 filterList.find(i => i.id === 'misc')!.rules = pkg.rules.filter(i => !categorizedRules.has(i))
 
 onMounted(() => {
