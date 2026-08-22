@@ -70,28 +70,28 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-                '/* hey there! this is a multiline\n'
-                + '   comment with longish lines in various places\n'
-                + '   but\n'
-                + '   with a short line-length */',
+        '/* hey there! this is a multiline\n'
+        + '   comment with longish lines in various places\n'
+        + '   but\n'
+        + '   with a short line-length */',
       options: [10, 4, { ignoreComments: true }],
     },
     {
       code:
-                '// I like short comments\n'
-                + 'function butLongSourceLines() { weird(eh()) }',
+        '// I like short comments\n'
+        + 'function butLongSourceLines() { weird(eh()) }',
       options: [80, { tabWidth: 4, comments: 30 }],
     },
     {
       code:
-                '// I like longer comments and shorter code\n'
-                + 'function see() { odd(eh()) }',
+        '// I like longer comments and shorter code\n'
+        + 'function see() { odd(eh()) }',
       options: [30, { tabWidth: 4, comments: 80 }],
     },
     {
       code:
-                '// Full line comment\n'
-                + 'someCode(); // With a long trailing comment.',
+        '// Full line comment\n'
+        + 'someCode(); // With a long trailing comment.',
       options: [{ code: 30, tabWidth: 4, comments: 20, ignoreTrailingComments: true }],
     },
     {
@@ -426,8 +426,8 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-                'var foobar = \'this line isn\\\'t matched by the regexp\';\n'
-                + 'var fizzbuzz = \'but this one is matched by the regexp\';\n',
+        'var foobar = \'this line isn\\\'t matched by the regexp\';\n'
+        + 'var fizzbuzz = \'but this one is matched by the regexp\';\n',
       options: [20, 4, { ignorePattern: 'fizzbuzz' }],
       errors: [
         {

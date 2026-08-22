@@ -677,9 +677,9 @@ run<RuleOptions, MessageIds>({
     // check for object start comments
     {
       code:
-            'var a,\n\n'
-            + '// line\n'
-            + 'b;',
+        'var a,\n\n'
+        + '// line\n'
+        + 'b;',
       options: [{
         beforeLineComment: true,
         allowObjectStart: true,
@@ -687,10 +687,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'var obj = {\n'
-            + '  // line at object start\n'
-            + '  g: 1\n'
-            + '};',
+        'var obj = {\n'
+        + '  // line at object start\n'
+        + '  g: 1\n'
+        + '};',
       options: [{
         beforeLineComment: true,
         allowObjectStart: true,
@@ -698,13 +698,13 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'function hi() {\n'
-            + '  return {\n'
-            + '    // hi\n'
-            + '    test: function() {\n'
-            + '    }\n'
-            + '  }\n'
-            + '}',
+        'function hi() {\n'
+        + '  return {\n'
+        + '    // hi\n'
+        + '    test: function() {\n'
+        + '    }\n'
+        + '  }\n'
+        + '}',
       options: [{
         beforeLineComment: true,
         allowObjectStart: true,
@@ -712,10 +712,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'var obj = {\n'
-            + '  /* block comment at object start*/\n'
-            + '  g: 1\n'
-            + '};',
+        'var obj = {\n'
+        + '  /* block comment at object start*/\n'
+        + '  g: 1\n'
+        + '};',
       options: [{
         beforeBlockComment: true,
         allowObjectStart: true,
@@ -723,15 +723,15 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'function hi() {\n'
-            + '  return {\n'
-            + '    /**\n'
-            + '    * hi\n'
-            + '    */\n'
-            + '    test: function() {\n'
-            + '    }\n'
-            + '  }\n'
-            + '}',
+        'function hi() {\n'
+        + '  return {\n'
+        + '    /**\n'
+        + '    * hi\n'
+        + '    */\n'
+        + '    test: function() {\n'
+        + '    }\n'
+        + '  }\n'
+        + '}',
       options: [{
         beforeLineComment: true,
         allowObjectStart: true,
@@ -739,22 +739,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const {\n'
-            + '  // line at object start\n'
-            + '  g: a\n'
-            + '} = {};',
-      options: [{
-        beforeLineComment: true,
-        allowObjectStart: true,
-      }],
-      parserOptions: { ecmaVersion: 6 },
-    },
-    {
-      code:
-            'const {\n'
-            + '  // line at object start\n'
-            + '  g\n'
-            + '} = {};',
+        'const {\n'
+        + '  // line at object start\n'
+        + '  g: a\n'
+        + '} = {};',
       options: [{
         beforeLineComment: true,
         allowObjectStart: true,
@@ -763,10 +751,22 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const {\n'
-            + '  /* block comment at object-like start*/\n'
-            + '  g: a\n'
-            + '} = {};',
+        'const {\n'
+        + '  // line at object start\n'
+        + '  g\n'
+        + '} = {};',
+      options: [{
+        beforeLineComment: true,
+        allowObjectStart: true,
+      }],
+      parserOptions: { ecmaVersion: 6 },
+    },
+    {
+      code:
+        'const {\n'
+        + '  /* block comment at object-like start*/\n'
+        + '  g: a\n'
+        + '} = {};',
       options: [{
         beforeBlockComment: true,
         allowObjectStart: true,
@@ -775,10 +775,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const {\n'
-            + '  /* block comment at object-like start*/\n'
-            + '  g\n'
-            + '} = {};',
+        'const {\n'
+        + '  /* block comment at object-like start*/\n'
+        + '  g\n'
+        + '} = {};',
       options: [{
         beforeBlockComment: true,
         allowObjectStart: true,
@@ -789,9 +789,9 @@ run<RuleOptions, MessageIds>({
     // check for object end comments
     {
       code:
-            'var a,\n'
-            + '// line\n\n'
-            + 'b;',
+        'var a,\n'
+        + '// line\n\n'
+        + 'b;',
       options: [{
         afterLineComment: true,
         allowObjectEnd: true,
@@ -799,10 +799,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'var obj = {\n'
-            + '  g: 1\n'
-            + '  // line at object end\n'
-            + '};',
+        'var obj = {\n'
+        + '  g: 1\n'
+        + '  // line at object end\n'
+        + '};',
       options: [{
         afterLineComment: true,
         allowObjectEnd: true,
@@ -810,13 +810,13 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'function hi() {\n'
-            + '  return {\n'
-            + '    test: function() {\n'
-            + '    }\n'
-            + '    // hi\n'
-            + '  }\n'
-            + '}',
+        'function hi() {\n'
+        + '  return {\n'
+        + '    test: function() {\n'
+        + '    }\n'
+        + '    // hi\n'
+        + '  }\n'
+        + '}',
       options: [{
         afterLineComment: true,
         allowObjectEnd: true,
@@ -824,11 +824,11 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'var obj = {\n'
-            + '  g: 1\n'
-            + '  \n'
-            + '  /* block comment at object end*/\n'
-            + '};',
+        'var obj = {\n'
+        + '  g: 1\n'
+        + '  \n'
+        + '  /* block comment at object end*/\n'
+        + '};',
       options: [{
         afterBlockComment: true,
         allowObjectEnd: true,
@@ -836,16 +836,16 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'function hi() {\n'
-            + '  return {\n'
-            + '    test: function() {\n'
-            + '    }\n'
-            + '    \n'
-            + '    /**\n'
-            + '    * hi\n'
-            + '    */\n'
-            + '  }\n'
-            + '}',
+        'function hi() {\n'
+        + '  return {\n'
+        + '    test: function() {\n'
+        + '    }\n'
+        + '    \n'
+        + '    /**\n'
+        + '    * hi\n'
+        + '    */\n'
+        + '  }\n'
+        + '}',
       options: [{
         afterBlockComment: true,
         allowObjectEnd: true,
@@ -853,10 +853,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const {\n'
-            + '  g: a\n'
-            + '  // line at object end\n'
-            + '} = {};',
+        'const {\n'
+        + '  g: a\n'
+        + '  // line at object end\n'
+        + '} = {};',
       options: [{
         afterLineComment: true,
         allowObjectEnd: true,
@@ -865,10 +865,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const {\n'
-            + '  g\n'
-            + '  // line at object end\n'
-            + '} = {};',
+        'const {\n'
+        + '  g\n'
+        + '  // line at object end\n'
+        + '} = {};',
       options: [{
         afterLineComment: true,
         allowObjectEnd: true,
@@ -877,11 +877,11 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const {\n'
-            + '  g: a\n'
-            + '  \n'
-            + '  /* block comment at object-like end*/\n'
-            + '} = {};',
+        'const {\n'
+        + '  g: a\n'
+        + '  \n'
+        + '  /* block comment at object-like end*/\n'
+        + '} = {};',
       options: [{
         afterBlockComment: true,
         allowObjectEnd: true,
@@ -890,11 +890,11 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const {\n'
-            + '  g\n'
-            + '  \n'
-            + '  /* block comment at object-like end*/\n'
-            + '} = {};',
+        'const {\n'
+        + '  g\n'
+        + '  \n'
+        + '  /* block comment at object-like end*/\n'
+        + '} = {};',
       options: [{
         afterBlockComment: true,
         allowObjectEnd: true,
@@ -905,9 +905,9 @@ run<RuleOptions, MessageIds>({
     // check for array start comments
     {
       code:
-            'var a,\n\n'
-            + '// line\n'
-            + 'b;',
+        'var a,\n\n'
+        + '// line\n'
+        + 'b;',
       options: [{
         beforeLineComment: true,
         allowArrayStart: true,
@@ -915,10 +915,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'var arr = [\n'
-            + '  // line at array start\n'
-            + '  1\n'
-            + '];',
+        'var arr = [\n'
+        + '  // line at array start\n'
+        + '  1\n'
+        + '];',
       options: [{
         beforeLineComment: true,
         allowArrayStart: true,
@@ -926,10 +926,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'var arr = [\n'
-            + '  /* block comment at array start*/\n'
-            + '  1\n'
-            + '];',
+        'var arr = [\n'
+        + '  /* block comment at array start*/\n'
+        + '  1\n'
+        + '];',
       options: [{
         beforeBlockComment: true,
         allowArrayStart: true,
@@ -937,10 +937,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const [\n'
-            + '  // line at array start\n'
-            + '  a\n'
-            + '] = [];',
+        'const [\n'
+        + '  // line at array start\n'
+        + '  a\n'
+        + '] = [];',
       options: [{
         beforeLineComment: true,
         allowArrayStart: true,
@@ -949,10 +949,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const [\n'
-            + '  /* block comment at array start*/\n'
-            + '  a\n'
-            + '] = [];',
+        'const [\n'
+        + '  /* block comment at array start*/\n'
+        + '  a\n'
+        + '] = [];',
       options: [{
         beforeBlockComment: true,
         allowArrayStart: true,
@@ -963,9 +963,9 @@ run<RuleOptions, MessageIds>({
     // check for array end comments
     {
       code:
-            'var a,\n'
-            + '// line\n\n'
-            + 'b;',
+        'var a,\n'
+        + '// line\n\n'
+        + 'b;',
       options: [{
         afterLineComment: true,
         allowArrayEnd: true,
@@ -973,10 +973,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'var arr = [\n'
-            + '  1\n'
-            + '  // line at array end\n'
-            + '];',
+        'var arr = [\n'
+        + '  1\n'
+        + '  // line at array end\n'
+        + '];',
       options: [{
         afterLineComment: true,
         allowArrayEnd: true,
@@ -984,11 +984,11 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'var arr = [\n'
-            + '  1\n'
-            + '  \n'
-            + '  /* block comment at array end*/\n'
-            + '];',
+        'var arr = [\n'
+        + '  1\n'
+        + '  \n'
+        + '  /* block comment at array end*/\n'
+        + '];',
       options: [{
         afterBlockComment: true,
         allowArrayEnd: true,
@@ -996,10 +996,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const [\n'
-            + '  a\n'
-            + '  // line at array end\n'
-            + '] = [];',
+        'const [\n'
+        + '  a\n'
+        + '  // line at array end\n'
+        + '] = [];',
       options: [{
         afterLineComment: true,
         allowArrayEnd: true,
@@ -1008,11 +1008,11 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const [\n'
-            + '  a\n'
-            + '  \n'
-            + '  /* block comment at array end*/\n'
-            + '] = [];',
+        'const [\n'
+        + '  a\n'
+        + '  \n'
+        + '  /* block comment at array end*/\n'
+        + '] = [];',
       options: [{
         afterBlockComment: true,
         allowArrayEnd: true,
@@ -1023,12 +1023,12 @@ run<RuleOptions, MessageIds>({
     // ignorePattern
     {
       code:
-            'foo;\n\n'
-            + '/* eslint-disable no-underscore-dangle */\n\n'
-            + 'this._values = values;\n'
-            + 'this._values2 = true;\n'
-            + '/* eslint-enable no-underscore-dangle */\n'
-            + 'bar',
+        'foo;\n\n'
+        + '/* eslint-disable no-underscore-dangle */\n\n'
+        + 'this._values = values;\n'
+        + 'this._values2 = true;\n'
+        + '/* eslint-enable no-underscore-dangle */\n'
+        + 'bar',
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
@@ -1640,16 +1640,16 @@ run<RuleOptions, MessageIds>({
     // object start comments
     {
       code:
-            'var obj = {\n'
-            + '  // line at object start\n'
-            + '  g: 1\n'
-            + '};',
+        'var obj = {\n'
+        + '  // line at object start\n'
+        + '  g: 1\n'
+        + '};',
       output:
-            'var obj = {\n'
-            + '\n'
-            + '  // line at object start\n'
-            + '  g: 1\n'
-            + '};',
+        'var obj = {\n'
+        + '\n'
+        + '  // line at object start\n'
+        + '  g: 1\n'
+        + '};',
       options: [{
         beforeLineComment: true,
       }],
@@ -1657,66 +1657,22 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'function hi() {\n'
-            + '  return {\n'
-            + '    // hi\n'
-            + '    test: function() {\n'
-            + '    }\n'
-            + '  }\n'
-            + '}',
+        'function hi() {\n'
+        + '  return {\n'
+        + '    // hi\n'
+        + '    test: function() {\n'
+        + '    }\n'
+        + '  }\n'
+        + '}',
       output:
-            'function hi() {\n'
-            + '  return {\n'
-            + '\n'
-            + '    // hi\n'
-            + '    test: function() {\n'
-            + '    }\n'
-            + '  }\n'
-            + '}',
-      options: [{
-        beforeLineComment: true,
-      }],
-      errors: [{ messageId: 'before', line: 3 }],
-    },
-    {
-      code:
-            'var obj = {\n'
-            + '  /* block comment at object start*/\n'
-            + '  g: 1\n'
-            + '};',
-      output:
-            'var obj = {\n'
-            + '\n'
-            + '  /* block comment at object start*/\n'
-            + '  g: 1\n'
-            + '};',
-      options: [{
-        beforeBlockComment: true,
-      }],
-      errors: [{ messageId: 'before', line: 2 }],
-    },
-    {
-      code:
-            'function hi() {\n'
-            + '  return {\n'
-            + '    /**\n'
-            + '    * hi\n'
-            + '    */\n'
-            + '    test: function() {\n'
-            + '    }\n'
-            + '  }\n'
-            + '}',
-      output:
-            'function hi() {\n'
-            + '  return {\n'
-            + '\n'
-            + '    /**\n'
-            + '    * hi\n'
-            + '    */\n'
-            + '    test: function() {\n'
-            + '    }\n'
-            + '  }\n'
-            + '}',
+        'function hi() {\n'
+        + '  return {\n'
+        + '\n'
+        + '    // hi\n'
+        + '    test: function() {\n'
+        + '    }\n'
+        + '  }\n'
+        + '}',
       options: [{
         beforeLineComment: true,
       }],
@@ -1724,16 +1680,60 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const {\n'
-            + '  // line at object start\n'
-            + '  g: a\n'
-            + '} = {};',
+        'var obj = {\n'
+        + '  /* block comment at object start*/\n'
+        + '  g: 1\n'
+        + '};',
       output:
-            'const {\n'
-            + '\n'
-            + '  // line at object start\n'
-            + '  g: a\n'
-            + '} = {};',
+        'var obj = {\n'
+        + '\n'
+        + '  /* block comment at object start*/\n'
+        + '  g: 1\n'
+        + '};',
+      options: [{
+        beforeBlockComment: true,
+      }],
+      errors: [{ messageId: 'before', line: 2 }],
+    },
+    {
+      code:
+        'function hi() {\n'
+        + '  return {\n'
+        + '    /**\n'
+        + '    * hi\n'
+        + '    */\n'
+        + '    test: function() {\n'
+        + '    }\n'
+        + '  }\n'
+        + '}',
+      output:
+        'function hi() {\n'
+        + '  return {\n'
+        + '\n'
+        + '    /**\n'
+        + '    * hi\n'
+        + '    */\n'
+        + '    test: function() {\n'
+        + '    }\n'
+        + '  }\n'
+        + '}',
+      options: [{
+        beforeLineComment: true,
+      }],
+      errors: [{ messageId: 'before', line: 3 }],
+    },
+    {
+      code:
+        'const {\n'
+        + '  // line at object start\n'
+        + '  g: a\n'
+        + '} = {};',
+      output:
+        'const {\n'
+        + '\n'
+        + '  // line at object start\n'
+        + '  g: a\n'
+        + '} = {};',
       options: [{
         beforeLineComment: true,
       }],
@@ -1742,16 +1742,16 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const {\n'
-            + '  // line at object start\n'
-            + '  g\n'
-            + '} = {};',
+        'const {\n'
+        + '  // line at object start\n'
+        + '  g\n'
+        + '} = {};',
       output:
-            'const {\n'
-            + '\n'
-            + '  // line at object start\n'
-            + '  g\n'
-            + '} = {};',
+        'const {\n'
+        + '\n'
+        + '  // line at object start\n'
+        + '  g\n'
+        + '} = {};',
       options: [{
         beforeLineComment: true,
       }],
@@ -1760,16 +1760,16 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const {\n'
-            + '  /* block comment at object-like start*/\n'
-            + '  g: a\n'
-            + '} = {};',
+        'const {\n'
+        + '  /* block comment at object-like start*/\n'
+        + '  g: a\n'
+        + '} = {};',
       output:
-            'const {\n'
-            + '\n'
-            + '  /* block comment at object-like start*/\n'
-            + '  g: a\n'
-            + '} = {};',
+        'const {\n'
+        + '\n'
+        + '  /* block comment at object-like start*/\n'
+        + '  g: a\n'
+        + '} = {};',
       options: [{
         beforeBlockComment: true,
       }],
@@ -1778,16 +1778,16 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const {\n'
-            + '  /* block comment at object-like start*/\n'
-            + '  g\n'
-            + '} = {};',
+        'const {\n'
+        + '  /* block comment at object-like start*/\n'
+        + '  g\n'
+        + '} = {};',
       output:
-            'const {\n'
-            + '\n'
-            + '  /* block comment at object-like start*/\n'
-            + '  g\n'
-            + '} = {};',
+        'const {\n'
+        + '\n'
+        + '  /* block comment at object-like start*/\n'
+        + '  g\n'
+        + '} = {};',
       options: [{
         beforeBlockComment: true,
       }],
@@ -1798,16 +1798,16 @@ run<RuleOptions, MessageIds>({
     // object end comments
     {
       code:
-            'var obj = {\n'
-            + '  g: 1\n'
-            + '  // line at object end\n'
-            + '};',
+        'var obj = {\n'
+        + '  g: 1\n'
+        + '  // line at object end\n'
+        + '};',
       output:
-            'var obj = {\n'
-            + '  g: 1\n'
-            + '  // line at object end\n'
-            + '\n'
-            + '};',
+        'var obj = {\n'
+        + '  g: 1\n'
+        + '  // line at object end\n'
+        + '\n'
+        + '};',
       options: [{
         afterLineComment: true,
       }],
@@ -1815,22 +1815,22 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'function hi() {\n'
-            + '  return {\n'
-            + '    test: function() {\n'
-            + '    }\n'
-            + '    // hi\n'
-            + '  }\n'
-            + '}',
+        'function hi() {\n'
+        + '  return {\n'
+        + '    test: function() {\n'
+        + '    }\n'
+        + '    // hi\n'
+        + '  }\n'
+        + '}',
       output:
-            'function hi() {\n'
-            + '  return {\n'
-            + '    test: function() {\n'
-            + '    }\n'
-            + '    // hi\n'
-            + '\n'
-            + '  }\n'
-            + '}',
+        'function hi() {\n'
+        + '  return {\n'
+        + '    test: function() {\n'
+        + '    }\n'
+        + '    // hi\n'
+        + '\n'
+        + '  }\n'
+        + '}',
       options: [{
         afterLineComment: true,
       }],
@@ -1838,18 +1838,18 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'var obj = {\n'
-            + '  g: 1\n'
-            + '  \n'
-            + '  /* block comment at object end*/\n'
-            + '};',
+        'var obj = {\n'
+        + '  g: 1\n'
+        + '  \n'
+        + '  /* block comment at object end*/\n'
+        + '};',
       output:
-            'var obj = {\n'
-            + '  g: 1\n'
-            + '  \n'
-            + '  /* block comment at object end*/\n'
-            + '\n'
-            + '};',
+        'var obj = {\n'
+        + '  g: 1\n'
+        + '  \n'
+        + '  /* block comment at object end*/\n'
+        + '\n'
+        + '};',
       options: [{
         afterBlockComment: true,
       }],
@@ -1857,28 +1857,28 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'function hi() {\n'
-            + '  return {\n'
-            + '    test: function() {\n'
-            + '    }\n'
-            + '    \n'
-            + '    /**\n'
-            + '    * hi\n'
-            + '    */\n'
-            + '  }\n'
-            + '}',
+        'function hi() {\n'
+        + '  return {\n'
+        + '    test: function() {\n'
+        + '    }\n'
+        + '    \n'
+        + '    /**\n'
+        + '    * hi\n'
+        + '    */\n'
+        + '  }\n'
+        + '}',
       output:
-            'function hi() {\n'
-            + '  return {\n'
-            + '    test: function() {\n'
-            + '    }\n'
-            + '    \n'
-            + '    /**\n'
-            + '    * hi\n'
-            + '    */\n'
-            + '\n'
-            + '  }\n'
-            + '}',
+        'function hi() {\n'
+        + '  return {\n'
+        + '    test: function() {\n'
+        + '    }\n'
+        + '    \n'
+        + '    /**\n'
+        + '    * hi\n'
+        + '    */\n'
+        + '\n'
+        + '  }\n'
+        + '}',
       options: [{
         afterBlockComment: true,
       }],
@@ -1886,16 +1886,16 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const {\n'
-            + '  g: a\n'
-            + '  // line at object end\n'
-            + '} = {};',
+        'const {\n'
+        + '  g: a\n'
+        + '  // line at object end\n'
+        + '} = {};',
       output:
-            'const {\n'
-            + '  g: a\n'
-            + '  // line at object end\n'
-            + '\n'
-            + '} = {};',
+        'const {\n'
+        + '  g: a\n'
+        + '  // line at object end\n'
+        + '\n'
+        + '} = {};',
       options: [{
         afterLineComment: true,
       }],
@@ -1904,16 +1904,16 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const {\n'
-            + '  g\n'
-            + '  // line at object end\n'
-            + '} = {};',
+        'const {\n'
+        + '  g\n'
+        + '  // line at object end\n'
+        + '} = {};',
       output:
-            'const {\n'
-            + '  g\n'
-            + '  // line at object end\n'
-            + '\n'
-            + '} = {};',
+        'const {\n'
+        + '  g\n'
+        + '  // line at object end\n'
+        + '\n'
+        + '} = {};',
       options: [{
         afterLineComment: true,
       }],
@@ -1922,18 +1922,18 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const {\n'
-            + '  g: a\n'
-            + '  \n'
-            + '  /* block comment at object-like end*/\n'
-            + '} = {};',
+        'const {\n'
+        + '  g: a\n'
+        + '  \n'
+        + '  /* block comment at object-like end*/\n'
+        + '} = {};',
       output:
-            'const {\n'
-            + '  g: a\n'
-            + '  \n'
-            + '  /* block comment at object-like end*/\n'
-            + '\n'
-            + '} = {};',
+        'const {\n'
+        + '  g: a\n'
+        + '  \n'
+        + '  /* block comment at object-like end*/\n'
+        + '\n'
+        + '} = {};',
       options: [{
         afterBlockComment: true,
       }],
@@ -1942,18 +1942,18 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const {\n'
-            + '  g\n'
-            + '  \n'
-            + '  /* block comment at object-like end*/\n'
-            + '} = {};',
+        'const {\n'
+        + '  g\n'
+        + '  \n'
+        + '  /* block comment at object-like end*/\n'
+        + '} = {};',
       output:
-            'const {\n'
-            + '  g\n'
-            + '  \n'
-            + '  /* block comment at object-like end*/\n'
-            + '\n'
-            + '} = {};',
+        'const {\n'
+        + '  g\n'
+        + '  \n'
+        + '  /* block comment at object-like end*/\n'
+        + '\n'
+        + '} = {};',
       options: [{
         afterBlockComment: true,
       }],
@@ -1964,16 +1964,16 @@ run<RuleOptions, MessageIds>({
     // array start comments
     {
       code:
-            'var arr = [\n'
-            + '  // line at array start\n'
-            + '  1\n'
-            + '];',
+        'var arr = [\n'
+        + '  // line at array start\n'
+        + '  1\n'
+        + '];',
       output:
-            'var arr = [\n'
-            + '\n'
-            + '  // line at array start\n'
-            + '  1\n'
-            + '];',
+        'var arr = [\n'
+        + '\n'
+        + '  // line at array start\n'
+        + '  1\n'
+        + '];',
       options: [{
         beforeLineComment: true,
       }],
@@ -1981,16 +1981,16 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'var arr = [\n'
-            + '  /* block comment at array start*/\n'
-            + '  1\n'
-            + '];',
+        'var arr = [\n'
+        + '  /* block comment at array start*/\n'
+        + '  1\n'
+        + '];',
       output:
-            'var arr = [\n'
-            + '\n'
-            + '  /* block comment at array start*/\n'
-            + '  1\n'
-            + '];',
+        'var arr = [\n'
+        + '\n'
+        + '  /* block comment at array start*/\n'
+        + '  1\n'
+        + '];',
       options: [{
         beforeBlockComment: true,
       }],
@@ -1998,16 +1998,16 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const [\n'
-            + '  // line at array start\n'
-            + '  a\n'
-            + '] = [];',
+        'const [\n'
+        + '  // line at array start\n'
+        + '  a\n'
+        + '] = [];',
       output:
-            'const [\n'
-            + '\n'
-            + '  // line at array start\n'
-            + '  a\n'
-            + '] = [];',
+        'const [\n'
+        + '\n'
+        + '  // line at array start\n'
+        + '  a\n'
+        + '] = [];',
       options: [{
         beforeLineComment: true,
       }],
@@ -2016,16 +2016,16 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const [\n'
-            + '  /* block comment at array start*/\n'
-            + '  a\n'
-            + '] = [];',
+        'const [\n'
+        + '  /* block comment at array start*/\n'
+        + '  a\n'
+        + '] = [];',
       output:
-            'const [\n'
-            + '\n'
-            + '  /* block comment at array start*/\n'
-            + '  a\n'
-            + '] = [];',
+        'const [\n'
+        + '\n'
+        + '  /* block comment at array start*/\n'
+        + '  a\n'
+        + '] = [];',
       options: [{
         beforeBlockComment: true,
       }],
@@ -2036,16 +2036,16 @@ run<RuleOptions, MessageIds>({
     // array end comments
     {
       code:
-            'var arr = [\n'
-            + '  1\n'
-            + '  // line at array end\n'
-            + '];',
+        'var arr = [\n'
+        + '  1\n'
+        + '  // line at array end\n'
+        + '];',
       output:
-            'var arr = [\n'
-            + '  1\n'
-            + '  // line at array end\n'
-            + '\n'
-            + '];',
+        'var arr = [\n'
+        + '  1\n'
+        + '  // line at array end\n'
+        + '\n'
+        + '];',
       options: [{
         afterLineComment: true,
       }],
@@ -2053,18 +2053,18 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'var arr = [\n'
-            + '  1\n'
-            + '  \n'
-            + '  /* block comment at array end*/\n'
-            + '];',
+        'var arr = [\n'
+        + '  1\n'
+        + '  \n'
+        + '  /* block comment at array end*/\n'
+        + '];',
       output:
-            'var arr = [\n'
-            + '  1\n'
-            + '  \n'
-            + '  /* block comment at array end*/\n'
-            + '\n'
-            + '];',
+        'var arr = [\n'
+        + '  1\n'
+        + '  \n'
+        + '  /* block comment at array end*/\n'
+        + '\n'
+        + '];',
       options: [{
         afterBlockComment: true,
       }],
@@ -2072,16 +2072,16 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const [\n'
-            + '  a\n'
-            + '  // line at array end\n'
-            + '] = [];',
+        'const [\n'
+        + '  a\n'
+        + '  // line at array end\n'
+        + '] = [];',
       output:
-            'const [\n'
-            + '  a\n'
-            + '  // line at array end\n'
-            + '\n'
-            + '] = [];',
+        'const [\n'
+        + '  a\n'
+        + '  // line at array end\n'
+        + '\n'
+        + '] = [];',
       options: [{
         afterLineComment: true,
       }],
@@ -2090,18 +2090,18 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'const [\n'
-            + '  a\n'
-            + '  \n'
-            + '  /* block comment at array end*/\n'
-            + '] = [];',
+        'const [\n'
+        + '  a\n'
+        + '  \n'
+        + '  /* block comment at array end*/\n'
+        + '] = [];',
       output:
-            'const [\n'
-            + '  a\n'
-            + '  \n'
-            + '  /* block comment at array end*/\n'
-            + '\n'
-            + '] = [];',
+        'const [\n'
+        + '  a\n'
+        + '  \n'
+        + '  /* block comment at array end*/\n'
+        + '\n'
+        + '] = [];',
       options: [{
         afterBlockComment: true,
       }],
@@ -2112,21 +2112,21 @@ run<RuleOptions, MessageIds>({
     // ignorePattern
     {
       code:
-            'foo;\n\n'
-            + '/* eslint-disable no-underscore-dangle */\n\n'
-            + 'this._values = values;\n'
-            + 'this._values2 = true;\n'
-            + '/* eslint-enable no-underscore-dangle */\n'
-            + 'bar',
+        'foo;\n\n'
+        + '/* eslint-disable no-underscore-dangle */\n\n'
+        + 'this._values = values;\n'
+        + 'this._values2 = true;\n'
+        + '/* eslint-enable no-underscore-dangle */\n'
+        + 'bar',
       output:
-            'foo;\n\n'
-            + '/* eslint-disable no-underscore-dangle */\n\n'
-            + 'this._values = values;\n'
-            + 'this._values2 = true;\n'
-            + '\n'
-            + '/* eslint-enable no-underscore-dangle */\n'
-            + '\n'
-            + 'bar',
+        'foo;\n\n'
+        + '/* eslint-disable no-underscore-dangle */\n\n'
+        + 'this._values = values;\n'
+        + 'this._values2 = true;\n'
+        + '\n'
+        + '/* eslint-enable no-underscore-dangle */\n'
+        + '\n'
+        + 'bar',
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,

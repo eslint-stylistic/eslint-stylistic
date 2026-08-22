@@ -256,17 +256,17 @@ run<RuleOptions, MessageIds>({
     ],
   }, {
     code:
-        '({\n'
-        + '  /* a */ \'prop1\' /* b */ : /* c */ value1 /* d */ ,\n'
-        + '  /* e */ prop2 /* f */ : /* g */ value2 /* h */,\n'
-        + '  /* i */ "prop3" /* j */ : /* k */ value3 /* l */\n'
-        + '})',
+      '({\n'
+      + '  /* a */ \'prop1\' /* b */ : /* c */ value1 /* d */ ,\n'
+      + '  /* e */ prop2 /* f */ : /* g */ value2 /* h */,\n'
+      + '  /* i */ "prop3" /* j */ : /* k */ value3 /* l */\n'
+      + '})',
     output:
-        '({\n'
-        + '  /* a */ \'prop1\' /* b */ : /* c */ value1 /* d */ ,\n'
-        + '  /* e */ "prop2" /* f */ : /* g */ value2 /* h */,\n'
-        + '  /* i */ "prop3" /* j */ : /* k */ value3 /* l */\n'
-        + '})',
+      '({\n'
+      + '  /* a */ \'prop1\' /* b */ : /* c */ value1 /* d */ ,\n'
+      + '  /* e */ "prop2" /* f */ : /* g */ value2 /* h */,\n'
+      + '  /* i */ "prop3" /* j */ : /* k */ value3 /* l */\n'
+      + '})',
     options: ['consistent'],
     errors: [{
       messageId: 'inconsistentlyQuotedProperty',
@@ -274,17 +274,17 @@ run<RuleOptions, MessageIds>({
     }],
   }, {
     code:
-        '({\n'
-        + '  /* a */ "foo" /* b */ : /* c */ value1 /* d */ ,\n'
-        + '  /* e */ "bar" /* f */ : /* g */ value2 /* h */,\n'
-        + '  /* i */ "baz" /* j */ : /* k */ value3 /* l */\n'
-        + '})',
+      '({\n'
+      + '  /* a */ "foo" /* b */ : /* c */ value1 /* d */ ,\n'
+      + '  /* e */ "bar" /* f */ : /* g */ value2 /* h */,\n'
+      + '  /* i */ "baz" /* j */ : /* k */ value3 /* l */\n'
+      + '})',
     output:
-        '({\n'
-        + '  /* a */ foo /* b */ : /* c */ value1 /* d */ ,\n'
-        + '  /* e */ bar /* f */ : /* g */ value2 /* h */,\n'
-        + '  /* i */ baz /* j */ : /* k */ value3 /* l */\n'
-        + '})',
+      '({\n'
+      + '  /* a */ foo /* b */ : /* c */ value1 /* d */ ,\n'
+      + '  /* e */ bar /* f */ : /* g */ value2 /* h */,\n'
+      + '  /* i */ baz /* j */ : /* k */ value3 /* l */\n'
+      + '})',
     options: ['consistent-as-needed'],
     errors: [
       { messageId: 'redundantQuoting' },

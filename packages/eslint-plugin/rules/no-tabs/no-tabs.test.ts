@@ -48,9 +48,9 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'function test(){\n'
-            + '  //\tsdfdsf \n'
-            + '}',
+        'function test(){\n'
+        + '  //\tsdfdsf \n'
+        + '}',
       errors: [{
         messageId: 'unexpectedTab',
         line: 2,
@@ -61,9 +61,9 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'function\ttest(){\n'
-            + '  //sdfdsf \n'
-            + '}',
+        'function\ttest(){\n'
+        + '  //sdfdsf \n'
+        + '}',
       errors: [{
         messageId: 'unexpectedTab',
         line: 1,
@@ -74,9 +74,9 @@ run<RuleOptions, MessageIds>({
     },
     {
       code:
-            'function test(){\n'
-            + '  //\tsdfdsf \n'
-            + '\t}',
+        'function test(){\n'
+        + '  //\tsdfdsf \n'
+        + '\t}',
       errors: [
         {
           messageId: 'unexpectedTab',
