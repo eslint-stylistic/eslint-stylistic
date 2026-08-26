@@ -406,7 +406,21 @@ export default createRule<RuleOptions, MessageIds>({
               .map((token, index) => [token, tokens[index + 1]] as const)
               .filter(([current, next]) => left(current) && next && right(next))
 
-            return (nodeType === 'ImportAttributes' ? pairs.at(-1) : pairs[0])?.[0] ?? null
+            const selected = nodeType === 'ImportAttributes' ? pairs.at(-1) : pairs[0]
+            if (!selected)
+              return null
+
+            // Empty ImportAttributes must not reuse specifier `{ }` before the module source.
+            if (
+              nodeType === 'ImportAttributes'
+              && 'source' in node
+              && node.source
+              && selected[0].range[0] < node.source.range[0]
+            ) {
+              return null
+            }
+
+            return selected[0]
           }
 
           const maybeLeft = sourceCode.getTokenBefore(items[0]!)

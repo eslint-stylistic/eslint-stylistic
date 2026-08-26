@@ -305,6 +305,14 @@ run<RuleOptions, MessageIds>({
       ],
     },
     {
+      code: `import { } from 'x'`,
+      output: `import {} from 'x'`,
+      options: [{ empty: 'never' }],
+      errors: [
+        { messageId: 'shouldNotSpacing', line: 1, column: 9 },
+      ],
+    },
+    {
       code: $`
         const array = [
         ]
