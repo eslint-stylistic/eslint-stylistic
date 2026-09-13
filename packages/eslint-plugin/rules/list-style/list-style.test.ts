@@ -313,6 +313,14 @@ run<RuleOptions, MessageIds>({
       ],
     },
     {
+      code: `export { }`,
+      output: `export {}`,
+      options: [{ empty: 'never' }],
+      errors: [
+        { messageId: 'shouldNotSpacing', line: 1, column: 9 },
+      ],
+    },
+    {
       code: $`
         const array = [
         ]

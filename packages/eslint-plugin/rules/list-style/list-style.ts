@@ -400,27 +400,16 @@ export default createRule<RuleOptions, MessageIds>({
 
         default: {
           if (items.length === 0) {
+            if (nodeType === 'ImportAttributes')
+              return 'source' in node && node.source ? sourceCode.getTokenAfter(node.source, isOpeningBraceToken) : null
+
             const tokens = sourceCode.getTokens(node)
             const { left, right } = parenMatchers[type]
             const pairs = tokens
               .map((token, index) => [token, tokens[index + 1]] as const)
               .filter(([current, next]) => left(current) && next && right(next))
 
-            const selected = nodeType === 'ImportAttributes' ? pairs.at(-1) : pairs[0]
-            if (!selected)
-              return null
-
-            // Empty ImportAttributes must not reuse specifier `{ }` before the module source.
-            if (
-              nodeType === 'ImportAttributes'
-              && 'source' in node
-              && node.source
-              && selected[0].range[0] < node.source.range[0]
-            ) {
-              return null
-            }
-
-            return selected[0]
+            return pairs[0]?.[0] ?? null
           }
 
           const maybeLeft = sourceCode.getTokenBefore(items[0]!)
