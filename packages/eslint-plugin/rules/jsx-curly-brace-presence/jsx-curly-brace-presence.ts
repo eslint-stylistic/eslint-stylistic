@@ -217,6 +217,10 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function isWhiteSpaceLiteral(node: Tree.StringLiteral | Tree.JSXText | Tree.JSXExpressionContainer) {
+      // Modern parsers use JSXText for whitespace-only children; older ones used Literal.
+      if (node.type === 'JSXText')
+        return isWhiteSpaces(node.value)
+
       return node.type && node.type === 'Literal' && node.value && isWhiteSpaces(node.value)
     }
 
@@ -298,7 +302,13 @@ export default createRule<RuleOptions, MessageIds>({
       const childrenExcludingWhitespaceLiteral = children.filter(child => !isWhiteSpaceLiteral(child))
       const adjSiblings = getAdjacentSiblings(node, childrenExcludingWhitespaceLiteral)
 
-      return adjSiblings.some(x => x.type && x.type === 'JSXExpressionContainer')
+      return adjSiblings.some((x) => {
+        if (x.type === 'JSXExpressionContainer')
+          return true
+
+        // Unwrapping into linebreak-containing text joins children and collapses the newline.
+        return (x.type === 'JSXText' || x.type === 'Literal') && containsLineTerminators(x.raw)
+      })
     }
     function hasAdjacentJsx(node: Tree.JSXExpressionContainer, children: (Tree.JSXText | Tree.StringLiteral)[]) {
       if (!children)
@@ -326,8 +336,8 @@ export default createRule<RuleOptions, MessageIds>({
         return false
       }
 
-      // If there are adjacent `JsxExpressionContainer` then there is no need,
-      // to check for unnecessary curly braces.
+      // Skip when unwrapping would merge this expression with an adjacent
+      // expression, or with text that contains line breaks.
       if (isJSX(parent) && hasAdjacentJsxExpressionContainers(node, parent.children as (Tree.JSXExpressionContainer | Tree.JSXText | Tree.StringLiteral)[]))
         return false
 
