@@ -5,7 +5,7 @@
 
 import type { ASTNode } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isNotSemicolonToken } from '#utils/ast'
+import { isClosingBraceToken, isNotSemicolonToken, isSemicolonToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const listeningNodes = [
@@ -41,6 +41,7 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Enforce a maximum number of statements allowed per line',
     },
+    fixable: 'whitespace',
     schema: [
       {
         type: 'object',
@@ -84,14 +85,32 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function reportFirstExtraStatementAndClear() {
       if (firstExtraStatement) {
+        const node = firstExtraStatement
+        const prevToken = sourceCode.getTokenBefore(node)!
+
+        /**
+         * Only split right after a previous statement (`;` or `}`), and not inside a block
+         * that starts on the same line (e.g. `if (a) { b; c; }`, `case a: b; break;`).
+         */
+        const canFix = (isSemicolonToken(prevToken) || isClosingBraceToken(prevToken))
+          && (node.parent!.type === 'Program' || node.parent!.loc.start.line < node.loc.start.line)
+
         context.report({
-          node: firstExtraStatement,
+          node,
           messageId: 'exceed',
           data: {
             numberOfStatementsOnThisLine,
             maxStatementsPerLine,
             statements: numberOfStatementsOnThisLine === 1 ? 'statement' : 'statements',
           },
+          fix: canFix
+            ? (fixer) => {
+                const nextToken = sourceCode.getTokenAfter(prevToken, { includeComments: true })!
+                const indent = sourceCode.lines[node.loc.start.line - 1].match(/^\s*/u)![0]
+
+                return fixer.replaceTextRange([prevToken.range[1], nextToken.range[0]], `\n${indent}`)
+              }
+            : null,
         })
       }
       firstExtraStatement = null
