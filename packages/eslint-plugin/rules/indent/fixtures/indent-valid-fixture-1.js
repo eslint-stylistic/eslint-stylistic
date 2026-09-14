@@ -17,9 +17,9 @@ if (a) {
 
   do {
     o = p +
-  q; // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+      q; // binary continuation
     o = p +
-    q;
+      q;
   } while(r); // <-
 
   for (var s in t) {
@@ -73,7 +73,7 @@ var obj = {
       c: d,
       e: f,
       g: h +
-    i // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+        i // binary continuation
     }
   },
   g: [
@@ -179,7 +179,7 @@ var a = function () {
 
 function c(a, b) {
   if (a || (a &&
-            b)) { // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+    b)) { // binary continuation
     return d;
   }
 }
@@ -364,13 +364,13 @@ var a = b.c(function() {
 
 switch (true) {
   case (a
-  && b):
+    && b):
   case (c // ->
-&& d):
+    && d):
   case (e // <-
     && f):
   case (g
-&& h):
+    && h):
     var i = j; // <-
     var k = l;
     var m = n; // ->
@@ -404,14 +404,14 @@ else c();
 a();
 
 if( "very very long multi line" +
-      "with weird indentation" ) {
+  "with weird indentation" ) {
   b();
   a(); // ->
   c(); // <-
 }
 
 a( "very very long multi line" +
-    "with weird indentation", function() {
+  "with weird indentation", function() {
   b();
   a(); // ->
   c(); // <-

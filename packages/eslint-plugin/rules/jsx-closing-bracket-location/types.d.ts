@@ -8,32 +8,32 @@ export type JsxClosingBracketLocationSchema0 =
     | 'props-aligned'
     | 'tag-aligned'
     | 'line-aligned'
-    )
-    | {
-      location?:
+  )
+  | {
+    location?:
+      | 'after-props'
+      | 'props-aligned'
+      | 'tag-aligned'
+      | 'line-aligned'
+  }
+  | {
+    nonEmpty?:
+      | (
         | 'after-props'
         | 'props-aligned'
         | 'tag-aligned'
         | 'line-aligned'
-    }
-    | {
-      nonEmpty?:
-        | (
-          | 'after-props'
-          | 'props-aligned'
-          | 'tag-aligned'
-          | 'line-aligned'
-          )
-          | false
-      selfClosing?:
-        | (
-          | 'after-props'
-          | 'props-aligned'
-          | 'tag-aligned'
-          | 'line-aligned'
-          )
-          | false
-    }
+      )
+      | false
+    selfClosing?:
+      | (
+        | 'after-props'
+        | 'props-aligned'
+        | 'tag-aligned'
+        | 'line-aligned'
+      )
+      | false
+  }
 
 export type JsxClosingBracketLocationRuleOptions = [
   JsxClosingBracketLocationSchema0?,

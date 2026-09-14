@@ -280,7 +280,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (node.type === 'VariableDeclaration') {
           if (
             node.kind !== 'using'
-            && node.kind !== 'await using'
+              && node.kind !== 'await using'
             || firstToken.type !== 'Identifier'
           ) {
             // Currently, there is no syntax to reach this branch.

@@ -5,13 +5,13 @@
 export type KeySpacingSchema0 =
   | {
     align?:
-        | ('colon' | 'value')
-        | {
-          mode?: 'strict' | 'minimum'
-          on?: 'colon' | 'value'
-          beforeColon?: boolean
-          afterColon?: boolean
-        }
+      | ('colon' | 'value')
+      | {
+        mode?: 'strict' | 'minimum'
+        on?: 'colon' | 'value'
+        beforeColon?: boolean
+        afterColon?: boolean
+      }
     mode?: 'strict' | 'minimum'
     beforeColon?: boolean
     afterColon?: boolean
@@ -34,13 +34,13 @@ export type KeySpacingSchema0 =
     }
     multiLine?: {
       align?:
-          | ('colon' | 'value')
-          | {
-            mode?: 'strict' | 'minimum'
-            on?: 'colon' | 'value'
-            beforeColon?: boolean
-            afterColon?: boolean
-          }
+        | ('colon' | 'value')
+        | {
+          mode?: 'strict' | 'minimum'
+          on?: 'colon' | 'value'
+          beforeColon?: boolean
+          afterColon?: boolean
+        }
       mode?: 'strict' | 'minimum'
       beforeColon?: boolean
       afterColon?: boolean

@@ -163,5 +163,9 @@ export default antfu(
       'antfu/curly': 'error',
       'antfu/if-newline': 'error',
       'antfu/top-level-function': 'error',
+      'style/array-bracket-spacing': 'off',
+      'style/indent-binary-ops': 'off',
+      'style/object-curly-spacing': 'off',
+      'style/object-property-newline': 'off',
     },
   })

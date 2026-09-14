@@ -17,7 +17,7 @@ if (a) {
 
   do {
     o = p +
-  q; // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+  q; // binary continuation
     o = p +
     q;
     } while(r); // <-
@@ -73,7 +73,7 @@ var obj = {
       c: d,
       e: f,
       g: h +
-    i // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+    i // binary continuation
     }
   },
   g: [
@@ -179,7 +179,7 @@ b = c; // ->
 
 function c(a, b) {
   if (a || (a &&
-            b)) { // NO ERROR: DON'T VALIDATE MULTILINE STATEMENTS
+            b)) { // binary continuation
     return d;
   }
 }

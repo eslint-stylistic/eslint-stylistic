@@ -773,7 +773,7 @@ run<RuleOptions, MessageIds>({
       code: $`
         function test() {
           if (true ||
-                    false){
+            false){
             console.log(val);
           }
         }
@@ -2722,22 +2722,22 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         foo &&
-            (
-                bar
-            )
+        (
+            bar
+        )
       `,
       options: [4],
     },
     $`
       foo &&
-          !bar(
-          )
+      !bar(
+      )
     `,
     $`
       foo &&
-          ![].map(() => {
-              bar();
-          })
+      ![].map(() => {
+          bar();
+      })
     `,
     {
       code: $`
@@ -3194,15 +3194,15 @@ run<RuleOptions, MessageIds>({
     `,
     $`
       foo
-          || (
-              bar
-          )
+      || (
+          bar
+      )
     `,
     $`
       foo
-                      || (
-                          bar
-                      )
+      || (
+          bar
+      )
     `,
     {
       code: $`
@@ -4245,8 +4245,8 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         type httpMethod = 'GET'
-        | 'POST'
-        | 'PUT';
+          | 'POST'
+          | 'PUT';
       `,
       options: [2, { VariableDeclarator: 1 }],
       parser: tsParser,
@@ -6649,6 +6649,8 @@ run<RuleOptions, MessageIds>({
         [11, 2, 4],
         [15, 4, 2],
         [16, 2, 4],
+        [20, 6, 2],
+        [22, 6, 4],
         [23, 2, 4],
         [29, 2, 4],
         [30, 4, 6],
@@ -6657,6 +6659,7 @@ run<RuleOptions, MessageIds>({
         [39, 4, 2],
         [40, 2, 0],
         [54, 2, 4],
+        [76, 8, 4],
         [114, 4, 2],
         [120, 4, 6],
         [124, 4, 2],
@@ -6673,6 +6676,7 @@ run<RuleOptions, MessageIds>({
         [161, 4, 6],
         [175, 2, 0],
         [177, 2, 4],
+        [182, 4, 12],
         [189, 2, 0],
         [192, 6, 18],
         [193, 6, 4],
@@ -6716,16 +6720,21 @@ run<RuleOptions, MessageIds>({
         [361, 4, 6],
         [362, 2, 4],
         [363, 2, 4],
+        [367, 4, 2],
         [368, 2, 0],
+        [369, 4, 0],
         [370, 2, 4],
+        [373, 4, 0],
         [374, 4, 6],
         [376, 4, 2],
         [383, 2, 0],
         [385, 2, 4],
         [390, 2, 0],
         [392, 2, 4],
+        [407, 2, 6],
         [409, 2, 0],
         [410, 2, 4],
+        [414, 2, 4],
         [416, 2, 0],
         [417, 2, 4],
         [418, 0, 4],
@@ -9559,10 +9568,10 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         foo &&
-            !bar(
-            )
+        !bar(
+        )
       `,
-      errors: expectedErrors([3, 4, 0]),
+      errors: expectedErrors([2, 0, 4]),
     },
     {
       code: $`
@@ -9573,11 +9582,11 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         foo &&
-            ![].map(() => {
-                bar();
-            })
+        ![].map(() => {
+            bar();
+        })
       `,
-      errors: expectedErrors([[3, 8, 4], [4, 4, 0]]),
+      errors: expectedErrors([2, 0, 4]),
     },
     {
       code: $`
@@ -9601,11 +9610,11 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         foo
-                || (
-                    bar
-                )
+        || (
+            bar
+        )
       `,
-      errors: expectedErrors([[3, 12, 16], [4, 8, 12]]),
+      errors: expectedErrors([[2, 0, 8], [3, 4, 16], [4, 0, 12]]),
     },
     {
       code: $`
@@ -12515,7 +12524,7 @@ run<RuleOptions, MessageIds>({
         class C {
             field1 = (
                 foo
-        + bar
+                + bar
             );
         }
       `,
@@ -12524,6 +12533,7 @@ run<RuleOptions, MessageIds>({
       errors: expectedErrors([
         [2, 4, 0],
         [3, 8, 0],
+        [4, 8, 0],
         [5, 4, 0],
       ]),
     },

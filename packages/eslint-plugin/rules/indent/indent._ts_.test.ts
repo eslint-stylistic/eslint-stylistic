@@ -881,9 +881,9 @@ run<RuleOptions, MessageIds>({
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/901
     $`
       type SomeType =
-        'one'
-        | 'two'
-        | 'four'
+          'one'
+          | 'two'
+          | 'four'
       ;
     `,
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/909

@@ -1,15 +1,18 @@
 # indent-binary-ops
 
+> [!WARNING]
+> This rule is deprecated since v6.0.0 and will remain available for one compatibility release. The [`indent`](https://eslint.style/rules/default/indent) rule now checks binary, logical, union, and intersection operator indentation by default. Existing configurations remain valid during the compatibility period, but should remove this rule to avoid duplicate reports.
+
 ## Rule Details
 
 Indentation for binary operators in multiline expressions.
-This is a supplement to the [`indent`](https://eslint.style/rules/default/indent) rule. They are supposed to be used together with the same indentation size.
+This rule is retained temporarily for compatibility with existing configurations.
 
 ## Options
 
 Same as the [`indent`](https://eslint.style/rules/default/indent) rule, it takes an option for the indentation size.
 
-For example, for 2-space indentation:
+Legacy configuration for 2-space indentation:
 
 ```json
 {

@@ -5,19 +5,23 @@ import type { TokenInfo } from './token-info'
 import {
   AST_NODE_TYPES,
   createGlobalLinebreakMatcher,
+  getPrecedence,
   isClosingBraceToken,
   isClosingBracketToken,
   isClosingParenToken,
   isColonToken,
   isEqToken,
+  isNodeOfTypes,
   isNotClosingParenToken,
   isNotOpeningParenToken,
   isOpeningBraceToken,
   isOpeningBracketToken,
   isOpeningParenToken,
   isOptionalChainPunctuator,
+  isParenthesised,
   isQuestionToken,
   isSemicolonToken,
+  isSingleLine,
   isTokenOnSameLine,
   skipChainExpression,
   STATEMENT_LIST_PARENTS,
@@ -28,6 +32,11 @@ type BaseIndentConfig = {
   [K in keyof IndentOptions]-?: Required<NonNullable<IndentOptions[K]>>
 }
 type ElementListOffset = NonNullable<IndentOptions['ArrayExpression']>
+
+const isBinaryExpressionNode = isNodeOfTypes([
+  AST_NODE_TYPES.BinaryExpression,
+  AST_NODE_TYPES.LogicalExpression,
+])
 
 export type IndentConfig = BaseIndentConfig & {
   VariableDeclarator: Required<Extract<IndentOptions['VariableDeclarator'], object>>
@@ -471,6 +480,130 @@ export function checkOperatorToken(ctx: IndentContext, left: ASTNode, right: AST
   offsets.ignoreToken(operatorToken)
   offsets.ignoreToken(tokenAfterOperator)
   offsets.setDesiredOffset(tokenAfterOperator, operatorToken, 0)
+}
+
+function addBinaryContinuationIndent(
+  ctx: IndentContext,
+  operatorToken: Token,
+  leftToken: Token,
+  rightToken: Token,
+  anchorToken: Token,
+  offset: number,
+) {
+  const { offsets, tokenInfo } = ctx
+
+  if (isTokenOnSameLine(leftToken, rightToken))
+    return
+
+  if (tokenInfo.isFirstTokenOfLine(operatorToken)) {
+    offsets.setDesiredOffset(operatorToken, anchorToken, offset)
+
+    if (isTokenOnSameLine(operatorToken, rightToken))
+      offsets.setDesiredOffset(rightToken, operatorToken, 0)
+  }
+  else {
+    offsets.setDesiredOffset(rightToken, anchorToken, offset)
+  }
+}
+
+function canFlattenBinaryExpression(
+  parent: Tree.BinaryExpression | Tree.LogicalExpression,
+  child: Tree.BinaryExpression | Tree.LogicalExpression,
+) {
+  if (getPrecedence(parent) !== getPrecedence(child))
+    return false
+
+  if (parent.type === AST_NODE_TYPES.LogicalExpression)
+    return parent.operator === child.operator
+
+  switch (parent.operator) {
+    case '**':
+    case '%':
+    case '==':
+    case '!=':
+    case '===':
+    case '!==':
+    case '<<':
+    case '>>':
+    case '>>>':
+      return false
+    case '*':
+    case '/':
+      return parent.operator === child.operator
+    default:
+      return true
+  }
+}
+
+function getBinaryExpressionRoot(ctx: IndentContext, node: Tree.BinaryExpression | Tree.LogicalExpression) {
+  const { sourceCode } = ctx
+  let root = node
+  let nested = false
+
+  while (isBinaryExpressionNode(root.parent)) {
+    if (isParenthesised(sourceCode, root))
+      break
+
+    if (!canFlattenBinaryExpression(root.parent, root)) {
+      nested = true
+      break
+    }
+
+    root = root.parent
+  }
+
+  return { root, nested }
+}
+
+export function checkBinaryExpressionIndent(
+  ctx: IndentContext,
+  node: Tree.BinaryExpression | Tree.LogicalExpression,
+) {
+  if (isSingleLine(node))
+    return
+
+  const { sourceCode, tokenInfo } = ctx
+
+  const operatorToken = sourceCode.getTokenBefore(node.right, token => token.value === node.operator)!
+  const leftToken = sourceCode.getTokenBefore(operatorToken)!
+  const rightToken = sourceCode.getTokenAfter(operatorToken)!
+  const { root, nested } = getBinaryExpressionRoot(ctx, node)
+  const firstToken = sourceCode.getFirstToken(root)!
+  const anchorToken = tokenInfo.getFirstTokenOfLine(firstToken)!
+  const offset = nested || !tokenInfo.isFirstTokenOfLine(firstToken) ? 1 : 0
+
+  addBinaryContinuationIndent(ctx, operatorToken, leftToken, rightToken, anchorToken, offset)
+}
+
+export function checkBinaryTypeIndent(
+  ctx: IndentContext,
+  node: Tree.TSIntersectionType | Tree.TSUnionType,
+  operator: '&' | '|',
+) {
+  if (isSingleLine(node))
+    return
+
+  const { sourceCode, tokenInfo } = ctx
+
+  const firstToken = sourceCode.getFirstToken(node)!
+  const anchorToken = tokenInfo.getFirstTokenOfLine(firstToken)!
+  const offset = tokenInfo.isFirstTokenOfLine(firstToken) ? 0 : 1
+
+  for (const typeNode of node.types) {
+    const operatorToken = sourceCode.getTokenBefore(typeNode)
+
+    if (!operatorToken || operatorToken.value !== operator || operatorToken.range[0] < node.range[0])
+      continue
+
+    addBinaryContinuationIndent(
+      ctx,
+      operatorToken,
+      sourceCode.getTokenBefore(operatorToken)!,
+      sourceCode.getTokenAfter(operatorToken)!,
+      anchorToken,
+      offset,
+    )
+  }
 }
 
 /**

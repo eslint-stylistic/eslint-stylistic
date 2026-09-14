@@ -232,9 +232,9 @@ run<RuleOptions, MessageIds>({
       code: `
         {
           head.title &&
-            <>
-              {head.title}
-            </>
+          <>
+            {head.title}
+          </>
         }
       `,
       features: ['fragment'],
@@ -244,9 +244,9 @@ run<RuleOptions, MessageIds>({
       code: `
         {
           head.title &&
-            <h1>
-              {head.title}
-            </h1>
+          <h1>
+            {head.title}
+          </h1>
         }
       `,
       options: [2],
