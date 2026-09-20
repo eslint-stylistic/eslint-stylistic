@@ -967,8 +967,15 @@ export default createRule<RuleOptions, MessageIds>({
           continue
 
         const { typeAnnotation } = node
+        // For value alignment, the value's first token is the token right
+        // after the colon — which for a parenthesized type (`baz: (123)`) is
+        // the `(`, not the inner type node. Using the inner node would
+        // mis-align parenthesized values and let the autofix delete the paren.
+        // Colon alignment still uses the type-annotation node itself. See #189.
         const toCheck
-          = align === 'colon' ? typeAnnotation : typeAnnotation.typeAnnotation
+          = align === 'colon'
+            ? typeAnnotation
+            : sourceCode.getTokenAfter(sourceCode.getFirstToken(typeAnnotation)!)!
         const difference = adjustedColumn(toCheck.loc.start) - alignColumn
 
         if (difference) {
