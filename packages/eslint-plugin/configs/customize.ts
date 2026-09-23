@@ -3,7 +3,6 @@
 import type { Linter } from 'eslint'
 import type { StylisticCustomizeOptions } from '../dts/options'
 import type { RuleOptions } from '../dts/rule-options'
-import { JS_LANGUAGE_FILES } from '#utils/configs-all'
 import plugin from '../src/plugin'
 
 type Rules = Partial<{
@@ -207,7 +206,6 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
   }
 
   return {
-    files: JS_LANGUAGE_FILES,
     plugins: {
       [pluginName]: plugin,
     },

@@ -8,6 +8,24 @@ We consider adding new rules or tweaking options in the shared configurations as
 
 ## Configuration Factory
 
+Shared configurations use the parsers configured by your project. Configure an appropriate parser for TypeScript or component files before applying these presets.
+
+When linting other languages such as CSS or JSON, use `files` to limit the preset to files parsed as JavaScript. For example, a project with a TypeScript parser already configured can use:
+
+```js
+import stylistic from '@stylistic/eslint-plugin'
+
+export default [
+  // ...your parser and language configurations
+  {
+    ...stylistic.configs.recommended,
+    files: ['**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}'],
+  },
+]
+```
+
+The same approach applies to `configs.all` and `configs.customize()`. Include component extensions when your project configures a compatible parser for them. Rule language metadata does not configure parsers or automatically exclude unsupported languages.
+
 Fine-tuned shared configuration with clean and consistent code style.
 
 Formatting and stylistic rules are always opinionated. We want to provide shared configurations to simplify the usage, while still allowing you to customize the rules to your own preferences. So, different from other ESLint plugins, we provide a **factory function** with some high-level options you can customize.

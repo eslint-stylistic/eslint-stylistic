@@ -1,9 +1,5 @@
 import type { Linter } from 'eslint'
 
-export const JS_LANGUAGE_FILES = [
-  '**/*.?([cm])js',
-]
-
 /**
  * Generate sharable configs for all rules in a plugin
  *
@@ -35,7 +31,6 @@ export function createAllConfigs<T extends { rules: Record<string, any> }>(
   ) as Linter.Config['rules']
 
   return {
-    files: JS_LANGUAGE_FILES,
     plugins: {
       [name]: plugin,
     },
