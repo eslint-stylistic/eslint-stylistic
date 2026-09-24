@@ -47,18 +47,15 @@ export default createRule<RuleOptions, MessageIds>({
     const isAllmanStyle = style === 'allman'
 
     /**
-     * Validates a pair of curly brackets based on the user's config
-     * @param openingCurlyToken The opening curly bracket
-     * @param closingCurlyToken The closing curly bracket
+     * Validates the placement of an opening curly bracket relative to the
+     * preceding token. Used directly for nodes whose body-internal newlines
+     * are owned by `object-curly-newline` (TS interface/enum bodies).
      */
-    function validateCurlyPair(
+    function validateOpeningCurly(
       openingCurlyToken: Token,
-      closingCurlyToken: Token,
+      singleLineException: boolean,
     ): void {
       const tokenBeforeOpeningCurly = sourceCode.getTokenBefore(openingCurlyToken)!
-      const tokenBeforeClosingCurly = sourceCode.getTokenBefore(closingCurlyToken)!
-      const tokenAfterOpeningCurly = sourceCode.getTokenAfter(openingCurlyToken)!
-      const singleLineException = allowSingleLine && isTokenOnSameLine(openingCurlyToken, closingCurlyToken)
 
       if (
         !isAllmanStyle
@@ -87,6 +84,23 @@ export default createRule<RuleOptions, MessageIds>({
           fix: fixer => fixer.insertTextBefore(openingCurlyToken, '\n'),
         })
       }
+    }
+
+    /**
+     * Validates a pair of curly brackets based on the user's config
+     * @param openingCurlyToken The opening curly bracket
+     * @param closingCurlyToken The closing curly bracket
+     */
+    function validateCurlyPair(
+      openingCurlyToken: Token,
+      closingCurlyToken: Token,
+    ): void {
+      const singleLineException = allowSingleLine && isTokenOnSameLine(openingCurlyToken, closingCurlyToken)
+
+      validateOpeningCurly(openingCurlyToken, singleLineException)
+
+      const tokenBeforeClosingCurly = sourceCode.getTokenBefore(closingCurlyToken)!
+      const tokenAfterOpeningCurly = sourceCode.getTokenAfter(openingCurlyToken)!
 
       if (
         isTokenOnSameLine(openingCurlyToken, tokenAfterOpeningCurly)
@@ -177,6 +191,23 @@ export default createRule<RuleOptions, MessageIds>({
         const closingCurly = sourceCode.getLastToken(node)!
 
         validateCurlyPair(openingCurly, closingCurly)
+      },
+      // Interface and enum body-internal newlines are governed by
+      // `object-curly-newline` (see #823); only the opening-brace placement
+      // is a brace-style concern (#1193).
+      TSInterfaceBody(node) {
+        const openingCurly = sourceCode.getFirstToken(node)!
+        const closingCurly = sourceCode.getLastToken(node)!
+        const singleLineException = allowSingleLine && isTokenOnSameLine(openingCurly, closingCurly)
+
+        validateOpeningCurly(openingCurly, singleLineException)
+      },
+      TSEnumBody(node) {
+        const openingCurly = sourceCode.getFirstToken(node)!
+        const closingCurly = sourceCode.getLastToken(node)!
+        const singleLineException = allowSingleLine && isTokenOnSameLine(openingCurly, closingCurly)
+
+        validateOpeningCurly(openingCurly, singleLineException)
       },
     }
   },
