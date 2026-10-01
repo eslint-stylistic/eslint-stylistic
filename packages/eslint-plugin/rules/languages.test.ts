@@ -1,3 +1,4 @@
+import type { Rule } from 'eslint'
 import css from '@eslint/css'
 import parserTs from '@typescript-eslint/parser'
 import { Linter } from 'eslint'
@@ -55,6 +56,26 @@ describe('rule language metadata', () => {
 
   it('limits syntax-aware rules to JavaScript-family languages', () => {
     expect(getLanguages(indent)).toEqual(['js/*'])
+  })
+
+  it('keeps the indent guard for a non-ESTree source', () => {
+    let inspected = false
+    const probe: Rule.RuleModule = {
+      create(context) {
+        inspected = true
+        expect(indent.create(context)).toEqual({})
+        return {}
+      },
+    }
+    const messages = new Linter().verify('a { color: red; }', [{
+      files: ['**/*.css'],
+      plugins: { css, probe: { rules: { inspect: probe } } },
+      language: 'css/css',
+      rules: { 'probe/inspect': 'error' },
+    }], { filename: 'example.css' })
+
+    expect(inspected).toBe(true)
+    expect(messages).toEqual([])
   })
 
   it('includes JSON for the list-style rule', () => {
