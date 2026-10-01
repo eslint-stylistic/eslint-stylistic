@@ -55,6 +55,7 @@ export async function readPackages() {
             docsEntry: normalizePath(docs),
             meta: {
               fixable: meta?.fixable,
+              languages: meta?.languages,
               docs: {
                 description: meta?.docs?.description,
                 experimental,

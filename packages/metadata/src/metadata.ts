@@ -16,6 +16,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/array-bracket-newline/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce linebreaks after opening and before closing array brackets",
             "experimental": false,
@@ -30,6 +33,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/array-bracket-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent spacing inside array brackets",
             "experimental": false,
@@ -44,6 +50,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/array-element-newline/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce line breaks after each array element",
             "experimental": false,
@@ -58,6 +67,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/arrow-parens/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require parentheses around arrow function arguments",
             "experimental": false,
@@ -72,6 +84,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/arrow-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent spacing before and after the arrow in arrow functions",
             "experimental": false,
@@ -86,6 +101,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/block-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Disallow or enforce spaces inside of blocks after opening block and before closing block",
             "experimental": false,
@@ -100,6 +118,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/brace-style/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent brace style for blocks",
             "experimental": false,
@@ -114,6 +135,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/comma-dangle/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require or disallow trailing commas",
             "experimental": false,
@@ -128,6 +152,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/comma-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent spacing before and after commas",
             "experimental": false,
@@ -142,6 +169,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/comma-style/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent comma style",
             "experimental": false,
@@ -156,6 +186,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/computed-property-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent spacing inside computed property brackets",
             "experimental": false,
@@ -170,6 +203,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/curly-newline/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent line breaks after opening and before closing braces",
             "experimental": false,
@@ -184,6 +220,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/dot-location/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent newlines before and after dots",
             "experimental": false,
@@ -198,6 +237,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/eol-last/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "*"
+          ],
           "docs": {
             "description": "Require or disallow newline at the end of files",
             "experimental": false,
@@ -212,6 +254,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/function-call-argument-newline/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce line breaks between arguments of a function call",
             "experimental": false,
@@ -226,6 +271,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/function-call-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require or disallow spacing between function identifiers and their invocations",
             "experimental": false,
@@ -240,6 +288,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/function-paren-newline/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent line breaks inside function parentheses",
             "experimental": false,
@@ -254,6 +305,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/generator-star-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent spacing around `*` operators in generator functions",
             "experimental": false,
@@ -268,6 +322,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/implicit-arrow-linebreak/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce the location of arrow function bodies",
             "experimental": false,
@@ -282,6 +339,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/indent/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent indentation",
             "experimental": false,
@@ -296,6 +356,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/indent-binary-ops/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Indentation for binary operators",
             "experimental": false,
@@ -309,6 +372,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "entry": "packages/eslint-plugin/rules/jsx-child-element-spacing/jsx-child-element-spacing.ts",
         "docsEntry": "packages/eslint-plugin/rules/jsx-child-element-spacing/README.md",
         "meta": {
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce or disallow spaces inside of curly braces in JSX attributes and expressions",
             "experimental": false,
@@ -323,6 +389,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-closing-bracket-location/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce closing bracket location in JSX",
             "experimental": false,
@@ -337,6 +406,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-closing-tag-location/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce closing tag location for multiline JSX",
             "experimental": false,
@@ -351,6 +423,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-curly-brace-presence/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes",
             "experimental": false,
@@ -365,6 +440,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-curly-newline/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent linebreaks in curly braces in JSX attributes and expressions",
             "experimental": false,
@@ -379,6 +457,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-curly-spacing/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce or disallow spaces inside of curly braces in JSX attributes and expressions",
             "experimental": false,
@@ -393,6 +474,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-equals-spacing/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce or disallow spaces around equal signs in JSX attributes",
             "experimental": false,
@@ -407,6 +491,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-first-prop-new-line/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce proper position of the first property in JSX",
             "experimental": false,
@@ -421,6 +508,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-function-call-newline/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce line breaks before and after JSX elements when they are used as arguments to a function.",
             "experimental": false,
@@ -435,6 +525,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-indent-props/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce props indentation in JSX",
             "experimental": false,
@@ -449,6 +542,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-max-props-per-line/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce maximum of props on a single line in JSX",
             "experimental": false,
@@ -463,6 +559,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-newline/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require or prevent a new line after jsx elements and expressions.",
             "experimental": false,
@@ -477,6 +576,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-one-expression-per-line/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require one JSX element per line",
             "experimental": false,
@@ -490,6 +592,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "entry": "packages/eslint-plugin/rules/jsx-pascal-case/jsx-pascal-case.ts",
         "docsEntry": "packages/eslint-plugin/rules/jsx-pascal-case/README.md",
         "meta": {
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce PascalCase for user-defined JSX components",
             "experimental": false,
@@ -504,6 +609,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-props-style/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent line break styles for JSX props",
             "experimental": true,
@@ -518,6 +626,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-quotes/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce the consistent use of either double or single quotes in JSX attributes",
             "experimental": false,
@@ -532,6 +643,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-self-closing-comp/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Disallow extra closing tags for components without children",
             "experimental": false,
@@ -546,6 +660,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-shorthand-boolean/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce shorthand for boolean JSX attributes.",
             "experimental": false,
@@ -560,6 +677,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-shorthand-fragment/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce shorthand fragment syntax.",
             "experimental": false,
@@ -574,6 +694,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-tag-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce whitespace in and around the JSX opening and closing brackets",
             "experimental": false,
@@ -588,6 +711,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/jsx-wrap-multilines/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Disallow missing parentheses around multiline JSX",
             "experimental": false,
@@ -602,6 +728,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/key-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent spacing between property names and type annotations in types and interfaces",
             "experimental": false,
@@ -616,6 +745,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/keyword-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent spacing before and after keywords",
             "experimental": false,
@@ -629,6 +761,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "entry": "packages/eslint-plugin/rules/line-comment-position/line-comment-position.ts",
         "docsEntry": "packages/eslint-plugin/rules/line-comment-position/README.md",
         "meta": {
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce position of line comments",
             "experimental": false,
@@ -643,6 +778,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/linebreak-style/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "*"
+          ],
           "docs": {
             "description": "Enforce consistent linebreak style",
             "experimental": false,
@@ -657,6 +795,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/lines-around-comment/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require empty lines around comments",
             "experimental": false,
@@ -671,6 +812,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/lines-between-class-members/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require or disallow an empty line between class members",
             "experimental": false,
@@ -685,6 +829,10 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/list-style/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*",
+            "jsonc/*"
+          ],
           "docs": {
             "description": "Enforce consistent spacing and line break styles inside brackets.",
             "experimental": false,
@@ -698,6 +846,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "entry": "packages/eslint-plugin/rules/max-len/max-len.ts",
         "docsEntry": "packages/eslint-plugin/rules/max-len/README.md",
         "meta": {
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce a maximum line length",
             "experimental": false,
@@ -711,6 +862,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "entry": "packages/eslint-plugin/rules/max-statements-per-line/max-statements-per-line.ts",
         "docsEntry": "packages/eslint-plugin/rules/max-statements-per-line/README.md",
         "meta": {
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce a maximum number of statements allowed per line",
             "experimental": false,
@@ -725,6 +879,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/member-delimiter-style/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require a specific member delimiter style for interfaces and type literals",
             "experimental": false,
@@ -739,6 +896,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/multiline-comment-style/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce a particular style for multiline comments",
             "experimental": false,
@@ -753,6 +913,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/multiline-ternary/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce newlines between operands of ternary expressions",
             "experimental": false,
@@ -767,6 +930,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/new-parens/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce or disallow parentheses when invoking a constructor with no arguments",
             "experimental": false,
@@ -781,6 +947,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/newline-per-chained-call/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require a newline after each call in a method chain",
             "experimental": false,
@@ -795,6 +964,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/no-confusing-arrow/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Disallow arrow functions where they could be confused with comparisons",
             "experimental": false,
@@ -809,6 +981,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/no-extra-parens/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Disallow unnecessary parentheses",
             "experimental": false,
@@ -823,6 +998,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/no-extra-semi/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Disallow unnecessary semicolons",
             "experimental": false,
@@ -837,6 +1015,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/no-floating-decimal/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Disallow leading or trailing decimal points in numeric literals",
             "experimental": false,
@@ -850,6 +1031,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "entry": "packages/eslint-plugin/rules/no-mixed-operators/no-mixed-operators.ts",
         "docsEntry": "packages/eslint-plugin/rules/no-mixed-operators/README.md",
         "meta": {
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Disallow mixed binary operators",
             "experimental": false,
@@ -863,6 +1047,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "entry": "packages/eslint-plugin/rules/no-mixed-spaces-and-tabs/no-mixed-spaces-and-tabs.ts",
         "docsEntry": "packages/eslint-plugin/rules/no-mixed-spaces-and-tabs/README.md",
         "meta": {
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Disallow mixed spaces and tabs for indentation",
             "experimental": false,
@@ -877,6 +1064,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/no-multi-spaces/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Disallow multiple spaces",
             "experimental": false,
@@ -891,6 +1081,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/no-multiple-empty-lines/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Disallow multiple empty lines",
             "experimental": false,
@@ -904,6 +1097,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "entry": "packages/eslint-plugin/rules/no-tabs/no-tabs.ts",
         "docsEntry": "packages/eslint-plugin/rules/no-tabs/README.md",
         "meta": {
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Disallow all tabs",
             "experimental": false,
@@ -918,6 +1114,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/no-trailing-spaces/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "*"
+          ],
           "docs": {
             "description": "Disallow trailing whitespace at the end of lines",
             "experimental": false,
@@ -932,6 +1131,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/no-whitespace-before-property/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Disallow whitespace before properties",
             "experimental": false,
@@ -946,6 +1148,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/nonblock-statement-body-position/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce the location of single-line statements",
             "experimental": false,
@@ -960,6 +1165,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/object-curly-newline/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent line breaks after opening and before closing braces",
             "experimental": false,
@@ -974,6 +1182,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/object-curly-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent spacing inside braces",
             "experimental": false,
@@ -988,6 +1199,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/object-property-newline/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce placing object properties on separate lines",
             "experimental": false,
@@ -1002,6 +1216,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/one-var-declaration-per-line/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require or disallow newlines around variable declarations",
             "experimental": false,
@@ -1016,6 +1233,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/operator-linebreak/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent linebreak style for operators",
             "experimental": false,
@@ -1030,6 +1250,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/padded-blocks/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require or disallow padding within blocks",
             "experimental": false,
@@ -1044,6 +1267,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/padding-line-between-statements/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require or disallow padding lines between statements",
             "experimental": false,
@@ -1058,6 +1284,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/quote-props/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require quotes around object literal, type literal, interfaces and enums property names",
             "experimental": false,
@@ -1072,6 +1301,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/quotes/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce the consistent use of either backticks, double, or single quotes",
             "experimental": false,
@@ -1086,6 +1318,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/rest-spread-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce spacing between rest and spread operators and their expressions",
             "experimental": false,
@@ -1100,6 +1335,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/semi/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require or disallow semicolons instead of ASI",
             "experimental": false,
@@ -1114,6 +1352,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/semi-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent spacing before and after semicolons",
             "experimental": false,
@@ -1128,6 +1369,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/semi-style/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce location of semicolons",
             "experimental": false,
@@ -1142,6 +1386,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/space-before-blocks/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent spacing before blocks",
             "experimental": false,
@@ -1156,6 +1403,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/space-before-function-paren/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent spacing before function parenthesis",
             "experimental": false,
@@ -1170,6 +1420,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/space-in-parens/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent spacing inside parentheses",
             "experimental": false,
@@ -1184,6 +1437,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/space-infix-ops/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require spacing around infix operators",
             "experimental": false,
@@ -1198,6 +1454,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/space-unary-ops/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent spacing before or after unary operators",
             "experimental": false,
@@ -1212,6 +1471,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/spaced-comment/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce consistent spacing after the `//` or `/*` in a comment",
             "experimental": false,
@@ -1226,6 +1488,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/switch-colon-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforce spacing around colons of switch statements",
             "experimental": false,
@@ -1240,6 +1505,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/template-curly-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require or disallow spacing around embedded expressions of template strings",
             "experimental": false,
@@ -1254,6 +1522,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/template-tag-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require or disallow spacing between template tags and their literals",
             "experimental": false,
@@ -1268,6 +1539,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/type-annotation-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require consistent spacing around type annotations",
             "experimental": false,
@@ -1282,6 +1556,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/type-generic-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Enforces consistent spacing inside TypeScript type generics",
             "experimental": false,
@@ -1296,6 +1573,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/type-named-tuple-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Expect space before the type declaration in the named tuple",
             "experimental": false,
@@ -1310,6 +1590,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/wrap-iife/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require parentheses around immediate `function` invocations",
             "experimental": false,
@@ -1324,6 +1607,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/wrap-regex/README.md",
         "meta": {
           "fixable": "code",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require parenthesis around regex literals",
             "experimental": false,
@@ -1338,6 +1624,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin/rules/yield-star-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
+          "languages": [
+            "js/*"
+          ],
           "docs": {
             "description": "Require or disallow spacing around the `*` in `yield*` expressions",
             "experimental": false,

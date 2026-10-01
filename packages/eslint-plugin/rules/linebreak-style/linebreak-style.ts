@@ -27,6 +27,7 @@ export default createRule<RuleOptions, MessageIds>({
       expectedLF: 'Expected linebreaks to be \'LF\' but found \'CRLF\'.',
       expectedCRLF: 'Expected linebreaks to be \'CRLF\' but found \'LF\'.',
     },
+    languages: ['*'],
   },
   create(context, [linebreakStyle]) {
     // Language-agnostic SourceCode access

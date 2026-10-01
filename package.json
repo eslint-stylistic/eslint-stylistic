@@ -73,6 +73,7 @@
     "tsdown": "catalog:build",
     "tsx": "catalog:dev",
     "typescript": "catalog:dev",
+    "unrun": "catalog:build",
     "verkit": "catalog:dev",
     "vite": "catalog:dev",
     "vitest": "catalog:test",

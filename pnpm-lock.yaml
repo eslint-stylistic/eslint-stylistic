@@ -12,6 +12,9 @@ catalogs:
     tsdown:
       specifier: ^0.22.14
       version: 0.22.14
+    unrun:
+      specifier: ^0.3.1
+      version: 0.3.1
   dev:
     '@antfu/eslint-config':
       specifier: ^9.3.0
@@ -369,13 +372,16 @@ importers:
         version: 0.2.17
       tsdown:
         specifier: catalog:build
-        version: 0.22.14(@volar/typescript@2.4.28)(tsx@4.23.12)(typescript@6.0.3)(vue-tsc@3.3.11(typescript@6.0.3))
+        version: 0.22.14(@volar/typescript@2.4.28)(tsx@4.23.12)(typescript@6.0.3)(unrun@0.3.1(synckit@0.11.13))(vue-tsc@3.3.11(typescript@6.0.3))
       tsx:
         specifier: catalog:dev
         version: 4.23.12
       typescript:
         specifier: catalog:dev
         version: 6.0.3
+      unrun:
+        specifier: catalog:build
+        version: 0.3.1(synckit@0.11.13)
       verkit:
         specifier: catalog:dev
         version: 0.4.0
@@ -4336,6 +4342,16 @@ packages:
       webpack:
         optional: true
 
+  unrun@0.3.1:
+    resolution: {integrity: sha512-onIck/oNnCaytwths1ZVp1LK2Gq2hPoyFhiHebObuUXqR3S0uHuLLaBK8K6mRRgV7Ptip8AnNvaUsgzwWwBZuA==}
+    engines: {node: ^22.13.0 || >=24.0.0}
+    hasBin: true
+    peerDependencies:
+      synckit: ^0.11.11
+    peerDependenciesMeta:
+      synckit:
+        optional: true
+
   update-browserslist-db@1.3.1:
     resolution: {integrity: sha512-ZZ61DsRsOnakl74HAmp3oSN4aXUmEWXf+i/yv0h7tIBfICc3VdrFErQKUUKPgu3AMsTUMbcongALEN4l6GSUrQ==}
     hasBin: true
@@ -8121,7 +8137,7 @@ snapshots:
     dependencies:
       typescript: 6.0.3
 
-  tsdown@0.22.14(@volar/typescript@2.4.28)(tsx@4.23.12)(typescript@6.0.3)(vue-tsc@3.3.11(typescript@6.0.3)):
+  tsdown@0.22.14(@volar/typescript@2.4.28)(tsx@4.23.12)(typescript@6.0.3)(unrun@0.3.1(synckit@0.11.13))(vue-tsc@3.3.11(typescript@6.0.3)):
     dependencies:
       ansis: 4.3.1
       cac: 7.0.0
@@ -8141,6 +8157,7 @@ snapshots:
     optionalDependencies:
       tsx: 4.23.12
       typescript: 6.0.3
+      unrun: 0.3.1(synckit@0.11.13)
     transitivePeerDependencies:
       - '@typescript/native-preview'
       - '@volar/typescript'
@@ -8315,6 +8332,12 @@ snapshots:
       rolldown: 1.2.5
       rollup: 4.62.5
       vite: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0)
+
+  unrun@0.3.1(synckit@0.11.13):
+    dependencies:
+      rolldown: 1.2.5
+    optionalDependencies:
+      synckit: 0.11.13
 
   update-browserslist-db@1.3.1(browserslist@4.28.8):
     dependencies:

@@ -157,6 +157,7 @@ export default antfu(
 )
   .override('antfu/stylistic/rules', {
     ...stylisticConfig,
+    files: ['**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx,vue}'],
     rules: {
       ...stylisticConfig.rules,
       'antfu/consistent-list-newline': 'off',

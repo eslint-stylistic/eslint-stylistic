@@ -5,6 +5,20 @@ defineProps<{
   rule: RuleInfo
   package: PackageInfo
 }>()
+
+function formatLanguage(language: string) {
+  switch (language) {
+    case '*':
+      return 'Any'
+    case 'js/*':
+      return 'JS / TS'
+    case 'json/*':
+    case 'jsonc/*':
+      return 'JSON'
+    default:
+      return language
+  }
+}
 </script>
 
 <template>
@@ -17,6 +31,13 @@ defineProps<{
       </a>
     </td>
     <td>{{ rule.meta?.docs?.description }}</td>
+    <td>
+      <code
+        v-for="language of rule.meta?.languages"
+        :key="language"
+        ws-nowrap mr1
+      >{{ formatLanguage(language) }}</code>
+    </td>
     <td :title="rule.meta?.docs?.recommended ? 'This rule is included in the shared configuration' : ''">
       {{ rule.meta?.docs?.recommended ? '💼' : '' }}
     </td>

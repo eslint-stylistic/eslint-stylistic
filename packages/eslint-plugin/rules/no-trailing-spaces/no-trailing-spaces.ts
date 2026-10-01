@@ -33,6 +33,7 @@ export default createRule<RuleOptions, MessageIds>({
     messages: {
       trailingSpace: 'Trailing spaces not allowed.',
     },
+    languages: ['*'],
   },
   create(context, [options]) {
     const sourceCode = context.sourceCode as TextSourceCodeBase | SourceCode

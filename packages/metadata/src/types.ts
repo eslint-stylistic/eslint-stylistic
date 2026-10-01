@@ -16,6 +16,7 @@ export interface PackageInfo {
 
 export interface RuleMeta {
   fixable?: 'code' | 'whitespace' | null
+  languages?: string[]
   docs?: {
     description?: string
     experimental?: boolean

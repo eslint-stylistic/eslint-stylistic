@@ -1,4 +1,4 @@
-/* eslint-disable style/no-tabs */
+/* eslint style/no-tabs: "off" -- Fixtures exercise trailing tab characters. */
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from './no-trailing-spaces'

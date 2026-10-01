@@ -22,6 +22,7 @@ export default createRule<RuleOptions, MessageIds>({
       missing: 'Newline required at end of file but not found.',
       unexpected: 'Newline not allowed at end of file.',
     },
+    languages: ['*'],
   },
   create(context, [mode]) {
     // Language-agnostic SourceCode access
