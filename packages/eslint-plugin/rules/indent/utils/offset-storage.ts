@@ -228,7 +228,9 @@ export class OffsetStorage {
 
         this._desiredIndentCache.set(
           token,
-          (offsetInfo.from ? this.getDesiredIndent(offsetInfo.from) : '') + this._indentType.repeat(offset),
+          // `offset` can be fractional when a custom JSX indent size is used;
+          // round it to a whole number of indentation characters.
+          (offsetInfo.from ? this.getDesiredIndent(offsetInfo.from) : '') + this._indentType.repeat(Math.round(offset)),
         )
       }
     }
