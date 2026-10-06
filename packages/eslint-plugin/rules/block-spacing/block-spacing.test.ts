@@ -22,6 +22,10 @@ run<RuleOptions, MessageIds>({
     'if (a) {} else { foo(); }',
     'switch (a) {}',
     'switch (a) { case 0: foo(); }',
+    'switch (value || {}) { case 0: break; }',
+    'switch ({ nested: {} }) { /* comment */ case 0: break; }',
+    'switch ((function() { return {}; })()) { case 0: break; }',
+    'switch (value || {}) {}',
     'while (a) { foo(); }',
     'do { foo(); } while (a);',
     'for (;;) { foo(); }',
@@ -46,6 +50,10 @@ run<RuleOptions, MessageIds>({
     { code: 'if (a) {} else {foo();}', options: ['never'] },
     { code: 'switch (a) {}', options: ['never'] },
     { code: 'switch (a) {case 0: foo();}', options: ['never'] },
+    { code: 'switch ({ value: 1 }) {case 0: break;}', options: ['never'] },
+    { code: 'switch ({ nested: {} }) {/* comment */ case 0: break;}', options: ['never'] },
+    { code: 'switch ((function() {return {};})()) {case 0: break;}', options: ['never'] },
+    { code: 'switch ({ value: 1 }) {}', options: ['never'] },
     { code: 'while (a) {foo();}', options: ['never'] },
     { code: 'do {foo();} while (a);', options: ['never'] },
     { code: 'for (;;) {foo();}', options: ['never'] },
@@ -66,6 +74,21 @@ run<RuleOptions, MessageIds>({
   ],
 
   invalid: [
+    {
+      code: 'switch (value || {}) {case 0: break; }',
+      output: 'switch (value || {}) { case 0: break; }',
+      errors: [
+        { line: 1, column: 22, messageId: 'missing', data: { location: 'after', token: '{' } },
+      ],
+    },
+    {
+      code: 'switch ({ value: 1 }) { case 0: break;}',
+      output: 'switch ({ value: 1 }) {case 0: break;}',
+      options: ['never'],
+      errors: [
+        { line: 1, column: 24, messageId: 'extra', data: { location: 'after', token: '{' } },
+      ],
+    },
 
     // default/always
     {
