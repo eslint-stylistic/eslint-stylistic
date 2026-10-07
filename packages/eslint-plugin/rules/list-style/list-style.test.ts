@@ -7,6 +7,17 @@ run<RuleOptions, MessageIds>({
   rule,
   lang: 'ts',
   valid: [
+    'someFunction(\n  /** @type {SomeType} */ ({ value: "something" })\n);',
+    'someFunction(\n  /** @type {SomeType} */ (\n    { value: "something" }\n  )\n);',
+    'foo(\n(value)\n)',
+    'foo(\n((value))\n)',
+    'foo(\n(value),\n)',
+    'foo?.(\n(value)\n)',
+    'foo<string>(\n(value)\n)',
+    'new Foo(\n(value)\n)',
+    'new (factory())(\n(value)\n)',
+    'foo((value))',
+    'foo(\na,\n(value)\n)',
     'if (a) {}',
     'if (\na\n) {}',
     'const a = { foo: "bar", bar: 2 }',
@@ -220,6 +231,16 @@ run<RuleOptions, MessageIds>({
     `export * from 'foo' with {}`,
   ],
   invalid: [
+    ...[
+      { code: 'foo(\n(value))', output: 'foo(\n(value)\n)' },
+      { code: 'foo(\n((value)))', output: 'foo(\n((value))\n)' },
+      { code: 'foo(\n(value),)', output: 'foo(\n(value),\n)' },
+      { code: 'foo?.(\n(value))', output: 'foo?.(\n(value)\n)' },
+      { code: 'foo<string>(\n(value))', output: 'foo<string>(\n(value)\n)' },
+      { code: 'new Foo(\n(value))', output: 'new Foo(\n(value)\n)' },
+      { code: 'foo(\na,\n(value))', output: 'foo(\na,\n(value)\n)' },
+      { code: 'someFunction(\n/** @type {SomeType} */ ({ value: "something" }));', output: 'someFunction(\n/** @type {SomeType} */ ({ value: "something" })\n);' },
+    ].map(test => ({ ...test, errors: [{ messageId: 'shouldWrap' as const }] })),
     {
       code: $`
         const array = [ ]
