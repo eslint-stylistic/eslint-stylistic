@@ -10,6 +10,17 @@ run<RuleOptions, MessageIds>({
   name: 'multiline-comment-style',
   rule,
   valid: [
+    ...[
+      '/**\n* @type {number}\n */',
+      '/**\n@type {number}\n*/',
+      '/** @type {number}\n*/',
+      '/**\n * @type {number} */',
+      '/**\r\n\t* @type {number}\r\n*/',
+    ].flatMap(code => [
+      { code, options: ['separate-lines'] as RuleOptions },
+      { code, options: ['separate-lines', { checkJSDoc: false }] as RuleOptions },
+      { code, options: ['bare-block'] as RuleOptions },
+    ]),
     `
             /*
              * this is
@@ -501,6 +512,19 @@ run<RuleOptions, MessageIds>({
   ],
 
   invalid: [
+    ...[
+      { code: '/**\n* @type {number}\n */', output: '// @type {number}' },
+      { code: '/**\n@type {number}\n*/', output: '// @type {number}' },
+      { code: '/** opening\n * middle\n * closing */', output: '// opening\n// middle\n// closing ' },
+      { code: '/** opening\n */', output: '// opening' },
+      { code: '/**\n * closing */', output: '// closing ' },
+      { code: '/**\r\n\t* @type {number}\r\n*/', output: '// @type {number}' },
+      { code: '/**\n * first\n *\n * last\n */', output: '// first\n// \n// last' },
+    ].map(test => ({
+      ...test,
+      options: ['separate-lines', { checkJSDoc: true }] as RuleOptions,
+      errors: [{ messageId: 'expectedLines' as const }],
+    })),
     {
       code: `
                 // these are

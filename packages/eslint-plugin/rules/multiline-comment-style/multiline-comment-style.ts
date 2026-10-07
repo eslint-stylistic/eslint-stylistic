@@ -105,14 +105,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns Whether or not the comment group is in JSDoc form.
      */
     function isJSDocComment([firstComment]: Token[]): boolean {
-      if (firstComment.type !== 'Block')
-        return false
-
-      const lines = firstComment.value.split(LINEBREAK_MATCHER)
-
-      return /^\*\s*$/u.test(lines[0])
-        && lines.slice(1, -1).every(line => /^\s* /u.test(line))
-        && isWhiteSpaces(lines.at(-1)!)
+      return firstComment.type === 'Block' && firstComment.value.startsWith('*')
     }
 
     /**
@@ -387,8 +380,16 @@ export default createRule<RuleOptions, MessageIds>({
 
         let commentLines = getCommentLines(commentGroup)
 
-        if (isJSDoc || isExclamation)
+        if (isJSDoc) {
+          // Inline descriptions belong to the comment, not its delimiters.
+          if (isWhiteSpaces(commentLines[0]))
+            commentLines.shift()
+          if (commentLines.length && isWhiteSpaces(commentLines.at(-1)!))
+            commentLines.pop()
+        }
+        else if (isExclamation) {
           commentLines = commentLines.slice(1, commentLines.length - 1)
+        }
 
         const tokenAfter = sourceCode.getTokenAfter(firstComment, { includeComments: true })
 
