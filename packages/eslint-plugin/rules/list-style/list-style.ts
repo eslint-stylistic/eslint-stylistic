@@ -427,6 +427,11 @@ export default createRule<RuleOptions, MessageIds>({
       }
 
       switch (node.type) {
+        // Parentheses around the final argument are not the call delimiter.
+        case AST_NODE_TYPES.CallExpression:
+        case AST_NODE_TYPES.NewExpression:
+          return sourceCode.getLastToken(node)
+
         // const foo = [a, ]
         case AST_NODE_TYPES.ArrayExpression:
           return sourceCode.getLastToken(node)
