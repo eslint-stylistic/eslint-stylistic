@@ -60,6 +60,7 @@ import type { NoConfusingArrowRuleOptions } from '../rules/no-confusing-arrow/ty
 import type { NoExtraParensRuleOptions } from '../rules/no-extra-parens/types'
 import type { NoExtraSemiRuleOptions } from '../rules/no-extra-semi/types'
 import type { NoFloatingDecimalRuleOptions } from '../rules/no-floating-decimal/types'
+import type { NoInlineCommentsRuleOptions } from '../rules/no-inline-comments/types'
 import type { NoMixedOperatorsRuleOptions } from '../rules/no-mixed-operators/types'
 import type { NoMixedSpacesAndTabsRuleOptions } from '../rules/no-mixed-spaces-and-tabs/types'
 import type { NoMultiSpacesRuleOptions } from '../rules/no-multi-spaces/types'
@@ -398,6 +399,11 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/no-floating-decimal
    */
   '@stylistic/no-floating-decimal': NoFloatingDecimalRuleOptions
+  /**
+   * Disallow inline comments after code
+   * @see https://eslint.style/rules/no-inline-comments
+   */
+  '@stylistic/no-inline-comments': NoInlineCommentsRuleOptions
   /**
    * Disallow mixed binary operators
    * @see https://eslint.style/rules/no-mixed-operators
@@ -881,6 +887,11 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/no-floating-decimal
    */
   'no-floating-decimal': NoFloatingDecimalRuleOptions
+  /**
+   * Disallow inline comments after code
+   * @see https://eslint.style/rules/no-inline-comments
+   */
+  'no-inline-comments': NoInlineCommentsRuleOptions
   /**
    * Disallow mixed binary operators
    * @see https://eslint.style/rules/no-mixed-operators

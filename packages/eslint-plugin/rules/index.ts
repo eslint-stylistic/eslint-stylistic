@@ -62,6 +62,7 @@ import noConfusingArrow from './no-confusing-arrow/no-confusing-arrow'
 import noExtraParens from './no-extra-parens/no-extra-parens'
 import noExtraSemi from './no-extra-semi/no-extra-semi'
 import noFloatingDecimal from './no-floating-decimal/no-floating-decimal'
+import noInlineComments from './no-inline-comments/no-inline-comments'
 import noMixedOperators from './no-mixed-operators/no-mixed-operators'
 import noMixedSpacesAndTabs from './no-mixed-spaces-and-tabs/no-mixed-spaces-and-tabs'
 import noMultiSpaces from './no-multi-spaces/no-multi-spaces'
@@ -160,6 +161,7 @@ export default {
   'no-extra-parens': noExtraParens,
   'no-extra-semi': noExtraSemi,
   'no-floating-decimal': noFloatingDecimal,
+  'no-inline-comments': noInlineComments,
   'no-mixed-operators': noMixedOperators,
   'no-mixed-spaces-and-tabs': noMixedSpacesAndTabs,
   'no-multi-spaces': noMultiSpaces,
