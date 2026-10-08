@@ -845,6 +845,19 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "no-inline-comments",
+        "ruleId": "@stylistic/no-inline-comments",
+        "entry": "packages/eslint-plugin/rules/no-inline-comments/no-inline-comments.ts",
+        "docsEntry": "packages/eslint-plugin/rules/no-inline-comments/README.md",
+        "meta": {
+          "docs": {
+            "description": "Disallow inline comments after code",
+            "experimental": false,
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "no-mixed-operators",
         "ruleId": "@stylistic/no-mixed-operators",
         "entry": "packages/eslint-plugin/rules/no-mixed-operators/no-mixed-operators.ts",
