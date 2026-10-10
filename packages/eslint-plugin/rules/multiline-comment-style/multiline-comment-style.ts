@@ -196,7 +196,7 @@ export default createRule<RuleOptions, MessageIds>({
           offset = leadingWhitespace.slice(-offsetLen)
       }
 
-      return linesInfo.map(({ lineOffset, lineContents }) => {
+      const processed = linesInfo.map(({ lineOffset, lineContents }) => {
         if (lineOffset.length > leadingWhitespace.length)
           return `${lineOffset.slice(leadingWhitespace.length - (offset.length + lineOffset.length))}${lineContents}`
 
@@ -205,6 +205,9 @@ export default createRule<RuleOptions, MessageIds>({
 
         return lineContents
       })
+
+      // The space before a closing `*/` that follows text is padding, not content. A last line that holds only whitespace carries the closing delimiter's indentation and is kept.
+      return processed.map((line, index) => (index === processed.length - 1 && line.trim().length > 0 ? line.trimEnd() : line))
     }
 
     /**
@@ -242,7 +245,7 @@ export default createRule<RuleOptions, MessageIds>({
     function convertToStarredBlock(firstComment: Token, commentLinesList: string[]): string {
       const initialOffset = getInitialOffset(firstComment)
 
-      return `/*\n${commentLinesList.map(line => `${initialOffset} * ${line}`).join('\n')}\n${initialOffset} */`
+      return `/*\n${commentLinesList.map(line => `${initialOffset} *${line.length > 0 ? ` ${line}` : ''}`).join('\n')}\n${initialOffset} */`
     }
 
     /**
@@ -252,7 +255,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns A representation of the comment value in separate-line form
      */
     function convertToSeparateLines(firstComment: Token, commentLinesList: string[]): string {
-      return commentLinesList.map(line => `// ${line}`).join(`\n${getInitialOffset(firstComment)}`)
+      return commentLinesList.map(line => `//${line.length > 0 ? ` ${line}` : ''}`).join(`\n${getInitialOffset(firstComment)}`)
     }
 
     /**
@@ -262,7 +265,17 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns A representation of the comment value in bare-block form
      */
     function convertToBlock(firstComment: Token, commentLinesList: string[]): string {
-      return `/* ${commentLinesList.join(`\n${getInitialOffset(firstComment)}   `)} */`
+      const continuationOffset = `${getInitialOffset(firstComment)}   `
+      const lastIndex = commentLinesList.length - 1
+      const [firstLine = '', ...restLines] = commentLinesList
+
+      // A blank line carries no padding. The last line keeps its indentation even when blank, because the closing `*/` follows it on the same line.
+      const body = [
+        firstLine.length > 0 ? ` ${firstLine}` : '',
+        ...restLines.map((line, index) => (line.length > 0 || index + 1 === lastIndex ? `${continuationOffset}${line}` : '')),
+      ].join('\n')
+
+      return `/*${body} */`
     }
 
     /**
@@ -321,7 +334,12 @@ export default createRule<RuleOptions, MessageIds>({
                 end: firstComment.loc.end,
               },
               messageId: 'endNewline',
-              fix: fixer => fixer.replaceTextRange([firstComment.range[1] - 2, firstComment.range[1]], `\n${expectedLinePrefix}/`),
+              fix(fixer) {
+                // The space between the last text and `*/` is padding that would otherwise trail the new last line.
+                const paddingStart = sourceCode.text.slice(0, firstComment.range[1] - 2).trimEnd().length
+
+                return fixer.replaceTextRange([paddingStart, firstComment.range[1]], `\n${expectedLinePrefix}/`)
+              },
             })
           }
 
@@ -368,7 +386,7 @@ export default createRule<RuleOptions, MessageIds>({
                       break
                     }
 
-                    return fixer.replaceTextRange([lineStartIndex, commentTextStartIndex], `${expectedLinePrefix}${offset}`)
+                    return fixer.replaceTextRange([lineStartIndex, commentTextStartIndex], isWhiteSpaces(lineText) ? expectedLinePrefix : `${expectedLinePrefix}${offset}`)
                   }
                 },
               })
