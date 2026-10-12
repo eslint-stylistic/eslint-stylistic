@@ -32,6 +32,13 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns The token of the open brace.
      */
     function getOpenBrace(node: SupportedNodes): Tree.PunctuatorToken {
+      // skip the discriminant, which may itself contain braces, e.g. `switch (a || {}) {}`
+      if (node.type === 'SwitchStatement') {
+        return sourceCode.getTokenAfter(node.discriminant, {
+          filter: token => isOpeningBraceToken(token),
+        }) as Tree.PunctuatorToken
+      }
+
       // guaranteed for enums
       // This is the only change made here from the base rule
       return sourceCode.getFirstToken(node, {
