@@ -52,11 +52,11 @@ export default createRule<RuleOptions, MessageIds>({
       propElementValues,
     } = typeof options === 'string'
       ? {
-        props: options,
-        children: options,
-        // TODO: set `always` by default in v6
-        propElementValues: 'ignore',
-      } satisfies RuleOptions[0]
+          props: options,
+          children: options,
+          // TODO: set `always` by default in v6
+          propElementValues: 'ignore',
+        } satisfies RuleOptions[0]
       : options!
 
     function containsLineTerminators(rawStringValue: string) {
