@@ -138,6 +138,7 @@ const KNOWN_NODES = new Set([
   AST_NODE_TYPES.TSAbstractMethodDefinition,
   AST_NODE_TYPES.TSArrayType,
   AST_NODE_TYPES.TSAsExpression,
+  AST_NODE_TYPES.TSSatisfiesExpression,
   AST_NODE_TYPES.TSCallSignatureDeclaration,
   AST_NODE_TYPES.TSConditionalType,
   AST_NODE_TYPES.TSConstructorType,
@@ -1126,7 +1127,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       'TSAsExpression': node => checkOperatorToken(ctx, node.expression, node.typeAnnotation, 'as'),
 
-      // TODO: TSSatisfiesExpression
+      'TSSatisfiesExpression': node => checkOperatorToken(ctx, node.expression, node.typeAnnotation, 'satisfies'),
 
       'TSConditionalType': node => checkConditionalNode(ctx, node, node.extendsType, node.trueType, node.falseType),
 
