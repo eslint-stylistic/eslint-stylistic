@@ -295,7 +295,10 @@ export default createRule<RuleOptions, MessageIds>({
       if (!children)
         return false
 
-      const childrenExcludingWhitespaceLiteral = children.filter(child => !isWhiteSpaceLiteral(child))
+      const childrenExcludingWhitespaceLiteral = children.filter(child => (
+        !isWhiteSpaceLiteral(child)
+        && !(child.type === 'JSXText' && isLineBreak(child.value))
+      ))
       const adjSiblings = getAdjacentSiblings(node, childrenExcludingWhitespaceLiteral)
 
       return adjSiblings.some(x => x.type && x.type === 'JSXExpressionContainer')
