@@ -245,7 +245,7 @@ export default createRule<RuleOptions, MessageIds>({
     function convertToStarredBlock(firstComment: Token, commentLinesList: string[]): string {
       const initialOffset = getInitialOffset(firstComment)
 
-      return `/*\n${commentLinesList.map(line => `${initialOffset} *${line.length > 0 ? ` ${line}` : ''}`).join('\n')}\n${initialOffset} */`
+      return `/*\n${commentLinesList.map(line => `${initialOffset} *${line.trim().length > 0 ? ` ${line}` : ''}`).join('\n')}\n${initialOffset} */`
     }
 
     /**
@@ -255,7 +255,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns A representation of the comment value in separate-line form
      */
     function convertToSeparateLines(firstComment: Token, commentLinesList: string[]): string {
-      return commentLinesList.map(line => `//${line.length > 0 ? ` ${line}` : ''}`).join(`\n${getInitialOffset(firstComment)}`)
+      return commentLinesList.map(line => `//${line.trim().length > 0 ? ` ${line}` : ''}`).join(`\n${getInitialOffset(firstComment)}`)
     }
 
     /**
@@ -271,8 +271,13 @@ export default createRule<RuleOptions, MessageIds>({
 
       // A blank line carries no padding. The last line keeps its indentation even when blank, because the closing `*/` follows it on the same line.
       const body = [
-        firstLine.length > 0 ? ` ${firstLine}` : '',
-        ...restLines.map((line, index) => (line.length > 0 || index + 1 === lastIndex ? `${continuationOffset}${line}` : '')),
+        firstLine.trim().length > 0 ? ` ${firstLine}` : '',
+        ...restLines.map((line, index) => {
+          if (line.trim().length > 0)
+            return `${continuationOffset}${line}`
+
+          return index + 1 === lastIndex ? continuationOffset : ''
+        }),
       ].join('\n')
 
       return `/*${body} */`

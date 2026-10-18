@@ -1743,6 +1743,69 @@ ${'                   '}
       options: ['starred-block'],
       errors: [{ messageId: 'expectedBlock', line: 1 }, { messageId: 'expectedBlock', line: 4 }],
     },
+    // A blank line that holds only whitespace is emitted without padding in every target style.
+    {
+      code: `
+                // foo
+                //${' '.repeat(3)}
+                // bar
+            `,
+      output: `
+                /*
+                 * foo
+                 *
+                 * bar
+                 */
+            `,
+      options: ['starred-block'],
+      errors: [{ messageId: 'expectedBlock', line: 2 }],
+    },
+    {
+      code: `
+                // foo
+                //${' '.repeat(3)}
+                // bar
+            `,
+      output: `
+                /* foo
+
+                   bar */
+            `,
+      options: ['bare-block'],
+      errors: [{ messageId: 'expectedBlock', line: 2 }],
+    },
+    {
+      code: `
+                /*
+                 * foo
+                 *${' '.repeat(3)}
+                 * bar
+                 */
+            `,
+      output: `
+                // foo
+                //
+                // bar
+            `,
+      options: ['separate-lines'],
+      errors: [{ messageId: 'expectedLines', line: 2 }],
+    },
+    {
+      code: `
+                /*
+                 * foo
+                 *${' '.repeat(3)}
+                 * bar
+                 */
+            `,
+      output: `
+                /* foo
+
+                   bar */
+            `,
+      options: ['bare-block'],
+      errors: [{ messageId: 'expectedBareBlock', line: 2 }],
+    },
     // Prefix lookalikes are ordinary prose and must still be converted.
     {
       code: $`
