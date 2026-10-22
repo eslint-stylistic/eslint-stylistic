@@ -1386,6 +1386,34 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasExcessParensWithPrecedence(node.elementType, precedence(node)))
           report(node.elementType)
       },
+      TSIndexedAccessType(node) {
+        if (hasExcessParensWithPrecedence(node.objectType, precedence(node)))
+          report(node.objectType)
+
+        if (hasExcessParens(node.indexType))
+          report(node.indexType)
+      },
+      // The check type and extends type are not checked, as a nested conditional type needs its parens there.
+      TSConditionalType(node) {
+        if (hasExcessParens(node.trueType))
+          report(node.trueType)
+
+        if (hasExcessParens(node.falseType))
+          report(node.falseType)
+      },
+      TSTypeParameter(node) {
+        if (node.constraint && hasExcessParens(node.constraint))
+          report(node.constraint)
+
+        if (node.default && hasExcessParens(node.default))
+          report(node.default)
+      },
+      TSTypeParameterInstantiation(node) {
+        node.params.forEach((param) => {
+          if (hasExcessParens(param))
+            report(param)
+        })
+      },
       'TSIntersectionType': checkTSBinaryType,
       'TSUnionType': checkTSBinaryType,
       TSTypeAnnotation(node) {
