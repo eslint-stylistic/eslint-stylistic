@@ -922,9 +922,6 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
       ArrowFunctionExpression(node) {
-        if (node.body.type === 'BlockStatement')
-          return
-
         const firstBodyToken = sourceCode.getFirstToken(node.body, isNotOpeningParenToken)!
         const tokenBeforeFirst = sourceCode.getTokenBefore(firstBodyToken)!
 
@@ -943,6 +940,9 @@ export default createRule<RuleOptions, MessageIds>({
         ) {
           return
         }
+
+        if (node.body.type === 'BlockStatement')
+          return
 
         if (hasExcessParensWithPrecedence(node.body, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           report(node.body)
