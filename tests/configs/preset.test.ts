@@ -40,6 +40,7 @@ function runWithConfig(name: string, configs: StylisticCustomizeOptions | string
       from,
       output,
       target,
+      expectUnchanged: input === 'input_prettier',
       ignoreFiles: ['eslint.config.js'],
       configWriter: async (target) => {
         await fsp.writeFile(join(target, 'eslint.config.js'), `

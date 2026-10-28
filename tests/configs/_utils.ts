@@ -16,6 +16,10 @@ export interface RunFixtureTestOptions {
   ignoreFiles: string[]
   copyFilter?: (src: string) => boolean
   errorOutput?: string
+  /**
+   * Fail when the lint run changes a file, instead of comparing it with a snapshot in `output`
+   */
+  expectUnchanged?: boolean
 }
 
 const normalizeContent = (text: string) => text.replace(/\r\n/g, '\n')
@@ -24,7 +28,7 @@ export async function runFixtureTest(
   expect: ExpectStatic,
   options: RunFixtureTestOptions,
 ): Promise<void> {
-  const { from, output, target, configWriter, lintRunner, ignoreFiles, copyFilter, errorOutput } = options
+  const { from, output, target, configWriter, lintRunner, ignoreFiles, copyFilter, errorOutput, expectUnchanged } = options
 
   await fsp.cp(from, target, {
     recursive: true,
@@ -58,6 +62,9 @@ export async function runFixtureTest(
     if (content === source) {
       if (fs.existsSync(targetPath))
         await fsp.unlink(targetPath)
+    }
+    else if (expectUnchanged) {
+      expect.soft(content, file).toBe(source)
     }
     else {
       if (errorOutput) {
