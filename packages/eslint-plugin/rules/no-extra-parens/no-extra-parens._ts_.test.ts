@@ -368,6 +368,9 @@ run<RuleOptions, MessageIds>({
     `type Foo = (() => string)[]`,
     `type Foo = (new () => string)[]`,
     `type Foo = (keyof T)[]`,
+    'const f = (w: string) => ({ a: 1 })[w] as number',
+    'const f = (w: string) => ({ a: 1 })[w] satisfies number',
+    'const f = (w: string) => ({ a: 1 })[w]!',
   ],
 
   invalid: [

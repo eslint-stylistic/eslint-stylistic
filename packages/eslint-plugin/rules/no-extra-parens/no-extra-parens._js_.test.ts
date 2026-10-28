@@ -306,6 +306,7 @@ run<RuleOptions, MessageIds>({
     { code: 'b => (b = 1);', options: ['all', { returnAssign: false }] },
     { code: 'b => (b = c) || (b = d);', options: ['all', { returnAssign: false }] },
     { code: 'b => c ? (d = b) : (e = b);', options: ['all', { returnAssign: false }] },
+    { code: 'b => ({}).c = b;', options: ['all', { returnAssign: false }] },
     { code: 'b => { return b || c };', options: ['all', { returnAssign: false }] },
     { code: 'b => { return (b = 1) };', options: ['all', { returnAssign: false }] },
     { code: 'b => { return (b = c) || (b = d) };', options: ['all', { returnAssign: false }] },
@@ -563,6 +564,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: 'var a = (b) => ((1 ? 2 : 3))',
+      options: ['all', { enforceForArrowConditionals: false }],
+    },
+    {
+      code: 'var a = b => ({}).c ? 2 : 3',
       options: ['all', { enforceForArrowConditionals: false }],
     },
     {
