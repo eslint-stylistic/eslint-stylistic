@@ -113,9 +113,9 @@ export default createRule<RuleOptions, MessageIds>({
       children = false,
     } = typeof firstOption === 'string'
       ? {
-        when: firstOption,
-        ...secondOption,
-      } satisfies BasicConfig
+          when: firstOption,
+          ...secondOption,
+        } satisfies BasicConfig
       : firstOption!
 
     type NonStringConfig = Exclude<RuleOptions[0], undefined | string>

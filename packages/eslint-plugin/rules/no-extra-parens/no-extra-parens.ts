@@ -896,6 +896,19 @@ export default createRule<RuleOptions, MessageIds>({
         report(node.value)
     }
 
+    function checkSpread(node: Tree.SpreadElement | Tree.JSXSpreadAttribute) {
+      if (isTypeAssertion(node.argument))
+        return
+
+      if (ALLOW_NODES_IN_SPREAD && ALLOW_NODES_IN_SPREAD.has(node.argument.type))
+        return
+
+      if (!hasExcessParensWithPrecedence(node.argument, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+        return
+
+      report(node.argument)
+    }
+
     function checkTSBinaryType(node: Tree.TSUnionType | Tree.TSIntersectionType) {
       node.types.forEach((type) => {
         const shouldReport = IGNORE_NESTED_BINARY && isNodeOfTypes([AST_NODE_TYPES.TSUnionType, AST_NODE_TYPES.TSIntersectionType])(type)
@@ -922,6 +935,12 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
       ArrowFunctionExpression(node) {
+        const firstBodyToken = sourceCode.getFirstToken(node.body, isNotOpeningParenToken)!
+        const tokenBeforeFirst = sourceCode.getTokenBefore(firstBodyToken)!
+
+        if (isOpeningParenToken(tokenBeforeFirst) && isOpeningBraceToken(firstBodyToken))
+          tokensToIgnore.add(firstBodyToken)
+
         if (isTypeAssertion(node.body))
           return
 
@@ -937,12 +956,6 @@ export default createRule<RuleOptions, MessageIds>({
 
         if (node.body.type === 'BlockStatement')
           return
-
-        const firstBodyToken = sourceCode.getFirstToken(node.body, isNotOpeningParenToken)!
-        const tokenBeforeFirst = sourceCode.getTokenBefore(firstBodyToken)!
-
-        if (isOpeningParenToken(tokenBeforeFirst) && isOpeningBraceToken(firstBodyToken))
-          tokensToIgnore.add(firstBodyToken)
 
         if (hasExcessParensWithPrecedence(node.body, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           report(node.body)
@@ -1173,6 +1186,7 @@ export default createRule<RuleOptions, MessageIds>({
           report(source)
         }
       },
+      'JSXSpreadAttribute': checkSpread,
       'LogicalExpression': checkBinaryLogical,
       MemberExpression(node) {
         const isObjectTypeAssertion = isTypeAssertion(node.object)
@@ -1296,18 +1310,7 @@ export default createRule<RuleOptions, MessageIds>({
             report(expression)
         })
       },
-      SpreadElement(node) {
-        if (isTypeAssertion(node.argument))
-          return
-
-        if (ALLOW_NODES_IN_SPREAD && ALLOW_NODES_IN_SPREAD.has(node.argument.type))
-          return
-
-        if (!hasExcessParensWithPrecedence(node.argument, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          return
-
-        report(node.argument)
-      },
+      'SpreadElement': checkSpread,
       SwitchCase(node) {
         if (node.test && !isTypeAssertion(node.test) && hasExcessParens(node.test))
           report(node.test)

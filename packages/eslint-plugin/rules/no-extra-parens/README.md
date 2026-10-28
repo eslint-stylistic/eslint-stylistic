@@ -514,6 +514,33 @@ async function example() {
 
 :::
 
+The following configuration does the same for `JSXSpreadAttribute` nodes:
+
+Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["JSXSpreadAttribute[argument.type=ConditionalExpression]", "JSXSpreadAttribute[argument.type=LogicalExpression]"] }` option:
+
+::: correct { "ecmaFeatures": { "jsx": true } }
+
+```jsx
+/* eslint @stylistic/no-extra-parens: [
+    "error",
+    "all",
+    {
+        "ignoredNodes": [
+            "JSXSpreadAttribute[argument.type=ConditionalExpression]",
+            "JSXSpreadAttribute[argument.type=LogicalExpression]",
+        ]
+    }
+ ] */
+
+const a = <Foo {...isActive ? activeProps : {}} />;
+const b = <Foo {...(isActive ? activeProps : {})} />;
+
+const c = <Foo {...isActive && activeProps} />;
+const d = <Foo {...(isActive && activeProps)} />;
+```
+
+:::
+
 The following configuration ignores init in `VariableDeclarator` nodes:
 
 Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["VariableDeclarator[init]"] }` option:
