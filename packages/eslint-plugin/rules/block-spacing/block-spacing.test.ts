@@ -22,6 +22,9 @@ run<RuleOptions, MessageIds>({
     'if (a) {} else { foo(); }',
     'switch (a) {}',
     'switch (a) { case 0: foo(); }',
+    'switch (a || {}) { case 0: foo(); }',
+    'switch ({ a }.a) {}',
+    'switch (((a) || {})) { case 0: foo(); }',
     'while (a) { foo(); }',
     'do { foo(); } while (a);',
     'for (;;) { foo(); }',
@@ -46,6 +49,7 @@ run<RuleOptions, MessageIds>({
     { code: 'if (a) {} else {foo();}', options: ['never'] },
     { code: 'switch (a) {}', options: ['never'] },
     { code: 'switch (a) {case 0: foo();}', options: ['never'] },
+    { code: 'switch (a || { }) {case 0: foo();}', options: ['never'] },
     { code: 'while (a) {foo();}', options: ['never'] },
     { code: 'do {foo();} while (a);', options: ['never'] },
     { code: 'for (;;) {foo();}', options: ['never'] },
@@ -135,6 +139,14 @@ run<RuleOptions, MessageIds>({
       errors: [
         { line: 1, column: 12, messageId: 'missing', data: { location: 'after', token: '{' } },
         { line: 1, column: 27, messageId: 'missing', data: { location: 'before', token: '}' } },
+      ],
+    },
+    {
+      code: 'switch (a || {}) {case 0: foo();}',
+      output: 'switch (a || {}) { case 0: foo(); }',
+      errors: [
+        { line: 1, column: 18, messageId: 'missing', data: { location: 'after', token: '{' } },
+        { line: 1, column: 33, messageId: 'missing', data: { location: 'before', token: '}' } },
       ],
     },
     {
@@ -602,6 +614,29 @@ run<RuleOptions, MessageIds>({
           column: 28,
           endLine: 1,
           endColumn: 29,
+        },
+      ],
+    },
+    {
+      code: 'switch (a || { }) { case 0: foo(); }',
+      output: 'switch (a || { }) {case 0: foo();}',
+      options: ['never'],
+      errors: [
+        {
+          messageId: 'extra',
+          data: { location: 'after', token: '{' },
+          line: 1,
+          column: 20,
+          endLine: 1,
+          endColumn: 21,
+        },
+        {
+          messageId: 'extra',
+          data: { location: 'before', token: '}' },
+          line: 1,
+          column: 35,
+          endLine: 1,
+          endColumn: 36,
         },
       ],
     },
