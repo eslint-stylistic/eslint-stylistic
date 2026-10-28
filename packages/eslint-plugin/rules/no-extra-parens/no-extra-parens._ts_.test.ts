@@ -311,16 +311,6 @@ run<RuleOptions, MessageIds>({
         },
       },
     },
-    {
-      code: $`
-        f<(number)>(1)
-      `,
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-    },
     // https://github.com/eslint/eslint/issues/17173
     {
       code: 'const x = (1 satisfies number).toFixed();',
@@ -346,6 +336,16 @@ run<RuleOptions, MessageIds>({
     `type Foo = (() => string)[]`,
     `type Foo = (new () => string)[]`,
     `type Foo = (keyof T)[]`,
+    `type Foo = (keyof T)[K]`,
+    `type Foo = (A | B)[K]`,
+    `type Foo = (() => void)[K]`,
+    `type Foo = typeof x[number]`,
+    `type Foo = T[A | B]`,
+    `type Foo = (A extends B ? 1 : 2) extends C ? D : E`,
+    `type Foo = T extends (A extends B ? 1 : 2) ? D : E`,
+    `type Foo = T extends U ? X | Y : V extends W ? 1 : 2`,
+    `function f<T extends A | B = A | B>() {}`,
+    `type Foo = Map<A, B | C>`,
     'const f = (w: string) => ({ a: 1 })[w] as number',
     'const f = (w: string) => ({ a: 1 })[w] satisfies number',
     'const f = (w: string) => ({ a: 1 })[w]!',
@@ -374,12 +374,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: 'a<(A)>((1));',
-      output: 'a<(A)>(1);',
+      output: 'a<A>(1);',
       errors: [
-        {
-          messageId: 'unexpected',
-          column: 8,
-        },
+        { messageId: 'unexpected', column: 3 },
+        { messageId: 'unexpected', column: 8 },
       ],
     },
     {
@@ -605,6 +603,65 @@ run<RuleOptions, MessageIds>({
         { messageId: 'unexpected' },
         { messageId: 'unexpected' },
       ],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1314
+    {
+      code: 'type Foo = (typeof x)[number]',
+      output: 'type Foo = typeof x[number]',
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: 'type Foo = (T)[K]',
+      output: 'type Foo = T[K]',
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: 'type Foo = ((A | B))[K]',
+      output: 'type Foo = (A | B)[K]',
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: 'type Foo = T[(A | B)]',
+      output: 'type Foo = T[A | B]',
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: 'type Foo = T extends U ? (X | Y) : (V extends W ? 1 : 2)',
+      output: 'type Foo = T extends U ? X | Y : V extends W ? 1 : 2',
+      errors: [
+        { messageId: 'unexpected' },
+        { messageId: 'unexpected' },
+      ],
+    },
+    {
+      code: 'function f<T extends (A | B) = (A | B)>() {}',
+      output: 'function f<T extends A | B = A | B>() {}',
+      errors: [
+        { messageId: 'unexpected' },
+        { messageId: 'unexpected' },
+      ],
+    },
+    {
+      code: 'type Foo = Map<(A), (B | C)>',
+      output: 'type Foo = Map<A, B | C>',
+      errors: [
+        { messageId: 'unexpected' },
+        { messageId: 'unexpected' },
+      ],
+    },
+    {
+      code: $`
+        f<(number)>(1)
+      `,
+      output: $`
+        f<number>(1)
+      `,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      errors: [{ messageId: 'unexpected' }],
     },
     {
       code: 'const x = (1 as 1) | (1 as 1);',
