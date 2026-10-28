@@ -24,9 +24,15 @@ runWithConfig('tab-quotes-semi', {
 
 runWithConfig('all', 'all')
 
-function runWithConfig(name: string, configs: StylisticCustomizeOptions | string, ...items: Linter[]) {
+runWithConfig('prettier', 'prettier')
+
+// `input_prettier` has the same fixtures, formatted by Prettier with its default options.
+// The `prettier` config should leave them unchanged, so this run has no output files.
+runWithConfig('prettier-formatted', 'prettier', 'input_prettier')
+
+function runWithConfig(name: string, configs: StylisticCustomizeOptions | string, input = 'input', ...items: Linter[]) {
   it.concurrent(name, async ({ expect }) => {
-    const from = resolve(fixturesDir, 'input')
+    const from = resolve(fixturesDir, input)
     const output = resolve(fixturesDir, 'output', name)
     const target = resolve(targetDir, name)
 
