@@ -26,10 +26,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaFeatures: { jsx: false } },
     },
     {
-      code: 'const x = (1 as 1) | (1 as 1);',
-      parserOptions: { ecmaFeatures: { jsx: false } },
-    },
-    {
       code: 'const x = (<1>1) | (<1>1);',
       parserOptions: { ecmaFeatures: { jsx: false } },
     },
@@ -45,9 +41,22 @@ run<RuleOptions, MessageIds>({
       code: 'const x = 1 + 1 + (2 as 2);',
       parserOptions: { ecmaFeatures: { jsx: false } },
     },
+    'const x = (a as A) & b;',
+    'const x = (a satisfies A) < b;',
+    'const x = a == (b as B) & c;',
+    'const x = a && (b as B) ? c : d;',
+    'const x = a < (b as B);',
+    'const x = (a == b) as A;',
     {
-      code: 'const x = 1 | (2 as 2);',
-      parserOptions: { ecmaFeatures: { jsx: false } },
+      code: $`
+        const x = (
+          a + b
+        ) as A;
+      `,
+    },
+    {
+      code: 'const x = a || (b as B);',
+      options: ['functions'],
     },
     {
       code: 'const x = (<1>1) | 2;',
@@ -97,10 +106,6 @@ run<RuleOptions, MessageIds>({
       options: ['all', { nestedBinaryExpressions: false }],
     },
     {
-      code: 'const x = 1 | (2 as 2);',
-      options: ['all', { nestedBinaryExpressions: false }],
-    },
-    {
       code: 'const x = await (foo as Promise<void>);',
       options: ['all', { nestedBinaryExpressions: false }],
     },
@@ -110,14 +115,6 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: '(x as boolean) ? 1 : 0;',
-      options: ['all', { nestedBinaryExpressions: false }],
-    },
-    {
-      code: 'x ? (1 as 1) : 2;',
-      options: ['all', { nestedBinaryExpressions: false }],
-    },
-    {
-      code: 'x ? 1 : (2 as 2);',
       options: ['all', { nestedBinaryExpressions: false }],
     },
     {
@@ -160,11 +157,6 @@ run<RuleOptions, MessageIds>({
       code: 'new (1 as 1)();',
       options: ['all', { nestedBinaryExpressions: false }],
     },
-    {
-      code: 'const x = { ...(1 as 1), ...{} };',
-      options: ['all', { nestedBinaryExpressions: false }],
-    },
-    '<A {...(b as B)} {...(c satisfies C)} />',
     {
       code: 'throw (1 as 1);',
       options: ['all', { nestedBinaryExpressions: false }],
@@ -224,16 +216,6 @@ run<RuleOptions, MessageIds>({
       options: ['all', { nestedBinaryExpressions: false }],
     },
     {
-      code: 'x ? (<1>1) : 2;',
-      parserOptions: { ecmaFeatures: { jsx: false } },
-      options: ['all', { nestedBinaryExpressions: false }],
-    },
-    {
-      code: 'x ? 1 : (<2>2);',
-      parserOptions: { ecmaFeatures: { jsx: false } },
-      options: ['all', { nestedBinaryExpressions: false }],
-    },
-    {
       code: 'while (<boolean>foo) {};',
       parserOptions: { ecmaFeatures: { jsx: false } },
       options: ['all', { nestedBinaryExpressions: false }],
@@ -280,11 +262,6 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: 'new (<1>1)();',
-      parserOptions: { ecmaFeatures: { jsx: false } },
-      options: ['all', { nestedBinaryExpressions: false }],
-    },
-    {
-      code: 'const x = { ...(<1>1), ...{} };',
       parserOptions: { ecmaFeatures: { jsx: false } },
       options: ['all', { nestedBinaryExpressions: false }],
     },
@@ -628,6 +605,82 @@ run<RuleOptions, MessageIds>({
         { messageId: 'unexpected' },
         { messageId: 'unexpected' },
       ],
+    },
+    {
+      code: 'const x = (1 as 1) | (1 as 1);',
+      output: 'const x = (1 as 1) | 1 as 1;',
+      parserOptions: { ecmaFeatures: { jsx: false } },
+      errors: [{ messageId: 'unexpected', column: 22 }],
+    },
+    {
+      code: 'const x = 1 | (2 as 2);',
+      output: 'const x = 1 | 2 as 2;',
+      options: ['all', { nestedBinaryExpressions: false }],
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: 'const x = (a as A) || b;',
+      output: 'const x = a as A || b;',
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: 'const x = (a as A) ?? b;',
+      output: 'const x = a as A ?? b;',
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: 'const x = (a satisfies A) == b;',
+      output: 'const x = a satisfies A == b;',
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: 'const x = a && (b satisfies B)',
+      output: 'const x = a && b satisfies B',
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: 'x ? (1 as 1) : (2 satisfies 2);',
+      output: 'x ? 1 as 1 : 2 satisfies 2;',
+      errors: [
+        { messageId: 'unexpected', column: 5 },
+        { messageId: 'unexpected', column: 16 },
+      ],
+    },
+    {
+      code: 'x ? (<1>1) : (<2>2);',
+      output: 'x ? <1>1 : <2>2;',
+      parserOptions: { ecmaFeatures: { jsx: false } },
+      errors: [
+        { messageId: 'unexpected', column: 5 },
+        { messageId: 'unexpected', column: 14 },
+      ],
+    },
+    {
+      code: 'const x = { ...(1 as 1), ...(<2>2) };',
+      output: 'const x = { ...1 as 1, ...<2>2 };',
+      parserOptions: { ecmaFeatures: { jsx: false } },
+      errors: [
+        { messageId: 'unexpected', column: 16 },
+        { messageId: 'unexpected', column: 29 },
+      ],
+    },
+    {
+      code: '<A {...(b as B)} {...(c satisfies C)} />',
+      output: '<A {...b as B} {...c satisfies C} />',
+      errors: [
+        { messageId: 'unexpected', column: 8 },
+        { messageId: 'unexpected', column: 22 },
+      ],
+    },
+    {
+      code: 'const x = (a + b) as A;',
+      output: 'const x = a + b as A;',
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: 'async function f() { return (await a) satisfies A }',
+      output: 'async function f() { return await a satisfies A }',
+      errors: [{ messageId: 'unexpected' }],
     },
   ],
 })
