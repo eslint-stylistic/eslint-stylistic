@@ -107,6 +107,7 @@ This rule has an object option:
 - `"assignmentOperator"` (default: 1) enforces indentation level for the assignment operator and value in variable/type declarations and assignment expressions when they are on different lines than the left side of the assignment (e.g. variable name). This can also be set to `"off"` to disable the checking.
 - `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
 - `"tabLength"` (default: 4) when using tabbed indentation, the indentation used to calculate the insertion value of the template string
+- `"jsx"` enforces the indentation size used for JSX structures (element children, attributes, closing tags, fragments, JSX text and expression containers). It can be set to an absolute size in indentation characters, or to `"half"` for half of the base indent size. Defaults to the base indent size.
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
@@ -1221,6 +1222,46 @@ if (foo) {
 
 // comment intentionally de-indented
     doSomethingElse();
+}
+```
+
+:::
+
+### jsx
+
+Examples of additional **correct** code for this rule with the `4, { "jsx": 2 }` option:
+
+::: correct
+
+```jsx
+/* eslint @stylistic/indent: ["error", 4, { "jsx": 2 }] */
+
+function App() {
+    return (
+        <div
+          className="app"
+        >
+          <span>hello</span>
+        </div>
+    );
+}
+```
+
+:::
+
+Examples of **incorrect** code for this rule with the `4, { "jsx": 2 }` option:
+
+::: incorrect
+
+```jsx
+/* eslint @stylistic/indent: ["error", 4, { "jsx": 2 }] */
+
+function App() {
+    return (
+        <div>
+            <span>hello</span>
+        </div>
+    );
 }
 ```
 

@@ -382,6 +382,18 @@ export default createRule<RuleOptions, MessageIds>({
           tabLength: {
             type: 'number',
           },
+          jsx: {
+            oneOf: [
+              {
+                type: 'integer',
+                minimum: 0,
+              },
+              {
+                type: 'string',
+                enum: ['half'],
+              },
+            ],
+          },
         },
         additionalProperties: false,
       },
@@ -434,6 +446,13 @@ export default createRule<RuleOptions, MessageIds>({
 
     const indentType: IndentContext['indentType'] = indentOption === 'tab' ? 'tab' : 'space'
     const indentSize = indentOption === 'tab' ? 1 : indentOption!
+    const jsxOption = userOptions?.jsx
+    const jsxIndentSize = jsxOption === 'half'
+      ? Math.max(1, Math.round(indentSize / 2))
+      : (jsxOption ?? indentSize)
+    // Offset ratio applied to JSX structures, so nested JSX uses `jsxIndentSize`
+    // instead of the base `indentSize`. `1` when the option is not set.
+    const jsxOffset = jsxIndentSize / indentSize
     const variableIndent = userOptions!.VariableDeclarator!
     const options = {
       ...userOptions,
@@ -970,7 +989,7 @@ export default createRule<RuleOptions, MessageIds>({
         const parentIndent = new RegExp(`^[${offsets._indentType}]+`).exec(parentIndentText)
         const parentIndentSize = parentIndent ? parentIndent[0].length : 0
 
-        const targetIndent = parentIndentSize + indentSize
+        const targetIndent = parentIndentSize + jsxIndentSize
 
         nodeIndentsPerLine.forEach((nodeIndent) => {
           if (nodeIndent === targetIndent)
@@ -1005,7 +1024,7 @@ export default createRule<RuleOptions, MessageIds>({
             node.children,
             sourceCode.getFirstToken(node.openingElement)!,
             sourceCode.getFirstToken(node.closingElement)!,
-            1,
+            jsxOffset,
           )
         }
       },
@@ -1022,27 +1041,27 @@ export default createRule<RuleOptions, MessageIds>({
           closingToken = sourceCode.getLastToken(node)!
         }
         offsets.setDesiredOffsets(node.name.range, firstToken, 0)
-        addElementListIndent(ctx, node.attributes, firstToken, closingToken, 1)
+        addElementListIndent(ctx, node.attributes, firstToken, closingToken, jsxOffset)
       },
 
       JSXClosingElement(node) {
         const firstToken = sourceCode.getFirstToken(node)
 
-        offsets.setDesiredOffsets(node.name.range, firstToken, 1)
+        offsets.setDesiredOffsets(node.name.range, firstToken, jsxOffset)
       },
 
       JSXFragment(node) {
         const firstOpeningToken = sourceCode.getFirstToken(node.openingFragment)!
         const firstClosingToken = sourceCode.getFirstToken(node.closingFragment)!
 
-        addElementListIndent(ctx, node.children, firstOpeningToken, firstClosingToken, 1)
+        addElementListIndent(ctx, node.children, firstOpeningToken, firstClosingToken, jsxOffset)
       },
 
       JSXOpeningFragment(node) {
         const firstToken = sourceCode.getFirstToken(node)!
         const closingToken = sourceCode.getLastToken(node)!
 
-        offsets.setDesiredOffsets(node.range, firstToken, 1)
+        offsets.setDesiredOffsets(node.range, firstToken, jsxOffset)
         offsets.matchOffsetOf(firstToken, closingToken)
       },
 
@@ -1050,7 +1069,7 @@ export default createRule<RuleOptions, MessageIds>({
         const firstToken = sourceCode.getFirstToken(node)!
         const closingToken = sourceCode.getLastToken(node)!
 
-        offsets.setDesiredOffsets(node.range, firstToken, 1)
+        offsets.setDesiredOffsets(node.range, firstToken, jsxOffset)
 
         const slashToken = sourceCode.getLastToken(node, token => token.value === '/')
         if (slashToken) {
@@ -1067,7 +1086,7 @@ export default createRule<RuleOptions, MessageIds>({
         offsets.setDesiredOffsets(
           [openingCurly.range[1], closingCurly.range[0]],
           openingCurly,
-          1,
+          jsxOffset,
         )
       },
 
@@ -1078,7 +1097,7 @@ export default createRule<RuleOptions, MessageIds>({
         offsets.setDesiredOffsets(
           [openingCurly.range[1], closingCurly.range[0]],
           openingCurly,
-          1,
+          jsxOffset,
         )
       },
 

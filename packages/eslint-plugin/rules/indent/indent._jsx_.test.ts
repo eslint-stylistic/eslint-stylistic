@@ -1171,6 +1171,87 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2],
     },
+    {
+      code: `
+        <App>
+          <Foo />
+        </App>
+      `,
+      options: [4, { jsx: 2 }],
+    },
+    {
+      code: `
+        <A>
+          <B>
+            <C />
+          </B>
+        </A>
+      `,
+      options: [4, { jsx: 2 }],
+    },
+    {
+      code: `
+        <App
+          foo="bar"
+          baz={1}
+        >
+          <Foo />
+        </App>
+      `,
+      options: [4, { jsx: 2 }],
+    },
+    {
+      code: `
+        <>
+          <Foo />
+        </>
+      `,
+      options: [4, { jsx: 2 }],
+    },
+    {
+      code: `
+        <App>
+          hello
+        </App>
+      `,
+      options: [4, { jsx: 2 }],
+    },
+    {
+      code: `
+        <App>
+          {foo}
+        </App>
+      `,
+      options: [4, { jsx: 2 }],
+    },
+    {
+      code: `
+        <App>
+          <Foo />
+        </App>
+      `,
+      options: [4, { jsx: 'half' }],
+    },
+    {
+      code: `
+        <App>
+            <Foo />
+        </App>
+      `,
+      options: [4, { jsx: 4 }],
+    },
+    {
+      code: `
+        function a() {
+            return (
+                <div>
+                  <span />
+                </div>
+            )
+        }
+      `,
+      options: [4, { jsx: 2 }],
+    },
   ),
 
   invalid: invalids(
@@ -2383,6 +2464,38 @@ run<RuleOptions, MessageIds>({
         />
       `,
       options: [2],
+    },
+    {
+      code: `
+        <App>
+            <Foo />
+        </App>
+      `,
+      output: `
+        <App>
+          <Foo />
+        </App>
+      `,
+      options: [4, { jsx: 2 }],
+      errors: expectedErrors([
+        [2, 2, 4],
+      ]),
+    },
+    {
+      code: `
+        <App>
+          <Foo />
+        </App>
+      `,
+      output: `
+        <App>
+            <Foo />
+        </App>
+      `,
+      options: [4],
+      errors: expectedErrors([
+        [2, 4, 2],
+      ]),
     },
   ),
 })
