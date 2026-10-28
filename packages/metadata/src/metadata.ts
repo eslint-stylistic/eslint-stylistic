@@ -711,6 +711,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "entry": "packages/eslint-plugin/rules/max-statements-per-line/max-statements-per-line.ts",
         "docsEntry": "packages/eslint-plugin/rules/max-statements-per-line/README.md",
         "meta": {
+          "fixable": "whitespace",
           "docs": {
             "description": "Enforce a maximum number of statements allowed per line",
             "experimental": false,
