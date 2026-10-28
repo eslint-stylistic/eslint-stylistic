@@ -368,6 +368,9 @@ run<RuleOptions, MessageIds>({
     `type Foo = T extends U ? X | Y : V extends W ? 1 : 2`,
     `function f<T extends A | B = A | B>() {}`,
     `type Foo = Map<A, B | C>`,
+    'const f = (w: string) => ({ a: 1 })[w] as number',
+    'const f = (w: string) => ({ a: 1 })[w] satisfies number',
+    'const f = (w: string) => ({ a: 1 })[w]!',
   ],
 
   invalid: [
