@@ -164,6 +164,7 @@ run<RuleOptions, MessageIds>({
       code: 'const x = { ...(1 as 1), ...{} };',
       options: ['all', { nestedBinaryExpressions: false }],
     },
+    '<A {...(b as B)} {...(c satisfies C)} />',
     {
       code: 'throw (1 as 1);',
       options: ['all', { nestedBinaryExpressions: false }],
@@ -368,6 +369,9 @@ run<RuleOptions, MessageIds>({
     `type Foo = (() => string)[]`,
     `type Foo = (new () => string)[]`,
     `type Foo = (keyof T)[]`,
+    'const f = (w: string) => ({ a: 1 })[w] as number',
+    'const f = (w: string) => ({ a: 1 })[w] satisfies number',
+    'const f = (w: string) => ({ a: 1 })[w]!',
   ],
 
   invalid: [

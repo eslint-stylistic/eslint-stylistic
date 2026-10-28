@@ -871,6 +871,16 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2],
     },
+    {
+      code: $`
+        condition
+          ? JSON.stringify({
+              foo: 'bar'
+            } satisfies Options)
+          : undefined
+      `,
+      options: [2, { offsetTernaryExpressions: true }],
+    },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/875
     $`
       export function isAuthenticated(authResult: AuthenticationResult | null | undefined)

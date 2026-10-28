@@ -31,6 +31,10 @@ run<RuleOptions, MessageIds>({
     'a\n.filter(items => {\n\n})',
     'new Foo(a, b)',
     'new Foo(\na,\nb\n)',
+    // a parenthesized last argument, e.g. a JSDoc type cast
+    'someFunction(\n/** @type {SomeType} */ ({ value: "something" })\n)',
+    'someFunction(\na,\n(b)\n)',
+    'new Foo(\na,\n(b)\n)',
     'new (Foo())(a, b)',
     'new Foo\nbar()',
     {
@@ -220,6 +224,16 @@ run<RuleOptions, MessageIds>({
     `export * from 'foo' with {}`,
   ],
   invalid: [
+    {
+      code: 'someFunction(\na,\n(b))',
+      output: 'someFunction(\na,\n(b)\n)',
+      errors: [{ messageId: 'shouldWrap' }],
+    },
+    {
+      code: 'someFunction(\n/** @type {SomeType} */ ({ value: "something" }))',
+      output: 'someFunction(\n/** @type {SomeType} */ ({ value: "something" })\n)',
+      errors: [{ messageId: 'shouldWrap' }],
+    },
     {
       code: $`
         const array = [ ]
