@@ -797,6 +797,44 @@ run<RuleOptions, MessageIds>({
       errors: [{ messageId: 'missingValue' }],
     },
     {
+      // align: value — the opening paren of a parenthesized value is the
+      // alignment anchor and must survive the autofix. Before the fix the rule
+      // anchored on the inner type and the autofix deleted the `(`, emitting
+      // something like `aaa: 123);`. See #189.
+      code: $`
+        interface X {
+          b: 7;
+          aaa: (123);
+        }
+      `,
+      output: $`
+        interface X {
+          b:   7;
+          aaa: (123);
+        }
+      `,
+      options: [{ align: 'value' }],
+      errors: [{ messageId: 'missingValue' }],
+    },
+    {
+      // align: value — parenthesized value is aligned from its opening paren
+      // alongside a longer non-parenthesized sibling. See #189.
+      code: $`
+        interface X {
+          aaa: 7;
+          b: (123);
+        }
+      `,
+      output: $`
+        interface X {
+          aaa: 7;
+          b:   (123);
+        }
+      `,
+      options: [{ align: 'value' }],
+      errors: [{ messageId: 'missingValue' }],
+    },
+    {
       code: $`
         class X {
           a: number;
