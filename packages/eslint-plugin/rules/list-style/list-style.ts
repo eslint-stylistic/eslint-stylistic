@@ -427,6 +427,14 @@ export default createRule<RuleOptions, MessageIds>({
       }
 
       switch (node.type) {
+        // fun(a, (b))
+        // fun(/** @type {T} */ (b))
+        case AST_NODE_TYPES.CallExpression:
+        case AST_NODE_TYPES.NewExpression: {
+          const maybeRight = sourceCode.getLastToken(node)
+          return maybeRight && isClosingParenToken(maybeRight) ? maybeRight : null
+        }
+
         // const foo = [a, ]
         case AST_NODE_TYPES.ArrayExpression:
           return sourceCode.getLastToken(node)
