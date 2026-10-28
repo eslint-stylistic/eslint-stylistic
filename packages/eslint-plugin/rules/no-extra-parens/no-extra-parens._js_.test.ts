@@ -641,6 +641,8 @@ run<RuleOptions, MessageIds>({
       code: 'let a = { ...(b, c) }',
       parserOptions: { ecmaVersion: 2018 },
     },
+    '<A {...b} />',
+    '<A {...(b, c)} />',
     'var [x = (1, foo)] = bar',
     'class A extends B {}',
     'const A = class extends B {}',
@@ -965,6 +967,14 @@ run<RuleOptions, MessageIds>({
         };
       `,
       options: ['all', { ignoredNodes: ['SpreadElement'] }],
+    },
+    {
+      code: '<A {...(a ? b : c)} {...(b ?? c)} />',
+      options: ['all', { allowNodesInSpreadElement: { LogicalExpression: true, ConditionalExpression: true } }],
+    },
+    {
+      code: '<A {...(a ? b : c)} {...(b ?? c)} />',
+      options: ['all', { ignoredNodes: ['JSXSpreadAttribute'] }],
     },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/872
     {
@@ -2127,6 +2137,26 @@ run<RuleOptions, MessageIds>({
       'let a = {...(b, c)}',
       1,
       { parserOptions: { ecmaVersion: 2018 } },
+    ),
+    invalid(
+      '<A {...(b)} />',
+      '<A {...b} />',
+      1,
+    ),
+    invalid(
+      '<A {...((b, c))} />',
+      '<A {...(b, c)} />',
+      1,
+    ),
+    invalid(
+      '<A {...(b ?? c)} />',
+      '<A {...b ?? c} />',
+      1,
+    ),
+    invalid(
+      '<A {...(a ? b : c)} />',
+      '<A {...a ? b : c} />',
+      1,
     ),
     invalid(
       'class A extends (B) {}',
