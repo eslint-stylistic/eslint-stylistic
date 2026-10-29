@@ -178,6 +178,17 @@ export default createRule<RuleOptions, MessageIds>({
 
         validateCurlyPair(openingCurly, closingCurly)
       },
+      TSInterfaceBody(node) {
+        validateCurlyPair(sourceCode.getFirstToken(node)!, sourceCode.getLastToken(node)!)
+      },
+      TSEnumDeclaration(node) {
+        const closingCurly = sourceCode.getLastToken(node)!
+        const openingCurly = sourceCode.getTokenBefore(
+          node.members.length ? node.members[0] : closingCurly,
+        )!
+
+        validateCurlyPair(openingCurly, closingCurly)
+      },
     }
   },
 })

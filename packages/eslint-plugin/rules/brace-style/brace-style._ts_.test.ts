@@ -61,6 +61,34 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['allman'],
     },
+    {
+      code: 'interface Foo {\n  a: string;\n}\nenum Bar {\n  A,\n}',
+      options: ['1tbs'],
+    },
+    {
+      code: 'interface Foo {\n  a: string;\n}\nenum Bar {\n  A,\n}',
+      options: ['stroustrup'],
+    },
+    {
+      code: $`
+        interface Foo
+        {
+          a: string;
+        }
+        const enum Bar
+        {
+          A,
+        }
+        declare enum Empty
+        {
+        }
+      `,
+      options: ['allman'],
+    },
+    {
+      code: 'interface Foo { a: string }\nenum Bar { A }',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
   ],
 
   invalid: [
@@ -138,6 +166,27 @@ run<RuleOptions, MessageIds>({
       output: 'namespace Foo \n{ \n }',
       options: ['allman'],
       errors: [{ messageId: 'sameLineOpen' }],
+    },
+    // #1193: interface and enum bodies follow the style too.
+    {
+      code: 'interface Foo {\n  a: string;\n}\nenum Bar {\n  A,\n}',
+      output: 'interface Foo \n{\n  a: string;\n}\nenum Bar \n{\n  A,\n}',
+      options: ['allman'],
+      errors: [{ messageId: 'sameLineOpen' }, { messageId: 'sameLineOpen' }],
+    },
+    {
+      code: 'interface Foo\n{\n  a: string;\n}\nenum Bar\n{\n  A,\n}',
+      output: 'interface Foo {\n  a: string;\n}\nenum Bar {\n  A,\n}',
+      errors: [{ messageId: 'nextLineOpen' }, { messageId: 'nextLineOpen' }],
+    },
+    {
+      code: 'interface Foo { a: string;\n}\nenum Bar { A,\n  B }',
+      output: 'interface Foo {\n a: string;\n}\nenum Bar {\n A,\n  B \n}',
+      errors: [
+        { messageId: 'blockSameLine' },
+        { messageId: 'blockSameLine' },
+        { messageId: 'singleLineClose' },
+      ],
     },
   ],
 })
