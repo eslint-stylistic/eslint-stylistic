@@ -186,6 +186,31 @@ run<RuleOptions, MessageIds>({
             `,
       options: ['separate-lines'],
     },
+    // a JSDoc comment only needs the `/**` opener, whatever the indentation of its other lines
+    {
+      code: '/**\n* @type {number}\n */\nconst a = 1',
+      options: ['separate-lines'],
+    },
+    {
+      code: '/**\n* @type {number}\n */\nconst a = 1',
+      options: ['bare-block'],
+    },
+    {
+      code: '/**\n@type {number}\n*/\nconst a = 1',
+      options: ['separate-lines'],
+    },
+    {
+      code: '/**\n@type {number}\n*/\nconst a = 1',
+      options: ['bare-block'],
+    },
+    {
+      code: '/**\n\t* @type {number}\n\t*/\nconst a = 1',
+      options: ['separate-lines'],
+    },
+    {
+      code: '/**\n\t* @type {number}\n\t*/\nconst a = 1',
+      options: ['bare-block'],
+    },
     {
       code: `
                 // a comment

@@ -110,8 +110,8 @@ export default createRule<RuleOptions, MessageIds>({
 
       const lines = firstComment.value.split(LINEBREAK_MATCHER)
 
+      // JSDoc only needs the `/**` opener, the inner lines can be indented in any way
       return /^\*\s*$/u.test(lines[0])
-        && lines.slice(1, -1).every(line => /^\s* /u.test(line))
         && isWhiteSpaces(lines.at(-1)!)
     }
 
