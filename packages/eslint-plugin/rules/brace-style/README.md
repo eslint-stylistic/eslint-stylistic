@@ -424,6 +424,10 @@ class D { static { foo(); } }
 
 :::
 
+## TypeScript Interfaces and Enums
+
+For TypeScript `interface` and `enum` declarations, this rule only checks the **placement of the opening `{`** relative to the declaration head (e.g. enforcing Allman puts the brace on its own line). The newlines _inside_ the braces — between `{` and the first member, and between the last member and `}` — are governed by [`object-curly-newline`](./object-curly-newline). Enable both rules together for full coverage.
+
 ## When Not To Use It
 
 If you don't want to enforce a particular brace style, don't enable this rule.
