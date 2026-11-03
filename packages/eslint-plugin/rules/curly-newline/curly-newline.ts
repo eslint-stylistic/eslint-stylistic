@@ -1,6 +1,6 @@
 import type { JSONSchema, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isCommentToken, isTokenOnSameLine } from '#utils/ast'
+import { getCommentsBetween, isCommentToken, isSingleLine, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const commonProperties = {
@@ -230,6 +230,15 @@ export default createRule<RuleOptions, MessageIds>({
         }
       }
       else {
+        // A block holding only comments can't be put on one line
+        // if one of them is a line comment or spans several lines.
+        if (
+          first === closeBrace
+          && getCommentsBetween(sourceCode, openBrace, closeBrace).some(comment => comment.type === 'Line' || !isSingleLine(comment))
+        ) {
+          return
+        }
+
         const consistent = options.consistent
         const hasLineBreakBetweenOpenBraceAndFirst = !isTokenOnSameLine(openBrace, first)
         const hasLineBreakBetweenCloseBraceAndLast = !isTokenOnSameLine(last, closeBrace)
