@@ -13,6 +13,18 @@ run<RuleOptions, MessageIds>({
   },
 
   valid: valids<RuleOptions>(
+    ...['&zwnj;', '&#8204;', '&#x200C;', '\u200C'].flatMap(separator => [
+      {
+        code: `<div>some text ${separator}\n<em>more text</em></div>`,
+      },
+      {
+        code: `<div><em>some text</em>\n${separator} more text</div>`,
+      },
+    ]),
+    {
+      code: '<>some text &zwnj;\n<em>more text</em>\n&zwnj; final text</>',
+      features: ['fragment'],
+    },
     {
       code: `
         <App>
@@ -186,6 +198,22 @@ run<RuleOptions, MessageIds>({
   ),
 
   invalid: invalids<RuleOptions, MessageIds>(
+    {
+      code: '<div>some &zwnj; text\n<em>more text</em></div>',
+      errors: [{ messageId: 'spacingBeforeNext', data: { element: 'em' } }],
+    },
+    {
+      code: '<div><em>some text</em>\nmore &zwnj; text</div>',
+      errors: [{ messageId: 'spacingAfterPrev', data: { element: 'em' } }],
+    },
+    {
+      code: '<div>some text &zwnj;\n<em>more text</em>\nfinal text</div>',
+      errors: [{ messageId: 'spacingAfterPrev', data: { element: 'em' } }],
+    },
+    {
+      code: '<div>some text\n<em>more text</em>\n&zwnj; final text</div>',
+      errors: [{ messageId: 'spacingBeforeNext', data: { element: 'em' } }],
+    },
     {
       code: `
         <App>
