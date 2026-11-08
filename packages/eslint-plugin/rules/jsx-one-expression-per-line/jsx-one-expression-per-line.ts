@@ -251,7 +251,11 @@ export default createRule<RuleOptions, MessageIds>({
           const details = fixDetailsByNode[key]
 
           const nodeToReport = details.node
-          const source = details.source.replace(/(^ +| +$)/g, '')
+          // Keep trailing spaces until the next child's fix can preserve them.
+          const source = details.source.replace(
+            details.trailingNewLine || /\n *$/.test(details.source) ? /(^ +| +$)/g : /^ +/g,
+            '',
+          )
 
           const leadingSpaceString = details.leadingSpace ? '\n{\' \'}' : ''
           const trailingSpaceString = details.trailingSpace ? '{\' \'}\n' : ''
