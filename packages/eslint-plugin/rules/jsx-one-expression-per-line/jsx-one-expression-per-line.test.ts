@@ -302,6 +302,49 @@ run<RuleOptions, MessageIds>({
 
   invalid: invalids<RuleOptions, MessageIds>(
     {
+      code: '<p>before <b /> after</p>',
+      output: '<p>\nbefore \n{\' \'}\n<b />\n{\' \'}\nafter\n</p>',
+      recursive: 10,
+      verifyAfterFix: true,
+      errors: [
+        { messageId: 'moveToNewLine' },
+        { messageId: 'moveToNewLine' },
+        { messageId: 'moveToNewLine' },
+      ],
+    },
+    {
+      code: '<>before {x}</>',
+      output: '<>\nbefore \n{\' \'}\n{x}\n</>',
+      features: ['fragment'],
+      recursive: 10,
+      verifyAfterFix: true,
+      errors: [
+        { messageId: 'moveToNewLine' },
+        { messageId: 'moveToNewLine' },
+      ],
+    },
+    {
+      code: '<p>before{x}</p>',
+      output: '<p>\nbefore\n{x}\n</p>',
+      recursive: 10,
+      verifyAfterFix: true,
+      errors: [
+        { messageId: 'moveToNewLine' },
+        { messageId: 'moveToNewLine' },
+      ],
+    },
+    {
+      code: '<p>The params are {x}</p>',
+      output: '<p>\nThe params are \n{\' \'}\n{x}\n</p>',
+      options: [{ allow: 'single-child' }],
+      recursive: 10,
+      verifyAfterFix: true,
+      errors: [
+        { messageId: 'moveToNewLine' },
+        { messageId: 'moveToNewLine' },
+      ],
+    },
+    {
       code: `
         <App>{"foo"}</App>
       `,
