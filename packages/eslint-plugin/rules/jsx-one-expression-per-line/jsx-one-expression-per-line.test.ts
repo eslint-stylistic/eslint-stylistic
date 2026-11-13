@@ -1772,5 +1772,26 @@ Go to page 2
         { messageId: 'moveToNewLine' },
       ],
     },
+    {
+      code: '<p>The params are {x}</p>',
+      output: '<p>\nThe params are\n{\' \'}\n{x}\n</p>',
+      recursive: 10,
+      verifyAfterFix: true,
+      errors: [
+        { messageId: 'moveToNewLine' },
+        { messageId: 'moveToNewLine' },
+      ],
+    },
+    {
+      code: '<p>before <b /> after</p>',
+      output: '<p>\nbefore\n{\' \'}\n<b />\n{\' \'}\nafter\n</p>',
+      recursive: 10,
+      verifyAfterFix: true,
+      errors: [
+        { messageId: 'moveToNewLine' },
+        { messageId: 'moveToNewLine' },
+        { messageId: 'moveToNewLine' },
+      ],
+    },
   ),
 })

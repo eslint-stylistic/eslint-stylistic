@@ -121,6 +121,7 @@ export default createRule<RuleOptions, MessageIds>({
         trailingSpace?: boolean
         leadingNewLine?: boolean
         trailingNewLine?: boolean
+        trailingSpaceDeferred?: boolean
       }> = {}
 
       children.forEach((child) => {
@@ -190,6 +191,12 @@ export default createRule<RuleOptions, MessageIds>({
               prevChild = childrenGroupedByLine[line][i - 1]
             }
 
+            // Text ending in a space and followed by another child on the same line.
+            // The next child's own fix is deferred to a later pass (adjacent fixes
+            // overlap), by which time the trailing space would be stripped from this
+            // text and no longer visible, so this text must preserve it itself.
+            let trailingSpaceBeforeSibling = false
+
             if (i === lastIndex) {
               if (line === closingElementStartLine)
                 nextChild = closingElement
@@ -197,15 +204,19 @@ export default createRule<RuleOptions, MessageIds>({
             else {
               // We don't need to append a trailing because the next child will prepend a leading.
               // nextChild = childrenGroupedByLine[line][i + 1];
+              trailingSpaceBeforeSibling = (child.type === 'Literal' || child.type === 'JSXText') && child.raw.endsWith(' ')
             }
 
             if (!prevChild && !nextChild)
               return
 
+            // The previous text is itself fixed (it has a previous child), so it preserves its own trailing space.
+            const prevPreservesTrailingSpace = i > 1 || (i === 1 && line === openingElementEndLine)
+
             const spaceBetweenPrev = () => {
               // There must only be one token at most
               const tokenBetweenNodes = context.sourceCode.getTokensBetween(prevChild!, child)[0]
-              return ((prevChild!.type === 'Literal' || prevChild!.type === 'JSXText') && prevChild!.raw.endsWith(' '))
+              return ((prevChild!.type === 'Literal' || prevChild!.type === 'JSXText') && prevChild!.raw.endsWith(' ') && !prevPreservesTrailingSpace)
                 || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.startsWith(' '))
                 || isWhiteSpaces(tokenBetweenNodes?.value)
             }
@@ -221,6 +232,7 @@ export default createRule<RuleOptions, MessageIds>({
             const source = context.sourceCode.getText(child)
             const leadingSpace = !!(prevChild && spaceBetweenPrev())
             const trailingSpace = !!(nextChild && spaceBetweenNext())
+            const trailingSpaceDeferred = !!prevChild && trailingSpaceBeforeSibling
             const leadingNewLine = !!prevChild
             const trailingNewLine = !!nextChild
 
@@ -244,6 +256,9 @@ export default createRule<RuleOptions, MessageIds>({
 
             if (trailingSpace)
               fixDetailsByNode[key].trailingSpace = true
+
+            if (trailingSpaceDeferred)
+              fixDetailsByNode[key].trailingSpaceDeferred = true
           })
         })
 
@@ -254,7 +269,9 @@ export default createRule<RuleOptions, MessageIds>({
           const source = details.source.replace(/(^ +| +$)/g, '')
 
           const leadingSpaceString = details.leadingSpace ? '\n{\' \'}' : ''
-          const trailingSpaceString = details.trailingSpace ? '{\' \'}\n' : ''
+          const trailingSpaceString = details.trailingSpace
+            ? '{\' \'}\n'
+            : details.trailingSpaceDeferred ? '\n{\' \'}' : ''
           const leadingNewLineString = details.leadingNewLine ? '\n' : ''
           const trailingNewLineString = details.trailingNewLine ? '\n' : ''
 
