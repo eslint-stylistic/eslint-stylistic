@@ -3,9 +3,112 @@
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
 
+import type { InvalidTestCase, ValidTestCase } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './quote-props'
+
+const conciseMethods = [
+  {
+    code: '({ foo() {} })',
+    output: '({ "foo"() {} })',
+    options: ['always', { ignoreConciseMethods: false }],
+    errors: [{ messageId: 'unquotedPropertyFound', data: { property: 'foo' } }],
+  },
+  {
+    code: '({ async foo() {}, *bar() {}, async *baz() {} })',
+    output: '({ async "foo"() {}, *"bar"() {}, async *"baz"() {} })',
+    options: ['always', { ignoreConciseMethods: false }],
+    errors: [
+      { messageId: 'unquotedPropertyFound', data: { property: 'foo' } },
+      { messageId: 'unquotedPropertyFound', data: { property: 'bar' } },
+      { messageId: 'unquotedPropertyFound', data: { property: 'baz' } },
+    ],
+  },
+  {
+    code: '({ "foo"() {}, async "bar"() {}, *"baz"() {}, async *"qux"() {} })',
+    output: '({ foo() {}, async bar() {}, *baz() {}, async *qux() {} })',
+    options: ['as-needed', { ignoreConciseMethods: false }],
+    errors: [
+      { messageId: 'unnecessarilyQuotedProperty', data: { property: 'foo' } },
+      { messageId: 'unnecessarilyQuotedProperty', data: { property: 'bar' } },
+      { messageId: 'unnecessarilyQuotedProperty', data: { property: 'baz' } },
+      { messageId: 'unnecessarilyQuotedProperty', data: { property: 'qux' } },
+    ],
+  },
+  {
+    code: '({ foo() {}, "bar": 0 })',
+    output: '({ "foo"() {}, "bar": 0 })',
+    options: ['consistent', { ignoreConciseMethods: false }],
+    errors: [{ messageId: 'inconsistentlyQuotedProperty', data: { key: 'foo' } }],
+  },
+  {
+    code: '({ "foo-bar"() {}, bar: 0, baz() {} })',
+    output: '({ "foo-bar"() {}, "bar": 0, "baz"() {} })',
+    options: ['consistent', { ignoreConciseMethods: false }],
+    errors: [
+      { messageId: 'inconsistentlyQuotedProperty', data: { key: 'bar' } },
+      { messageId: 'inconsistentlyQuotedProperty', data: { key: 'baz' } },
+    ],
+  },
+  {
+    code: '({ "foo"() {}, "bar": 0 })',
+    output: '({ foo() {}, bar: 0 })',
+    options: ['consistent-as-needed', { ignoreConciseMethods: false }],
+    errors: [{ messageId: 'redundantQuoting' }, { messageId: 'redundantQuoting' }],
+  },
+  {
+    code: '({ "foo-bar"() {}, bar() {}, baz: 0 })',
+    output: '({ "foo-bar"() {}, "bar"() {}, "baz": 0 })',
+    options: ['consistent-as-needed', { ignoreConciseMethods: false }],
+    errors: [
+      { messageId: 'inconsistentlyQuotedProperty', data: { key: 'bar' } },
+      { messageId: 'inconsistentlyQuotedProperty', data: { key: 'baz' } },
+    ],
+  },
+  {
+    code: '({ while() {} })',
+    output: '({ "while"() {} })',
+    options: ['as-needed', { ignoreConciseMethods: false, keywords: true }],
+    errors: [{ messageId: 'unquotedReservedProperty', data: { property: 'while' } }],
+  },
+  {
+    code: '({ 1() {} })',
+    output: '({ "1"() {} })',
+    options: ['as-needed', { ignoreConciseMethods: false, numbers: true }],
+    errors: [{ messageId: 'unquotedNumericProperty', data: { property: '1' } }],
+  },
+  {
+    code: '({ "1"() {} })',
+    output: '({ 1() {} })',
+    options: ['as-needed', { ignoreConciseMethods: false }],
+    errors: [{ messageId: 'unnecessarilyQuotedProperty', data: { property: '1' } }],
+  },
+  {
+    code: '({ "foo"() {}, while() {} })',
+    output: '({ "foo"() {}, "while"() {} })',
+    options: ['as-needed', { ignoreConciseMethods: false, keywords: true, unnecessary: false }],
+    errors: [{ messageId: 'unquotedReservedProperty', data: { property: 'while' } }],
+  },
+  {
+    code: '({ while() {}, foo() {} })',
+    output: '({ "while"() {}, "foo"() {} })',
+    options: ['consistent-as-needed', { ignoreConciseMethods: false, keywords: true }],
+    errors: [
+      { messageId: 'requireQuotesDueToReservedWord', data: { property: 'while' } },
+      { messageId: 'requireQuotesDueToReservedWord', data: { property: 'while' } },
+    ],
+  },
+  {
+    code: '({ get foo() { return 1 }, set foo(value) {} })',
+    output: '({ get "foo"() { return 1 }, set "foo"(value) {} })',
+    options: ['always', { ignoreConciseMethods: false }],
+    errors: [
+      { messageId: 'unquotedPropertyFound', data: { property: 'foo' } },
+      { messageId: 'unquotedPropertyFound', data: { property: 'foo' } },
+    ],
+  },
+] satisfies InvalidTestCase<RuleOptions, MessageIds>[]
 
 run<RuleOptions, MessageIds>({
   name: 'quote-props',
@@ -13,6 +116,23 @@ run<RuleOptions, MessageIds>({
   lang: 'js',
 
   valid: [
+    // Re-lint every fixed output: the shared runner disables verifyAfterFix.
+    ...conciseMethods.map(({ output, options }) => ({ code: output, options })),
+    '({ foo() {}, async bar() {}, *baz() {}, async *qux() {} })',
+    { code: '({ foo() {}, "bar"() {} })', options: ['always', { ignoreConciseMethods: true }] },
+    { code: '({ "foo"() {} })', options: ['as-needed'] },
+    { code: '({ "foo"() {} })', options: ['as-needed', { ignoreConciseMethods: true }] },
+    { code: '({ foo() {}, "bar"() {}, baz: 0 })', options: ['consistent'] },
+    { code: '({ foo() {}, "bar"() {}, baz: 0 })', options: ['consistent', { ignoreConciseMethods: true }] },
+    { code: '({ "foo-bar"() {}, baz: 0 })', options: ['consistent-as-needed'] },
+    { code: '({ "foo-bar"() {}, baz: 0 })', options: ['consistent-as-needed', { ignoreConciseMethods: true }] },
+    { code: '({ "foo-bar"() {}, "0x0"() {} })', options: ['as-needed', { ignoreConciseMethods: false }] },
+    { code: '({ "while"() {} })', options: ['as-needed', { ignoreConciseMethods: false, keywords: true }] },
+    { code: '({ "foo"() {} })', options: ['as-needed', { ignoreConciseMethods: false, unnecessary: false }] },
+    ...(['always', 'as-needed', 'consistent', 'consistent-as-needed'] as const).map<ValidTestCase<RuleOptions>>(mode => ({
+      code: '({ [key]() {}, [other]: 0, shorthand, ...rest }); class C { foo() {} "bar"() {} }',
+      options: [mode, { ignoreConciseMethods: false }],
+    })),
     '({ \'0\': 0 })',
     '({ \'a\': 0 })',
     '({ "a": 0 })',
@@ -106,7 +226,7 @@ run<RuleOptions, MessageIds>({
     'export {foo} from "./foo" with { "a": "foo" }',
     'export * from "./foo" with { "a": "foo" }',
   ],
-  invalid: [{
+  invalid: [...conciseMethods, {
     code: '({ a: 0 })',
     output: '({ "a": 0 })',
     errors: [{

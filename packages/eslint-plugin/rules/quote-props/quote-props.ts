@@ -44,6 +44,9 @@ export default createRule<RuleOptions, MessageIds>({
                 numbers: {
                   type: 'boolean',
                 },
+                ignoreConciseMethods: {
+                  type: 'boolean',
+                },
               },
               additionalProperties: false,
             },
@@ -69,6 +72,7 @@ export default createRule<RuleOptions, MessageIds>({
       keywords: KEYWORDS = false,
       unnecessary: CHECK_UNNECESSARY = true,
       numbers: NUMBERS = false,
+      ignoreConciseMethods: IGNORE_CONCISE_METHODS = true,
     } = options
 
     const sourceCode = context.sourceCode
@@ -125,7 +129,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node Property AST node
      */
     function checkUnnecessaryQuotes(node: Tree.Property | Tree.ImportAttribute | Tree.TSPropertySignature | Tree.TSEnumMember): void {
-      if (node.type === 'Property' && (node.method || node.computed || node.shorthand))
+      if (node.type === 'Property' && ((node.method && IGNORE_CONCISE_METHODS) || node.computed || node.shorthand))
         return
       if (node.type !== 'ImportAttribute' && node.computed)
         return
@@ -181,7 +185,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node Property AST node
      */
     function checkOmittedQuotes(node: Tree.Property | Tree.ImportAttribute | Tree.TSPropertySignature | Tree.TSEnumMember): void {
-      if (node.type === 'Property' && (node.method || node.computed || node.shorthand))
+      if (node.type === 'Property' && ((node.method && IGNORE_CONCISE_METHODS) || node.computed || node.shorthand))
         return
       if (node.type !== 'ImportAttribute' && node.computed)
         return
@@ -211,7 +215,7 @@ export default createRule<RuleOptions, MessageIds>({
             // When called from `quote-props._ts_.ts`, it may be a `TypeElement`.
             // Therefore, we need to check whether the `key` exists.
             && property.key
-            && !property.method && !property.computed && !property.shorthand,
+            && !(property.method && IGNORE_CONCISE_METHODS) && !property.computed && !property.shorthand,
         ),
         checkQuotesRedundancy,
       )
