@@ -154,7 +154,7 @@ export default createRule<RuleOptions, MessageIds>({
             node,
             messageId: 'unnecessarilyQuotedProperty',
             data: { property: key.value },
-            fix: fixer => fixer.replaceText(key, getUnquotedKey(key)),
+            fix: fixer => fixer.replaceText(key, getUnquotedKey(key as Tree.StringLiteral)),
           })
         }
       }
