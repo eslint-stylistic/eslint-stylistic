@@ -18,7 +18,7 @@
     "publish:ci": "tsx scripts/publish.ts",
     "docs": "pnpm -C docs run docs:dev",
     "docs:build": "pnpm -C docs run docs:build",
-    "release": "bumpp -r",
+    "release": "bumpp -r --pr",
     "play:lint": "pnpm -C playground run lint"
   },
   "devDependencies": {
