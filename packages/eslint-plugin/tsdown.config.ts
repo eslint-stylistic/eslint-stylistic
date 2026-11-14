@@ -89,7 +89,7 @@ export default defineConfig([
     ],
     tsconfig: 'tsconfig.dts.json',
     dts: {
-      dtsInput: true,
+      dtsOnly: true,
     },
     hash: false,
     outDir: 'dist/dts',

@@ -1,7 +1,7 @@
 import type { Plugin } from 'vite'
 import { exactRegex } from '@rolldown/pluginutils'
 import { CommitParser } from 'conventional-commits-parser'
-import Git from 'simple-git'
+import { simpleGit } from 'simple-git'
 
 export interface CommitPart {
   kind: 'text' | 'code' | 'link'
@@ -56,7 +56,7 @@ function tokenizeSubject(subject: string): CommitPart[] {
 
 async function getChangelog(from: string) {
   try {
-    const git = Git({ maxConcurrentProcesses: 200 })
+    const git = simpleGit({ maxConcurrentProcesses: 200 })
 
     const result: Record<string, VersionGroup[]> = {}
     let currentVersion: { version: string, date: string } | null = null

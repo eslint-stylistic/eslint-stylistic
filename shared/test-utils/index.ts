@@ -1,6 +1,6 @@
 import { ESLint } from 'eslint'
-import { isGreaterOrEqual } from 'verkit'
+import { isGreaterThanOrEqual } from 'verkit'
 
 export * from './runner'
 
-export const skipBabel = isGreaterOrEqual(ESLint.version, '10.0.0')
+export const skipBabel = isGreaterThanOrEqual(ESLint.version, '10.0.0')
