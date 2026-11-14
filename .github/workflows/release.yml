@@ -1,24 +1,60 @@
 name: Release
 
+permissions:
+  id-token: write
+  contents: write
+
+# Releases are cut with `pnpm release` (bumpp -r --pr), which opens a `release/*`
+# pull request. Merging that PR tags the merge commit and publishes from here.
 on:
-  push:
-    tags:
-      - 'v*'
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
-      id-token: write
+    # Only merged `release/*` pull requests that originate from this repository.
+    # The same-repo check is essential: a fork can name its branch `release/*`
+    # too, and this job runs with publishing credentials.
+    if: >-
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'release/')
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
       - name: Setup JS
         uses: sxzz/workflows/setup-js@e10bbede8ba835eaee8df633bb472d303aba8509
         with:
           fetch-all: true
+
+      - name: Read version
+        id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      # `bumpp --pr` skips tagging, so the tag is created here on the merge commit.
+      # changelogithub resolves the release range from git tags, hence the local tag too.
+      - name: Create tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          SHA: ${{ github.event.pull_request.merge_commit_sha }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/git/refs" \
+            -f ref="refs/tags/v$VERSION" \
+            -f sha="$SHA"
+          git tag "v$VERSION"
 
       - name: Generate GitHub Changelog
         run: pnpx changelogithub
