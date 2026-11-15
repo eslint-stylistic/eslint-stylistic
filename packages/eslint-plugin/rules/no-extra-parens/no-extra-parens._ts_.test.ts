@@ -372,6 +372,7 @@ run<RuleOptions, MessageIds>({
     'const f = (w: string) => ({ a: 1 })[w] as number',
     'const f = (w: string) => ({ a: 1 })[w] satisfies number',
     'const f = (w: string) => ({ a: 1 })[w]!',
+    'type Flatten<Type> = Type extends (infer Item)[] ? Item : Type',
   ],
 
   invalid: [
