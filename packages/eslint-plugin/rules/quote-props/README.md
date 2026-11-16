@@ -57,6 +57,7 @@ Object option:
 - `"unnecessary": true` (default) disallows quotes around object literal property names that are not strictly required (only applies when using `as-needed`)
 - `"unnecessary": false` allows quotes around object literal property names that are not strictly required (only applies when using `as-needed`)
 - `"numbers": true` requires quotes around numbers used as object property names (only applies when using `as-needed`)
+- `"ignoreConciseMethods": true` (default) ignores the names of concise methods in object literals. Set it to `false` to check these names with the selected string option.
 
 ### always
 
@@ -306,6 +307,57 @@ Examples of additional **incorrect** code for this rule with the `"as-needed", {
 var x = {
     100: 1
 }
+```
+
+:::
+
+### ignoreConciseMethods
+
+Concise methods in object literals are ignored by default. This includes async and generator methods. Set `"ignoreConciseMethods": false` to check their names, without changing how computed properties, shorthand properties, accessors, class methods or TypeScript method signatures are handled.
+
+Examples of **incorrect** code for this rule with the `"always", { "ignoreConciseMethods": false }` options:
+
+::: incorrect
+
+```js
+/* eslint @stylistic/quote-props: ["error", "always", { "ignoreConciseMethods": false }] */
+
+var object = {
+    foo() {},
+    async bar() {},
+    *baz() {}
+};
+```
+
+:::
+
+Examples of **correct** code for this rule with the `"always", { "ignoreConciseMethods": false }` options:
+
+::: correct
+
+```js
+/* eslint @stylistic/quote-props: ["error", "always", { "ignoreConciseMethods": false }] */
+
+var object = {
+    "foo"() {},
+    async "bar"() {},
+    *"baz"() {}
+};
+```
+
+:::
+
+Examples of **correct** code for this rule with the `"as-needed", { "ignoreConciseMethods": false }` options:
+
+::: correct
+
+```js
+/* eslint @stylistic/quote-props: ["error", "as-needed", { "ignoreConciseMethods": false }] */
+
+var object = {
+    foo() {},
+    "foo-bar"() {}
+};
 ```
 
 :::

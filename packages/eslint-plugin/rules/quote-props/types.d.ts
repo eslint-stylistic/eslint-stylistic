@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: _ZLcvo6X5vkWvnpwUR5rmsnxkBY3balwUPXKNdCPaqs */
+/* @checksum: 0lsJsgpRm2CcXvMJgzEjNLvg3FYXhaOwH_2JsO2sv4I */
 
 export type QuotePropsSchema0 =
   | []
@@ -28,6 +28,7 @@ export type QuotePropsSchema0 =
       keywords?: boolean
       unnecessary?: boolean
       numbers?: boolean
+      ignoreConciseMethods?: boolean
     },
   ]
 
