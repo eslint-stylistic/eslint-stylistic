@@ -88,6 +88,7 @@ export default defineConfig([
       './dts/rule-options.d.ts',
     ],
     tsconfig: 'tsconfig.dts.json',
+    fixedExtension: false,
     dts: {
       dtsOnly: true,
     },
