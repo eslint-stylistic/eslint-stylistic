@@ -14,6 +14,26 @@ run<RuleOptions, MessageIds>({
 
   valid: valids<RuleOptions>(
     {
+      code: '<div>\n{"a"}\n{"b"}\n</div>',
+      options: ['never'],
+    },
+    {
+      code: '<div>\n  {"a"}\n\n  {"b"}\n  {"c"}\n</div>',
+      options: [{ children: 'never' }],
+    },
+    {
+      code: '<div>\r\n\t{"a"}\r\n\t{"b"}\r\n</div>',
+    },
+    {
+      code: '<div>{`a`}\n{`b`}</div>',
+      options: ['never'],
+    },
+    {
+      code: '<>{"a"}\n{"b"}</>',
+      options: ['never'],
+      features: ['fragment'],
+    },
+    {
       code: '<App {...props}>foo</App>',
     },
     {
@@ -460,6 +480,24 @@ run<RuleOptions, MessageIds>({
 
   invalid: invalids<RuleOptions, MessageIds>(
     {
+      code: '<div title={"x"}>\n{"a"}\n{"b"}\n</div>',
+      output: '<div title="x">\n{"a"}\n{"b"}\n</div>',
+      options: ['never'],
+      errors: [{ messageId: 'unnecessaryCurly' }],
+    },
+    {
+      code: '<div>{"a"} {"b"}</div>',
+      output: '<div>a b</div>',
+      options: ['never'],
+      errors: [{ messageId: 'unnecessaryCurly' }, { messageId: 'unnecessaryCurly' }],
+    },
+    {
+      code: '<div>{"a"}\t{"b"}</div>',
+      output: '<div>a\tb</div>',
+      options: ['never'],
+      errors: [{ messageId: 'unnecessaryCurly' }, { messageId: 'unnecessaryCurly' }],
+    },
+    {
       code: '<App prop={`foo`} />',
       output: '<App prop="foo" />',
       options: [{ props: 'never' }],
@@ -578,7 +616,6 @@ run<RuleOptions, MessageIds>({
           {'some-complicated-exp'}
         </MyComponent>
       `,
-      features: ['no-default', 'no-ts-new', 'no-babel-new'], // TODO: FIXME: remove no-default and no-ts-new and fix
       options: [{ children: 'never' }],
       errors: [
         { messageId: 'unnecessaryCurly', line: 3 },
@@ -914,8 +951,8 @@ if (!skipBabel) {
           <div>
             bar
           </div>
-          baz
-          some-complicated-exp
+          {'baz'}
+          {'some-complicated-exp'}
         </MyComponent>
       `,
         parser: BABEL_ESLINT,
@@ -924,8 +961,6 @@ if (!skipBabel) {
         errors: [
           { messageId: 'unnecessaryCurly', line: 3 },
           { messageId: 'unnecessaryCurly', line: 5 },
-          { messageId: 'unnecessaryCurly', line: 7 },
-          { messageId: 'unnecessaryCurly', line: 8 },
         ],
       },
     ],
