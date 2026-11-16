@@ -96,8 +96,11 @@ export function addElementListIndent(
 ) {
   const { sourceCode, offsets, tokenInfo } = ctx
 
-  if (isTokenOnSameLine(startToken, endToken))
+  if (isTokenOnSameLine(startToken, endToken)) {
+    // A token after the list can be offset from the end token, e.g. `.baz` in `.bar().baz(`
+    offsets.setDesiredOffset(endToken, startToken, 0)
     return
+  }
 
   function getFirstToken(element: ASTNode) {
     let token: Token = sourceCode.getTokenBefore(element)!

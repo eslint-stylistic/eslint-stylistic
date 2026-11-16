@@ -3996,6 +3996,34 @@ run<RuleOptions, MessageIds>({
           bar.
           baz
     `,
+
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1339
+    $`
+      foo()
+          .bar().baz(
+              1,
+              2
+          )
+    `,
+    $`
+      foo
+          .bar().baz().qux(
+              1,
+              2
+          )
+    `,
+    $`
+      foo()
+          ?.bar(1, 2)?.baz(
+              qux
+          )
+          .quux()
+    `,
+    $`
+      foo()
+          .bar().baz(() =>
+              qux())
+    `,
     {
       code: $`
         foo
@@ -10773,6 +10801,25 @@ run<RuleOptions, MessageIds>({
             baz
       `,
       errors: expectedErrors([[2, 4, 2], [3, 4, 6]]),
+    },
+
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1339
+    {
+      code: $`
+        foo()
+            .bar().baz(
+            1,
+            2
+        )
+      `,
+      output: $`
+        foo()
+            .bar().baz(
+                1,
+                2
+            )
+      `,
+      errors: expectedErrors([[3, 8, 4], [4, 8, 4], [5, 4, 0]]),
     },
     {
       code: $`
