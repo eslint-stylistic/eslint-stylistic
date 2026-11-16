@@ -156,6 +156,38 @@ Due to the compatibility between rules, the `all` config is does not include JSX
 
 :::
 
+## Prettier-Compatible Configuration
+
+If you are moving from [Prettier](https://prettier.io/), the `prettier` config lets you switch without reformatting your code first. It is the [recommended config](#static-configurations) adjusted so that code formatted by Prettier with its default options passes as is: double quotes, semicolons, trailing commas, parentheses around arrow function parameters and the `1tbs` brace style.
+
+```js
+// eslint.config.js
+import stylistic from '@stylistic/eslint-plugin'
+
+export default [
+  stylistic.configs.prettier,
+  // ...your other config items
+]
+```
+
+Rules that can't match Prettier's output, such as `indent`, `operator-linebreak` and `multiline-ternary`, are turned off. ESLint Stylistic also doesn't wrap lines at a print width, so long lines are left as they are. Refer to the [source code](https://github.com/eslint-stylistic/eslint-stylistic/blob/main/packages/eslint-plugin/configs/prettier.ts) for the full list of changes.
+
+If your Prettier config changes the defaults, override the matching rules after it. For example, with `singleQuote: true`:
+
+```js
+// eslint.config.js
+import stylistic from '@stylistic/eslint-plugin'
+
+export default [
+  stylistic.configs.prettier,
+  {
+    rules: {
+      '@stylistic/quotes': ['error', 'single', { allowTemplateLiterals: 'always', avoidEscape: true }],
+    },
+  },
+]
+```
+
 ## Disabling Legacy Rules
 
 If you are extending some presets that still include legacy rules and haven't migrated, we provide configuration presets to disable them all.

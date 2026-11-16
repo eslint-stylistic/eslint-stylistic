@@ -34,6 +34,10 @@ export declare const configs: {
    * @deprecated use `all` instead.
    */
   'all-flat': Linter.Config
+  /**
+   * The recommended config adjusted to match Prettier's default output, in Flat Config Format
+   */
+  'prettier': Linter.Config
 }
 
 export type Configs = typeof configs

@@ -5,6 +5,7 @@ import { warnDeprecation } from '#utils/index'
 import plugin from '../src/plugin'
 import { customize } from './customize'
 import disableLegacy from './disable-legacy'
+import prettier from './prettier'
 
 export type * from './customize'
 
@@ -25,6 +26,7 @@ export const configs = new Proxy<Configs>({
   'recommended-flat': recommended,
   'all': all,
   'all-flat': all,
+  'prettier': prettier,
 }, {
   get(target, p, receiver) {
     const prop = p.toString()
