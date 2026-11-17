@@ -7,7 +7,7 @@ const TRIPLE_SLASH_REFERENCE_PATTERN = /^\/\s*<(?:reference|amd-)/u
 
 const COMMENT_DIRECTIVE_PATTERNS = [
   /^\s*eslint/u,
-  /^\s*oxlint-(?:disable(?:-next-line|-line)?|enable)(?![\w-])/u,
+  /^\s*oxlint-(?:disable(?:-next-line|-line)?|enable)(?=\s|$)/u,
   /^\s*@ts-(?:expect-error|ignore|nocheck|check)(?![\w-])/u,
   /^\s*prettier-ignore(?![\w-])/u,
   /^\s*[vc]8\s+ignore(?![\w-])/u,
