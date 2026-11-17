@@ -1193,6 +1193,13 @@ export default createRule<RuleOptions, MessageIds>({
         addElementListIndent(ctx, node.params, firstToken, closingToken, 1)
       },
 
+      TSTypeAssertion(node) {
+        const openingToken = sourceCode.getFirstToken(node)!
+        const closingToken = sourceCode.getTokenAfter(node.typeAnnotation, token => token.value === '>')!
+
+        addElementListIndent(ctx, [node.typeAnnotation], openingToken, closingToken, 1)
+      },
+
       TSTypeParameterInstantiation(node) {
         if (!node.params.length)
           return

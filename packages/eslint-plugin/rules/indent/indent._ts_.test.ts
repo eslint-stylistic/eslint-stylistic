@@ -895,6 +895,14 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2],
     },
+    {
+      code: $`
+        const user = <
+          User
+        >input
+      `,
+      options: [2],
+    },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/875
     $`
       export function isAuthenticated(authResult: AuthenticationResult | null | undefined)
