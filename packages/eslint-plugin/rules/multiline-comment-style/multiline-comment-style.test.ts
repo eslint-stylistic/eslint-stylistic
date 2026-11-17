@@ -37,6 +37,20 @@ run<RuleOptions, MessageIds>({
             ] */
         `,
     `
+            /* oxlint-disable
+              no-console,
+              no-debugger
+            */
+        `,
+    {
+      code: $`
+        // why oxlint is disabled here
+        // oxlint-disable-next-line no-console
+        console.log(1);
+      `,
+      options: ['starred-block'],
+    },
+    `
             // this is a single-line comment
         `,
     `

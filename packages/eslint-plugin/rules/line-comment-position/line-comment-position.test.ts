@@ -19,6 +19,8 @@ run<RuleOptions, MessageIds>({
     '1 + 1; /* eslint-enable */',
     '1 + 1; // eslint-disable-line',
     '// eslint-disable-next-line\n1 + 1;',
+    '1 + 1; /* oxlint-disable */',
+    '1 + 1; // oxlint-disable-line',
     '1 + 1; // global MY_GLOBAL, ANOTHER',
     '1 + 1; // globals MY_GLOBAL: true',
     '1 + 1; // exported MY_GLOBAL, ANOTHER',
