@@ -19,6 +19,9 @@ run<RuleOptions, MessageIds>({
     '1 + 1; /* eslint-enable */',
     '1 + 1; // eslint-disable-line',
     '// eslint-disable-next-line\n1 + 1;',
+    '1 + 1; /* oxlint-disable */',
+    '1 + 1; // oxlint-disable-line',
+    '1 + 1; // oxfmt-ignore',
     '1 + 1; // global MY_GLOBAL, ANOTHER',
     '1 + 1; // globals MY_GLOBAL: true',
     '1 + 1; // exported MY_GLOBAL, ANOTHER',
@@ -89,6 +92,30 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: '1 + 1; // globalization is a word',
+      errors: [{
+        messageId: 'above',
+        line: 1,
+        column: 8,
+      }],
+    },
+    {
+      code: '1 + 1; // oxlint is disabled here',
+      errors: [{
+        messageId: 'above',
+        line: 1,
+        column: 8,
+      }],
+    },
+    {
+      code: '1 + 1; // oxlint-disable: example',
+      errors: [{
+        messageId: 'above',
+        line: 1,
+        column: 8,
+      }],
+    },
+    {
+      code: '1 + 1; // oxfmt-ignore: example',
       errors: [{
         messageId: 'above',
         line: 1,

@@ -1038,6 +1038,8 @@ run<RuleOptions, MessageIds>({
       },
     },
     'foo;\n/* eslint */',
+    'foo;\n/* oxlint-disable */',
+    'foo;\n/* oxfmt-ignore */',
     'foo;\n/* jshint */',
     'foo;\n/* jslint */',
     'foo;\n/* istanbul */',

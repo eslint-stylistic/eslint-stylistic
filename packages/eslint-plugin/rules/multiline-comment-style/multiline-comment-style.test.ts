@@ -37,6 +37,20 @@ run<RuleOptions, MessageIds>({
             ] */
         `,
     `
+            /* oxlint-disable
+              no-console,
+              no-debugger
+            */
+        `,
+    {
+      code: $`
+        // why oxlint is disabled here
+        // oxlint-disable-next-line no-console
+        console.log(1);
+      `,
+      options: ['starred-block'],
+    },
+    `
             // this is a single-line comment
         `,
     `
@@ -446,6 +460,18 @@ run<RuleOptions, MessageIds>({
       code: $`
         // keep this matrix laid out by hand
         // prettier-ignore
+        const m = [
+          1,0,0,
+          0,1,0,
+          0,0,1,
+        ];
+      `,
+      options: ['starred-block'],
+    },
+    {
+      code: $`
+        // keep this matrix laid out by hand
+        // oxfmt-ignore
         const m = [
           1,0,0,
           0,1,0,
@@ -1747,6 +1773,7 @@ ${'                   '}
     {
       code: $`
         // prettier-ignorement
+        // oxfmt-ignorement
         // v8 ignored next
         // node:coverage ignored next
         // webpackChunkNameExtra: "chunk"
@@ -1754,6 +1781,7 @@ ${'                   '}
       output: $`
         /*
          * prettier-ignorement
+         * oxfmt-ignorement
          * v8 ignored next
          * node:coverage ignored next
          * webpackChunkNameExtra: "chunk"
