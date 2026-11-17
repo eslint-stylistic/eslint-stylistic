@@ -468,6 +468,18 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['starred-block'],
     },
+    {
+      code: $`
+        // keep this matrix laid out by hand
+        // oxfmt-ignore
+        const m = [
+          1,0,0,
+          0,1,0,
+          0,0,1,
+        ];
+      `,
+      options: ['starred-block'],
+    },
     ...[
       'v8 ignore next',
       'v8 ignore if -- @preserve',
@@ -1761,6 +1773,7 @@ ${'                   '}
     {
       code: $`
         // prettier-ignorement
+        // oxfmt-ignorement
         // v8 ignored next
         // node:coverage ignored next
         // webpackChunkNameExtra: "chunk"
@@ -1768,6 +1781,7 @@ ${'                   '}
       output: $`
         /*
          * prettier-ignorement
+         * oxfmt-ignorement
          * v8 ignored next
          * node:coverage ignored next
          * webpackChunkNameExtra: "chunk"

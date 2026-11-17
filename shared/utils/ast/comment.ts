@@ -10,6 +10,7 @@ const COMMENT_DIRECTIVE_PATTERNS = [
   /^\s*oxlint-(?:disable(?:-next-line|-line)?|enable)(?=\s|$)/u,
   /^\s*@ts-(?:expect-error|ignore|nocheck|check)(?![\w-])/u,
   /^\s*prettier-ignore(?![\w-])/u,
+  /^\s*oxfmt-ignore(?![\w-])/u,
   /^\s*[vc]8\s+ignore(?![\w-])/u,
   /^\s*node:coverage\s+(?:disable|enable|ignore\s+next)(?![\w-])/u,
   /^\s*webpack(?:ChunkName|FetchPriority|Mode|Exports|Include|Exclude|Prefetch|Preload|Ignore)\s*:/u,
