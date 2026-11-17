@@ -881,6 +881,20 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2, { offsetTernaryExpressions: true }],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1326
+    {
+      code: $`
+        export const users = [
+          <User>{
+            name: 'Alice',
+          },
+          <User>(
+            createUser()
+          ),
+        ]
+      `,
+      options: [2],
+    },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/875
     $`
       export function isAuthenticated(authResult: AuthenticationResult | null | undefined)
@@ -928,6 +942,29 @@ run<RuleOptions, MessageIds>({
   ],
   invalid: [
     ...individualNodeTests.invalid!,
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1326
+    {
+      code: $`
+        export const users = [
+        <User>{
+          name: 'Alice',
+        },
+        ]
+      `,
+      output: $`
+        export const users = [
+          <User>{
+            name: 'Alice',
+          },
+        ]
+      `,
+      options: [2],
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 0 }, line: 2 },
+        { messageId: 'wrongIndentation', data: { expected: '4 spaces', actual: 2 }, line: 3 },
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 0 }, line: 4 },
+      ],
+    },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/1216
     {
       code: $`

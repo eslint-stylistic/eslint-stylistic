@@ -139,6 +139,7 @@ const KNOWN_NODES = new Set([
   AST_NODE_TYPES.TSArrayType,
   AST_NODE_TYPES.TSAsExpression,
   AST_NODE_TYPES.TSSatisfiesExpression,
+  AST_NODE_TYPES.TSTypeAssertion,
   AST_NODE_TYPES.TSCallSignatureDeclaration,
   AST_NODE_TYPES.TSConditionalType,
   AST_NODE_TYPES.TSConstructorType,
