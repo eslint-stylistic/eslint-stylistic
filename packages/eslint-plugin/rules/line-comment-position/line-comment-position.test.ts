@@ -98,6 +98,14 @@ run<RuleOptions, MessageIds>({
       }],
     },
     {
+      code: '1 + 1; // oxlint is disabled here',
+      errors: [{
+        messageId: 'above',
+        line: 1,
+        column: 8,
+      }],
+    },
+    {
       code: '// jscs: disable\n1 + 1;',
       options: [{ position: 'beside', applyDefaultIgnorePatterns: false }],
       errors: [{
