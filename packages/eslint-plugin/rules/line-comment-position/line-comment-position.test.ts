@@ -115,7 +115,7 @@ run<RuleOptions, MessageIds>({
       }],
     },
     {
-      code: '1 + 1; // oxfmt-ignored',
+      code: '1 + 1; // oxfmt-ignore: example',
       errors: [{
         messageId: 'above',
         line: 1,
