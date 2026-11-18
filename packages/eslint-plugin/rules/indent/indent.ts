@@ -1109,6 +1109,10 @@ export default createRule<RuleOptions, MessageIds>({
           return
 
         const colon = sourceCode.getFirstToken(node)!
+        // type predicates (`x is T`, `asserts x is T`) have no colon before their type annotation
+        if (!isColonToken(colon))
+          return
+
         const right = sourceCode.getTokenAfter(colon)!
         offsets.setDesiredOffset(right, colon, 1)
       },
