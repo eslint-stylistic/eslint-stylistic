@@ -603,6 +603,44 @@ run<RuleOptions, MessageIds>({
   rule,
   valid: [
     ...individualNodeTests.valid!,
+    // type predicates have no colon before their type annotation
+    {
+      code: $`
+        function isString(value: unknown): value is string
+        function isString(value: unknown[]): value is string[]
+        function isString(value: unknown): boolean {
+          return typeof value === 'string'
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        declare function assertString(value: unknown): asserts value is string
+        declare function assertNumber(value: unknown): asserts value is number
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        interface Guards {
+          isString(value: unknown): value is string
+          isNumber(value: unknown): value is number
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        class Foo {
+          isFoo(): this is Foo
+          isFoo(value?: unknown): boolean {
+            return true
+          }
+        }
+      `,
+      options: [2],
+    },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/1216
     {
       code: $`
