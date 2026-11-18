@@ -152,6 +152,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' } as Tree.AssignmentExpression) as 1
     const PRECEDENCE_OF_LOGICAL_EXPR = precedence({ type: 'LogicalExpression', operator: '||' } as Tree.LogicalExpression) as 4
+    const PRECEDENCE_OF_RELATIONAL_EXPR = precedence({ type: 'BinaryExpression', operator: '<' } as Tree.BinaryExpression) as 10
     const PRECEDENCE_OF_UPDATE_EXPR = precedence({ type: 'UpdateExpression' } as Tree.UpdateExpression) as 17
 
     type ReportsBuffer = {
@@ -334,9 +335,6 @@ export default createRule<RuleOptions, MessageIds>({
         return false
 
       if (node.type === 'FunctionExpression' || node.type === 'ArrowFunctionExpression')
-        return true
-
-      if (isTypeAssertion(node))
         return true
 
       return ALL_NODES
@@ -745,7 +743,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function checkBinaryLogical(node: Tree.BinaryExpression | Tree.LogicalExpression) {
       function shouldSkip(expression: ASTNode) {
-        if (isTypeAssertion(expression))
+        if (expression.type === 'TSTypeAssertion')
           return !hasDoubleExcessParens(expression)
 
         return (
@@ -755,11 +753,26 @@ export default createRule<RuleOptions, MessageIds>({
         || !hasExcessParens(expression)
       }
 
+      /**
+       * `as` and `satisfies` bind like a relational operator, but without parentheses,
+       * their type would take in a following `|`, `&`, `<` or `?`.
+       */
+      function getOperandPrecedence(expression: ASTNode) {
+        if (expression.type !== 'TSAsExpression' && expression.type !== 'TSSatisfiesExpression')
+          return precedence(expression)
+
+        const tokenAfterParens = sourceCode.getTokenAfter(expression, { skip: 1 })
+
+        return tokenAfterParens && ['|', '&', '<', '?'].includes(tokenAfterParens.value)
+          ? precedence(expression)
+          : PRECEDENCE_OF_RELATIONAL_EXPR
+      }
+
       const nodePrecedence = precedence(node)
       const isExponentiation = node.operator === '**'
 
       if (!shouldSkip(node.left)) {
-        const leftPrecedence = precedence(node.left)
+        const leftPrecedence = getOperandPrecedence(node.left)
 
         if (
           !(['AwaitExpression', 'UnaryExpression'].includes(node.left.type) && isExponentiation)
@@ -774,7 +787,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
 
       if (!shouldSkip(node.right)) {
-        const rightPrecedence = precedence(node.right)
+        const rightPrecedence = getOperandPrecedence(node.right)
 
         if (
           !isMixedLogicalAndCoalesceExpressions(node.right, node)
@@ -897,9 +910,6 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function checkSpread(node: Tree.SpreadElement | Tree.JSXSpreadAttribute) {
-      if (isTypeAssertion(node.argument))
-        return
-
       if (ALLOW_NODES_IN_SPREAD && ALLOW_NODES_IN_SPREAD.has(node.argument.type))
         return
 
@@ -918,6 +928,16 @@ export default createRule<RuleOptions, MessageIds>({
         if (shouldReport)
           report(type)
       })
+    }
+
+    function checkTypeAssertionOperand(node: Tree.TSAsExpression | Tree.TSSatisfiesExpression) {
+      if (
+        hasExcessParensWithPrecedence(node.expression, PRECEDENCE_OF_RELATIONAL_EXPR)
+        // Without the parentheses, a line break before `as` or `satisfies` would end the expression
+        && isTokenOnSameLine(sourceCode.getLastToken(node.expression)!, sourceCode.getTokenAfter(node.expression, isNotClosingParenToken)!)
+      ) {
+        report(node.expression)
+      }
     }
 
     // TODO: Maybe we can add `ignoreNodes` to `createRule`, so that every rule can specific AST Nodes to ignore.
@@ -995,17 +1015,11 @@ export default createRule<RuleOptions, MessageIds>({
 
         const availableTypes = new Set(['BinaryExpression', 'LogicalExpression'])
 
-        function shouldCheck(expression: ASTNode, precedenceLimit: number) {
-          return isTypeAssertion(expression)
-            ? hasDoubleExcessParens(expression)
-            : hasExcessParensWithPrecedence(expression, precedenceLimit)
-        }
-
         if (
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.test.type))
           && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.test.type))
           && !isCondAssignException(node)
-          && shouldCheck(node.test, PRECEDENCE_OF_LOGICAL_EXPR)
+          && hasExcessParensWithPrecedence(node.test, PRECEDENCE_OF_LOGICAL_EXPR)
         ) {
           report(node.test)
         }
@@ -1013,7 +1027,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.consequent.type))
           && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.consequent.type))
-          && shouldCheck(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)
         ) {
           report(node.consequent)
         }
@@ -1021,7 +1035,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.alternate.type))
           && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.alternate.type))
-          && shouldCheck(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)
         ) {
           report(node.alternate)
         }
@@ -1436,6 +1450,8 @@ export default createRule<RuleOptions, MessageIds>({
           report(node.initializer)
         }
       },
+      'TSAsExpression': checkTypeAssertionOperand,
+      'TSSatisfiesExpression': checkTypeAssertionOperand,
     }
 
     const listeners: Record<string, (node: ASTNode) => void> = {}
