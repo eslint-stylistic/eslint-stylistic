@@ -18,6 +18,10 @@ const COMMENT_DIRECTIVE_PATTERNS = [
   /^\s*globals?\s+/u,
   /^\s*exported\s+/u,
   /^\s*jscs/u,
+  /^\s*(?:todo|fixme)(?![\w-])/iu,
+  /^\s*cspell:/u,
+  /^\s*biome-ignore/u,
+  /^\s*#(?:end)?region(?![\w-])/u,
   TRIPLE_SLASH_REFERENCE_PATTERN,
 ] as const
 
