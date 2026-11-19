@@ -144,7 +144,9 @@ export default createRule<RuleOptions, MessageIds>({
       const rightToken = sourceCode.getTokenAfter(operatorToken)!
       const operatorStyleOverride = styleOverrides[operator]
       let style = operatorStyleOverride || globalStyle
-      if (style !== 'ignore' && node.type === 'TSTypeAliasDeclaration' && (rightToken.value === '|' || rightToken.value === '&'))
+      // Keep the type alias `=` next to its leading `|`/`&`, unless the
+      // operator is explicitly configured as `before` through `overrides`.
+      if (operatorStyleOverride !== 'before' && style !== 'ignore' && node.type === 'TSTypeAliasDeclaration' && (rightToken.value === '|' || rightToken.value === '&'))
         style = 'after'
       const fix = getFixer(operatorToken, style)
 
