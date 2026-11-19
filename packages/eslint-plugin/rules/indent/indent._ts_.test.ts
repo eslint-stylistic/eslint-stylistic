@@ -903,6 +903,14 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2],
     },
+    {
+      code: $`
+        const user = <{
+          a: 1
+        }>input
+      `,
+      options: [2],
+    },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/875
     $`
       export function isAuthenticated(authResult: AuthenticationResult | null | undefined)
@@ -971,6 +979,23 @@ run<RuleOptions, MessageIds>({
         { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 0 }, line: 2 },
         { messageId: 'wrongIndentation', data: { expected: '4 spaces', actual: 2 }, line: 3 },
         { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 0 }, line: 4 },
+      ],
+    },
+    {
+      code: $`
+        const user = <
+        User
+          >input
+      `,
+      output: $`
+        const user = <
+          User
+        >input
+      `,
+      options: [2],
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 0 }, line: 2 },
+        { messageId: 'wrongIndentation', data: { expected: '0 spaces', actual: 2 }, line: 3 },
       ],
     },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/1216
