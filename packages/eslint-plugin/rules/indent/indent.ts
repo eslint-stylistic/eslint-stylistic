@@ -139,6 +139,7 @@ const KNOWN_NODES = new Set([
   AST_NODE_TYPES.TSArrayType,
   AST_NODE_TYPES.TSAsExpression,
   AST_NODE_TYPES.TSSatisfiesExpression,
+  AST_NODE_TYPES.TSTypeAssertion,
   AST_NODE_TYPES.TSCallSignatureDeclaration,
   AST_NODE_TYPES.TSConditionalType,
   AST_NODE_TYPES.TSConstructorType,
@@ -1190,6 +1191,13 @@ export default createRule<RuleOptions, MessageIds>({
         const closingToken = sourceCode.getLastToken(node)!
 
         addElementListIndent(ctx, node.params, firstToken, closingToken, 1)
+      },
+
+      TSTypeAssertion(node) {
+        const openingToken = sourceCode.getFirstToken(node)!
+        const closingToken = sourceCode.getTokenAfter(node.typeAnnotation, token => token.value === '>')!
+
+        addElementListIndent(ctx, [node.typeAnnotation], openingToken, closingToken, 1)
       },
 
       TSTypeParameterInstantiation(node) {
