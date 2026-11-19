@@ -440,7 +440,35 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['starred-block'],
     },
-    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1249
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1287
+    // Task markers and tool/editor directives must stay as line comments so
+    // their consumers can recognize them.
+    {
+      code: $`
+        // Cache the parsed config.
+        // TODO: invalidate on file change
+        const cache = new Map();
+      `,
+      options: ['bare-block'],
+    },
+    {
+      code: $`
+        // Parse the header.
+        // FIXME: breaks on CRLF input
+        const header = 1;
+      `,
+      options: ['bare-block'],
+    },
+    ...[
+      'todo: lower-case marker',
+      'cspell:disable-next-line',
+      'biome-ignore lint/style: reason',
+      '#region helpers',
+      '#endregion helpers',
+    ].map(marker => ({
+      code: `// why this comment is needed\n// ${marker}\nfoo();`,
+      options: ['bare-block'] as RuleOptions,
+    })),    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1249
     // Tool directives must stay as line comments so their consumers can recognize them.
     {
       code: $`
@@ -1743,7 +1771,32 @@ ${'                   '}
       options: ['starred-block'],
       errors: [{ messageId: 'expectedBlock', line: 1 }, { messageId: 'expectedBlock', line: 4 }],
     },
-    // Prefix lookalikes are ordinary prose and must still be converted.
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1287
+    // A task marker splits the line-comment group; prose groups still convert.
+    {
+      code: $`
+        // Top A
+        // Top B
+        // TODO: invalidate on file change
+        // Bottom A
+        // Bottom B
+        foo();
+      `,
+      output: $`
+        /*
+         * Top A
+         * Top B
+         */
+        // TODO: invalidate on file change
+        /*
+         * Bottom A
+         * Bottom B
+         */
+        foo();
+      `,
+      options: ['starred-block'],
+      errors: [{ messageId: 'expectedBlock', line: 1 }, { messageId: 'expectedBlock', line: 4 }],
+    },    // Prefix lookalikes are ordinary prose and must still be converted.
     {
       code: $`
         // prettier-ignorement
