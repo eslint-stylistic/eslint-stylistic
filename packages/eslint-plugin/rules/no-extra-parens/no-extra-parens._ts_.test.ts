@@ -372,6 +372,15 @@ run<RuleOptions, MessageIds>({
     'const f = (w: string) => ({ a: 1 })[w] as number',
     'const f = (w: string) => ({ a: 1 })[w] satisfies number',
     'const f = (w: string) => ({ a: 1 })[w]!',
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1334
+    'type Flatten<Type> = Type extends (infer Item)[] ? Item : Type',
+    'type Foo<T> = T extends readonly (infer U)[] ? U : never',
+    'type Foo<T> = T extends (infer U extends unknown[])[number] ? U : never',
+    'type Foo<T> = T extends (infer U extends string)[] ? U : never',
+    'type Foo<T> = T extends (infer U extends string) | null ? U : never',
+    // Intentionally conservative (matching TSFunctionType): keep parens around constrained `infer` in unions.
+    'type Foo<T> = T extends null | (infer U extends string) ? U : never',
+    'type Foo<T> = T extends (infer U extends string) & {} ? U : never',
   ],
 
   invalid: [
@@ -684,6 +693,26 @@ run<RuleOptions, MessageIds>({
           jsx: true,
         },
       },
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: 'type Foo<T> = T extends ((infer U))[] ? U : never',
+      output: 'type Foo<T> = T extends (infer U)[] ? U : never',
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: 'type Foo<T> = T extends ((infer U))[never] ? U : never',
+      output: 'type Foo<T> = T extends (infer U)[never] ? U : never',
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: 'type Foo<T> = T extends (infer U) | null ? U : never',
+      output: 'type Foo<T> = T extends infer U | null ? U : never',
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: 'type Foo<T> = T extends Array<(infer U extends string)> ? U : never',
+      output: 'type Foo<T> = T extends Array<infer U extends string> ? U : never',
       errors: [{ messageId: 'unexpected' }],
     },
   ],

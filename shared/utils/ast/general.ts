@@ -512,6 +512,9 @@ export function getPrecedence(node: ASTNode) {
       return 6
     case 'TSIntersectionType':
       return 8
+    case 'TSInferType':
+      // The constraint of `infer U extends C` takes in a union or intersection that follows it, like the return type of `TSFunctionType`
+      return node.typeParameter.constraint ? 1 : 16
     case 'TSTypeOperator':
       switch (node.operator) {
         case 'keyof':
