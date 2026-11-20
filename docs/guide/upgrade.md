@@ -75,7 +75,7 @@ The first token of a property value that starts on a new line after `:` is now r
 
 #### operator-linebreak
 
-For TypeScript type aliases whose type annotation starts with `|` or `&`, the `=` operator now uses the `"after"` style unless it is configured as `"ignore"`.
+For TypeScript type aliases whose type annotation starts with `|` or `&`, the `=` operator now uses the `"after"` style unless `=` is explicitly configured as `"ignore"` or `"before"` through `overrides`.
 
 #### type-generic-spacing
 

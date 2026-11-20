@@ -237,6 +237,17 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
+        type A
+          = | 'a'
+            | 'b';
+        type B
+          = & Foo
+            & Bar;
+      `,
+      options: ['before', { overrides: { '=': 'before' } }],
+    },
+    {
+      code: $`
         type A =
           | Foo
           | Bar;
