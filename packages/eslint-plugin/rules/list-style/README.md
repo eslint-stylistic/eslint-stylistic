@@ -41,7 +41,7 @@ The default configuration of this rule is:
 
 #### spacing
 
-"always" requires spaces, "never" disallows spaces.
+"always" requires spaces, "never" disallows spaces. When not set, it defaults to `"always"` for curly braces (`{}`) and `"never"` for other brackets. Setting it applies to all brackets unless an override specifies its own `spacing`.
 
 Examples of **incorrect** code for this rule with the `"always"` option:
 
