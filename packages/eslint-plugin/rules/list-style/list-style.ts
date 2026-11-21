@@ -121,14 +121,11 @@ export default createRule<RuleOptions, MessageIds>({
     defaultOptions: [{
       empty: 'ignore',
       singleLine: {
-        spacing: 'never',
+        // `spacing` defaults to "always" for `{}` and "never" for other brackets
         maxItems: Number.POSITIVE_INFINITY,
       },
       multiLine: {
         minItems: 0,
-      },
-      overrides: {
-        '{}': { singleLine: { spacing: 'always' } },
       },
     }],
     // #endregion defaultOptions
@@ -173,6 +170,10 @@ export default createRule<RuleOptions, MessageIds>({
             ...singleLine,
             ...overridesByParen.singleLine,
             ...overridesByNode.singleLine,
+            spacing: overridesByNode.singleLine?.spacing
+              ?? overridesByParen.singleLine?.spacing
+              ?? singleLine?.spacing
+              ?? (parenType === '{}' ? 'always' : 'never'),
           },
           multiLine: {
             ...multiLine,

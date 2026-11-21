@@ -222,8 +222,39 @@ run<RuleOptions, MessageIds>({
     },
     `import value from 'foo' with {}`,
     `export * from 'foo' with {}`,
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1350
+    {
+      code: $`
+        const foo = {kind: 'Foo', bar: [{a: 1}]}
+        const {a, b} = foo
+        import {name} from 'package.json' with {type: 'json'}
+      `,
+      options: [{ singleLine: { spacing: 'never' } }],
+    },
+    {
+      code: $`
+        const foo = { kind: 'Foo', bar: [{ a: 1 }] }
+        log(foo)
+      `,
+      options: [{ singleLine: { spacing: 'never' }, overrides: { '{}': { singleLine: { spacing: 'always' } } } }],
+    },
+    {
+      code: 'const foo = { kind: [1, 2] }',
+      options: [{ singleLine: { maxItems: 3 } }],
+    },
   ],
   invalid: [
+    {
+      code: 'const foo = { kind: \'Foo\', bar: [{ a: 1 }] }',
+      output: 'const foo = {kind: \'Foo\', bar: [{a: 1}]}',
+      options: [{ singleLine: { spacing: 'never' } }],
+      errors: [
+        { messageId: 'shouldNotSpacing', line: 1, column: 14 },
+        { messageId: 'shouldNotSpacing', line: 1, column: 35 },
+        { messageId: 'shouldNotSpacing', line: 1, column: 40 },
+        { messageId: 'shouldNotSpacing', line: 1, column: 43 },
+      ],
+    },
     {
       code: 'someFunction(\na,\n(b))',
       output: 'someFunction(\na,\n(b)\n)',
