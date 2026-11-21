@@ -43,9 +43,17 @@ Examples of **correct** code for this rule:
   Lack of spacing is{/*
   */}<a>explicit</a>
 </div>;
+
+<div>
+  Spacing is &zwnj;
+  <a>explicit</a>
+  &zwnj; on both sides
+</div>;
 ```
 
 :::
+
+The rule also accepts a zero-width non-joiner (`&zwnj;`) at the text boundary next to an inline element. It preserves adjacent spaces when React removes the line break. A zero-width non-joiner elsewhere in the text does not suppress a spacing warning.
 
 ## When Not To Use It
 
