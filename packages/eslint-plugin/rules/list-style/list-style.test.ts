@@ -224,6 +224,15 @@ run<RuleOptions, MessageIds>({
     `export * from 'foo' with {}`,
   ],
   invalid: [
+    // wrapping replaces the whitespace between the tokens, so no trailing spaces are left behind (#1355)
+    {
+      code: 'import {\n    alpha, beta, gamma,\n    type Foo\n} from \'pkg\'',
+      output: 'import {\n    alpha,\nbeta,\ngamma,\n    type Foo\n} from \'pkg\'',
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 11 },
+        { messageId: 'shouldWrap', line: 2, column: 17 },
+      ],
+    },
     {
       code: 'someFunction(\na,\n(b))',
       output: 'someFunction(\na,\n(b)\n)',
@@ -429,8 +438,8 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         const a = {
-        foo: "bar", 
-        bar: 2 
+        foo: "bar",
+        bar: 2
         }
       `,
       errors: [
@@ -459,8 +468,8 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         const a = [
-        1, 
-        2, 
+        1,
+        2,
         3
         ]
       `,
@@ -491,8 +500,8 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         import {
-        foo, 
-        bar 
+        foo,
+        bar
         } from "foo"
       `,
       errors: [
@@ -519,7 +528,7 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         log(
-        a, 
+        a,
         b
         )
       `,
@@ -545,7 +554,7 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         function foo(
-        a, 
+        a,
         b
         ) {}
       `,
@@ -561,7 +570,7 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         const foo = (
-        a, 
+        a,
         b
         ) => {}
       `,
@@ -578,7 +587,7 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         const foo = (
-        a, 
+        a,
         b
         ): {
         a:b
@@ -597,7 +606,7 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         const foo = (
-        a, 
+        a,
         b
         ): {a:b} => {}
       `,
@@ -814,7 +823,7 @@ run<RuleOptions, MessageIds>({
         X,
         Y
         >(
-        1, 
+        1,
         2
         )
       `,
@@ -985,10 +994,10 @@ run<RuleOptions, MessageIds>({
       output: $`
         interface Foo {
           bar: (
-            foo: string, 
+            foo: string,
         bar: {
-              bar: string, 
-        baz: string 
+              bar: string,
+        baz: string
         }
         ) => void
         }
@@ -1116,12 +1125,12 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         const foo = [
-        1, 
+        1,
         2
         ];
-        const bar = { 
-        a: 1, 
-        b: 2 
+        const bar = {
+        a: 1,
+        b: 2
         };
       `,
       options: [{ singleLine: { maxItems: 1 } }],

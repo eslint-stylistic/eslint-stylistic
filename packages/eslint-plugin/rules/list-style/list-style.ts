@@ -303,15 +303,7 @@ export default createRule<RuleOptions, MessageIds>({
               prev: prev.value,
               next: next.value,
             },
-            fix(fixer) {
-              if (sourceCode.commentsExistBetween(prev, next))
-                return null
-
-              return fixer.insertTextBefore(
-                next,
-                '\n',
-              )
-            },
+            fix: safeReplaceTextBetween(sourceCode, prev, next, '\n'),
           })
         }
         else {
