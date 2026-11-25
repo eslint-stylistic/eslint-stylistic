@@ -233,6 +233,15 @@ run<RuleOptions, MessageIds>({
         { messageId: 'shouldWrap', line: 2, column: 17 },
       ],
     },
+    // opening parens before a wrapped item are kept
+    {
+      code: 'someFunction(\na, (b))',
+      output: 'someFunction(\na,\n(b)\n)',
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 3 },
+        { messageId: 'shouldWrap', line: 2, column: 7 },
+      ],
+    },
     {
       code: 'someFunction(\na,\n(b))',
       output: 'someFunction(\na,\n(b)\n)',
