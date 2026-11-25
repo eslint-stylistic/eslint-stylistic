@@ -307,10 +307,10 @@ export default createRule<RuleOptions, MessageIds>({
               if (sourceCode.commentsExistBetween(prev, next))
                 return null
 
-              return fixer.insertTextBefore(
-                next,
-                '\n',
-              )
+              // `next` may be preceded by opening parens (e.g. `a, (b)`), so only
+              // replace the whitespace right after `prev`.
+              const tokenAfterPrev = sourceCode.getTokenAfter(prev)!
+              return fixer.replaceTextRange([prev.range[1], tokenAfterPrev.range[0]], '\n')
             },
           })
         }
